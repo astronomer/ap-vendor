@@ -1,0 +1,434 @@
+# Warning: automatically generated file
+# Please edit config.yml.j2, and use the script generate_circleci_config.py
+version: 2.1
+workflows:
+  version: 2.1
+  vendor-build:
+    jobs:
+
+      - build:
+          directory: nginx-es
+      - scan:
+          directory: nginx-es
+          requires:
+            - build
+      - release:
+          directory: nginx-es
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: fluentd
+      - scan:
+          directory: fluentd
+          requires:
+            - build
+      - release:
+          directory: fluentd
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: kibana
+      - scan:
+          directory: kibana
+          requires:
+            - build
+      - release:
+          directory: kibana
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: redis
+      - scan:
+          directory: redis
+          requires:
+            - build
+      - release:
+          directory: redis
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: alertmanager
+      - scan:
+          directory: alertmanager
+          requires:
+            - build
+      - release:
+          directory: alertmanager
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: prisma
+      - scan:
+          directory: prisma
+          requires:
+            - build
+      - release:
+          directory: prisma
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: curator
+      - scan:
+          directory: curator
+          requires:
+            - build
+      - release:
+          directory: curator
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: grafana
+      - scan:
+          directory: grafana
+          requires:
+            - build
+      - release:
+          directory: grafana
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: elasticsearch-exporter
+      - scan:
+          directory: elasticsearch-exporter
+          requires:
+            - build
+      - release:
+          directory: elasticsearch-exporter
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: pgbouncer-exporter
+      - scan:
+          directory: pgbouncer-exporter
+          requires:
+            - build
+      - release:
+          directory: pgbouncer-exporter
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: nginx
+      - scan:
+          directory: nginx
+          requires:
+            - build
+      - release:
+          directory: nginx
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: registry
+      - scan:
+          directory: registry
+          requires:
+            - build
+      - release:
+          directory: registry
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: statsd-exporter
+      - scan:
+          directory: statsd-exporter
+          requires:
+            - build
+      - release:
+          directory: statsd-exporter
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: prometheus
+      - scan:
+          directory: prometheus
+          requires:
+            - build
+      - release:
+          directory: prometheus
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: kubed
+      - scan:
+          directory: kubed
+          requires:
+            - build
+      - release:
+          directory: kubed
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: pgbouncer
+      - scan:
+          directory: pgbouncer
+          requires:
+            - build
+      - release:
+          directory: pgbouncer
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: kube-state
+      - scan:
+          directory: kube-state
+          requires:
+            - build
+      - release:
+          directory: kube-state
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: cadvisor
+      - scan:
+          directory: cadvisor
+          requires:
+            - build
+      - release:
+          directory: cadvisor
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+      - build:
+          directory: elasticsearch
+      - scan:
+          directory: elasticsearch
+          requires:
+            - build
+      - release:
+          directory: elasticsearch
+          requires:
+            - scan
+          filters:
+            branches:
+              only: master
+
+jobs:
+  build:
+    executor: docker-executor
+    description: Build an image
+    parameters:
+      directory:
+        description: "The directory of the image to build"
+        type: string
+    steps:
+      - docker-build:
+          image_name: ap-<< parameters.directory >>
+          dockerfile: << parameters.directory >>/Dockerfile
+  scan:
+    executor: clair-scanner/default
+    parameters:
+      directory:
+        description: "The directory name of the image to be scanned"
+        type: string
+    steps:
+      - clair-scan:
+          image_name: ap-<< parameters.directory >>
+  release:
+    executor: docker-executor
+    parameters:
+      directory:
+        description: "The directory name of the image to be scanned"
+        type: string
+    steps:
+      - checkout
+      - get-tag:
+          directory: << parameters.directory >>
+      - push:
+          comma_separated_tags: "latest,$TAG"
+          image_name: ap-<< parameters.directory >>
+orbs:
+  clair-scanner: ovotech/clair-scanner@1.6.0
+executors:
+  docker-executor:
+    environment:
+      GIT_ORG: astronomer
+      DOCKER_REPO: astronomerinc
+    docker:
+      - image: circleci/python:3
+commands:
+  docker-build:
+    description: "Build a Docker image"
+    parameters:
+      dockerfile:
+        type: string
+        default: Dockerfile
+      path:
+        type: string
+        default: "."
+      image_name:
+        type: string
+        default: $CIRCLE_PROJECT_REPONAME
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build the Docker image
+          command: |
+            set -xe
+            image_name="<< parameters.image_name >>"
+            docker build -t $image_name --file << parameters.path>>/<< parameters.dockerfile >> --build-arg BUILD_NUMBER=${CIRCLE_BUILD_NUM} << parameters.path >>
+            docker save -o << parameters.image_name >>.tar $image_name
+      - persist_to_workspace:
+          root: .
+          paths:
+            - './*.tar'
+  clair-scan:
+    description: "Vulnerability scan a Docker image"
+    parameters:
+      image_name:
+        type: string
+        default: $CIRCLE_PROJECT_REPONAME
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Move tarball to directory for scan
+          command: mkdir /tmp/tarballs && mv /tmp/workspace/<< parameters.image_name >>.tar /tmp/tarballs/
+      - clair-scanner/scan:
+          docker_tar_dir: /tmp/tarballs
+  push:
+    description: "Push a Docker image to DockerHub"
+    parameters:
+      comma_separated_tags:
+        type: string
+        default: latest
+      docker_repository:
+        type: string
+        default: $DOCKER_REPO
+      image_name:
+        type: string
+        default: $CIRCLE_PROJECT_REPONAME
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - setup_remote_docker
+      - run:
+          name: Load archived Docker image
+          command: docker load -i /tmp/workspace/<< parameters.image_name >>.tar
+      - run:
+          name: Login to DockerHub
+          command: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
+      - run:
+          name: Push Docker image(s)
+          command: |
+            set -xe
+            function docker_tag_exists() {
+                curl --silent -f -lSL https://index.docker.io/v1/repositories/$1/tags/$2 > /dev/null
+            }
+            function tag_and_push() {
+                docker tag << parameters.image_name >> << parameters.docker_repository >>/<< parameters.image_name >>:$1
+                docker push << parameters.docker_repository >>/<< parameters.image_name >>:$1
+            }
+            for tag in $(echo "<< parameters.comma_separated_tags >>" | sed "s/,/ /g");
+            do
+              # If the tag looks starts with "v" then a digit, remove the "v"
+              pattern="^(v[0-9].*)"
+              if [[ $tag =~ $pattern ]]; then
+                tag="${tag:1}"
+              fi
+              if docker_tag_exists << parameters.docker_repository >>/<< parameters.image_name >> ${tag}; then
+                  if [[ $tag =~ "latest|master|dev|development" ]]; then
+                    tag_and_push $tag
+                  else
+                    echo "This docker tag already exists. Skipping the Docker push!"
+                  fi
+              else
+                tag_and_push $tag
+              fi
+            done
+  get-tag:
+    description: "Set an environment variable to this release branch with an incremented patch version"
+    parameters:
+      directory:
+        type: string
+    steps:
+      - run:
+          name: Determine the tag
+          command: |
+            set -xe
+            pip install --user packaging
+            cat > /tmp/next_patch_version.py \<<- EOM
+            import sys
+            from packaging.version import parse as semver
+            directory="<< parameters.directory >>"
+            with open(f"{ directory }/version.txt", "r") as version_file:
+              version = version_file.read().strip()
+            if not semver(version).release:
+              sys.stderr.write(f"Please provide a semantic version in { directory }/version.txt")
+              exit(1)
+            sys.stdout.write(version)
+            EOM
+            TAG=$(python /tmp/next_patch_version.py)
+            # Make this environment variable available to following steps
+            echo "export TAG=${TAG}" >> $BASH_ENV
