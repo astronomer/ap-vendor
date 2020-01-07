@@ -7,267 +7,324 @@ workflows:
     jobs:
 
       - build:
+          name: build-nginx-es
           directory: nginx-es
       - scan:
+          name: scan-nginx-es
           directory: nginx-es
           requires:
-            - build
+            - build-nginx-es
       - release:
+          name: release-nginx-es
           directory: nginx-es
           requires:
-            - scan
+            - scan-nginx-es
           filters:
             branches:
               only: master
 
       - build:
+          name: build-fluentd
           directory: fluentd
       - scan:
+          name: scan-fluentd
           directory: fluentd
           requires:
-            - build
+            - build-fluentd
       - release:
+          name: release-fluentd
           directory: fluentd
           requires:
-            - scan
+            - scan-fluentd
           filters:
             branches:
               only: master
 
       - build:
+          name: build-kibana
           directory: kibana
       - scan:
+          name: scan-kibana
           directory: kibana
           requires:
-            - build
+            - build-kibana
       - release:
+          name: release-kibana
           directory: kibana
           requires:
-            - scan
+            - scan-kibana
           filters:
             branches:
               only: master
 
       - build:
+          name: build-redis
           directory: redis
       - scan:
+          name: scan-redis
           directory: redis
           requires:
-            - build
+            - build-redis
       - release:
+          name: release-redis
           directory: redis
           requires:
-            - scan
+            - scan-redis
           filters:
             branches:
               only: master
 
       - build:
+          name: build-alertmanager
           directory: alertmanager
       - scan:
+          name: scan-alertmanager
           directory: alertmanager
           requires:
-            - build
+            - build-alertmanager
       - release:
+          name: release-alertmanager
           directory: alertmanager
           requires:
-            - scan
+            - scan-alertmanager
           filters:
             branches:
               only: master
 
       - build:
+          name: build-prisma
           directory: prisma
       - scan:
+          name: scan-prisma
           directory: prisma
           requires:
-            - build
+            - build-prisma
       - release:
+          name: release-prisma
           directory: prisma
           requires:
-            - scan
+            - scan-prisma
           filters:
             branches:
               only: master
 
       - build:
+          name: build-curator
           directory: curator
       - scan:
+          name: scan-curator
           directory: curator
           requires:
-            - build
+            - build-curator
       - release:
+          name: release-curator
           directory: curator
           requires:
-            - scan
+            - scan-curator
           filters:
             branches:
               only: master
 
       - build:
+          name: build-grafana
           directory: grafana
       - scan:
+          name: scan-grafana
           directory: grafana
           requires:
-            - build
+            - build-grafana
       - release:
+          name: release-grafana
           directory: grafana
           requires:
-            - scan
+            - scan-grafana
           filters:
             branches:
               only: master
 
       - build:
+          name: build-elasticsearch-exporter
           directory: elasticsearch-exporter
       - scan:
+          name: scan-elasticsearch-exporter
           directory: elasticsearch-exporter
           requires:
-            - build
+            - build-elasticsearch-exporter
       - release:
+          name: release-elasticsearch-exporter
           directory: elasticsearch-exporter
           requires:
-            - scan
+            - scan-elasticsearch-exporter
           filters:
             branches:
               only: master
 
       - build:
+          name: build-pgbouncer-exporter
           directory: pgbouncer-exporter
       - scan:
+          name: scan-pgbouncer-exporter
           directory: pgbouncer-exporter
           requires:
-            - build
+            - build-pgbouncer-exporter
       - release:
+          name: release-pgbouncer-exporter
           directory: pgbouncer-exporter
           requires:
-            - scan
+            - scan-pgbouncer-exporter
           filters:
             branches:
               only: master
 
       - build:
+          name: build-nginx
           directory: nginx
       - scan:
+          name: scan-nginx
           directory: nginx
           requires:
-            - build
+            - build-nginx
       - release:
+          name: release-nginx
           directory: nginx
           requires:
-            - scan
+            - scan-nginx
           filters:
             branches:
               only: master
 
       - build:
+          name: build-registry
           directory: registry
       - scan:
+          name: scan-registry
           directory: registry
           requires:
-            - build
+            - build-registry
       - release:
+          name: release-registry
           directory: registry
           requires:
-            - scan
+            - scan-registry
           filters:
             branches:
               only: master
 
       - build:
+          name: build-statsd-exporter
           directory: statsd-exporter
       - scan:
+          name: scan-statsd-exporter
           directory: statsd-exporter
           requires:
-            - build
+            - build-statsd-exporter
       - release:
+          name: release-statsd-exporter
           directory: statsd-exporter
           requires:
-            - scan
+            - scan-statsd-exporter
           filters:
             branches:
               only: master
 
       - build:
+          name: build-prometheus
           directory: prometheus
       - scan:
+          name: scan-prometheus
           directory: prometheus
           requires:
-            - build
+            - build-prometheus
       - release:
+          name: release-prometheus
           directory: prometheus
           requires:
-            - scan
+            - scan-prometheus
           filters:
             branches:
               only: master
 
       - build:
+          name: build-kubed
           directory: kubed
       - scan:
+          name: scan-kubed
           directory: kubed
           requires:
-            - build
+            - build-kubed
       - release:
+          name: release-kubed
           directory: kubed
           requires:
-            - scan
+            - scan-kubed
           filters:
             branches:
               only: master
 
       - build:
+          name: build-pgbouncer
           directory: pgbouncer
       - scan:
+          name: scan-pgbouncer
           directory: pgbouncer
           requires:
-            - build
+            - build-pgbouncer
       - release:
+          name: release-pgbouncer
           directory: pgbouncer
           requires:
-            - scan
+            - scan-pgbouncer
           filters:
             branches:
               only: master
 
       - build:
+          name: build-kube-state
           directory: kube-state
       - scan:
+          name: scan-kube-state
           directory: kube-state
           requires:
-            - build
+            - build-kube-state
       - release:
+          name: release-kube-state
           directory: kube-state
           requires:
-            - scan
+            - scan-kube-state
           filters:
             branches:
               only: master
 
       - build:
+          name: build-cadvisor
           directory: cadvisor
       - scan:
+          name: scan-cadvisor
           directory: cadvisor
           requires:
-            - build
+            - build-cadvisor
       - release:
+          name: release-cadvisor
           directory: cadvisor
           requires:
-            - scan
+            - scan-cadvisor
           filters:
             branches:
               only: master
 
       - build:
+          name: build-elasticsearch
           directory: elasticsearch
       - scan:
+          name: scan-elasticsearch
           directory: elasticsearch
           requires:
-            - build
+            - build-elasticsearch
       - release:
+          name: release-elasticsearch
           directory: elasticsearch
           requires:
-            - scan
+            - scan-elasticsearch
           filters:
             branches:
               only: master
@@ -283,7 +340,8 @@ jobs:
     steps:
       - docker-build:
           image_name: ap-<< parameters.directory >>
-          dockerfile: << parameters.directory >>/Dockerfile
+          dockerfile: Dockerfile
+          path: << parameters.directory >>
   scan:
     executor: clair-scanner/default
     parameters:

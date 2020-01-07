@@ -5,15 +5,18 @@ workflows:
     jobs:
 {% for directory in directories %}
       - build:
+          name: build-{{ directory }}
           directory: {{ directory }}
       - scan:
+          name: scan-{{ directory }}
           directory: {{ directory }}
           requires:
-            - build
+            - build-{{ directory }}
       - release:
+          name: release-{{ directory }}
           directory: {{ directory }}
           requires:
-            - scan
+            - scan-{{ directory }}
           filters:
             branches:
               only: master
@@ -29,7 +32,8 @@ jobs:
     steps:
       - docker-build:
           image_name: ap-<< parameters.directory >>
-          dockerfile: << parameters.directory >>/Dockerfile
+          dockerfile: Dockerfile
+          path: << parameters.directory >>
   scan:
     executor: clair-scanner/default
     parameters:
