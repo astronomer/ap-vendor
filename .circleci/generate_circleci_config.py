@@ -11,7 +11,7 @@ def listdir_nohidden(path):
     for f in os.listdir(path):
         if not f.startswith('.'):
             subdir = os.path.join(path, f)
-            for required_file in ["Dockerfile", "version.txt"]:
+            for required_file in ["Dockerfile", "version.txt", "cve-whitelist.yaml"]:
                 if not required_file in os.listdir(subdir):
                     raise Exception(f"ERROR: you must put a file '{ required_file }' in { subdir }\n" +
                                     "If this is is not intended to be a Docker image, then make it a hidden directory")

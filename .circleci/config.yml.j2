@@ -42,7 +42,7 @@ jobs:
         type: string
     steps:
       - clair-scan:
-          image_name: ap-<< parameters.directory >>
+          directory: << parameters.directory >>
   release:
     executor: docker-executor
     parameters:
@@ -171,12 +171,8 @@ commands:
   clair-scan:
     description: "Vulnerability scan a Docker image"
     parameters:
-      image_name:
+      directory:
         type: string
-        default: $CIRCLE_PROJECT_REPONAME
-      whitelist:
-        type: string
-        default: cve-whitelist.yaml
     steps:
       - checkout
       - setup_remote_docker
@@ -184,10 +180,10 @@ commands:
           at: /tmp/workspace
       - run:
           name: Load archived Docker image
-          command: docker load -i /tmp/workspace/<< parameters.image_name >>.tar
+          command: docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
       - modified-orb:
-          whitelist: "<< parameters.whitelist >>"
-          image: "<< parameters.image_name >>"
+          whitelist: "<< parameters.directory >>/cve-whitelist.yaml"
+          image: "ap-<< parameters.directory >>"
   # TODO: move to an Astronomer orbs repo, publish orb.
   # This is to work around an issue in the provided orb https://github.com/ovotech/circleci-orbs/issues/89.
   modified-orb:
@@ -216,7 +212,7 @@ commands:
       fail_on_unsupported_images:
         type: "boolean"
         description: "Fail command when image cannot be scanned for vulnerabilities"
-        default: true
+        default: false
       disable_verbose_console_output:
         type: "boolean"
         description: "Disable verbose console output"
@@ -271,7 +267,6 @@ commands:
                     --log "/log.json" \
                     --whitelist /whitelist.yml \
                     --reportAll=true \
-                    --exit-when-no-features=false \
                     "$image")
 
                 # if verbose output is disabled, analyse status code for more fine-grained output
@@ -288,7 +283,7 @@ commands:
                         EXIT_STATUS=1
                     fi
                 elif [ $ret -eq 5 ]; then
-                    echo "Image was not scanned, not supported."
+                    echo "Image was not scanned, because no features were detected. This basically means Clair found nothing to scan."
                     if [ "<< parameters.fail_on_unsupported_images >>" == "true" ];then
                         EXIT_STATUS=1
                     fi
