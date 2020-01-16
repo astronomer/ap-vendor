@@ -22,3 +22,6 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+# patch CVE-2017-13090
+RUN apk update && apk upgrade wget

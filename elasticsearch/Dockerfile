@@ -20,4 +20,4 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 # Fix security issues
-RUN yum update -y curl libssh2
+RUN yum update -y curl libssh2 nss
