@@ -56,6 +56,10 @@ ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 # Start Fluentd to pick up our config that watches Docker container logs.
 RUN mkdir -p /var/log/journal
 
+# The helm chart may call this if istio is enabled
+# to prevent a race condition
+COPY include/wait-for-istio-proxy.rb /wait-for-istio-proxy.rb
+
 CMD exec /usr/local/bin/fluentd ${FLUENTD_ARGS}
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
