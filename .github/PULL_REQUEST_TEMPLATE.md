@@ -33,7 +33,6 @@ When your change is merged to master:
 - [ ] prisma
 - [ ] redis
 - [ ] statsd-exporter
-- [ ] cadvisor
 - [ ] elasticsearch
 - [ ] fluentd
 - [ ] kibana
