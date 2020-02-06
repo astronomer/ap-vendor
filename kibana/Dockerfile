@@ -21,5 +21,5 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 # Fix security issues
 USER root
-RUN yum update -y curl libssh2 nss
+RUN yum update -y curl libssh2 nss sqlite
 USER kibana
