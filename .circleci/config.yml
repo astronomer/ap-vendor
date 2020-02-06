@@ -160,6 +160,23 @@ workflows:
               only: master
 
       - build:
+          name: build-keda
+          directory: keda
+      - scan:
+          name: scan-keda
+          directory: keda
+          requires:
+            - build-keda
+      - release:
+          name: release-keda
+          directory: keda
+          requires:
+            - scan-keda
+          filters:
+            branches:
+              only: master
+
+      - build:
           name: build-pgbouncer-exporter
           directory: pgbouncer-exporter
       - scan:
@@ -257,6 +274,23 @@ workflows:
           directory: kubed
           requires:
             - scan-kubed
+          filters:
+            branches:
+              only: master
+
+      - build:
+          name: build-keda-metrics-adapter
+          directory: keda-metrics-adapter
+      - scan:
+          name: scan-keda-metrics-adapter
+          directory: keda-metrics-adapter
+          requires:
+            - build-keda-metrics-adapter
+      - release:
+          name: release-keda-metrics-adapter
+          directory: keda-metrics-adapter
+          requires:
+            - scan-keda-metrics-adapter
           filters:
             branches:
               only: master
