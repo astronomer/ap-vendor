@@ -41,6 +41,9 @@ When your change is merged to master:
 - [ ] pgbouncer-exporter
 - [ ] prometheus
 - [ ] registry
+- [ ] keda
+- [ ] keda-metrics-adapter
+
 
 **Checklist** (required)
 
