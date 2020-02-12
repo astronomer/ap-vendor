@@ -346,6 +346,23 @@ workflows:
             branches:
               only: master
 
+      - build:
+          name: build-node-exporter
+          directory: node-exporter
+      - scan:
+          name: scan-node-exporter
+          directory: node-exporter
+          requires:
+            - build-node-exporter
+      - release:
+          name: release-node-exporter
+          directory: node-exporter
+          requires:
+            - scan-node-exporter
+          filters:
+            branches:
+              only: master
+
 jobs:
   build:
     executor: docker-executor

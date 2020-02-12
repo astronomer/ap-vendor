@@ -40,6 +40,7 @@ When your change is merged to master:
 - [ ] nginx-es
 - [ ] pgbouncer-exporter
 - [ ] prometheus
+- [ ] node-exporter
 - [ ] registry
 - [ ] keda
 - [ ] keda-metrics-adapter
