@@ -385,6 +385,8 @@ jobs:
     steps:
       - clair-scan:
           directory: << parameters.directory >>
+      - trivy-scan:
+          directory: << parameters.directory >>
   release:
     executor: docker-executor
     parameters:
@@ -510,8 +512,36 @@ commands:
             TAG=$(python /tmp/next_patch_version.py)
             # Make this environment variable available to following steps
             echo "export TAG=${TAG}" >> $BASH_ENV
+  trivy-scan:
+    description: "Trivy: Vulnerability scanner a Docker image"
+    parameters:
+      directory:
+        type: string
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load archived Docker image
+          command: docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
+      - run:
+          name: Install trivy
+          command: |
+            apk add --update curl
+            VERSION=$(
+                curl --silent "https://api.github.com/repos/aquasecurity/trivy/releases/latest" | \
+                grep '"tag_name":' | \
+                sed -E 's/.*"v([^"]+)".*/\1/'
+            )
+            wget https://github.com/aquasecurity/trivy/releases/download/v${VERSION}/trivy_${VERSION}_Linux-64bit.tar.gz
+            tar zxvf trivy_${VERSION}_Linux-64bit.tar.gz
+            mv trivy /usr/local/bin
+      - run:
+          name: Scan the local image with trivy
+          command: trivy --exit-code 0 --no-progress "ap-<< parameters.directory >>"
   clair-scan:
-    description: "Vulnerability scan a Docker image"
+    description: "Clair: Vulnerability scan a Docker image"
     parameters:
       directory:
         type: string
