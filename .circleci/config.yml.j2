@@ -41,6 +41,10 @@ jobs:
         description: "The directory name of the image to be scanned"
         type: string
     steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
       - clair-scan:
           directory: << parameters.directory >>
       - trivy-scan:
@@ -176,10 +180,6 @@ commands:
       directory:
         type: string
     steps:
-      - checkout
-      - setup_remote_docker
-      - attach_workspace:
-          at: /tmp/workspace
       - run:
           name: Load archived Docker image
           command: docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
@@ -204,10 +204,6 @@ commands:
       directory:
         type: string
     steps:
-      - checkout
-      - setup_remote_docker
-      - attach_workspace:
-          at: /tmp/workspace
       - run:
           name: Load archived Docker image
           command: docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
