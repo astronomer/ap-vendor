@@ -80,6 +80,7 @@ jobs:
             echo ${output}
             if [[ ${output} == *"unknown OS"* ]]; then
                 echo "Skipping trivy scan because of unsupported OS"
+                exit 0
             fi
             exit ${exit_code}
   release:
