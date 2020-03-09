@@ -12,6 +12,11 @@ workflows:
           directory: {{ directory }}
           requires:
             - build-{{ directory }}
+      - scan-trivy:
+          name: scan-trivy-{{ directory }}
+          directory: {{ directory }}
+          requires:
+            - build-{{ directory }}
       - release:
           name: release-{{ directory }}
           directory: {{ directory }}
@@ -197,6 +202,13 @@ commands:
       directory:
         type: string
     steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load archived Docker image
+          command: docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
       - modified-orb:
           whitelist: "<< parameters.directory >>/cve-whitelist.yaml"
           image: "ap-<< parameters.directory >>"
