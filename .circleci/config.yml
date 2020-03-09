@@ -514,19 +514,19 @@ jobs:
       - run:
           name: Scan the local image with trivy
           command: |
-            set -x
+            set +x
+            set +o pipefail
             output=$(trivy --ignore-unfixed -s HIGH,CRITICAL --exit-code 1 --no-progress "ap-<< parameters.directory >>")
             exit_code=$?
-            echo ${exit_code}
             # trivy doesn't support busybox scanning right now: https://github.com/aquasecurity/trivy/issues/397
             # TODO: @andriisoldatenko patch trivy to add busybox
-            echo ${output}
             MATCHES=$(echo "$output" | grep -i 'unknown os' | wc -l)
             if [[ ${MATCHES} -eq 1 ]]; then
                echo "Skipping trivy scan because of unsupported OS"
                exit 0
             fi
-            echo ${exit_code}
+            echo ${output}
+            exit ${exit_code}
   release:
     executor: docker-executor
     parameters:
