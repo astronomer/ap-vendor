@@ -78,9 +78,10 @@ jobs:
             # trivy doesn't support busybox scanning right now: https://github.com/aquasecurity/trivy/issues/397
             # TODO: @andriisoldatenko patch trivy to add busybox
             echo ${output}
-            if [[ ${output} == *"unknown OS"* ]]; then
-                echo "Skipping trivy scan because of unsupported OS"
-                exit 0
+            MATCHES=`echo "$output" | grep -i 'unknown os' | wc -l`
+            if [[ ${MATCHES} -eq 1 ]]; then
+               echo "Skipping trivy scan because of unsupported OS"
+               exit 0
             fi
             exit ${exit_code}
   release:
