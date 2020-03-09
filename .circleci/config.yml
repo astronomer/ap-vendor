@@ -518,13 +518,12 @@ jobs:
             exit_code=$?
             # trivy doesn't support busybox scanning right now: https://github.com/aquasecurity/trivy/issues/397
             # TODO: @andriisoldatenko patch trivy to add busybox
-            if [[ $output == *"unknown OS"* ]]
-            then
+            if [[ ${output} == *"unknown OS"* ]]; then
                 echo "Skipping trivy scan because of unsupported OS"
                 exit 0
             else
-                echo $output
-                exit $exit_code
+                echo ${output} ${exit_code}
+                exit ${exit_code}
             fi
   release:
     executor: docker-executor
