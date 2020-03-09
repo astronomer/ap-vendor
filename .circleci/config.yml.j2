@@ -84,7 +84,7 @@ jobs:
                echo "Skipping trivy scan because of unsupported OS"
                exit 0
             fi
-            echo ${output}
+            echo "${output}"
             exit ${exit_code}
   release:
     executor: docker-executor
