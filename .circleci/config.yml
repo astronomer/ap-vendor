@@ -516,6 +516,7 @@ jobs:
           command: |
             set +x
             set +o pipefail
+            set +e pipefail
             output=$(trivy --ignore-unfixed -s HIGH,CRITICAL --exit-code 1 --no-progress "ap-<< parameters.directory >>")
             exit_code=$?
             # trivy doesn't support busybox scanning right now: https://github.com/aquasecurity/trivy/issues/397
