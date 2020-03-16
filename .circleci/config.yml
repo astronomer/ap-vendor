@@ -511,13 +511,16 @@ jobs:
           command: |
             apk add --update-cache --upgrade curl rpm
             curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sh -s -- -b /usr/local/bin
+      - restore_cache:
+          keys:
+            - trivy-cache
       - run:
           name: Scan the local image with trivy
           command: |
             set +x
             set +o pipefail
             set +e pipefail
-            output=$(trivy --ignore-unfixed -s HIGH,CRITICAL --exit-code 1 --no-progress "ap-<< parameters.directory >>")
+            output=$(trivy --ignorefile << parameters.directory >>>/trivyignore --cache-dir /tmp/workspace/trivy-cache --ignore-unfixed -s HIGH,CRITICAL --exit-code 1 --no-progress "ap-<< parameters.directory >>")
             exit_code=$?
             # trivy doesn't support busybox scanning right now: https://github.com/aquasecurity/trivy/issues/397
             # TODO: @andriisoldatenko patch trivy to add busybox
@@ -528,6 +531,9 @@ jobs:
             fi
             echo "${output}"
             exit ${exit_code}
+      - restore_cache:
+          keys:
+            - trivy-cache
   release:
     executor: docker-executor
     parameters:
