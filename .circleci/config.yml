@@ -531,9 +531,10 @@ jobs:
             fi
             echo "${output}"
             exit ${exit_code}
-      - restore_cache:
-          keys:
-            - trivy-cache
+      - save_cache:
+          key: trivy-cache
+          paths:
+            - /tmp/workspace/trivy-cache
   release:
     executor: docker-executor
     parameters:
