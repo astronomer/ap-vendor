@@ -23,7 +23,7 @@ COPY include/Gemfile /Gemfile
 # 2. Install fluentd via ruby.
 # 3. Remove build dependencies.
 # 4. Cleanup leftover caches & files.
-RUN BUILD_DEPS="make gcc g++ libc6-dev ruby-dev libffi-dev" \
+RUN BUILD_DEPS="build-essential make gcc g++ libc6-dev ruby-dev bundler libffi-dev" \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
                      $BUILD_DEPS \
@@ -31,6 +31,7 @@ RUN BUILD_DEPS="make gcc g++ libc6-dev ruby-dev libffi-dev" \
                      libjemalloc2 \
                      ruby \
     && echo 'gem: --no-document' >> /etc/gemrc \
+    && gem install json rake bundler \
     && gem install --file Gemfile \
     && apt-get purge -y --auto-remove \
                      -o APT::AutoRemove::RecommendsImportant=false \
