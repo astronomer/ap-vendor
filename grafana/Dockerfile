@@ -33,3 +33,4 @@ COPY include/prometheus.json /var/lib/grafana/dashboards/prometheus.json
 COPY include/docker-registry.json /var/lib/grafana/dashboards/docker-registry.json
 COPY include/platform-overview.json /var/lib/grafana/dashboards/platform-overview.json
 COPY include/kubernetes-pods-metrics.json /var/lib/grafana/dashboards/kubernetes-pods-metrics.json
+COPY include/wait-for-db.sh /wait-for-db.sh
