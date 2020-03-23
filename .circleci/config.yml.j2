@@ -184,7 +184,7 @@ commands:
                 tag="${tag:1}"
               fi
               if docker_tag_exists << parameters.docker_repository >>/<< parameters.image_name >> ${tag}; then
-                  if [[ $tag =~ "latest|master|dev|development" ]]; then
+                  if [[ $tag -eq "latest" ]]; then
                     tag_and_push $tag
                   else
                     echo "This docker tag already exists. Skipping the Docker push!"
