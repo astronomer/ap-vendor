@@ -44,7 +44,7 @@ When your change is merged to master:
 - [ ] registry
 - [ ] keda
 - [ ] keda-metrics-adapter
-
+- [ ] blackbox-exporter
 
 **Checklist** (required)
 
