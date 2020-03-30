@@ -227,6 +227,28 @@ workflows:
               only: master
 
       - build:
+          name: build-blackbox-exporter
+          directory: blackbox-exporter 
+      - scan:
+          name: scan-blackbox-exporter
+          directory: blackbox-exporter 
+          requires:
+            - build-blackbox-exporter
+      - scan-trivy:
+          name: scan-trivy-blackbox-exporter
+          directory: blackbox-exporter 
+          requires:
+            - build-blackbox-exporter
+      - release:
+          name: release-blackbox-exporter
+          directory: blackbox-exporter 
+          requires:
+            - scan-blackbox-exporter
+          filters:
+            branches:
+              only: master
+
+      - build:
           name: build-pgbouncer-exporter
           directory: pgbouncer-exporter
       - scan:
