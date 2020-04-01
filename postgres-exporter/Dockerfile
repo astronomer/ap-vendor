@@ -15,10 +15,10 @@
 
 # https://github.com/wrouesnel/postgres_exporter/blob/v0.8.0/Dockerfile
 FROM wrouesnel/postgres_exporter:v0.8.0 AS upstream
-# The above 'upstream' layer is FROM scratch (they use a multi-layer build)
+# The above 'upstream' layer is FROM scratch (they use a multi-stage build)
 # I would like some normal tooling like package manager and shell available.
-# In the next update, I think they are migration from the scratch image,
-# so it will likely be necessary to perform this multi-stage
+# In the next update, I think they are migrating from the scratch image,
+# so it will likely be unnecessary to perform this multi-stage build.
 FROM alpine:3.11
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
