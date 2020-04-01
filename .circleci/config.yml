@@ -425,6 +425,28 @@ workflows:
               only: master
 
       - build:
+          name: build-postgres-exporter
+          directory: postgres-exporter
+      - scan:
+          name: scan-postgres-exporter
+          directory: postgres-exporter
+          requires:
+            - build-postgres-exporter
+      - scan-trivy:
+          name: scan-trivy-postgres-exporter
+          directory: postgres-exporter
+          requires:
+            - build-postgres-exporter
+      - release:
+          name: release-postgres-exporter
+          directory: postgres-exporter
+          requires:
+            - scan-postgres-exporter
+          filters:
+            branches:
+              only: master
+
+      - build:
           name: build-kube-state
           directory: kube-state
       - scan:

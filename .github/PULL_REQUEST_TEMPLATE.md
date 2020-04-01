@@ -45,6 +45,7 @@ When your change is merged to master:
 - [ ] keda
 - [ ] keda-metrics-adapter
 - [ ] blackbox-exporter
+- [ ] postgres-exporter
 
 **Checklist** (required)
 
