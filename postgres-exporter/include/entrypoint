@@ -1,0 +1,18 @@
+#!/bin/sh
+
+function append_ssl_mode {
+  # Only append to DATA_SOURCE_NAME if it exactly matches this regex
+  # this is to prevent modifying when there is already SSL mode or other
+  # options set in the connection string.
+  REGEX='^postgres(ql)?:\/\/postgres:.*@[^:]*:\d+(\/postgres)?$'
+  echo $DATA_SOURCE_NAME | grep -Eq $REGEX
+  if [[ "$?" == "0" ]] && [[ "$SSL_MODE_OFF" == "1" ]]; then
+    echo "Appending ?sslmode=disable to the connection string."
+    export DATA_SOURCE_NAME="$DATA_SOURCE_NAME?sslmode=disable"
+  fi
+}
+
+echo "Running Astronomer container entrypoint"
+append_ssl_mode
+echo "Executing postgres_exporter"
+exec /postgres_exporter $@
