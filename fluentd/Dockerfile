@@ -13,39 +13,41 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM ruby:2.7-slim-buster as builder
+FROM debian:sid-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 
 COPY include/Gemfile /Gemfile
 
-SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends g++ gcc make && \
-    echo 'gem: --no-document' >> /etc/gemrc && \
-    gem install --file Gemfile
-
-FROM ruby:2.7-slim-buster
-
-ARG DEBIAN_FRONTEND=noninteractive
-
-# Copy the Fluentd configuration file for logging Docker container logs.
-COPY include/fluent.conf /etc/fluent/fluent.conf
-COPY --from=builder /usr/local/bundle/ /usr/local/bundle
-
-SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends libjemalloc2 && \
-    apt-get clean -y && \
-    ulimit -n 65536 && \
-    rm -rf \
+# 1. Install & configure dependencies.
+# 2. Install fluentd via ruby.
+# 3. Remove build dependencies.
+# 4. Cleanup leftover caches & files.
+RUN BUILD_DEPS="build-essential make gcc g++ libc6-dev ruby-dev bundler libffi-dev" \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+                     $BUILD_DEPS \
+                     ca-certificates \
+                     libjemalloc2 \
+                     ruby \
+    && echo 'gem: --no-document' >> /etc/gemrc \
+    && gem install json rake bundler \
+    && gem install --file Gemfile \
+    && apt-get purge -y --auto-remove \
+                     -o APT::AutoRemove::RecommendsImportant=false \
+                     $BUILD_DEPS \
+    && apt-get clean -y \
+    && rm -rf \
         /var/cache/debconf/* \
         /var/lib/apt/lists/* \
         /var/log/* \
+        /tmp/* \
         /var/tmp/* \
-        rm -rf /tmp/*
+    # Ensure fluent has enough file descriptors
+    && ulimit -n 65536
+
+# Copy the Fluentd configuration file for logging Docker container logs.
+COPY include/fluent.conf /etc/fluent/fluent.conf
 
 # Expose prometheus metrics.
 EXPOSE 80
@@ -59,7 +61,7 @@ RUN mkdir -p /var/log/journal
 # to prevent a race condition
 COPY include/wait-for-istio-proxy.rb /wait-for-istio-proxy.rb
 
-CMD exec /usr/local/bundle/bin/fluentd ${FLUENTD_ARGS}
+CMD exec /usr/local/bin/fluentd ${FLUENTD_ARGS}
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
