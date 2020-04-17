@@ -21,4 +21,5 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 # security patches
-RUN apk upgrade busybox musl apache2 util-linux expat
+RUN apk upgrade busybox --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main
+RUN apk upgrade musl apache2 util-linux expat libuuid
