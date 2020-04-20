@@ -13,7 +13,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM bobrik/curator:5.8.1
+FROM alpine:3.11
+
+RUN apk --no-cache add python py-setuptools py-pip gcc libffi py-cffi python-dev libffi-dev py-openssl musl-dev linux-headers openssl-dev libssl1.1 && \
+    pip install -U setuptools wheel && \
+    pip install elasticsearch-curator==5.8.1 && \
+    pip install boto3==1.12.42 && \
+    pip install requests-aws4auth==0.9 && \
+    pip install cryptography==2.6.1 && \
+    apk del py-pip gcc python-dev libffi-dev musl-dev linux-headers openssl-dev && \
+    sed -i '/import sys/a urllib3.contrib.pyopenssl.inject_into_urllib3()' /usr/bin/curator && \
+    sed -i '/import sys/a import urllib3.contrib.pyopenssl' /usr/bin/curator && \
+    sed -i '/import sys/a import urllib3' /usr/bin/curator
+
+USER nobody:nobody
+
+ENTRYPOINT ["/usr/bin/curator"]
+
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
