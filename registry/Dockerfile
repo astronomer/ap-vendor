@@ -13,12 +13,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM registry:2.7.1
+FROM astronomerinc/ap-base:3.11.5-3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-# security patches
-RUN apk upgrade busybox musl apache2 util-linux expat
+RUN set -ex \
+    && apk add --no-cache ca-certificates apache2-utils
+
+COPY ./registry /bin/registry
+COPY ./config-example.yml /etc/docker/registry/config.yml
+
+VOLUME ["/var/lib/registry"]
+EXPOSE 5000
+
+COPY docker-entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["/etc/docker/registry/config.yml"]
