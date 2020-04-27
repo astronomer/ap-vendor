@@ -20,7 +20,6 @@ RUN apk --no-cache add \
       libffi-dev py-openssl musl-dev linux-headers openssl-dev libssl1.1 && \
     apk --no-cache add -u --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main \
       sqlite-libs && \
-    apk del .build-deps && \
     pip install -U setuptools wheel && \
     pip install elasticsearch-curator==5.8.1 && \
     pip install boto3==1.12.42 && \
