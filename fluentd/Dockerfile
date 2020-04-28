@@ -31,7 +31,8 @@ RUN BUILD_DEPS="build-essential make gcc g++ libc6-dev ruby-dev bundler libffi-d
                      libjemalloc2 \
                      ruby \
     && echo 'gem: --no-document' >> /etc/gemrc \
-    && gem install json rake bundler \
+    && gem install json -v '>= 2.3.0' \
+	&& gem install rake bundler \
     && gem install --file Gemfile \
     && apt-get purge -y --auto-remove \
                      -o APT::AutoRemove::RecommendsImportant=false \
