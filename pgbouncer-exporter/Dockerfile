@@ -19,3 +19,8 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+RUN set -ex \
+    && echo http://dl-cdn.alpinelinux.org/alpine/v3.7/main > /etc/apk/repositories \
+    && echo http://dl-cdn.alpinelinux.org/alpine/v3.7/community >> /etc/apk/repositories \
+    && apk upgrade --no-cache libressl libressl-dev
