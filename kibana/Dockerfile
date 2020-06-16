@@ -13,9 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM docker.elastic.co/kibana/kibana-oss:7.7.0
+FROM docker.elastic.co/kibana/kibana-oss:7.7.1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+# to fix bind-license security issues
+USER root
+RUN yum -y update bind-license
+USER kibana
