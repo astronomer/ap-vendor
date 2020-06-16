@@ -20,4 +20,7 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+# to fix bind-license security issues
+USER root
 RUN yum -y update bind-license
+USER kibana
