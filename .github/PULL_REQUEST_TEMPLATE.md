@@ -46,6 +46,7 @@ When your change is merged to master:
 - [ ] keda-metrics-adapter
 - [ ] blackbox-exporter
 - [ ] postgres-exporter
+- [ ] nats-streaming
 
 **Checklist** (required)
 
