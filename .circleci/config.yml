@@ -117,6 +117,28 @@ workflows:
               only: master
 
       - build:
+          name: build-nats-streaming
+          directory: nats-streaming
+      - scan:
+          name: scan-nats-streaming
+          directory: nats-streaming
+          requires:
+            - build-nats-streaming
+      - scan-trivy:
+          name: scan-trivy-nats-streaming
+          directory: nats-streaming
+          requires:
+            - build-nats-streaming
+      - release:
+          name: release-nats-streaming
+          directory: nats-streaming
+          requires:
+            - scan-nats-streaming
+          filters:
+            branches:
+              only: master
+
+      - build:
           name: build-prisma
           directory: prisma
       - scan:
