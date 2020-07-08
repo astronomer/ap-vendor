@@ -227,6 +227,28 @@ workflows:
               only: master
 
       - build:
+          name: build-nats-exporter
+          directory: nats-exporter
+      - scan:
+          name: scan-nats-exporter
+          directory: nats-exporter
+          requires:
+            - build-nats-exporter
+      - scan-trivy:
+          name: scan-trivy-nats-exporter
+          directory: nats-exporter
+          requires:
+            - build-nats-exporter
+      - release:
+          name: release-nats-exporter
+          directory: nats-exporter
+          requires:
+            - scan-nats-exporter
+          filters:
+            branches:
+              only: master
+
+      - build:
           name: build-keda
           directory: keda
       - scan:
