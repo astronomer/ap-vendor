@@ -1,0 +1,31 @@
+---
+# Used for local testing
+version: "3"
+services:
+
+  statsd:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.statsd
+    networks:
+      - statsd
+    ports:
+      # where to listen with UDP for metrics
+      - 8125:8125/udp
+      # where to listen with TCP for metrics
+      - 8126:8126
+
+  statsd-exporter:
+    build: ..
+    networks:
+      - statsd
+    command: --statsd.mapping-config=/etc/statsd-exporter/mappings.yml
+
+    ports:
+      # TCP metrics listen
+      - 9125:9125
+      # prometheus metrics server
+      - 9102:9102
+
+networks:
+  statsd: {}

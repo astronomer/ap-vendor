@@ -64,3 +64,9 @@ mappings:
     name: "airflow_pool_starving_tasks"
     labels:
       pool: "$1"
+
+  # drop any metric not matched
+  - match: "."
+    match_type: regex
+    action: drop
+    name: "dropped"

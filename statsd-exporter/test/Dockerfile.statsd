@@ -1,0 +1,5 @@
+# This Dockerfile is used for testing
+FROM statsd/statsd:latest
+# This config file hooks up statsd
+# to statsd-exporter
+COPY statsd-test-config.js config.js
