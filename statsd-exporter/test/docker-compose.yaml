@@ -16,7 +16,8 @@ services:
       - 8126:8126
 
   statsd-exporter:
-    build: ..
+    build:
+      context: ..
     networks:
       - statsd
     command: --statsd.mapping-config=/etc/statsd-exporter/mappings.yml
