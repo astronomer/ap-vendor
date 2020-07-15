@@ -1,19 +1,22 @@
+# For metrics with labels: {},
+# Airflow-instance-specific information like dag_id and task_id
+# are omitted to preserve low cardinality in the metrics.
+# The only label will be the Airflow deployment name,
+# and this may be inserted by Prometheus recording rules
+# in the case of users with many Airflow instances being monitored
+
 mappings:
+
   # Map dot separated stats to labels
-  - match: airflow.dagrun.dependency-check.*.*
-    name: "airflow_dagrun_dependency_check"
-    labels:
-      dag_id: "$1"
   - match: airflow.operator_successes_(.*)
     match_type: regex
     name: "airflow_operator_successes"
-    labels:
-      operator: "$1"
+    labels: {}
+
   - match: airflow.operator_failures_(.*)
     match_type: regex
     name: "airflow_operator_failures"
-    labels:
-      operator: "$1"
+    labels: {}
 
   # As of version 0.7.0, we deploy an image that exposes this metric
   # as a counter instead of a gauge. (https://github.com/apache/incubator-airflow/pull/4027).
@@ -27,34 +30,27 @@ mappings:
 
   - match: airflow.dag.*.*.duration
     name: "airflow_task_duration"
-    labels:
-      dag_id: "$1"
-      task_id: "$2"
+    labels: {}
 
   - match: airflow.dagrun.duration.success.*
     name: "airflow_dagrun_duration"
-    labels:
-      dag_id: "$1"
+    labels: {}
 
   - match: airflow.dagrun.duration.failed.*
     name: "airflow_dagrun_failed"
-    labels:
-      dag_id: "$1"
+    labels: {}
 
   - match: airflow.dagrun.schedule_delay.*
     name: "airflow_dagrun_schedule_delay"
-    labels:
-      dag_id: "$1"
+    labels: {}
 
   - match: airflow.dag_processing.last_runtime.*
     name: "airflow_dag_processing_last_runtime"
-    labels:
-      dag_file: "$1"
+    labels: {}
 
   - match: airflow.dag_processing.last_run.seconds_ago.*
     name: "airflow_dag_processing_last_run_seconds_ago"
-    labels:
-      dag_file: "$1"
+    labels: {}
 
   - match: airflow.pool.open_slots.*
     name: "airflow_pool_open_slots"
@@ -70,3 +66,9 @@ mappings:
     name: "airflow_pool_starving_tasks"
     labels:
       pool: "$1"
+
+  # drop any metric not matched
+  - match: "."
+    match_type: regex
+    action: drop
+    name: "dropped"
