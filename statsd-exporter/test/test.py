@@ -65,6 +65,11 @@ def test_operators_conflated_to_single_metric():
     metric = _get_metric_by_name("airflow_operator_successes_total")
     assert metric.value == 2
 
+def test_operators_labeled_with_value():
+    _increment_metric("operator_successes_PythonOperator")
+    metric = _get_metric_by_name("airflow_operator_successes_total")
+    assert metric.labels["operator"] == "Value"
+
 @pytest.fixture(autouse=True, scope='session')
 def statsd_docker_compose():
     subprocess.run("docker-compose up --always-recreate-deps --force-recreate --build -d", shell=True)

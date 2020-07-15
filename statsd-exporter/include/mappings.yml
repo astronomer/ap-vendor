@@ -11,12 +11,16 @@ mappings:
   - match: airflow.operator_successes_(.*)
     match_type: regex
     name: "airflow_operator_successes"
-    labels: {}
+    labels:
+      # This is here to make the Astro UI work
+      # because it's expecting an operator label
+      operator: "Value"
 
   - match: airflow.operator_failures_(.*)
     match_type: regex
     name: "airflow_operator_failures"
-    labels: {}
+    labels:
+      operator: "Value"
 
   # As of version 0.7.0, we deploy an image that exposes this metric
   # as a counter instead of a gauge. (https://github.com/apache/incubator-airflow/pull/4027).
