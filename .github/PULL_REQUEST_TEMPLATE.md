@@ -47,6 +47,7 @@ When your change is merged to master:
 - [ ] blackbox-exporter
 - [ ] postgres-exporter
 - [ ] nats-streaming
+- [ ] nats-server
 
 **Checklist** (required)
 

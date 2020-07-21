@@ -271,6 +271,28 @@ workflows:
               only: master
 
       - build:
+          name: build-nats-server
+          directory: nats-server
+      - scan:
+          name: scan-nats-server
+          directory: nats-server
+          requires:
+            - build-nats-server
+      - scan-trivy:
+          name: scan-trivy-nats-server
+          directory: nats-server
+          requires:
+            - build-nats-server
+      - release:
+          name: release-nats-server
+          directory: nats-server
+          requires:
+            - scan-nats-server
+          filters:
+            branches:
+              only: master
+
+      - build:
           name: build-pgbouncer-exporter
           directory: pgbouncer-exporter
       - scan:
