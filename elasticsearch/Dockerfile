@@ -20,4 +20,4 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-RUN yum -y update bind-license
+RUN yum -y update bind-license dbus
