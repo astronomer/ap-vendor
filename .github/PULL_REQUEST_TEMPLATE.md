@@ -5,7 +5,7 @@ When you push to any branch, CI will run:
 - build all images
 - security scan all images
 
-When your change is merged to master:
+When your change is merged to main:
 - build all images
 - security scan all images
 - any images where the version is not published to Dockerhub, then publish
