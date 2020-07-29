@@ -24,7 +24,7 @@ workflows:
             - scan-{{ directory }}
           filters:
             branches:
-              only: master
+              only: main
 {% endfor %}
 jobs:
   build:
