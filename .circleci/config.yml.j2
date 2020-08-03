@@ -69,9 +69,10 @@ jobs:
           command: |
             apk add --update-cache --upgrade curl rpm
             curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sh -s -- -b /usr/local/bin
+            date +%F > date
       - restore_cache:
           keys:
-            - trivy-cache
+            {% raw %}- trivy-cache-{{ checksum "date" }}{% endraw %}
       - run:
           name: Scan the local image with trivy
           command: |
@@ -90,7 +91,7 @@ jobs:
             echo "${output}"
             exit ${exit_code}
       - save_cache:
-          key: trivy-cache
+          {% raw %}key: trivy-cache-{{ checksum "date" }}{% endraw %}
           paths:
             - /tmp/workspace/trivy-cache
   release:

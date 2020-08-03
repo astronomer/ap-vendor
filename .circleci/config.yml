@@ -7,138 +7,6 @@ workflows:
     jobs:
 
       - build:
-          name: build-nginx
-          directory: nginx
-      - scan:
-          name: scan-nginx
-          directory: nginx
-          requires:
-            - build-nginx
-      - scan-trivy:
-          name: scan-trivy-nginx
-          directory: nginx
-          requires:
-            - build-nginx
-      - release:
-          name: release-nginx
-          directory: nginx
-          requires:
-            - scan-nginx
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-pgbouncer-exporter
-          directory: pgbouncer-exporter
-      - scan:
-          name: scan-pgbouncer-exporter
-          directory: pgbouncer-exporter
-          requires:
-            - build-pgbouncer-exporter
-      - scan-trivy:
-          name: scan-trivy-pgbouncer-exporter
-          directory: pgbouncer-exporter
-          requires:
-            - build-pgbouncer-exporter
-      - release:
-          name: release-pgbouncer-exporter
-          directory: pgbouncer-exporter
-          requires:
-            - scan-pgbouncer-exporter
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-redis
-          directory: redis
-      - scan:
-          name: scan-redis
-          directory: redis
-          requires:
-            - build-redis
-      - scan-trivy:
-          name: scan-trivy-redis
-          directory: redis
-          requires:
-            - build-redis
-      - release:
-          name: release-redis
-          directory: redis
-          requires:
-            - scan-redis
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-postgres-exporter
-          directory: postgres-exporter
-      - scan:
-          name: scan-postgres-exporter
-          directory: postgres-exporter
-          requires:
-            - build-postgres-exporter
-      - scan-trivy:
-          name: scan-trivy-postgres-exporter
-          directory: postgres-exporter
-          requires:
-            - build-postgres-exporter
-      - release:
-          name: release-postgres-exporter
-          directory: postgres-exporter
-          requires:
-            - scan-postgres-exporter
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-blackbox-exporter
-          directory: blackbox-exporter
-      - scan:
-          name: scan-blackbox-exporter
-          directory: blackbox-exporter
-          requires:
-            - build-blackbox-exporter
-      - scan-trivy:
-          name: scan-trivy-blackbox-exporter
-          directory: blackbox-exporter
-          requires:
-            - build-blackbox-exporter
-      - release:
-          name: release-blackbox-exporter
-          directory: blackbox-exporter
-          requires:
-            - scan-blackbox-exporter
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-nats-streaming
-          directory: nats-streaming
-      - scan:
-          name: scan-nats-streaming
-          directory: nats-streaming
-          requires:
-            - build-nats-streaming
-      - scan-trivy:
-          name: scan-trivy-nats-streaming
-          directory: nats-streaming
-          requires:
-            - build-nats-streaming
-      - release:
-          name: release-nats-streaming
-          directory: nats-streaming
-          requires:
-            - scan-nats-streaming
-          filters:
-            branches:
-              only: main
-
-      - build:
           name: build-nginx-es
           directory: nginx-es
       - scan:
@@ -156,182 +24,6 @@ workflows:
           directory: nginx-es
           requires:
             - scan-nginx-es
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-registry
-          directory: registry
-      - scan:
-          name: scan-registry
-          directory: registry
-          requires:
-            - build-registry
-      - scan-trivy:
-          name: scan-trivy-registry
-          directory: registry
-          requires:
-            - build-registry
-      - release:
-          name: release-registry
-          directory: registry
-          requires:
-            - scan-registry
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-node-exporter
-          directory: node-exporter
-      - scan:
-          name: scan-node-exporter
-          directory: node-exporter
-          requires:
-            - build-node-exporter
-      - scan-trivy:
-          name: scan-trivy-node-exporter
-          directory: node-exporter
-          requires:
-            - build-node-exporter
-      - release:
-          name: release-node-exporter
-          directory: node-exporter
-          requires:
-            - scan-node-exporter
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-elasticsearch
-          directory: elasticsearch
-      - scan:
-          name: scan-elasticsearch
-          directory: elasticsearch
-          requires:
-            - build-elasticsearch
-      - scan-trivy:
-          name: scan-trivy-elasticsearch
-          directory: elasticsearch
-          requires:
-            - build-elasticsearch
-      - release:
-          name: release-elasticsearch
-          directory: elasticsearch
-          requires:
-            - scan-elasticsearch
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-kube-state
-          directory: kube-state
-      - scan:
-          name: scan-kube-state
-          directory: kube-state
-          requires:
-            - build-kube-state
-      - scan-trivy:
-          name: scan-trivy-kube-state
-          directory: kube-state
-          requires:
-            - build-kube-state
-      - release:
-          name: release-kube-state
-          directory: kube-state
-          requires:
-            - scan-kube-state
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-alertmanager
-          directory: alertmanager
-      - scan:
-          name: scan-alertmanager
-          directory: alertmanager
-          requires:
-            - build-alertmanager
-      - scan-trivy:
-          name: scan-trivy-alertmanager
-          directory: alertmanager
-          requires:
-            - build-alertmanager
-      - release:
-          name: release-alertmanager
-          directory: alertmanager
-          requires:
-            - scan-alertmanager
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-keda-metrics-adapter
-          directory: keda-metrics-adapter
-      - scan:
-          name: scan-keda-metrics-adapter
-          directory: keda-metrics-adapter
-          requires:
-            - build-keda-metrics-adapter
-      - scan-trivy:
-          name: scan-trivy-keda-metrics-adapter
-          directory: keda-metrics-adapter
-          requires:
-            - build-keda-metrics-adapter
-      - release:
-          name: release-keda-metrics-adapter
-          directory: keda-metrics-adapter
-          requires:
-            - scan-keda-metrics-adapter
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-statsd-exporter
-          directory: statsd-exporter
-      - scan:
-          name: scan-statsd-exporter
-          directory: statsd-exporter
-          requires:
-            - build-statsd-exporter
-      - scan-trivy:
-          name: scan-trivy-statsd-exporter
-          directory: statsd-exporter
-          requires:
-            - build-statsd-exporter
-      - release:
-          name: release-statsd-exporter
-          directory: statsd-exporter
-          requires:
-            - scan-statsd-exporter
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-prisma
-          directory: prisma
-      - scan:
-          name: scan-prisma
-          directory: prisma
-          requires:
-            - build-prisma
-      - scan-trivy:
-          name: scan-trivy-prisma
-          directory: prisma
-          requires:
-            - build-prisma
-      - release:
-          name: release-prisma
-          directory: prisma
-          requires:
-            - scan-prisma
           filters:
             branches:
               only: main
@@ -359,23 +51,111 @@ workflows:
               only: main
 
       - build:
-          name: build-kubed
-          directory: kubed
+          name: build-kibana
+          directory: kibana
       - scan:
-          name: scan-kubed
-          directory: kubed
+          name: scan-kibana
+          directory: kibana
           requires:
-            - build-kubed
+            - build-kibana
       - scan-trivy:
-          name: scan-trivy-kubed
-          directory: kubed
+          name: scan-trivy-kibana
+          directory: kibana
           requires:
-            - build-kubed
+            - build-kibana
       - release:
-          name: release-kubed
-          directory: kubed
+          name: release-kibana
+          directory: kibana
           requires:
-            - scan-kubed
+            - scan-kibana
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-redis
+          directory: redis
+      - scan:
+          name: scan-redis
+          directory: redis
+          requires:
+            - build-redis
+      - scan-trivy:
+          name: scan-trivy-redis
+          directory: redis
+          requires:
+            - build-redis
+      - release:
+          name: release-redis
+          directory: redis
+          requires:
+            - scan-redis
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-alertmanager
+          directory: alertmanager
+      - scan:
+          name: scan-alertmanager
+          directory: alertmanager
+          requires:
+            - build-alertmanager
+      - scan-trivy:
+          name: scan-trivy-alertmanager
+          directory: alertmanager
+          requires:
+            - build-alertmanager
+      - release:
+          name: release-alertmanager
+          directory: alertmanager
+          requires:
+            - scan-alertmanager
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-nats-streaming
+          directory: nats-streaming
+      - scan:
+          name: scan-nats-streaming
+          directory: nats-streaming
+          requires:
+            - build-nats-streaming
+      - scan-trivy:
+          name: scan-trivy-nats-streaming
+          directory: nats-streaming
+          requires:
+            - build-nats-streaming
+      - release:
+          name: release-nats-streaming
+          directory: nats-streaming
+          requires:
+            - scan-nats-streaming
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-prisma
+          directory: prisma
+      - scan:
+          name: scan-prisma
+          directory: prisma
+          requires:
+            - build-prisma
+      - scan-trivy:
+          name: scan-trivy-prisma
+          directory: prisma
+          requires:
+            - build-prisma
+      - release:
+          name: release-prisma
+          directory: prisma
+          requires:
+            - scan-prisma
           filters:
             branches:
               only: main
@@ -403,50 +183,6 @@ workflows:
               only: main
 
       - build:
-          name: build-elasticsearch-exporter
-          directory: elasticsearch-exporter
-      - scan:
-          name: scan-elasticsearch-exporter
-          directory: elasticsearch-exporter
-          requires:
-            - build-elasticsearch-exporter
-      - scan-trivy:
-          name: scan-trivy-elasticsearch-exporter
-          directory: elasticsearch-exporter
-          requires:
-            - build-elasticsearch-exporter
-      - release:
-          name: release-elasticsearch-exporter
-          directory: elasticsearch-exporter
-          requires:
-            - scan-elasticsearch-exporter
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-pgbouncer
-          directory: pgbouncer
-      - scan:
-          name: scan-pgbouncer
-          directory: pgbouncer
-          requires:
-            - build-pgbouncer
-      - scan-trivy:
-          name: scan-trivy-pgbouncer
-          directory: pgbouncer
-          requires:
-            - build-pgbouncer
-      - release:
-          name: release-pgbouncer
-          directory: pgbouncer
-          requires:
-            - scan-pgbouncer
-          filters:
-            branches:
-              only: main
-
-      - build:
           name: build-grafana
           directory: grafana
       - scan:
@@ -469,45 +205,23 @@ workflows:
               only: main
 
       - build:
-          name: build-kibana
-          directory: kibana
+          name: build-elasticsearch-exporter
+          directory: elasticsearch-exporter
       - scan:
-          name: scan-kibana
-          directory: kibana
+          name: scan-elasticsearch-exporter
+          directory: elasticsearch-exporter
           requires:
-            - build-kibana
+            - build-elasticsearch-exporter
       - scan-trivy:
-          name: scan-trivy-kibana
-          directory: kibana
+          name: scan-trivy-elasticsearch-exporter
+          directory: elasticsearch-exporter
           requires:
-            - build-kibana
+            - build-elasticsearch-exporter
       - release:
-          name: release-kibana
-          directory: kibana
+          name: release-elasticsearch-exporter
+          directory: elasticsearch-exporter
           requires:
-            - scan-kibana
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-prometheus
-          directory: prometheus
-      - scan:
-          name: scan-prometheus
-          directory: prometheus
-          requires:
-            - build-prometheus
-      - scan-trivy:
-          name: scan-trivy-prometheus
-          directory: prometheus
-          requires:
-            - build-prometheus
-      - release:
-          name: release-prometheus
-          directory: prometheus
-          requires:
-            - scan-prometheus
+            - scan-elasticsearch-exporter
           filters:
             branches:
               only: main
@@ -578,6 +292,292 @@ workflows:
             branches:
               only: main
 
+      - build:
+          name: build-pgbouncer-exporter
+          directory: pgbouncer-exporter
+      - scan:
+          name: scan-pgbouncer-exporter
+          directory: pgbouncer-exporter
+          requires:
+            - build-pgbouncer-exporter
+      - scan-trivy:
+          name: scan-trivy-pgbouncer-exporter
+          directory: pgbouncer-exporter
+          requires:
+            - build-pgbouncer-exporter
+      - release:
+          name: release-pgbouncer-exporter
+          directory: pgbouncer-exporter
+          requires:
+            - scan-pgbouncer-exporter
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-nginx
+          directory: nginx
+      - scan:
+          name: scan-nginx
+          directory: nginx
+          requires:
+            - build-nginx
+      - scan-trivy:
+          name: scan-trivy-nginx
+          directory: nginx
+          requires:
+            - build-nginx
+      - release:
+          name: release-nginx
+          directory: nginx
+          requires:
+            - scan-nginx
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-registry
+          directory: registry
+      - scan:
+          name: scan-registry
+          directory: registry
+          requires:
+            - build-registry
+      - scan-trivy:
+          name: scan-trivy-registry
+          directory: registry
+          requires:
+            - build-registry
+      - release:
+          name: release-registry
+          directory: registry
+          requires:
+            - scan-registry
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-blackbox-exporter
+          directory: blackbox-exporter
+      - scan:
+          name: scan-blackbox-exporter
+          directory: blackbox-exporter
+          requires:
+            - build-blackbox-exporter
+      - scan-trivy:
+          name: scan-trivy-blackbox-exporter
+          directory: blackbox-exporter
+          requires:
+            - build-blackbox-exporter
+      - release:
+          name: release-blackbox-exporter
+          directory: blackbox-exporter
+          requires:
+            - scan-blackbox-exporter
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-statsd-exporter
+          directory: statsd-exporter
+      - scan:
+          name: scan-statsd-exporter
+          directory: statsd-exporter
+          requires:
+            - build-statsd-exporter
+      - scan-trivy:
+          name: scan-trivy-statsd-exporter
+          directory: statsd-exporter
+          requires:
+            - build-statsd-exporter
+      - release:
+          name: release-statsd-exporter
+          directory: statsd-exporter
+          requires:
+            - scan-statsd-exporter
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-prometheus
+          directory: prometheus
+      - scan:
+          name: scan-prometheus
+          directory: prometheus
+          requires:
+            - build-prometheus
+      - scan-trivy:
+          name: scan-trivy-prometheus
+          directory: prometheus
+          requires:
+            - build-prometheus
+      - release:
+          name: release-prometheus
+          directory: prometheus
+          requires:
+            - scan-prometheus
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-kubed
+          directory: kubed
+      - scan:
+          name: scan-kubed
+          directory: kubed
+          requires:
+            - build-kubed
+      - scan-trivy:
+          name: scan-trivy-kubed
+          directory: kubed
+          requires:
+            - build-kubed
+      - release:
+          name: release-kubed
+          directory: kubed
+          requires:
+            - scan-kubed
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-keda-metrics-adapter
+          directory: keda-metrics-adapter
+      - scan:
+          name: scan-keda-metrics-adapter
+          directory: keda-metrics-adapter
+          requires:
+            - build-keda-metrics-adapter
+      - scan-trivy:
+          name: scan-trivy-keda-metrics-adapter
+          directory: keda-metrics-adapter
+          requires:
+            - build-keda-metrics-adapter
+      - release:
+          name: release-keda-metrics-adapter
+          directory: keda-metrics-adapter
+          requires:
+            - scan-keda-metrics-adapter
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-pgbouncer
+          directory: pgbouncer
+      - scan:
+          name: scan-pgbouncer
+          directory: pgbouncer
+          requires:
+            - build-pgbouncer
+      - scan-trivy:
+          name: scan-trivy-pgbouncer
+          directory: pgbouncer
+          requires:
+            - build-pgbouncer
+      - release:
+          name: release-pgbouncer
+          directory: pgbouncer
+          requires:
+            - scan-pgbouncer
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-postgres-exporter
+          directory: postgres-exporter
+      - scan:
+          name: scan-postgres-exporter
+          directory: postgres-exporter
+          requires:
+            - build-postgres-exporter
+      - scan-trivy:
+          name: scan-trivy-postgres-exporter
+          directory: postgres-exporter
+          requires:
+            - build-postgres-exporter
+      - release:
+          name: release-postgres-exporter
+          directory: postgres-exporter
+          requires:
+            - scan-postgres-exporter
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-kube-state
+          directory: kube-state
+      - scan:
+          name: scan-kube-state
+          directory: kube-state
+          requires:
+            - build-kube-state
+      - scan-trivy:
+          name: scan-trivy-kube-state
+          directory: kube-state
+          requires:
+            - build-kube-state
+      - release:
+          name: release-kube-state
+          directory: kube-state
+          requires:
+            - scan-kube-state
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-elasticsearch
+          directory: elasticsearch
+      - scan:
+          name: scan-elasticsearch
+          directory: elasticsearch
+          requires:
+            - build-elasticsearch
+      - scan-trivy:
+          name: scan-trivy-elasticsearch
+          directory: elasticsearch
+          requires:
+            - build-elasticsearch
+      - release:
+          name: release-elasticsearch
+          directory: elasticsearch
+          requires:
+            - scan-elasticsearch
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-node-exporter
+          directory: node-exporter
+      - scan:
+          name: scan-node-exporter
+          directory: node-exporter
+          requires:
+            - build-node-exporter
+      - scan-trivy:
+          name: scan-trivy-node-exporter
+          directory: node-exporter
+          requires:
+            - build-node-exporter
+      - release:
+          name: release-node-exporter
+          directory: node-exporter
+          requires:
+            - scan-node-exporter
+          filters:
+            branches:
+              only: main
+
 jobs:
   build:
     executor: docker-executor
@@ -621,9 +621,10 @@ jobs:
           command: |
             apk add --update-cache --upgrade curl rpm
             curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sh -s -- -b /usr/local/bin
+            date +%F > date
       - restore_cache:
           keys:
-            - trivy-cache
+            - trivy-cache-{{ checksum "date" }}
       - run:
           name: Scan the local image with trivy
           command: |
@@ -642,7 +643,7 @@ jobs:
             echo "${output}"
             exit ${exit_code}
       - save_cache:
-          key: trivy-cache
+          key: trivy-cache-{{ checksum "date" }}
           paths:
             - /tmp/workspace/trivy-cache
   release:
