@@ -13,13 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM prom/prometheus:v2.17.1
+FROM quay.io/prometheus/prometheus:v2.21.0 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-
-COPY include/docker-compose-config.yml /etc/prometheus/config/docker-compose.yml
-COPY include/kubernetes-config.yml /etc/prometheus/config/kubernetes.yml
-COPY include/dcos-config.yml /etc/prometheus/config/dcos.yml
