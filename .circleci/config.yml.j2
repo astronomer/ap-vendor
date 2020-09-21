@@ -26,7 +26,7 @@ workflows:
             - scan-{{ directory }}
           filters:
             branches:
-              only: main
+              only: push-to-quay
 {% endfor %}
 jobs:
   build:

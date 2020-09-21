@@ -28,7 +28,7 @@ workflows:
             - scan-nginx-es
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-fluentd
@@ -52,7 +52,7 @@ workflows:
             - scan-fluentd
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-kibana
@@ -76,7 +76,7 @@ workflows:
             - scan-kibana
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-redis
@@ -100,7 +100,7 @@ workflows:
             - scan-redis
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-alertmanager
@@ -124,7 +124,7 @@ workflows:
             - scan-alertmanager
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-nats-streaming
@@ -148,7 +148,7 @@ workflows:
             - scan-nats-streaming
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-prisma
@@ -172,7 +172,7 @@ workflows:
             - scan-prisma
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-curator
@@ -196,7 +196,7 @@ workflows:
             - scan-curator
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-grafana
@@ -220,7 +220,7 @@ workflows:
             - scan-grafana
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-elasticsearch-exporter
@@ -244,7 +244,7 @@ workflows:
             - scan-elasticsearch-exporter
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-nats-exporter
@@ -268,7 +268,7 @@ workflows:
             - scan-nats-exporter
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-keda
@@ -292,7 +292,7 @@ workflows:
             - scan-keda
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-configmap-reloader
@@ -316,7 +316,7 @@ workflows:
             - scan-configmap-reloader
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-nats-server
@@ -340,7 +340,7 @@ workflows:
             - scan-nats-server
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-pgbouncer-exporter
@@ -364,7 +364,7 @@ workflows:
             - scan-pgbouncer-exporter
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-nginx
@@ -388,7 +388,7 @@ workflows:
             - scan-nginx
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-registry
@@ -412,7 +412,7 @@ workflows:
             - scan-registry
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-blackbox-exporter
@@ -436,7 +436,7 @@ workflows:
             - scan-blackbox-exporter
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-statsd-exporter
@@ -460,7 +460,7 @@ workflows:
             - scan-statsd-exporter
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-prometheus
@@ -484,7 +484,7 @@ workflows:
             - scan-prometheus
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-kubed
@@ -508,7 +508,7 @@ workflows:
             - scan-kubed
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-keda-metrics-adapter
@@ -532,7 +532,7 @@ workflows:
             - scan-keda-metrics-adapter
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-pgbouncer
@@ -556,7 +556,7 @@ workflows:
             - scan-pgbouncer
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-postgres-exporter
@@ -580,7 +580,7 @@ workflows:
             - scan-postgres-exporter
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-kube-state
@@ -604,7 +604,7 @@ workflows:
             - scan-kube-state
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-elasticsearch
@@ -628,7 +628,7 @@ workflows:
             - scan-elasticsearch
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
       - build:
           name: build-node-exporter
@@ -652,7 +652,7 @@ workflows:
             - scan-node-exporter
           filters:
             branches:
-              only: main
+              only: push-to-quay
 
 jobs:
   build:
