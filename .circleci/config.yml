@@ -271,6 +271,28 @@ workflows:
               only: main
 
       - build:
+          name: build-configmap-reloader
+          directory: configmap-reloader
+      - scan:
+          name: scan-configmap-reloader
+          directory: configmap-reloader
+          requires:
+            - build-configmap-reloader
+      - scan-trivy:
+          name: scan-trivy-configmap-reloader
+          directory: configmap-reloader
+          requires:
+            - build-configmap-reloader
+      - release:
+          name: release-configmap-reloader
+          directory: configmap-reloader
+          requires:
+            - scan-configmap-reloader
+          filters:
+            branches:
+              only: main
+
+      - build:
           name: build-nats-server
           directory: nats-server
       - scan:
