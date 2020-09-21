@@ -796,7 +796,7 @@ commands:
 #          command: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
       - run:
           name: Login to Quay.io
-          command: echo "$QUAY_PASSWORD" | docker login --username "$QUAY_USERNAME" --password-stdin
+          command: echo "$QUAY_PASSWORD" | docker login --username "$QUAY_USERNAME" --password-stdin quay.io
       - run:
           name: Push Docker image(s)
           command: |
