@@ -22,6 +22,8 @@ workflows:
       - release:
           name: release-nginx-es
           directory: nginx-es
+          context:
+            - quay.io
           requires:
             - scan-nginx-es
           filters:
@@ -44,6 +46,8 @@ workflows:
       - release:
           name: release-fluentd
           directory: fluentd
+          context:
+            - quay.io
           requires:
             - scan-fluentd
           filters:
@@ -66,6 +70,8 @@ workflows:
       - release:
           name: release-kibana
           directory: kibana
+          context:
+            - quay.io
           requires:
             - scan-kibana
           filters:
@@ -88,6 +94,8 @@ workflows:
       - release:
           name: release-redis
           directory: redis
+          context:
+            - quay.io
           requires:
             - scan-redis
           filters:
@@ -110,6 +118,8 @@ workflows:
       - release:
           name: release-alertmanager
           directory: alertmanager
+          context:
+            - quay.io
           requires:
             - scan-alertmanager
           filters:
@@ -132,6 +142,8 @@ workflows:
       - release:
           name: release-nats-streaming
           directory: nats-streaming
+          context:
+            - quay.io
           requires:
             - scan-nats-streaming
           filters:
@@ -154,6 +166,8 @@ workflows:
       - release:
           name: release-prisma
           directory: prisma
+          context:
+            - quay.io
           requires:
             - scan-prisma
           filters:
@@ -176,6 +190,8 @@ workflows:
       - release:
           name: release-curator
           directory: curator
+          context:
+            - quay.io
           requires:
             - scan-curator
           filters:
@@ -198,6 +214,8 @@ workflows:
       - release:
           name: release-grafana
           directory: grafana
+          context:
+            - quay.io
           requires:
             - scan-grafana
           filters:
@@ -220,6 +238,8 @@ workflows:
       - release:
           name: release-elasticsearch-exporter
           directory: elasticsearch-exporter
+          context:
+            - quay.io
           requires:
             - scan-elasticsearch-exporter
           filters:
@@ -242,6 +262,8 @@ workflows:
       - release:
           name: release-nats-exporter
           directory: nats-exporter
+          context:
+            - quay.io
           requires:
             - scan-nats-exporter
           filters:
@@ -264,6 +286,8 @@ workflows:
       - release:
           name: release-keda
           directory: keda
+          context:
+            - quay.io
           requires:
             - scan-keda
           filters:
@@ -286,6 +310,8 @@ workflows:
       - release:
           name: release-configmap-reloader
           directory: configmap-reloader
+          context:
+            - quay.io
           requires:
             - scan-configmap-reloader
           filters:
@@ -308,6 +334,8 @@ workflows:
       - release:
           name: release-nats-server
           directory: nats-server
+          context:
+            - quay.io
           requires:
             - scan-nats-server
           filters:
@@ -330,6 +358,8 @@ workflows:
       - release:
           name: release-pgbouncer-exporter
           directory: pgbouncer-exporter
+          context:
+            - quay.io
           requires:
             - scan-pgbouncer-exporter
           filters:
@@ -352,6 +382,8 @@ workflows:
       - release:
           name: release-nginx
           directory: nginx
+          context:
+            - quay.io
           requires:
             - scan-nginx
           filters:
@@ -374,6 +406,8 @@ workflows:
       - release:
           name: release-registry
           directory: registry
+          context:
+            - quay.io
           requires:
             - scan-registry
           filters:
@@ -396,6 +430,8 @@ workflows:
       - release:
           name: release-blackbox-exporter
           directory: blackbox-exporter
+          context:
+            - quay.io
           requires:
             - scan-blackbox-exporter
           filters:
@@ -418,6 +454,8 @@ workflows:
       - release:
           name: release-statsd-exporter
           directory: statsd-exporter
+          context:
+            - quay.io
           requires:
             - scan-statsd-exporter
           filters:
@@ -440,6 +478,8 @@ workflows:
       - release:
           name: release-prometheus
           directory: prometheus
+          context:
+            - quay.io
           requires:
             - scan-prometheus
           filters:
@@ -462,6 +502,8 @@ workflows:
       - release:
           name: release-kubed
           directory: kubed
+          context:
+            - quay.io
           requires:
             - scan-kubed
           filters:
@@ -484,6 +526,8 @@ workflows:
       - release:
           name: release-keda-metrics-adapter
           directory: keda-metrics-adapter
+          context:
+            - quay.io
           requires:
             - scan-keda-metrics-adapter
           filters:
@@ -506,6 +550,8 @@ workflows:
       - release:
           name: release-pgbouncer
           directory: pgbouncer
+          context:
+            - quay.io
           requires:
             - scan-pgbouncer
           filters:
@@ -528,6 +574,8 @@ workflows:
       - release:
           name: release-postgres-exporter
           directory: postgres-exporter
+          context:
+            - quay.io
           requires:
             - scan-postgres-exporter
           filters:
@@ -550,6 +598,8 @@ workflows:
       - release:
           name: release-kube-state
           directory: kube-state
+          context:
+            - quay.io
           requires:
             - scan-kube-state
           filters:
@@ -572,6 +622,8 @@ workflows:
       - release:
           name: release-elasticsearch
           directory: elasticsearch
+          context:
+            - quay.io
           requires:
             - scan-elasticsearch
           filters:
@@ -594,6 +646,8 @@ workflows:
       - release:
           name: release-node-exporter
           directory: node-exporter
+          context:
+            - quay.io
           requires:
             - scan-node-exporter
           filters:
@@ -678,7 +732,10 @@ jobs:
       - checkout
       - get-tag:
           directory: << parameters.directory >>
-      - push:
+      - push-to-docker-hub:
+          comma_separated_tags: "latest,$TAG"
+          image_name: ap-<< parameters.directory >>
+      - push-to-quay-io:
           comma_separated_tags: "latest,$TAG"
           image_name: ap-<< parameters.directory >>
 orbs:
@@ -718,7 +775,57 @@ commands:
           root: .
           paths:
             - './*.tar'
-  push:
+  push-to-quay-io:
+    description: "Push a Docker image to Quay.io"
+    parameters:
+      comma_separated_tags:
+        type: string
+        default: latest
+      docker_repository:
+        type: string
+        default: $DOCKER_REPO
+      image_name:
+        type: string
+        default: $CIRCLE_PROJECT_REPONAME
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - setup_remote_docker
+      - run:
+          name: Load archived Docker image
+          command: docker load -i /tmp/workspace/<< parameters.image_name >>.tar
+      - run:
+          name: Login to Quay.io
+          command: echo "$QUAY_PASSWORD" | docker login --username "$QUAY_USERNAME" --password-stdin quay.io
+      - run:
+          name: Push Docker image(s)
+          command: |
+            set -xe
+            function docker_tag_exists() {
+                curl --silent -f -lSL "https://quay.io/api/v1/repository/$1/tag/$2/images" > /dev/null
+            }
+            function tag_and_push() {
+                docker tag << parameters.image_name >> quay.io/astronomer/<< parameters.image_name >>:$1
+                docker push quay.io/astronomer/<< parameters.image_name >>:$1
+            }
+            for tag in $(echo "<< parameters.comma_separated_tags >>" | sed "s/,/ /g");
+            do
+              # If the tag looks starts with "v" then a digit, remove the "v"
+              pattern="^(v[0-9].*)"
+              if [[ $tag =~ $pattern ]]; then
+                tag="${tag:1}"
+              fi
+              if docker_tag_exists << parameters.docker_repository >>/<< parameters.image_name >> ${tag}; then
+                  if [[ $tag -eq "latest" ]]; then
+                    tag_and_push $tag
+                  else
+                    echo "This docker tag already exists. Skipping the Docker push!"
+                  fi
+              else
+                tag_and_push $tag
+              fi
+            done
+  push-to-docker-hub:
     description: "Push a Docker image to DockerHub"
     parameters:
       comma_separated_tags:
