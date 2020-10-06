@@ -16,7 +16,7 @@
 FROM astronomerinc/ap-base:3.12-1
 
 RUN apk --no-cache add \
-      python py-setuptools py-pip gcc libffi py-cffi python-dev \
+      python3 py-setuptools py-pip gcc libffi py-cffi python3-dev \
       libffi-dev py-openssl musl-dev linux-headers openssl-dev libssl1.1 && \
     apk --no-cache add -u --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main \
       sqlite-libs && \
