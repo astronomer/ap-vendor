@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# https://github.com/CenterForOpenScience/docker-library/blob/master/pgbouncer/Dockerfile
+# https://quay.io/repository/centerforopenscience/pgbouncer
 FROM quay.io/centerforopenscience/pgbouncer:1.8.1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 

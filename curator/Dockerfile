@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM astronomerinc/ap-base:3.11.5-3
+FROM astronomerinc/ap-base:3.12-1
 
 RUN apk --no-cache add \
       python py-setuptools py-pip gcc libffi py-cffi python-dev \
