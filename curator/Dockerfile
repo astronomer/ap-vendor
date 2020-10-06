@@ -26,7 +26,7 @@ RUN apk --no-cache add \
     pip install requests-aws4auth==0.9 && \
     pip install cryptography==2.6.1 && \
 	pip install pyOpenSSL && \
-    apk del py-pip gcc python-dev libffi-dev musl-dev linux-headers openssl-dev && \
+    apk del py-pip gcc python3-dev libffi-dev musl-dev linux-headers openssl-dev && \
     sed -i '/import sys/a urllib3.contrib.pyopenssl.inject_into_urllib3()' /usr/bin/curator && \
     sed -i '/import sys/a import urllib3.contrib.pyopenssl' /usr/bin/curator && \
     sed -i '/import sys/a import urllib3' /usr/bin/curator
