@@ -709,7 +709,7 @@ jobs:
             exit_code=$?
             # trivy doesn't support busybox scanning right now: https://github.com/aquasecurity/trivy/issues/397
             # TODO: @andriisoldatenko patch trivy to add busybox
-            if echo "$output" | grep -q -i 'unknown os' ; then
+            if echo "$output" | grep -q -i 'OS is not detected' ; then
                echo "Skipping trivy scan because of unsupported OS"
                exit 0
             fi
