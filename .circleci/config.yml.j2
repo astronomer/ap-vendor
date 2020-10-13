@@ -7,8 +7,8 @@ workflows:
       - build:
           name: build-{{ directory }}
           directory: {{ directory }}
-      - scan:
-          name: scan-{{ directory }}
+      - scan-clair:
+          name: scan-clair-{{ directory }}
           directory: {{ directory }}
           requires:
             - build-{{ directory }}
@@ -41,7 +41,7 @@ jobs:
           image_name: ap-<< parameters.directory >>
           dockerfile: Dockerfile
           path: << parameters.directory >>
-  scan:
+  scan-clair:
     executor: clair-scanner/default
     parameters:
       directory:

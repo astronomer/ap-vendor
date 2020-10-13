@@ -9,8 +9,8 @@ workflows:
       - build:
           name: build-nginx-es
           directory: nginx-es
-      - scan:
-          name: scan-nginx-es
+      - scan-clair:
+          name: scan-clair-nginx-es
           directory: nginx-es
           requires:
             - build-nginx-es
@@ -33,8 +33,8 @@ workflows:
       - build:
           name: build-fluentd
           directory: fluentd
-      - scan:
-          name: scan-fluentd
+      - scan-clair:
+          name: scan-clair-fluentd
           directory: fluentd
           requires:
             - build-fluentd
@@ -57,8 +57,8 @@ workflows:
       - build:
           name: build-kibana
           directory: kibana
-      - scan:
-          name: scan-kibana
+      - scan-clair:
+          name: scan-clair-kibana
           directory: kibana
           requires:
             - build-kibana
@@ -81,8 +81,8 @@ workflows:
       - build:
           name: build-redis
           directory: redis
-      - scan:
-          name: scan-redis
+      - scan-clair:
+          name: scan-clair-redis
           directory: redis
           requires:
             - build-redis
@@ -105,8 +105,8 @@ workflows:
       - build:
           name: build-alertmanager
           directory: alertmanager
-      - scan:
-          name: scan-alertmanager
+      - scan-clair:
+          name: scan-clair-alertmanager
           directory: alertmanager
           requires:
             - build-alertmanager
@@ -129,8 +129,8 @@ workflows:
       - build:
           name: build-nats-streaming
           directory: nats-streaming
-      - scan:
-          name: scan-nats-streaming
+      - scan-clair:
+          name: scan-clair-nats-streaming
           directory: nats-streaming
           requires:
             - build-nats-streaming
@@ -153,8 +153,8 @@ workflows:
       - build:
           name: build-prisma
           directory: prisma
-      - scan:
-          name: scan-prisma
+      - scan-clair:
+          name: scan-clair-prisma
           directory: prisma
           requires:
             - build-prisma
@@ -177,8 +177,8 @@ workflows:
       - build:
           name: build-curator
           directory: curator
-      - scan:
-          name: scan-curator
+      - scan-clair:
+          name: scan-clair-curator
           directory: curator
           requires:
             - build-curator
@@ -201,8 +201,8 @@ workflows:
       - build:
           name: build-grafana
           directory: grafana
-      - scan:
-          name: scan-grafana
+      - scan-clair:
+          name: scan-clair-grafana
           directory: grafana
           requires:
             - build-grafana
@@ -225,8 +225,8 @@ workflows:
       - build:
           name: build-elasticsearch-exporter
           directory: elasticsearch-exporter
-      - scan:
-          name: scan-elasticsearch-exporter
+      - scan-clair:
+          name: scan-clair-elasticsearch-exporter
           directory: elasticsearch-exporter
           requires:
             - build-elasticsearch-exporter
@@ -249,8 +249,8 @@ workflows:
       - build:
           name: build-nats-exporter
           directory: nats-exporter
-      - scan:
-          name: scan-nats-exporter
+      - scan-clair:
+          name: scan-clair-nats-exporter
           directory: nats-exporter
           requires:
             - build-nats-exporter
@@ -273,8 +273,8 @@ workflows:
       - build:
           name: build-keda
           directory: keda
-      - scan:
-          name: scan-keda
+      - scan-clair:
+          name: scan-clair-keda
           directory: keda
           requires:
             - build-keda
@@ -297,8 +297,8 @@ workflows:
       - build:
           name: build-configmap-reloader
           directory: configmap-reloader
-      - scan:
-          name: scan-configmap-reloader
+      - scan-clair:
+          name: scan-clair-configmap-reloader
           directory: configmap-reloader
           requires:
             - build-configmap-reloader
@@ -321,8 +321,8 @@ workflows:
       - build:
           name: build-nats-server
           directory: nats-server
-      - scan:
-          name: scan-nats-server
+      - scan-clair:
+          name: scan-clair-nats-server
           directory: nats-server
           requires:
             - build-nats-server
@@ -345,8 +345,8 @@ workflows:
       - build:
           name: build-pgbouncer-exporter
           directory: pgbouncer-exporter
-      - scan:
-          name: scan-pgbouncer-exporter
+      - scan-clair:
+          name: scan-clair-pgbouncer-exporter
           directory: pgbouncer-exporter
           requires:
             - build-pgbouncer-exporter
@@ -369,8 +369,8 @@ workflows:
       - build:
           name: build-nginx
           directory: nginx
-      - scan:
-          name: scan-nginx
+      - scan-clair:
+          name: scan-clair-nginx
           directory: nginx
           requires:
             - build-nginx
@@ -393,8 +393,8 @@ workflows:
       - build:
           name: build-registry
           directory: registry
-      - scan:
-          name: scan-registry
+      - scan-clair:
+          name: scan-clair-registry
           directory: registry
           requires:
             - build-registry
@@ -417,8 +417,8 @@ workflows:
       - build:
           name: build-blackbox-exporter
           directory: blackbox-exporter
-      - scan:
-          name: scan-blackbox-exporter
+      - scan-clair:
+          name: scan-clair-blackbox-exporter
           directory: blackbox-exporter
           requires:
             - build-blackbox-exporter
@@ -441,8 +441,8 @@ workflows:
       - build:
           name: build-statsd-exporter
           directory: statsd-exporter
-      - scan:
-          name: scan-statsd-exporter
+      - scan-clair:
+          name: scan-clair-statsd-exporter
           directory: statsd-exporter
           requires:
             - build-statsd-exporter
@@ -465,8 +465,8 @@ workflows:
       - build:
           name: build-prometheus
           directory: prometheus
-      - scan:
-          name: scan-prometheus
+      - scan-clair:
+          name: scan-clair-prometheus
           directory: prometheus
           requires:
             - build-prometheus
@@ -489,8 +489,8 @@ workflows:
       - build:
           name: build-kubed
           directory: kubed
-      - scan:
-          name: scan-kubed
+      - scan-clair:
+          name: scan-clair-kubed
           directory: kubed
           requires:
             - build-kubed
@@ -513,8 +513,8 @@ workflows:
       - build:
           name: build-keda-metrics-adapter
           directory: keda-metrics-adapter
-      - scan:
-          name: scan-keda-metrics-adapter
+      - scan-clair:
+          name: scan-clair-keda-metrics-adapter
           directory: keda-metrics-adapter
           requires:
             - build-keda-metrics-adapter
@@ -537,8 +537,8 @@ workflows:
       - build:
           name: build-pgbouncer
           directory: pgbouncer
-      - scan:
-          name: scan-pgbouncer
+      - scan-clair:
+          name: scan-clair-pgbouncer
           directory: pgbouncer
           requires:
             - build-pgbouncer
@@ -561,8 +561,8 @@ workflows:
       - build:
           name: build-postgres-exporter
           directory: postgres-exporter
-      - scan:
-          name: scan-postgres-exporter
+      - scan-clair:
+          name: scan-clair-postgres-exporter
           directory: postgres-exporter
           requires:
             - build-postgres-exporter
@@ -585,8 +585,8 @@ workflows:
       - build:
           name: build-kube-state
           directory: kube-state
-      - scan:
-          name: scan-kube-state
+      - scan-clair:
+          name: scan-clair-kube-state
           directory: kube-state
           requires:
             - build-kube-state
@@ -609,8 +609,8 @@ workflows:
       - build:
           name: build-elasticsearch
           directory: elasticsearch
-      - scan:
-          name: scan-elasticsearch
+      - scan-clair:
+          name: scan-clair-elasticsearch
           directory: elasticsearch
           requires:
             - build-elasticsearch
@@ -633,8 +633,8 @@ workflows:
       - build:
           name: build-node-exporter
           directory: node-exporter
-      - scan:
-          name: scan-node-exporter
+      - scan-clair:
+          name: scan-clair-node-exporter
           directory: node-exporter
           requires:
             - build-node-exporter
@@ -667,7 +667,7 @@ jobs:
           image_name: ap-<< parameters.directory >>
           dockerfile: Dockerfile
           path: << parameters.directory >>
-  scan:
+  scan-clair:
     executor: clair-scanner/default
     parameters:
       directory:
