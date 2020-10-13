@@ -78,20 +78,17 @@ jobs:
       - run:
           name: Scan the local image with trivy
           command: |
-            set +x
-            set +o pipefail
-            set +e pipefail
-            output=$(trivy --ignorefile ./ap-<< parameters.directory >>/trivyignore --ignorefile ./<< parameters.directory >>/trivyignore --cache-dir /tmp/workspace/trivy-cache --ignore-unfixed -s HIGH,CRITICAL --exit-code 1 --no-progress "ap-<< parameters.directory >>")
+            set +exo pipefail
+            output=$(trivy --ignorefile "./ap-<< parameters.directory >>/trivyignore" --ignorefile "./<< parameters.directory >>/trivyignore" --cache-dir /tmp/workspace/trivy-cache --ignore-unfixed -s HIGH,CRITICAL --exit-code 1 --no-progress "ap-<< parameters.directory >>")
             exit_code=$?
             # trivy doesn't support busybox scanning right now: https://github.com/aquasecurity/trivy/issues/397
             # TODO: @andriisoldatenko patch trivy to add busybox
-            MATCHES=$(echo "$output" | grep -i 'unknown os' | wc -l)
-            if [[ ${MATCHES} -eq 1 ]]; then
+            if echo "$output" | grep -q -i 'unknown os' ; then
                echo "Skipping trivy scan because of unsupported OS"
                exit 0
             fi
             echo "${output}"
-            exit ${exit_code}
+            exit "${exit_code}"
       - save_cache:
           {% raw %}key: trivy-cache-{{ checksum "date" }}{% endraw %}
           paths:
@@ -179,8 +176,8 @@ commands:
                 curl --silent -f -lSL "https://quay.io/api/v1/repository/$1/tag/$2/images" > /dev/null
             }
             function tag_and_push() {
-                docker tag << parameters.image_name >> quay.io/astronomer/<< parameters.image_name >>:$1
-                docker push quay.io/astronomer/<< parameters.image_name >>:$1
+                docker tag "<< parameters.image_name >>" "quay.io/astronomer/<< parameters.image_name >>:$1"
+                docker push "quay.io/astronomer/<< parameters.image_name >>:$1"
             }
             for tag in $(echo "<< parameters.comma_separated_tags >>" | sed "s/,/ /g");
             do
@@ -189,14 +186,14 @@ commands:
               if [[ $tag =~ $pattern ]]; then
                 tag="${tag:1}"
               fi
-              if docker_tag_exists << parameters.docker_repository >>/<< parameters.image_name >> ${tag}; then
-                  if [[ $tag -eq "latest" ]]; then
-                    tag_and_push $tag
+              if docker_tag_exists "<< parameters.docker_repository >>/<< parameters.image_name >>" "${tag}" ; then
+                  if [[ "$tag" -eq "latest" ]]; then
+                    tag_and_push "$tag"
                   else
                     echo "This docker tag already exists. Skipping the Docker push!"
                   fi
               else
-                tag_and_push $tag
+                tag_and_push "$tag"
               fi
             done
   push-to-docker-hub:
@@ -226,11 +223,11 @@ commands:
           command: |
             set -xe
             function docker_tag_exists() {
-                curl --silent -f -lSL https://index.docker.io/v1/repositories/$1/tags/$2 > /dev/null
+                curl --silent -f -lSL "https://index.docker.io/v1/repositories/$1/tags/$2" > /dev/null
             }
             function tag_and_push() {
-                docker tag << parameters.image_name >> << parameters.docker_repository >>/<< parameters.image_name >>:$1
-                docker push << parameters.docker_repository >>/<< parameters.image_name >>:$1
+                docker tag "<< parameters.image_name >>" "<< parameters.docker_repository >>/<< parameters.image_name >>:$1"
+                docker push "<< parameters.docker_repository >>/<< parameters.image_name >>:$1"
             }
             for tag in $(echo "<< parameters.comma_separated_tags >>" | sed "s/,/ /g");
             do
@@ -239,14 +236,14 @@ commands:
               if [[ $tag =~ $pattern ]]; then
                 tag="${tag:1}"
               fi
-              if docker_tag_exists << parameters.docker_repository >>/<< parameters.image_name >> ${tag}; then
-                  if [[ $tag -eq "latest" ]]; then
-                    tag_and_push $tag
+              if docker_tag_exists "<< parameters.docker_repository >>/<< parameters.image_name >>" "${tag}" ; then
+                  if [[ "$tag" -eq "latest" ]]; then
+                    tag_and_push "$tag"
                   else
-                    echo "This docker tag already exists. Skipping the Docker push!"
+                    echo 'This docker tag already exists. Skipping the Docker push!'
                   fi
               else
-                tag_and_push $tag
+                tag_and_push "$tag"
               fi
             done
   get-tag:
@@ -337,7 +334,7 @@ commands:
 
             DOCKER_TAR_DIR="<< parameters.docker_tar_dir >>"
 
-            if [ -z "<< parameters.image_file >><< parameters.image >>" ] && [ -z "$(ls -A "$DOCKER_TAR_DIR" 2>/dev/null)" ]; then
+            if [[ -z "<< parameters.image_file >><< parameters.image >>" ]] && [[ -z "$(ls -A "$DOCKER_TAR_DIR" 2>/dev/null)" ]] ; then
                 echo "image_file or image parameters or docker tarballs must be present"
                 exit 255
             fi
@@ -352,7 +349,7 @@ commands:
             clair_ip=$(docker exec -it "$CLAIR" hostname -i | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
             scanner_ip=$(docker exec -it "$CLAIR_SCANNER" hostname -i | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
 
-            if [ -n "<< parameters.whitelist >>" ]; then
+            if [[ -n "<< parameters.whitelist >>" ]] ; then
                 cat "<< parameters.whitelist >>"
                 docker cp "<< parameters.whitelist >>" "$CLAIR_SCANNER:/whitelist.yml"
 
