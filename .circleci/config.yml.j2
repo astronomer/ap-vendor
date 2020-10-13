@@ -78,14 +78,15 @@ jobs:
       - run:
           name: Scan the local image with trivy
           command: |
-            set +exo pipefail
+            set -exo pipefail
+            [ -f /etc/os-release ] && cat /etc/os-release
             output=$(trivy --ignorefile "./ap-<< parameters.directory >>/trivyignore" --ignorefile "./<< parameters.directory >>/trivyignore" --cache-dir /tmp/workspace/trivy-cache --ignore-unfixed -s HIGH,CRITICAL --exit-code 1 --no-progress "ap-<< parameters.directory >>")
             exit_code=$?
             # trivy doesn't support busybox scanning right now: https://github.com/aquasecurity/trivy/issues/397
             # TODO: @andriisoldatenko patch trivy to add busybox
             if echo "$output" | grep -q -i 'OS is not detected' ; then
-               echo "Skipping trivy scan because of unsupported OS"
-               exit 0
+              echo "Skipping trivy scan because of unsupported OS"
+              exit 0
             fi
             echo "${output}"
             exit "${exit_code}"
