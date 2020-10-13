@@ -23,7 +23,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-{{ directory }}
+            - scan-clair-{{ directory }}
           filters:
             branches:
               only: main

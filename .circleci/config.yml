@@ -25,7 +25,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-nginx-es
+            - scan-clair-nginx-es
           filters:
             branches:
               only: main
@@ -49,7 +49,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-fluentd
+            - scan-clair-fluentd
           filters:
             branches:
               only: main
@@ -73,7 +73,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-kibana
+            - scan-clair-kibana
           filters:
             branches:
               only: main
@@ -97,7 +97,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-redis
+            - scan-clair-redis
           filters:
             branches:
               only: main
@@ -121,7 +121,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-alertmanager
+            - scan-clair-alertmanager
           filters:
             branches:
               only: main
@@ -145,7 +145,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-nats-streaming
+            - scan-clair-nats-streaming
           filters:
             branches:
               only: main
@@ -169,7 +169,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-prisma
+            - scan-clair-prisma
           filters:
             branches:
               only: main
@@ -193,7 +193,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-curator
+            - scan-clair-curator
           filters:
             branches:
               only: main
@@ -217,7 +217,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-grafana
+            - scan-clair-grafana
           filters:
             branches:
               only: main
@@ -241,7 +241,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-elasticsearch-exporter
+            - scan-clair-elasticsearch-exporter
           filters:
             branches:
               only: main
@@ -265,7 +265,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-nats-exporter
+            - scan-clair-nats-exporter
           filters:
             branches:
               only: main
@@ -289,7 +289,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-keda
+            - scan-clair-keda
           filters:
             branches:
               only: main
@@ -313,7 +313,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-configmap-reloader
+            - scan-clair-configmap-reloader
           filters:
             branches:
               only: main
@@ -337,7 +337,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-nats-server
+            - scan-clair-nats-server
           filters:
             branches:
               only: main
@@ -361,7 +361,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-pgbouncer-exporter
+            - scan-clair-pgbouncer-exporter
           filters:
             branches:
               only: main
@@ -385,7 +385,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-nginx
+            - scan-clair-nginx
           filters:
             branches:
               only: main
@@ -409,7 +409,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-registry
+            - scan-clair-registry
           filters:
             branches:
               only: main
@@ -433,7 +433,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-blackbox-exporter
+            - scan-clair-blackbox-exporter
           filters:
             branches:
               only: main
@@ -457,7 +457,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-statsd-exporter
+            - scan-clair-statsd-exporter
           filters:
             branches:
               only: main
@@ -481,7 +481,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-prometheus
+            - scan-clair-prometheus
           filters:
             branches:
               only: main
@@ -505,7 +505,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-kubed
+            - scan-clair-kubed
           filters:
             branches:
               only: main
@@ -529,7 +529,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-keda-metrics-adapter
+            - scan-clair-keda-metrics-adapter
           filters:
             branches:
               only: main
@@ -553,7 +553,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-pgbouncer
+            - scan-clair-pgbouncer
           filters:
             branches:
               only: main
@@ -577,7 +577,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-postgres-exporter
+            - scan-clair-postgres-exporter
           filters:
             branches:
               only: main
@@ -601,7 +601,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-kube-state
+            - scan-clair-kube-state
           filters:
             branches:
               only: main
@@ -625,7 +625,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-elasticsearch
+            - scan-clair-elasticsearch
           filters:
             branches:
               only: main
@@ -649,7 +649,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-node-exporter
+            - scan-clair-node-exporter
           filters:
             branches:
               only: main
