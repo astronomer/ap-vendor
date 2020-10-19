@@ -9,8 +9,8 @@ workflows:
       - build:
           name: build-nginx-es
           directory: nginx-es
-      - scan:
-          name: scan-nginx-es
+      - scan-clair:
+          name: scan-clair-nginx-es
           directory: nginx-es
           requires:
             - build-nginx-es
@@ -25,7 +25,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-nginx-es
+            - scan-clair-nginx-es
           filters:
             branches:
               only: main
@@ -33,8 +33,8 @@ workflows:
       - build:
           name: build-fluentd
           directory: fluentd
-      - scan:
-          name: scan-fluentd
+      - scan-clair:
+          name: scan-clair-fluentd
           directory: fluentd
           requires:
             - build-fluentd
@@ -49,7 +49,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-fluentd
+            - scan-clair-fluentd
           filters:
             branches:
               only: main
@@ -57,8 +57,8 @@ workflows:
       - build:
           name: build-kibana
           directory: kibana
-      - scan:
-          name: scan-kibana
+      - scan-clair:
+          name: scan-clair-kibana
           directory: kibana
           requires:
             - build-kibana
@@ -73,7 +73,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-kibana
+            - scan-clair-kibana
           filters:
             branches:
               only: main
@@ -81,8 +81,8 @@ workflows:
       - build:
           name: build-redis
           directory: redis
-      - scan:
-          name: scan-redis
+      - scan-clair:
+          name: scan-clair-redis
           directory: redis
           requires:
             - build-redis
@@ -97,7 +97,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-redis
+            - scan-clair-redis
           filters:
             branches:
               only: main
@@ -105,8 +105,8 @@ workflows:
       - build:
           name: build-alertmanager
           directory: alertmanager
-      - scan:
-          name: scan-alertmanager
+      - scan-clair:
+          name: scan-clair-alertmanager
           directory: alertmanager
           requires:
             - build-alertmanager
@@ -121,7 +121,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-alertmanager
+            - scan-clair-alertmanager
           filters:
             branches:
               only: main
@@ -129,8 +129,8 @@ workflows:
       - build:
           name: build-nats-streaming
           directory: nats-streaming
-      - scan:
-          name: scan-nats-streaming
+      - scan-clair:
+          name: scan-clair-nats-streaming
           directory: nats-streaming
           requires:
             - build-nats-streaming
@@ -145,7 +145,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-nats-streaming
+            - scan-clair-nats-streaming
           filters:
             branches:
               only: main
@@ -153,8 +153,8 @@ workflows:
       - build:
           name: build-prisma
           directory: prisma
-      - scan:
-          name: scan-prisma
+      - scan-clair:
+          name: scan-clair-prisma
           directory: prisma
           requires:
             - build-prisma
@@ -169,7 +169,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-prisma
+            - scan-clair-prisma
           filters:
             branches:
               only: main
@@ -177,8 +177,8 @@ workflows:
       - build:
           name: build-curator
           directory: curator
-      - scan:
-          name: scan-curator
+      - scan-clair:
+          name: scan-clair-curator
           directory: curator
           requires:
             - build-curator
@@ -193,7 +193,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-curator
+            - scan-clair-curator
           filters:
             branches:
               only: main
@@ -201,8 +201,8 @@ workflows:
       - build:
           name: build-grafana
           directory: grafana
-      - scan:
-          name: scan-grafana
+      - scan-clair:
+          name: scan-clair-grafana
           directory: grafana
           requires:
             - build-grafana
@@ -217,7 +217,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-grafana
+            - scan-clair-grafana
           filters:
             branches:
               only: main
@@ -225,8 +225,8 @@ workflows:
       - build:
           name: build-elasticsearch-exporter
           directory: elasticsearch-exporter
-      - scan:
-          name: scan-elasticsearch-exporter
+      - scan-clair:
+          name: scan-clair-elasticsearch-exporter
           directory: elasticsearch-exporter
           requires:
             - build-elasticsearch-exporter
@@ -241,7 +241,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-elasticsearch-exporter
+            - scan-clair-elasticsearch-exporter
           filters:
             branches:
               only: main
@@ -249,8 +249,8 @@ workflows:
       - build:
           name: build-nats-exporter
           directory: nats-exporter
-      - scan:
-          name: scan-nats-exporter
+      - scan-clair:
+          name: scan-clair-nats-exporter
           directory: nats-exporter
           requires:
             - build-nats-exporter
@@ -265,7 +265,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-nats-exporter
+            - scan-clair-nats-exporter
           filters:
             branches:
               only: main
@@ -273,8 +273,8 @@ workflows:
       - build:
           name: build-keda
           directory: keda
-      - scan:
-          name: scan-keda
+      - scan-clair:
+          name: scan-clair-keda
           directory: keda
           requires:
             - build-keda
@@ -289,7 +289,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-keda
+            - scan-clair-keda
           filters:
             branches:
               only: main
@@ -297,8 +297,8 @@ workflows:
       - build:
           name: build-configmap-reloader
           directory: configmap-reloader
-      - scan:
-          name: scan-configmap-reloader
+      - scan-clair:
+          name: scan-clair-configmap-reloader
           directory: configmap-reloader
           requires:
             - build-configmap-reloader
@@ -313,7 +313,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-configmap-reloader
+            - scan-clair-configmap-reloader
           filters:
             branches:
               only: main
@@ -321,8 +321,8 @@ workflows:
       - build:
           name: build-nats-server
           directory: nats-server
-      - scan:
-          name: scan-nats-server
+      - scan-clair:
+          name: scan-clair-nats-server
           directory: nats-server
           requires:
             - build-nats-server
@@ -337,7 +337,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-nats-server
+            - scan-clair-nats-server
           filters:
             branches:
               only: main
@@ -345,8 +345,8 @@ workflows:
       - build:
           name: build-pgbouncer-exporter
           directory: pgbouncer-exporter
-      - scan:
-          name: scan-pgbouncer-exporter
+      - scan-clair:
+          name: scan-clair-pgbouncer-exporter
           directory: pgbouncer-exporter
           requires:
             - build-pgbouncer-exporter
@@ -361,7 +361,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-pgbouncer-exporter
+            - scan-clair-pgbouncer-exporter
           filters:
             branches:
               only: main
@@ -369,8 +369,8 @@ workflows:
       - build:
           name: build-nginx
           directory: nginx
-      - scan:
-          name: scan-nginx
+      - scan-clair:
+          name: scan-clair-nginx
           directory: nginx
           requires:
             - build-nginx
@@ -385,7 +385,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-nginx
+            - scan-clair-nginx
           filters:
             branches:
               only: main
@@ -393,8 +393,8 @@ workflows:
       - build:
           name: build-registry
           directory: registry
-      - scan:
-          name: scan-registry
+      - scan-clair:
+          name: scan-clair-registry
           directory: registry
           requires:
             - build-registry
@@ -409,7 +409,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-registry
+            - scan-clair-registry
           filters:
             branches:
               only: main
@@ -417,8 +417,8 @@ workflows:
       - build:
           name: build-blackbox-exporter
           directory: blackbox-exporter
-      - scan:
-          name: scan-blackbox-exporter
+      - scan-clair:
+          name: scan-clair-blackbox-exporter
           directory: blackbox-exporter
           requires:
             - build-blackbox-exporter
@@ -433,7 +433,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-blackbox-exporter
+            - scan-clair-blackbox-exporter
           filters:
             branches:
               only: main
@@ -441,8 +441,8 @@ workflows:
       - build:
           name: build-statsd-exporter
           directory: statsd-exporter
-      - scan:
-          name: scan-statsd-exporter
+      - scan-clair:
+          name: scan-clair-statsd-exporter
           directory: statsd-exporter
           requires:
             - build-statsd-exporter
@@ -457,7 +457,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-statsd-exporter
+            - scan-clair-statsd-exporter
           filters:
             branches:
               only: main
@@ -465,8 +465,8 @@ workflows:
       - build:
           name: build-prometheus
           directory: prometheus
-      - scan:
-          name: scan-prometheus
+      - scan-clair:
+          name: scan-clair-prometheus
           directory: prometheus
           requires:
             - build-prometheus
@@ -481,7 +481,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-prometheus
+            - scan-clair-prometheus
           filters:
             branches:
               only: main
@@ -489,8 +489,8 @@ workflows:
       - build:
           name: build-kubed
           directory: kubed
-      - scan:
-          name: scan-kubed
+      - scan-clair:
+          name: scan-clair-kubed
           directory: kubed
           requires:
             - build-kubed
@@ -505,7 +505,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-kubed
+            - scan-clair-kubed
           filters:
             branches:
               only: main
@@ -513,8 +513,8 @@ workflows:
       - build:
           name: build-keda-metrics-adapter
           directory: keda-metrics-adapter
-      - scan:
-          name: scan-keda-metrics-adapter
+      - scan-clair:
+          name: scan-clair-keda-metrics-adapter
           directory: keda-metrics-adapter
           requires:
             - build-keda-metrics-adapter
@@ -529,7 +529,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-keda-metrics-adapter
+            - scan-clair-keda-metrics-adapter
           filters:
             branches:
               only: main
@@ -537,8 +537,8 @@ workflows:
       - build:
           name: build-pgbouncer
           directory: pgbouncer
-      - scan:
-          name: scan-pgbouncer
+      - scan-clair:
+          name: scan-clair-pgbouncer
           directory: pgbouncer
           requires:
             - build-pgbouncer
@@ -553,7 +553,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-pgbouncer
+            - scan-clair-pgbouncer
           filters:
             branches:
               only: main
@@ -561,8 +561,8 @@ workflows:
       - build:
           name: build-postgres-exporter
           directory: postgres-exporter
-      - scan:
-          name: scan-postgres-exporter
+      - scan-clair:
+          name: scan-clair-postgres-exporter
           directory: postgres-exporter
           requires:
             - build-postgres-exporter
@@ -577,7 +577,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-postgres-exporter
+            - scan-clair-postgres-exporter
           filters:
             branches:
               only: main
@@ -585,8 +585,8 @@ workflows:
       - build:
           name: build-kube-state
           directory: kube-state
-      - scan:
-          name: scan-kube-state
+      - scan-clair:
+          name: scan-clair-kube-state
           directory: kube-state
           requires:
             - build-kube-state
@@ -601,7 +601,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-kube-state
+            - scan-clair-kube-state
           filters:
             branches:
               only: main
@@ -609,8 +609,8 @@ workflows:
       - build:
           name: build-elasticsearch
           directory: elasticsearch
-      - scan:
-          name: scan-elasticsearch
+      - scan-clair:
+          name: scan-clair-elasticsearch
           directory: elasticsearch
           requires:
             - build-elasticsearch
@@ -625,7 +625,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-elasticsearch
+            - scan-clair-elasticsearch
           filters:
             branches:
               only: main
@@ -633,8 +633,8 @@ workflows:
       - build:
           name: build-node-exporter
           directory: node-exporter
-      - scan:
-          name: scan-node-exporter
+      - scan-clair:
+          name: scan-clair-node-exporter
           directory: node-exporter
           requires:
             - build-node-exporter
@@ -649,7 +649,7 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-node-exporter
+            - scan-clair-node-exporter
           filters:
             branches:
               only: main
@@ -667,7 +667,7 @@ jobs:
           image_name: ap-<< parameters.directory >>
           dockerfile: Dockerfile
           path: << parameters.directory >>
-  scan:
+  scan-clair:
     executor: clair-scanner/default
     parameters:
       directory:
@@ -704,20 +704,18 @@ jobs:
       - run:
           name: Scan the local image with trivy
           command: |
-            set +x
-            set +o pipefail
-            set +e pipefail
-            output=$(trivy --ignorefile ./ap-<< parameters.directory >>/trivyignore --ignorefile ./<< parameters.directory >>/trivyignore --cache-dir /tmp/workspace/trivy-cache --ignore-unfixed -s HIGH,CRITICAL --exit-code 1 --no-progress "ap-<< parameters.directory >>")
+            set +exo pipefail
+            [ -f /etc/os-release ] && cat /etc/os-release
+            output=$(trivy --ignorefile "./ap-<< parameters.directory >>/trivyignore" --ignorefile "./<< parameters.directory >>/trivyignore" --cache-dir /tmp/workspace/trivy-cache --ignore-unfixed -s HIGH,CRITICAL --exit-code 1 --no-progress "ap-<< parameters.directory >>")
             exit_code=$?
             # trivy doesn't support busybox scanning right now: https://github.com/aquasecurity/trivy/issues/397
             # TODO: @andriisoldatenko patch trivy to add busybox
-            MATCHES=$(echo "$output" | grep -i 'unknown os' | wc -l)
-            if [[ ${MATCHES} -eq 1 ]]; then
-               echo "Skipping trivy scan because of unsupported OS"
-               exit 0
+            if echo "$output" | grep -q -i 'OS is not detected' ; then
+              echo "Skipping trivy scan because of unsupported OS"
+              exit 0
             fi
             echo "${output}"
-            exit ${exit_code}
+            exit "${exit_code}"
       - save_cache:
           key: trivy-cache-{{ checksum "date" }}
           paths:
@@ -729,6 +727,7 @@ jobs:
         description: "The directory name of the image to be scanned"
         type: string
     steps:
+      - setup_remote_docker
       - checkout
       - get-tag:
           directory: << parameters.directory >>
@@ -790,7 +789,6 @@ commands:
     steps:
       - attach_workspace:
           at: /tmp/workspace
-      - setup_remote_docker
       - run:
           name: Load archived Docker image
           command: docker load -i /tmp/workspace/<< parameters.image_name >>.tar
@@ -805,8 +803,8 @@ commands:
                 curl --silent -f -lSL "https://quay.io/api/v1/repository/$1/tag/$2/images" > /dev/null
             }
             function tag_and_push() {
-                docker tag << parameters.image_name >> quay.io/astronomer/<< parameters.image_name >>:$1
-                docker push quay.io/astronomer/<< parameters.image_name >>:$1
+                docker tag "<< parameters.image_name >>" "quay.io/astronomer/<< parameters.image_name >>:$1"
+                docker push "quay.io/astronomer/<< parameters.image_name >>:$1"
             }
             for tag in $(echo "<< parameters.comma_separated_tags >>" | sed "s/,/ /g");
             do
@@ -815,14 +813,14 @@ commands:
               if [[ $tag =~ $pattern ]]; then
                 tag="${tag:1}"
               fi
-              if docker_tag_exists << parameters.docker_repository >>/<< parameters.image_name >> ${tag}; then
-                  if [[ $tag -eq "latest" ]]; then
-                    tag_and_push $tag
+              if docker_tag_exists "<< parameters.docker_repository >>/<< parameters.image_name >>" "${tag}" ; then
+                  if [[ "$tag" -eq "latest" ]]; then
+                    tag_and_push "$tag"
                   else
                     echo "This docker tag already exists. Skipping the Docker push!"
                   fi
               else
-                tag_and_push $tag
+                tag_and_push "$tag"
               fi
             done
   push-to-docker-hub:
@@ -840,7 +838,6 @@ commands:
     steps:
       - attach_workspace:
           at: /tmp/workspace
-      - setup_remote_docker
       - run:
           name: Load archived Docker image
           command: docker load -i /tmp/workspace/<< parameters.image_name >>.tar
@@ -852,11 +849,11 @@ commands:
           command: |
             set -xe
             function docker_tag_exists() {
-                curl --silent -f -lSL https://index.docker.io/v1/repositories/$1/tags/$2 > /dev/null
+                curl --silent -f -lSL "https://index.docker.io/v1/repositories/$1/tags/$2" > /dev/null
             }
             function tag_and_push() {
-                docker tag << parameters.image_name >> << parameters.docker_repository >>/<< parameters.image_name >>:$1
-                docker push << parameters.docker_repository >>/<< parameters.image_name >>:$1
+                docker tag "<< parameters.image_name >>" "<< parameters.docker_repository >>/<< parameters.image_name >>:$1"
+                docker push "<< parameters.docker_repository >>/<< parameters.image_name >>:$1"
             }
             for tag in $(echo "<< parameters.comma_separated_tags >>" | sed "s/,/ /g");
             do
@@ -865,14 +862,14 @@ commands:
               if [[ $tag =~ $pattern ]]; then
                 tag="${tag:1}"
               fi
-              if docker_tag_exists << parameters.docker_repository >>/<< parameters.image_name >> ${tag}; then
-                  if [[ $tag -eq "latest" ]]; then
-                    tag_and_push $tag
+              if docker_tag_exists "<< parameters.docker_repository >>/<< parameters.image_name >>" "${tag}" ; then
+                  if [[ "$tag" -eq "latest" ]]; then
+                    tag_and_push "$tag"
                   else
-                    echo "This docker tag already exists. Skipping the Docker push!"
+                    echo 'This docker tag already exists. Skipping the Docker push!'
                   fi
               else
-                tag_and_push $tag
+                tag_and_push "$tag"
               fi
             done
   get-tag:
@@ -963,7 +960,7 @@ commands:
 
             DOCKER_TAR_DIR="<< parameters.docker_tar_dir >>"
 
-            if [ -z "<< parameters.image_file >><< parameters.image >>" ] && [ -z "$(ls -A "$DOCKER_TAR_DIR" 2>/dev/null)" ]; then
+            if [[ -z "<< parameters.image_file >><< parameters.image >>" ]] && [[ -z "$(ls -A "$DOCKER_TAR_DIR" 2>/dev/null)" ]] ; then
                 echo "image_file or image parameters or docker tarballs must be present"
                 exit 255
             fi
@@ -978,7 +975,7 @@ commands:
             clair_ip=$(docker exec -it "$CLAIR" hostname -i | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
             scanner_ip=$(docker exec -it "$CLAIR_SCANNER" hostname -i | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
 
-            if [ -n "<< parameters.whitelist >>" ]; then
+            if [[ -n "<< parameters.whitelist >>" ]] ; then
                 cat "<< parameters.whitelist >>"
                 docker cp "<< parameters.whitelist >>" "$CLAIR_SCANNER:/whitelist.yml"
 
