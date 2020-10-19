@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM astronomerinc/ap-base:3.11.5-3
+FROM astronomerinc/ap-base:3.12-1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -24,7 +24,7 @@ LABEL io.astronomer.docker.component="default-backend"
 ENV SERVER_ROOT="/usr/share/nginx/html"
 
 # Install NGINX
-RUN apk add --no-cache nginx=1.16.1-r6
+RUN apk add --no-cache nginx=1.18.0-r0
 
 # Run mkdir to create nginx directory
 RUN mkdir -p /run/nginx
