@@ -101,6 +101,7 @@ jobs:
         description: "The directory name of the image to be scanned"
         type: string
     steps:
+      - setup_remote_docker
       - checkout
       - get-tag:
           directory: << parameters.directory >>
@@ -162,7 +163,6 @@ commands:
     steps:
       - attach_workspace:
           at: /tmp/workspace
-      - setup_remote_docker
       - run:
           name: Load archived Docker image
           command: docker load -i /tmp/workspace/<< parameters.image_name >>.tar
@@ -212,7 +212,6 @@ commands:
     steps:
       - attach_workspace:
           at: /tmp/workspace
-      - setup_remote_docker
       - run:
           name: Load archived Docker image
           command: docker load -i /tmp/workspace/<< parameters.image_name >>.tar
