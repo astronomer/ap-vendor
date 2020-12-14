@@ -21,7 +21,7 @@ RUN apk --no-cache add \
     apk --no-cache add -u --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main \
       sqlite-libs && \
     pip install -U setuptools wheel && \
-    pip install elasticsearch-curator==5.8.1 && \
+    pip install elasticsearch-curator==5.8.3 && \
     pip install boto3==1.12.42 && \
     pip install requests-aws4auth==0.9 && \
     pip install cryptography==2.6.1 && \
