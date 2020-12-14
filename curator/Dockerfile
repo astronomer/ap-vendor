@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM astronomerinc/ap-base:3.12.2
+FROM quay.io/astronomer/ap-base:3.12.2
 
 RUN apk --no-cache add \
       python3 py-setuptools py-pip gcc libffi py-cffi python3-dev \
