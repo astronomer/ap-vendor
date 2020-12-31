@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# https://hub.docker.com/_/redis
 FROM redis:6.0.6-alpine3.12
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 

@@ -24,30 +24,31 @@ When your change is merged to main:
 <!-- required -->
 
 - [ ] alertmanager
+- [ ] blackbox-exporter
+- [ ] configmap-reloader 
 - [ ] curator
-- [ ] elasticsearch-exporter
-- [ ] grafana
-- [ ] kube-state
-- [ ] nginx
-- [ ] pgbouncer
-- [ ] prisma
-- [ ] redis
-- [ ] statsd-exporter
 - [ ] elasticsearch
+- [ ] elasticsearch-exporter
 - [ ] fluentd
-- [ ] kibana
-- [ ] kubed
-- [ ] nginx-es
-- [ ] pgbouncer-exporter
-- [ ] prometheus
-- [ ] node-exporter
-- [ ] registry
+- [ ] grafana
 - [ ] keda
 - [ ] keda-metrics-adapter
-- [ ] blackbox-exporter
-- [ ] postgres-exporter
-- [ ] nats-streaming
+- [ ] kibana
+- [ ] kube-state
+- [ ] kubed
 - [ ] nats-server
+- [ ] nats-streaming
+- [ ] nginx
+- [ ] nginx-es
+- [ ] node-exporter
+- [ ] pgbouncer
+- [ ] pgbouncer-exporter
+- [ ] postgres-exporter
+- [ ] prisma
+- [ ] prometheus
+- [ ] redis
+- [ ] registry
+- [ ] statsd-exporter
 
 **Checklist** (required)
 

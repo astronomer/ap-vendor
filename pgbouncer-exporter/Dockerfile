@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM jbub/pgbouncer_exporter:v0.5.0
+# https://hub.docker.com/r/jbub/pgbouncer_exporter
+FROM jbub/pgbouncer_exporter:v0.6.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
