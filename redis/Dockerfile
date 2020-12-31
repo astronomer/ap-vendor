@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/redis
-FROM redis:5.0.9-alpine3.12
+FROM redis:6.0.6-alpine3.12
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
