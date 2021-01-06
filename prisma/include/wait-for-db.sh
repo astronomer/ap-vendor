@@ -14,7 +14,7 @@ wait_for_it() {
 POSTGRES_HOST=$(echo "${PRISMA_DB_URI}" | awk -F@ '{print $2}' | awk -F: '{print $1}')
 POSTGRES_PORT=$(echo "${PRISMA_DB_URI}" | awk -F@ '{print $2}' | awk -F: '{print $2}' | awk -F/ '{print $1}')
 
-if [[ -n ${POSTGRES_HOST}  ]]; then
+if [ -n "${POSTGRES_HOST}" ] ; then
     wait_for_it "$POSTGRES_HOST" "$POSTGRES_PORT"
 fi
 

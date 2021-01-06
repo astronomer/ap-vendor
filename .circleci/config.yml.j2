@@ -3,10 +3,13 @@ workflows:
   version: 2.1
   vendor-build:
     jobs:
+      - run_pre_commit  # this is first because it validates that the versions match between docker and versions.txt
 {% for directory in directories %}
       - build:
           name: build-{{ directory }}
           directory: {{ directory }}
+          requires:
+            - run_pre_commit
       - scan-clair:
           name: scan-clair-{{ directory }}
           directory: {{ directory }}
@@ -24,11 +27,18 @@ workflows:
             - quay.io
           requires:
             - scan-clair-{{ directory }}
+            - scan-trivy-{{ directory }}
           filters:
             branches:
               only: main
 {% endfor %}
 jobs:
+  run_pre_commit:
+    docker:
+      - image: quay.io/astronomer/ci-pre-commit:2021-01
+    steps:
+      - checkout
+      - run: pre-commit run --all-files || git diff
   build:
     executor: docker-executor
     description: Build an image

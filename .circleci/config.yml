@@ -5,106 +5,13 @@ workflows:
   version: 2.1
   vendor-build:
     jobs:
-
-      - build:
-          name: build-nginx-es
-          directory: nginx-es
-      - scan-clair:
-          name: scan-clair-nginx-es
-          directory: nginx-es
-          requires:
-            - build-nginx-es
-      - scan-trivy:
-          name: scan-trivy-nginx-es
-          directory: nginx-es
-          requires:
-            - build-nginx-es
-      - release:
-          name: release-nginx-es
-          directory: nginx-es
-          context:
-            - quay.io
-          requires:
-            - scan-clair-nginx-es
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-fluentd
-          directory: fluentd
-      - scan-clair:
-          name: scan-clair-fluentd
-          directory: fluentd
-          requires:
-            - build-fluentd
-      - scan-trivy:
-          name: scan-trivy-fluentd
-          directory: fluentd
-          requires:
-            - build-fluentd
-      - release:
-          name: release-fluentd
-          directory: fluentd
-          context:
-            - quay.io
-          requires:
-            - scan-clair-fluentd
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-kibana
-          directory: kibana
-      - scan-clair:
-          name: scan-clair-kibana
-          directory: kibana
-          requires:
-            - build-kibana
-      - scan-trivy:
-          name: scan-trivy-kibana
-          directory: kibana
-          requires:
-            - build-kibana
-      - release:
-          name: release-kibana
-          directory: kibana
-          context:
-            - quay.io
-          requires:
-            - scan-clair-kibana
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-redis
-          directory: redis
-      - scan-clair:
-          name: scan-clair-redis
-          directory: redis
-          requires:
-            - build-redis
-      - scan-trivy:
-          name: scan-trivy-redis
-          directory: redis
-          requires:
-            - build-redis
-      - release:
-          name: release-redis
-          directory: redis
-          context:
-            - quay.io
-          requires:
-            - scan-clair-redis
-          filters:
-            branches:
-              only: main
+      - run_pre_commit  # this is first because it validates that the versions match between docker and versions.txt
 
       - build:
           name: build-alertmanager
           directory: alertmanager
+          requires:
+            - run_pre_commit
       - scan-clair:
           name: scan-clair-alertmanager
           directory: alertmanager
@@ -122,294 +29,7 @@ workflows:
             - quay.io
           requires:
             - scan-clair-alertmanager
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-nats-streaming
-          directory: nats-streaming
-      - scan-clair:
-          name: scan-clair-nats-streaming
-          directory: nats-streaming
-          requires:
-            - build-nats-streaming
-      - scan-trivy:
-          name: scan-trivy-nats-streaming
-          directory: nats-streaming
-          requires:
-            - build-nats-streaming
-      - release:
-          name: release-nats-streaming
-          directory: nats-streaming
-          context:
-            - quay.io
-          requires:
-            - scan-clair-nats-streaming
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-prisma
-          directory: prisma
-      - scan-clair:
-          name: scan-clair-prisma
-          directory: prisma
-          requires:
-            - build-prisma
-      - scan-trivy:
-          name: scan-trivy-prisma
-          directory: prisma
-          requires:
-            - build-prisma
-      - release:
-          name: release-prisma
-          directory: prisma
-          context:
-            - quay.io
-          requires:
-            - scan-clair-prisma
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-curator
-          directory: curator
-      - scan-clair:
-          name: scan-clair-curator
-          directory: curator
-          requires:
-            - build-curator
-      - scan-trivy:
-          name: scan-trivy-curator
-          directory: curator
-          requires:
-            - build-curator
-      - release:
-          name: release-curator
-          directory: curator
-          context:
-            - quay.io
-          requires:
-            - scan-clair-curator
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-grafana
-          directory: grafana
-      - scan-clair:
-          name: scan-clair-grafana
-          directory: grafana
-          requires:
-            - build-grafana
-      - scan-trivy:
-          name: scan-trivy-grafana
-          directory: grafana
-          requires:
-            - build-grafana
-      - release:
-          name: release-grafana
-          directory: grafana
-          context:
-            - quay.io
-          requires:
-            - scan-clair-grafana
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-elasticsearch-exporter
-          directory: elasticsearch-exporter
-      - scan-clair:
-          name: scan-clair-elasticsearch-exporter
-          directory: elasticsearch-exporter
-          requires:
-            - build-elasticsearch-exporter
-      - scan-trivy:
-          name: scan-trivy-elasticsearch-exporter
-          directory: elasticsearch-exporter
-          requires:
-            - build-elasticsearch-exporter
-      - release:
-          name: release-elasticsearch-exporter
-          directory: elasticsearch-exporter
-          context:
-            - quay.io
-          requires:
-            - scan-clair-elasticsearch-exporter
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-nats-exporter
-          directory: nats-exporter
-      - scan-clair:
-          name: scan-clair-nats-exporter
-          directory: nats-exporter
-          requires:
-            - build-nats-exporter
-      - scan-trivy:
-          name: scan-trivy-nats-exporter
-          directory: nats-exporter
-          requires:
-            - build-nats-exporter
-      - release:
-          name: release-nats-exporter
-          directory: nats-exporter
-          context:
-            - quay.io
-          requires:
-            - scan-clair-nats-exporter
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-keda
-          directory: keda
-      - scan-clair:
-          name: scan-clair-keda
-          directory: keda
-          requires:
-            - build-keda
-      - scan-trivy:
-          name: scan-trivy-keda
-          directory: keda
-          requires:
-            - build-keda
-      - release:
-          name: release-keda
-          directory: keda
-          context:
-            - quay.io
-          requires:
-            - scan-clair-keda
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-configmap-reloader
-          directory: configmap-reloader
-      - scan-clair:
-          name: scan-clair-configmap-reloader
-          directory: configmap-reloader
-          requires:
-            - build-configmap-reloader
-      - scan-trivy:
-          name: scan-trivy-configmap-reloader
-          directory: configmap-reloader
-          requires:
-            - build-configmap-reloader
-      - release:
-          name: release-configmap-reloader
-          directory: configmap-reloader
-          context:
-            - quay.io
-          requires:
-            - scan-clair-configmap-reloader
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-nats-server
-          directory: nats-server
-      - scan-clair:
-          name: scan-clair-nats-server
-          directory: nats-server
-          requires:
-            - build-nats-server
-      - scan-trivy:
-          name: scan-trivy-nats-server
-          directory: nats-server
-          requires:
-            - build-nats-server
-      - release:
-          name: release-nats-server
-          directory: nats-server
-          context:
-            - quay.io
-          requires:
-            - scan-clair-nats-server
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-pgbouncer-exporter
-          directory: pgbouncer-exporter
-      - scan-clair:
-          name: scan-clair-pgbouncer-exporter
-          directory: pgbouncer-exporter
-          requires:
-            - build-pgbouncer-exporter
-      - scan-trivy:
-          name: scan-trivy-pgbouncer-exporter
-          directory: pgbouncer-exporter
-          requires:
-            - build-pgbouncer-exporter
-      - release:
-          name: release-pgbouncer-exporter
-          directory: pgbouncer-exporter
-          context:
-            - quay.io
-          requires:
-            - scan-clair-pgbouncer-exporter
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-nginx
-          directory: nginx
-      - scan-clair:
-          name: scan-clair-nginx
-          directory: nginx
-          requires:
-            - build-nginx
-      - scan-trivy:
-          name: scan-trivy-nginx
-          directory: nginx
-          requires:
-            - build-nginx
-      - release:
-          name: release-nginx
-          directory: nginx
-          context:
-            - quay.io
-          requires:
-            - scan-clair-nginx
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-registry
-          directory: registry
-      - scan-clair:
-          name: scan-clair-registry
-          directory: registry
-          requires:
-            - build-registry
-      - scan-trivy:
-          name: scan-trivy-registry
-          directory: registry
-          requires:
-            - build-registry
-      - release:
-          name: release-registry
-          directory: registry
-          context:
-            - quay.io
-          requires:
-            - scan-clair-registry
+            - scan-trivy-alertmanager
           filters:
             branches:
               only: main
@@ -417,6 +37,8 @@ workflows:
       - build:
           name: build-blackbox-exporter
           directory: blackbox-exporter
+          requires:
+            - run_pre_commit
       - scan-clair:
           name: scan-clair-blackbox-exporter
           directory: blackbox-exporter
@@ -434,174 +56,61 @@ workflows:
             - quay.io
           requires:
             - scan-clair-blackbox-exporter
+            - scan-trivy-blackbox-exporter
           filters:
             branches:
               only: main
 
       - build:
-          name: build-statsd-exporter
-          directory: statsd-exporter
+          name: build-configmap-reloader
+          directory: configmap-reloader
+          requires:
+            - run_pre_commit
       - scan-clair:
-          name: scan-clair-statsd-exporter
-          directory: statsd-exporter
+          name: scan-clair-configmap-reloader
+          directory: configmap-reloader
           requires:
-            - build-statsd-exporter
+            - build-configmap-reloader
       - scan-trivy:
-          name: scan-trivy-statsd-exporter
-          directory: statsd-exporter
+          name: scan-trivy-configmap-reloader
+          directory: configmap-reloader
           requires:
-            - build-statsd-exporter
+            - build-configmap-reloader
       - release:
-          name: release-statsd-exporter
-          directory: statsd-exporter
+          name: release-configmap-reloader
+          directory: configmap-reloader
           context:
             - quay.io
           requires:
-            - scan-clair-statsd-exporter
+            - scan-clair-configmap-reloader
+            - scan-trivy-configmap-reloader
           filters:
             branches:
               only: main
 
       - build:
-          name: build-prometheus
-          directory: prometheus
+          name: build-curator
+          directory: curator
+          requires:
+            - run_pre_commit
       - scan-clair:
-          name: scan-clair-prometheus
-          directory: prometheus
+          name: scan-clair-curator
+          directory: curator
           requires:
-            - build-prometheus
+            - build-curator
       - scan-trivy:
-          name: scan-trivy-prometheus
-          directory: prometheus
+          name: scan-trivy-curator
+          directory: curator
           requires:
-            - build-prometheus
+            - build-curator
       - release:
-          name: release-prometheus
-          directory: prometheus
+          name: release-curator
+          directory: curator
           context:
             - quay.io
           requires:
-            - scan-clair-prometheus
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-kubed
-          directory: kubed
-      - scan-clair:
-          name: scan-clair-kubed
-          directory: kubed
-          requires:
-            - build-kubed
-      - scan-trivy:
-          name: scan-trivy-kubed
-          directory: kubed
-          requires:
-            - build-kubed
-      - release:
-          name: release-kubed
-          directory: kubed
-          context:
-            - quay.io
-          requires:
-            - scan-clair-kubed
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-keda-metrics-adapter
-          directory: keda-metrics-adapter
-      - scan-clair:
-          name: scan-clair-keda-metrics-adapter
-          directory: keda-metrics-adapter
-          requires:
-            - build-keda-metrics-adapter
-      - scan-trivy:
-          name: scan-trivy-keda-metrics-adapter
-          directory: keda-metrics-adapter
-          requires:
-            - build-keda-metrics-adapter
-      - release:
-          name: release-keda-metrics-adapter
-          directory: keda-metrics-adapter
-          context:
-            - quay.io
-          requires:
-            - scan-clair-keda-metrics-adapter
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-pgbouncer
-          directory: pgbouncer
-      - scan-clair:
-          name: scan-clair-pgbouncer
-          directory: pgbouncer
-          requires:
-            - build-pgbouncer
-      - scan-trivy:
-          name: scan-trivy-pgbouncer
-          directory: pgbouncer
-          requires:
-            - build-pgbouncer
-      - release:
-          name: release-pgbouncer
-          directory: pgbouncer
-          context:
-            - quay.io
-          requires:
-            - scan-clair-pgbouncer
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-postgres-exporter
-          directory: postgres-exporter
-      - scan-clair:
-          name: scan-clair-postgres-exporter
-          directory: postgres-exporter
-          requires:
-            - build-postgres-exporter
-      - scan-trivy:
-          name: scan-trivy-postgres-exporter
-          directory: postgres-exporter
-          requires:
-            - build-postgres-exporter
-      - release:
-          name: release-postgres-exporter
-          directory: postgres-exporter
-          context:
-            - quay.io
-          requires:
-            - scan-clair-postgres-exporter
-          filters:
-            branches:
-              only: main
-
-      - build:
-          name: build-kube-state
-          directory: kube-state
-      - scan-clair:
-          name: scan-clair-kube-state
-          directory: kube-state
-          requires:
-            - build-kube-state
-      - scan-trivy:
-          name: scan-trivy-kube-state
-          directory: kube-state
-          requires:
-            - build-kube-state
-      - release:
-          name: release-kube-state
-          directory: kube-state
-          context:
-            - quay.io
-          requires:
-            - scan-clair-kube-state
+            - scan-clair-curator
+            - scan-trivy-curator
           filters:
             branches:
               only: main
@@ -609,6 +118,8 @@ workflows:
       - build:
           name: build-elasticsearch
           directory: elasticsearch
+          requires:
+            - run_pre_commit
       - scan-clair:
           name: scan-clair-elasticsearch
           directory: elasticsearch
@@ -626,6 +137,358 @@ workflows:
             - quay.io
           requires:
             - scan-clair-elasticsearch
+            - scan-trivy-elasticsearch
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-elasticsearch-exporter
+          directory: elasticsearch-exporter
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-elasticsearch-exporter
+          directory: elasticsearch-exporter
+          requires:
+            - build-elasticsearch-exporter
+      - scan-trivy:
+          name: scan-trivy-elasticsearch-exporter
+          directory: elasticsearch-exporter
+          requires:
+            - build-elasticsearch-exporter
+      - release:
+          name: release-elasticsearch-exporter
+          directory: elasticsearch-exporter
+          context:
+            - quay.io
+          requires:
+            - scan-clair-elasticsearch-exporter
+            - scan-trivy-elasticsearch-exporter
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-fluentd
+          directory: fluentd
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-fluentd
+          directory: fluentd
+          requires:
+            - build-fluentd
+      - scan-trivy:
+          name: scan-trivy-fluentd
+          directory: fluentd
+          requires:
+            - build-fluentd
+      - release:
+          name: release-fluentd
+          directory: fluentd
+          context:
+            - quay.io
+          requires:
+            - scan-clair-fluentd
+            - scan-trivy-fluentd
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-grafana
+          directory: grafana
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-grafana
+          directory: grafana
+          requires:
+            - build-grafana
+      - scan-trivy:
+          name: scan-trivy-grafana
+          directory: grafana
+          requires:
+            - build-grafana
+      - release:
+          name: release-grafana
+          directory: grafana
+          context:
+            - quay.io
+          requires:
+            - scan-clair-grafana
+            - scan-trivy-grafana
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-keda
+          directory: keda
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-keda
+          directory: keda
+          requires:
+            - build-keda
+      - scan-trivy:
+          name: scan-trivy-keda
+          directory: keda
+          requires:
+            - build-keda
+      - release:
+          name: release-keda
+          directory: keda
+          context:
+            - quay.io
+          requires:
+            - scan-clair-keda
+            - scan-trivy-keda
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-keda-metrics-adapter
+          directory: keda-metrics-adapter
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-keda-metrics-adapter
+          directory: keda-metrics-adapter
+          requires:
+            - build-keda-metrics-adapter
+      - scan-trivy:
+          name: scan-trivy-keda-metrics-adapter
+          directory: keda-metrics-adapter
+          requires:
+            - build-keda-metrics-adapter
+      - release:
+          name: release-keda-metrics-adapter
+          directory: keda-metrics-adapter
+          context:
+            - quay.io
+          requires:
+            - scan-clair-keda-metrics-adapter
+            - scan-trivy-keda-metrics-adapter
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-kibana
+          directory: kibana
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-kibana
+          directory: kibana
+          requires:
+            - build-kibana
+      - scan-trivy:
+          name: scan-trivy-kibana
+          directory: kibana
+          requires:
+            - build-kibana
+      - release:
+          name: release-kibana
+          directory: kibana
+          context:
+            - quay.io
+          requires:
+            - scan-clair-kibana
+            - scan-trivy-kibana
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-kube-state
+          directory: kube-state
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-kube-state
+          directory: kube-state
+          requires:
+            - build-kube-state
+      - scan-trivy:
+          name: scan-trivy-kube-state
+          directory: kube-state
+          requires:
+            - build-kube-state
+      - release:
+          name: release-kube-state
+          directory: kube-state
+          context:
+            - quay.io
+          requires:
+            - scan-clair-kube-state
+            - scan-trivy-kube-state
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-kubed
+          directory: kubed
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-kubed
+          directory: kubed
+          requires:
+            - build-kubed
+      - scan-trivy:
+          name: scan-trivy-kubed
+          directory: kubed
+          requires:
+            - build-kubed
+      - release:
+          name: release-kubed
+          directory: kubed
+          context:
+            - quay.io
+          requires:
+            - scan-clair-kubed
+            - scan-trivy-kubed
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-nats-exporter
+          directory: nats-exporter
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-nats-exporter
+          directory: nats-exporter
+          requires:
+            - build-nats-exporter
+      - scan-trivy:
+          name: scan-trivy-nats-exporter
+          directory: nats-exporter
+          requires:
+            - build-nats-exporter
+      - release:
+          name: release-nats-exporter
+          directory: nats-exporter
+          context:
+            - quay.io
+          requires:
+            - scan-clair-nats-exporter
+            - scan-trivy-nats-exporter
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-nats-server
+          directory: nats-server
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-nats-server
+          directory: nats-server
+          requires:
+            - build-nats-server
+      - scan-trivy:
+          name: scan-trivy-nats-server
+          directory: nats-server
+          requires:
+            - build-nats-server
+      - release:
+          name: release-nats-server
+          directory: nats-server
+          context:
+            - quay.io
+          requires:
+            - scan-clair-nats-server
+            - scan-trivy-nats-server
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-nats-streaming
+          directory: nats-streaming
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-nats-streaming
+          directory: nats-streaming
+          requires:
+            - build-nats-streaming
+      - scan-trivy:
+          name: scan-trivy-nats-streaming
+          directory: nats-streaming
+          requires:
+            - build-nats-streaming
+      - release:
+          name: release-nats-streaming
+          directory: nats-streaming
+          context:
+            - quay.io
+          requires:
+            - scan-clair-nats-streaming
+            - scan-trivy-nats-streaming
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-nginx
+          directory: nginx
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-nginx
+          directory: nginx
+          requires:
+            - build-nginx
+      - scan-trivy:
+          name: scan-trivy-nginx
+          directory: nginx
+          requires:
+            - build-nginx
+      - release:
+          name: release-nginx
+          directory: nginx
+          context:
+            - quay.io
+          requires:
+            - scan-clair-nginx
+            - scan-trivy-nginx
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-nginx-es
+          directory: nginx-es
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-nginx-es
+          directory: nginx-es
+          requires:
+            - build-nginx-es
+      - scan-trivy:
+          name: scan-trivy-nginx-es
+          directory: nginx-es
+          requires:
+            - build-nginx-es
+      - release:
+          name: release-nginx-es
+          directory: nginx-es
+          context:
+            - quay.io
+          requires:
+            - scan-clair-nginx-es
+            - scan-trivy-nginx-es
           filters:
             branches:
               only: main
@@ -633,6 +496,8 @@ workflows:
       - build:
           name: build-node-exporter
           directory: node-exporter
+          requires:
+            - run_pre_commit
       - scan-clair:
           name: scan-clair-node-exporter
           directory: node-exporter
@@ -650,11 +515,234 @@ workflows:
             - quay.io
           requires:
             - scan-clair-node-exporter
+            - scan-trivy-node-exporter
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-pgbouncer
+          directory: pgbouncer
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-pgbouncer
+          directory: pgbouncer
+          requires:
+            - build-pgbouncer
+      - scan-trivy:
+          name: scan-trivy-pgbouncer
+          directory: pgbouncer
+          requires:
+            - build-pgbouncer
+      - release:
+          name: release-pgbouncer
+          directory: pgbouncer
+          context:
+            - quay.io
+          requires:
+            - scan-clair-pgbouncer
+            - scan-trivy-pgbouncer
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-pgbouncer-exporter
+          directory: pgbouncer-exporter
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-pgbouncer-exporter
+          directory: pgbouncer-exporter
+          requires:
+            - build-pgbouncer-exporter
+      - scan-trivy:
+          name: scan-trivy-pgbouncer-exporter
+          directory: pgbouncer-exporter
+          requires:
+            - build-pgbouncer-exporter
+      - release:
+          name: release-pgbouncer-exporter
+          directory: pgbouncer-exporter
+          context:
+            - quay.io
+          requires:
+            - scan-clair-pgbouncer-exporter
+            - scan-trivy-pgbouncer-exporter
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-postgres-exporter
+          directory: postgres-exporter
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-postgres-exporter
+          directory: postgres-exporter
+          requires:
+            - build-postgres-exporter
+      - scan-trivy:
+          name: scan-trivy-postgres-exporter
+          directory: postgres-exporter
+          requires:
+            - build-postgres-exporter
+      - release:
+          name: release-postgres-exporter
+          directory: postgres-exporter
+          context:
+            - quay.io
+          requires:
+            - scan-clair-postgres-exporter
+            - scan-trivy-postgres-exporter
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-prisma
+          directory: prisma
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-prisma
+          directory: prisma
+          requires:
+            - build-prisma
+      - scan-trivy:
+          name: scan-trivy-prisma
+          directory: prisma
+          requires:
+            - build-prisma
+      - release:
+          name: release-prisma
+          directory: prisma
+          context:
+            - quay.io
+          requires:
+            - scan-clair-prisma
+            - scan-trivy-prisma
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-prometheus
+          directory: prometheus
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-prometheus
+          directory: prometheus
+          requires:
+            - build-prometheus
+      - scan-trivy:
+          name: scan-trivy-prometheus
+          directory: prometheus
+          requires:
+            - build-prometheus
+      - release:
+          name: release-prometheus
+          directory: prometheus
+          context:
+            - quay.io
+          requires:
+            - scan-clair-prometheus
+            - scan-trivy-prometheus
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-redis
+          directory: redis
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-redis
+          directory: redis
+          requires:
+            - build-redis
+      - scan-trivy:
+          name: scan-trivy-redis
+          directory: redis
+          requires:
+            - build-redis
+      - release:
+          name: release-redis
+          directory: redis
+          context:
+            - quay.io
+          requires:
+            - scan-clair-redis
+            - scan-trivy-redis
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-registry
+          directory: registry
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-registry
+          directory: registry
+          requires:
+            - build-registry
+      - scan-trivy:
+          name: scan-trivy-registry
+          directory: registry
+          requires:
+            - build-registry
+      - release:
+          name: release-registry
+          directory: registry
+          context:
+            - quay.io
+          requires:
+            - scan-clair-registry
+            - scan-trivy-registry
+          filters:
+            branches:
+              only: main
+
+      - build:
+          name: build-statsd-exporter
+          directory: statsd-exporter
+          requires:
+            - run_pre_commit
+      - scan-clair:
+          name: scan-clair-statsd-exporter
+          directory: statsd-exporter
+          requires:
+            - build-statsd-exporter
+      - scan-trivy:
+          name: scan-trivy-statsd-exporter
+          directory: statsd-exporter
+          requires:
+            - build-statsd-exporter
+      - release:
+          name: release-statsd-exporter
+          directory: statsd-exporter
+          context:
+            - quay.io
+          requires:
+            - scan-clair-statsd-exporter
+            - scan-trivy-statsd-exporter
           filters:
             branches:
               only: main
 
 jobs:
+  run_pre_commit:
+    docker:
+      - image: quay.io/astronomer/ci-pre-commit:2021-01
+    steps:
+      - checkout
+      - run: pre-commit run --all-files || git diff
   build:
     executor: docker-executor
     description: Build an image
