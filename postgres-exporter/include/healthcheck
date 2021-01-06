@@ -1,9 +1,11 @@
 #!/bin/sh
 set -xe
+
 PORT=9187
-if ! [[ -z "$1" ]]; then
+
+if [ -n "$1" ] ; then
   PORT=$1
 fi
 # This container is considered unhealthy when it can't
 # connect to the database.
-wget -O - http://localhost:$PORT/metrics | grep 'pg_up 1'
+wget -O - "http://localhost:${PORT}/metrics" | grep 'pg_up 1'

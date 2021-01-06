@@ -25,7 +25,7 @@ When your change is merged to main:
 
 - [ ] alertmanager
 - [ ] blackbox-exporter
-- [ ] configmap-reloader 
+- [ ] configmap-reloader
 - [ ] curator
 - [ ] elasticsearch
 - [ ] elasticsearch-exporter

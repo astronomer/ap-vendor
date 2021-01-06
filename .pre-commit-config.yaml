@@ -1,0 +1,37 @@
+---
+exclude: '^(venv|\.vscode)' # regex
+repos:
+  - repo: local
+    hooks:
+      - id: circle-config-yaml
+        name: Checks for consistency between config.yml and config.yml.j2
+        language: python
+        files: "config.yml$|config.yml.j2|generate_circleci_config.py$"
+        entry: .circleci/generate_circleci_config.py
+        additional_dependencies: ["jinja2"]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-merge-conflict
+      - id: check-yaml
+        args: ["--allow-multiple-documents"]
+      - id: file-contents-sorter
+        args: ["--ignore-case", "--unique"]
+        files: "^.gitignore$"
+      - id: fix-byte-order-marker
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+      - id: trailing-whitespace
+  - repo: https://github.com/detailyang/pre-commit-shell
+    rev: 1.0.5
+    hooks:
+      - id: shell-lint
+  - repo: https://github.com/astronomer/pre-commit-hooks
+    rev: bd325c947efcba13c03b4f4c93d882f2f83ed6ff
+    hooks:
+      - id: remove-en-dashes
+      - id: remove-unicode-non-breaking-spaces
+      - id: remove-unicode-zero-width-non-breaking-spaces
+      - id: remove-unicode-zero-width-space

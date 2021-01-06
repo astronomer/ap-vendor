@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM astronomerinc/ap-base:3.12-1
+FROM quay.io/astronomer/ap-base:3.12.3
 
 RUN apk --no-cache add \
       python3 py-setuptools py-pip gcc libffi py-cffi python3-dev \
@@ -21,7 +21,7 @@ RUN apk --no-cache add \
     apk --no-cache add -u --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main \
       sqlite-libs && \
     pip install -U setuptools wheel && \
-    pip install elasticsearch-curator==5.8.1 && \
+    pip install elasticsearch-curator==5.8.3 && \
     pip install boto3==1.12.42 && \
     pip install requests-aws4auth==0.9 && \
     pip install cryptography==2.6.1 && \

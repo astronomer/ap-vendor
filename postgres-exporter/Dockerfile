@@ -20,8 +20,8 @@ FROM wrouesnel/postgres_exporter:v0.8.0 AS upstream
 # I would like some normal tooling like package manager and shell available.
 # In the next update, I think they are migrating from the scratch image,
 # so it will likely be unnecessary to perform this multi-stage build.
-# https://hub.docker.com/r/astronomerinc/ap-base/
-FROM astronomerinc/ap-base:3.12-1
+# https://quay.io/repository/astronomer/ap-base
+FROM quay.io/astronomer/ap-base:3.12.3
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 LABEL io.astronomer.docker=true
