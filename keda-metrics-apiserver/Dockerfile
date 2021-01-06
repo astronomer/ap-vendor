@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM docker.io/kedacore/keda-metrics-adapter:2.0.0
+FROM docker.io/kedacore/keda-metrics-apiserver:2.0.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1

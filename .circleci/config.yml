@@ -511,25 +511,25 @@ workflows:
               only: main
 
       - build:
-          name: build-keda-metrics-adapter
-          directory: keda-metrics-adapter
+          name: build-keda-metrics-apiserver
+          directory: keda-metrics-apiserver
       - scan-clair:
-          name: scan-clair-keda-metrics-adapter
-          directory: keda-metrics-adapter
+          name: scan-clair-keda-metrics-apiserver
+          directory: keda-metrics-apiserver
           requires:
-            - build-keda-metrics-adapter
+            - build-keda-metrics-apiserver
       - scan-trivy:
-          name: scan-trivy-keda-metrics-adapter
-          directory: keda-metrics-adapter
+          name: scan-trivy-keda-metrics-apiserver
+          directory: keda-metrics-apiserver
           requires:
-            - build-keda-metrics-adapter
+            - build-keda-metrics-apiserver
       - release:
-          name: release-keda-metrics-adapter
-          directory: keda-metrics-adapter
+          name: release-keda-metrics-apiserver
+          directory: keda-metrics-apiserver
           context:
             - quay.io
           requires:
-            - scan-clair-keda-metrics-adapter
+            - scan-clair-keda-metrics-apiserver
           filters:
             branches:
               only: main
