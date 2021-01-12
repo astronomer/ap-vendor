@@ -32,7 +32,7 @@ When your change is merged to main:
 - [ ] fluentd
 - [ ] grafana
 - [ ] keda
-- [ ] keda-metrics-adapter
+- [ ] keda-metrics-apiserver
 - [ ] kibana
 - [ ] kube-state
 - [ ] kubed
