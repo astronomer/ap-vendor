@@ -20,10 +20,10 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV OPERATOR=/usr/local/bin/keda-adapter \
+ENV OPERATOR=/usr/local/bin/keda-apiserver \
     USER_UID=1001 \
     USER_NAME=keda
 
-ENTRYPOINT ["/usr/local/bin/entrypoint", "--secure-port=6443", "--logtostderr=true", "--v=0"]
+ENTRYPOINT ["/keda-adapter", "--secure-port=6443", "--logtostderr=true", "--v=0"]
 
 USER ${USER_UID}
