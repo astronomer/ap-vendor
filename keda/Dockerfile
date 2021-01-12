@@ -24,6 +24,6 @@ ENV OPERATOR=/usr/local/bin/keda \
     USER_UID=1001 \
     USER_NAME=keda
 
-ENTRYPOINT ["/usr/local/bin/entrypoint"]
+ENTRYPOINT ["/keda"]
 
 USER ${USER_UID}
