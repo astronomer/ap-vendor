@@ -17,4 +17,4 @@ gem 'oj', '3.10.15'
 
 
 ### Not included with upstream contents
-gem 'yajl-ruby', '1.3.1' # CVE-2017-16516
+gem 'yajl-ruby', '~>1.4.1' # CVE-2017-16516
