@@ -33,6 +33,7 @@ RUN BUILD_DEPS="build-essential make gcc g++ libc6-dev ruby-dev bundler libffi-d
     && echo 'gem: --no-document' >> /etc/gemrc \
     && gem install bundler \
     && gem install --file Gemfile \
+    && gem list \
     && apt-get purge -y --auto-remove \
                      -o APT::AutoRemove::RecommendsImportant=false \
                      $BUILD_DEPS \
