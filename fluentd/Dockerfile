@@ -23,7 +23,8 @@ COPY include/Gemfile /Gemfile
 # 2. Install fluentd via ruby.
 # 3. Remove build dependencies.
 # 4. Cleanup leftover caches & files.
-RUN BUILD_DEPS="build-essential make gcc g++ libc6-dev ruby-dev bundler libffi-dev" \
+RUN set -o xtrace && \
+    BUILD_DEPS="build-essential make gcc g++ libc6-dev ruby-dev bundler libffi-dev" \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
                      $BUILD_DEPS \
