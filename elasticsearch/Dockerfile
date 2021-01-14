@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# https://www.docker.elastic.co/r/elasticsearch/elasticsearch-oss
 FROM docker.elastic.co/elasticsearch/elasticsearch-oss:7.9.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
