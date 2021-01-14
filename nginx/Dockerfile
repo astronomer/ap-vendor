@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://quay.io/repository/kubernetes-ingress-controller/nginx-ingress-controller
-FROM quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.33.0
+# https://github.com/kubernetes/ingress-nginx
+FROM k8s.gcr.io/ingress-nginx/controller:v0.43.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
