@@ -23,7 +23,8 @@ COPY include/Gemfile /Gemfile
 # 2. Install fluentd via ruby.
 # 3. Remove build dependencies.
 # 4. Cleanup leftover caches & files.
-RUN BUILD_DEPS="build-essential make gcc g++ libc6-dev ruby-dev bundler libffi-dev" \
+RUN set -o xtrace && \
+    BUILD_DEPS="build-essential make gcc g++ libc6-dev ruby-dev bundler libffi-dev" \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
                      $BUILD_DEPS \
@@ -31,8 +32,9 @@ RUN BUILD_DEPS="build-essential make gcc g++ libc6-dev ruby-dev bundler libffi-d
                      libjemalloc2 \
                      ruby \
     && echo 'gem: --no-document' >> /etc/gemrc \
-	&& gem install bundler \
+    && gem install bundler \
     && gem install --file Gemfile \
+    && gem list \
     && apt-get purge -y --auto-remove \
                      -o APT::AutoRemove::RecommendsImportant=false \
                      $BUILD_DEPS \
@@ -43,8 +45,7 @@ RUN BUILD_DEPS="build-essential make gcc g++ libc6-dev ruby-dev bundler libffi-d
         /var/log/* \
         /tmp/* \
         /var/tmp/* \
-    # Ensure fluent has enough file descriptors
-    && ulimit -n 65536
+    && ulimit -n 65536 # Ensure fluent has enough file descriptors
 
 # Copy the Fluentd configuration file for logging Docker container logs.
 COPY include/fluent.conf /etc/fluent/fluent.conf
