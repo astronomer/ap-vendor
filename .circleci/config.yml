@@ -742,7 +742,7 @@ jobs:
       - image: quay.io/astronomer/ci-pre-commit:2021-01
     steps:
       - checkout
-      - run: pre-commit run --all-files || git diff
+      - run: pre-commit run --all-files || git --no-pager diff
   build:
     executor: docker-executor
     description: Build an image
