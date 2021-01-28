@@ -15,6 +15,9 @@ gem 'fluent-plugin-prometheus', '1.8.4'
 gem 'fluent-plugin-systemd', '1.0.2'
 gem 'oj', '3.10.15'
 
-
 ### Not included with upstream contents
 gem 'yajl-ruby', '~>1.4.1' # CVE-2017-16516
+gem 'json', '>=2.3.0'
+gem 'rake', '>= 12.3.3'
+gem 'fluent-plugin-rewrite-tag-filter', '~>2.2.0'
+gem 'fluent-plugin-s3', '~>1.3.0'
