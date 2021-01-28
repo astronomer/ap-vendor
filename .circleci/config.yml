@@ -12,11 +12,6 @@ workflows:
           directory: alertmanager
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-alertmanager
-          directory: alertmanager
-          requires:
-            - build-alertmanager
       - scan-trivy:
           name: scan-trivy-alertmanager
           directory: alertmanager
@@ -28,7 +23,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-alertmanager
             - scan-trivy-alertmanager
           filters:
             branches:
@@ -39,11 +33,6 @@ workflows:
           directory: blackbox-exporter
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-blackbox-exporter
-          directory: blackbox-exporter
-          requires:
-            - build-blackbox-exporter
       - scan-trivy:
           name: scan-trivy-blackbox-exporter
           directory: blackbox-exporter
@@ -55,7 +44,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-blackbox-exporter
             - scan-trivy-blackbox-exporter
           filters:
             branches:
@@ -66,11 +54,6 @@ workflows:
           directory: configmap-reloader
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-configmap-reloader
-          directory: configmap-reloader
-          requires:
-            - build-configmap-reloader
       - scan-trivy:
           name: scan-trivy-configmap-reloader
           directory: configmap-reloader
@@ -82,7 +65,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-configmap-reloader
             - scan-trivy-configmap-reloader
           filters:
             branches:
@@ -93,11 +75,6 @@ workflows:
           directory: curator
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-curator
-          directory: curator
-          requires:
-            - build-curator
       - scan-trivy:
           name: scan-trivy-curator
           directory: curator
@@ -109,7 +86,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-curator
             - scan-trivy-curator
           filters:
             branches:
@@ -120,11 +96,6 @@ workflows:
           directory: elasticsearch
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-elasticsearch
-          directory: elasticsearch
-          requires:
-            - build-elasticsearch
       - scan-trivy:
           name: scan-trivy-elasticsearch
           directory: elasticsearch
@@ -136,7 +107,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-elasticsearch
             - scan-trivy-elasticsearch
           filters:
             branches:
@@ -147,11 +117,6 @@ workflows:
           directory: elasticsearch-exporter
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-elasticsearch-exporter
-          directory: elasticsearch-exporter
-          requires:
-            - build-elasticsearch-exporter
       - scan-trivy:
           name: scan-trivy-elasticsearch-exporter
           directory: elasticsearch-exporter
@@ -163,7 +128,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-elasticsearch-exporter
             - scan-trivy-elasticsearch-exporter
           filters:
             branches:
@@ -174,11 +138,6 @@ workflows:
           directory: fluentd
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-fluentd
-          directory: fluentd
-          requires:
-            - build-fluentd
       - scan-trivy:
           name: scan-trivy-fluentd
           directory: fluentd
@@ -190,7 +149,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-fluentd
             - scan-trivy-fluentd
           filters:
             branches:
@@ -201,11 +159,6 @@ workflows:
           directory: grafana
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-grafana
-          directory: grafana
-          requires:
-            - build-grafana
       - scan-trivy:
           name: scan-trivy-grafana
           directory: grafana
@@ -217,7 +170,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-grafana
             - scan-trivy-grafana
           filters:
             branches:
@@ -228,11 +180,6 @@ workflows:
           directory: keda
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-keda
-          directory: keda
-          requires:
-            - build-keda
       - scan-trivy:
           name: scan-trivy-keda
           directory: keda
@@ -244,7 +191,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-keda
             - scan-trivy-keda
           filters:
             branches:
@@ -255,11 +201,6 @@ workflows:
           directory: keda-metrics-apiserver
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-keda-metrics-apiserver
-          directory: keda-metrics-apiserver
-          requires:
-            - build-keda-metrics-apiserver
       - scan-trivy:
           name: scan-trivy-keda-metrics-apiserver
           directory: keda-metrics-apiserver
@@ -271,7 +212,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-keda-metrics-apiserver
             - scan-trivy-keda-metrics-apiserver
           filters:
             branches:
@@ -282,11 +222,6 @@ workflows:
           directory: kibana
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-kibana
-          directory: kibana
-          requires:
-            - build-kibana
       - scan-trivy:
           name: scan-trivy-kibana
           directory: kibana
@@ -298,7 +233,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-kibana
             - scan-trivy-kibana
           filters:
             branches:
@@ -309,11 +243,6 @@ workflows:
           directory: kube-state
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-kube-state
-          directory: kube-state
-          requires:
-            - build-kube-state
       - scan-trivy:
           name: scan-trivy-kube-state
           directory: kube-state
@@ -325,7 +254,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-kube-state
             - scan-trivy-kube-state
           filters:
             branches:
@@ -336,11 +264,6 @@ workflows:
           directory: kubed
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-kubed
-          directory: kubed
-          requires:
-            - build-kubed
       - scan-trivy:
           name: scan-trivy-kubed
           directory: kubed
@@ -352,7 +275,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-kubed
             - scan-trivy-kubed
           filters:
             branches:
@@ -363,11 +285,6 @@ workflows:
           directory: nats-exporter
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-nats-exporter
-          directory: nats-exporter
-          requires:
-            - build-nats-exporter
       - scan-trivy:
           name: scan-trivy-nats-exporter
           directory: nats-exporter
@@ -379,7 +296,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-nats-exporter
             - scan-trivy-nats-exporter
           filters:
             branches:
@@ -390,11 +306,6 @@ workflows:
           directory: nats-server
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-nats-server
-          directory: nats-server
-          requires:
-            - build-nats-server
       - scan-trivy:
           name: scan-trivy-nats-server
           directory: nats-server
@@ -406,7 +317,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-nats-server
             - scan-trivy-nats-server
           filters:
             branches:
@@ -417,11 +327,6 @@ workflows:
           directory: nats-streaming
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-nats-streaming
-          directory: nats-streaming
-          requires:
-            - build-nats-streaming
       - scan-trivy:
           name: scan-trivy-nats-streaming
           directory: nats-streaming
@@ -433,7 +338,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-nats-streaming
             - scan-trivy-nats-streaming
           filters:
             branches:
@@ -444,11 +348,6 @@ workflows:
           directory: nginx
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-nginx
-          directory: nginx
-          requires:
-            - build-nginx
       - scan-trivy:
           name: scan-trivy-nginx
           directory: nginx
@@ -460,7 +359,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-nginx
             - scan-trivy-nginx
           filters:
             branches:
@@ -471,11 +369,6 @@ workflows:
           directory: nginx-es
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-nginx-es
-          directory: nginx-es
-          requires:
-            - build-nginx-es
       - scan-trivy:
           name: scan-trivy-nginx-es
           directory: nginx-es
@@ -487,7 +380,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-nginx-es
             - scan-trivy-nginx-es
           filters:
             branches:
@@ -498,11 +390,6 @@ workflows:
           directory: node-exporter
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-node-exporter
-          directory: node-exporter
-          requires:
-            - build-node-exporter
       - scan-trivy:
           name: scan-trivy-node-exporter
           directory: node-exporter
@@ -514,7 +401,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-node-exporter
             - scan-trivy-node-exporter
           filters:
             branches:
@@ -525,11 +411,6 @@ workflows:
           directory: pgbouncer
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-pgbouncer
-          directory: pgbouncer
-          requires:
-            - build-pgbouncer
       - scan-trivy:
           name: scan-trivy-pgbouncer
           directory: pgbouncer
@@ -541,7 +422,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-pgbouncer
             - scan-trivy-pgbouncer
           filters:
             branches:
@@ -552,11 +432,6 @@ workflows:
           directory: pgbouncer-exporter
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-pgbouncer-exporter
-          directory: pgbouncer-exporter
-          requires:
-            - build-pgbouncer-exporter
       - scan-trivy:
           name: scan-trivy-pgbouncer-exporter
           directory: pgbouncer-exporter
@@ -568,7 +443,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-pgbouncer-exporter
             - scan-trivy-pgbouncer-exporter
           filters:
             branches:
@@ -579,11 +453,6 @@ workflows:
           directory: postgres-exporter
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-postgres-exporter
-          directory: postgres-exporter
-          requires:
-            - build-postgres-exporter
       - scan-trivy:
           name: scan-trivy-postgres-exporter
           directory: postgres-exporter
@@ -595,7 +464,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-postgres-exporter
             - scan-trivy-postgres-exporter
           filters:
             branches:
@@ -606,11 +474,6 @@ workflows:
           directory: prisma
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-prisma
-          directory: prisma
-          requires:
-            - build-prisma
       - scan-trivy:
           name: scan-trivy-prisma
           directory: prisma
@@ -622,7 +485,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-prisma
             - scan-trivy-prisma
           filters:
             branches:
@@ -633,11 +495,6 @@ workflows:
           directory: prometheus
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-prometheus
-          directory: prometheus
-          requires:
-            - build-prometheus
       - scan-trivy:
           name: scan-trivy-prometheus
           directory: prometheus
@@ -649,7 +506,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-prometheus
             - scan-trivy-prometheus
           filters:
             branches:
@@ -660,11 +516,6 @@ workflows:
           directory: redis
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-redis
-          directory: redis
-          requires:
-            - build-redis
       - scan-trivy:
           name: scan-trivy-redis
           directory: redis
@@ -676,7 +527,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-redis
             - scan-trivy-redis
           filters:
             branches:
@@ -687,11 +537,6 @@ workflows:
           directory: registry
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-registry
-          directory: registry
-          requires:
-            - build-registry
       - scan-trivy:
           name: scan-trivy-registry
           directory: registry
@@ -703,7 +548,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-registry
             - scan-trivy-registry
           filters:
             branches:
@@ -714,11 +558,6 @@ workflows:
           directory: statsd-exporter
           requires:
             - run_pre_commit
-      - scan-clair:
-          name: scan-clair-statsd-exporter
-          directory: statsd-exporter
-          requires:
-            - build-statsd-exporter
       - scan-trivy:
           name: scan-trivy-statsd-exporter
           directory: statsd-exporter
@@ -730,7 +569,6 @@ workflows:
           context:
             - quay.io
           requires:
-            - scan-clair-statsd-exporter
             - scan-trivy-statsd-exporter
           filters:
             branches:
@@ -755,15 +593,6 @@ jobs:
           image_name: ap-<< parameters.directory >>
           dockerfile: Dockerfile
           path: << parameters.directory >>
-  scan-clair:
-    executor: clair-scanner/default
-    parameters:
-      directory:
-        description: "The directory name of the image to be scanned"
-        type: string
-    steps:
-      - clair-scan:
-          directory: << parameters.directory >>
   scan-trivy:
     docker:
       - image: docker:18.09-git
@@ -825,8 +654,6 @@ jobs:
       - push-to-quay-io:
           comma_separated_tags: "latest,$TAG"
           image_name: ap-<< parameters.directory >>
-orbs:
-  clair-scanner: ovotech/clair-scanner@1.6.0
 executors:
   docker-executor:
     environment:
@@ -985,154 +812,3 @@ commands:
             TAG=$(python /tmp/next_patch_version.py)
             # Make this environment variable available to following steps
             echo "export TAG=${TAG}" >> $BASH_ENV
-  clair-scan:
-    description: "Clair: Vulnerability scan a Docker image"
-    parameters:
-      directory:
-        type: string
-    steps:
-      - checkout
-      - setup_remote_docker
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          name: Load archived Docker image
-          command: docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
-      - modified-orb:
-          whitelist: "<< parameters.directory >>/cve-whitelist.yaml"
-          image: "ap-<< parameters.directory >>"
-  # TODO: move to an Astronomer orbs repo, publish orb.
-  # This is to work around an issue in the provided orb https://github.com/ovotech/circleci-orbs/issues/89.
-  modified-orb:
-    description: "Scan an image for vulnerabilities"
-    parameters:
-      image:
-        type: "string"
-        description: "Name of the image to scan"
-        default: ""
-      image_file:
-        type: "string"
-        description: "Path to a file of images to scan"
-        default: ""
-      whitelist:
-        type: "string"
-        description: "Path to a CVE whitelist"
-        default: ""
-      severity_threshold:
-        type: "string"
-        description: "The threshold (equal and above) at which discovered vulnerabilities are reported. May be 'Defcon1', 'Critical', 'High', 'Medium', 'Low', 'Negligible' or 'Unknown'"
-        default: "High"
-      fail_on_discovered_vulnerabilities:
-        type: "boolean"
-        description: "Fail command when vulnerabilities at severity equal to or above the threshold are discovered"
-        default: true
-      fail_on_unsupported_images:
-        type: "boolean"
-        description: "Fail command when image cannot be scanned for vulnerabilities"
-        default: false
-      disable_verbose_console_output:
-        type: "boolean"
-        description: "Disable verbose console output"
-        default: false
-      docker_tar_dir:
-        type: "string"
-        description: "Path of directory that Docker tarballs are stored"
-        default: "/docker-tars"
-    steps:
-      - run:
-          name: "Vulnerability scan"
-          command: |
-            #!/usr/bin/env bash
-
-            set -xe
-
-            DOCKER_TAR_DIR="<< parameters.docker_tar_dir >>"
-
-            if [[ -z "<< parameters.image_file >><< parameters.image >>" ]] && [[ -z "$(ls -A "$DOCKER_TAR_DIR" 2>/dev/null)" ]] ; then
-                echo "image_file or image parameters or docker tarballs must be present"
-                exit 255
-            fi
-
-            REPORT_DIR=/clair-reports
-            mkdir $REPORT_DIR
-
-            DB=$(docker run -p 5432:5432 -d arminc/clair-db:latest)
-            CLAIR=$(docker run -p 6060:6060 --link "$DB":postgres -d arminc/clair-local-scan:latest)
-            CLAIR_SCANNER=$(docker run -v /var/run/docker.sock:/var/run/docker.sock -d ovotech/clair-scanner@sha256:8a4f920b4e7e40dbcec4a6168263d45d3385f2970ee33e5135dd0e3b75d39c75 tail -f /dev/null)
-
-            clair_ip=$(docker exec -it "$CLAIR" hostname -i | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
-            scanner_ip=$(docker exec -it "$CLAIR_SCANNER" hostname -i | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
-
-            if [[ -n "<< parameters.whitelist >>" ]] ; then
-                cat "<< parameters.whitelist >>"
-                docker cp "<< parameters.whitelist >>" "$CLAIR_SCANNER:/whitelist.yml"
-
-                WHITELIST="-w /whitelist.yml"
-            fi
-
-            function scan() {
-                local image=$1
-                # replace forward-slashes and colons with underscores
-                munged_image=$(echo "$image" | sed 's/\//_/g' | sed 's/:/_/g')
-                sanitised_image_filename="${munged_image}.json"
-                local ret=0
-                local docker_cmd=(docker exec -it "$CLAIR_SCANNER" clair-scanner \
-                    --ip "$scanner_ip" \
-                    --clair=http://"$clair_ip":6060 \
-                    -t "<< parameters.severity_threshold >>" \
-                    --report "/$sanitised_image_filename" \
-                    --log "/log.json" \
-                    --whitelist /whitelist.yml \
-                    --reportAll=true \
-                    "$image")
-
-                # if verbose output is disabled, analyse status code for more fine-grained output
-                if [ "<< parameters.disable_verbose_console_output >>" == "true" ];then
-                    "${docker_cmd[@]}" > /dev/null 2>&1 || ret=$?
-                else
-                    "${docker_cmd[@]}" 2>&1 || ret=$?
-                fi
-                if [ $ret -eq 0 ]; then
-                    echo "No unapproved vulnerabilities"
-                elif [ $ret -eq 1 ]; then
-                    echo "Unapproved vulnerabilities found"
-                    if [ "<< parameters.fail_on_discovered_vulnerabilities >>" == "true" ];then
-                        EXIT_STATUS=1
-                    fi
-                elif [ $ret -eq 5 ]; then
-                    echo "Image was not scanned, because no features were detected. This basically means Clair found nothing to scan."
-                    if [ "<< parameters.fail_on_unsupported_images >>" == "true" ];then
-                        EXIT_STATUS=1
-                    fi
-                else
-                    echo "Unknown clair-scanner return code $ret."
-                    EXIT_STATUS=1
-                fi
-
-                docker cp "$CLAIR_SCANNER:/$sanitised_image_filename" "$REPORT_DIR/$sanitised_image_filename" || true
-            }
-
-            EXIT_STATUS=0
-
-            for entry in "$DOCKER_TAR_DIR"/*.tar; do
-                [ -e "$entry" ] || continue
-                images=$(docker load -i "$entry" | sed -e 's/Loaded image: //g')
-                for image in $images; do
-                    scan "$image"
-                done
-            done
-
-            if [ -n "<< parameters.image_file >>" ]; then
-                images=$(cat "<< parameters.image_file >>")
-                for image in $images; do
-                    scan "$image"
-                done
-            fi
-            if [ -n "<< parameters.image >>" ]; then
-                image="<< parameters.image >>"
-                scan "$image"
-            fi
-
-            exit $EXIT_STATUS
-      - store_artifacts:
-          path: /clair-reports
