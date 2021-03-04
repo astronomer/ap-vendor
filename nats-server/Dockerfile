@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM nats:2.1.8-alpine3.11
+FROM nats:2.1.9-alpine3.12
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
