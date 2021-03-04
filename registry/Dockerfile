@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM astronomerinc/ap-base:3.12.3
+FROM quay.io/astronomer/ap-base:3.13.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -21,7 +21,7 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 RUN set -ex \
-    && apk add --no-cache ca-certificates apache2-utils
+    && apk add --no-cache ca-certificates
 
 COPY ./registry /bin/registry
 COPY ./config-example.yml /etc/docker/registry/config.yml

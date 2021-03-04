@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://github.com/kubernetes/ingress-nginx
-FROM k8s.gcr.io/ingress-nginx/controller:v0.43.0
+FROM k8s.gcr.io/ingress-nginx/controller:v0.44.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
