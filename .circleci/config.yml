@@ -603,7 +603,9 @@ jobs:
         type: string
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 20.10.2
       - attach_workspace:
           at: /tmp/workspace
       - run:
@@ -644,7 +646,9 @@ jobs:
         description: "The directory name of the image to be scanned"
         type: string
     steps:
-      - setup_remote_docker
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 20.10.2
       - checkout
       - get-tag:
           directory: << parameters.directory >>
@@ -678,6 +682,7 @@ commands:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
+          version: 20.10.2
       - run:
           name: Build the Docker image
           command: |
