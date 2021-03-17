@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/jbub/pgbouncer_exporter
-FROM jbub/pgbouncer_exporter:v0.8.0
+FROM jbub/pgbouncer_exporter:v0.9.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
