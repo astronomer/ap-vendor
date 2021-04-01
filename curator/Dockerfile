@@ -13,19 +13,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/astronomer/ap-base:3.13.2
+FROM quay.io/astronomer/ap-base:3.13.4
 
 RUN apk --no-cache add \
       python3 py-setuptools py-pip gcc libffi py-cffi python3-dev \
       libffi-dev py-openssl musl-dev linux-headers openssl-dev libssl1.1 && \
     apk --no-cache add -u --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main \
+      py3-cryptography \
+      py3-urllib3 \
       sqlite-libs && \
-    pip install -U setuptools wheel && \
+    pip install --upgrade setuptools wheel && \
     pip install elasticsearch-curator==5.8.3 && \
     pip install boto3==1.12.42 && \
     pip install requests-aws4auth==0.9 && \
-    pip install cryptography==2.6.1 && \
-	pip install pyOpenSSL && \
+    pip install pyOpenSSL && \
     apk del py-pip gcc python3-dev libffi-dev musl-dev linux-headers openssl-dev && \
     sed -i '/import sys/a urllib3.contrib.pyopenssl.inject_into_urllib3()' /usr/bin/curator && \
     sed -i '/import sys/a import urllib3.contrib.pyopenssl' /usr/bin/curator && \
