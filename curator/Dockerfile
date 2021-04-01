@@ -20,6 +20,7 @@ RUN apk --no-cache add \
       libffi-dev py-openssl musl-dev linux-headers openssl-dev libssl1.1 && \
     apk --no-cache add -u --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main \
       py3-cryptography \
+      py3-requests \
       py3-urllib3 \
       sqlite-libs && \
     pip install --upgrade setuptools wheel && \
