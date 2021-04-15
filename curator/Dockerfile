@@ -16,19 +16,29 @@
 FROM quay.io/astronomer/ap-base:3.13.5
 
 RUN apk --no-cache add \
-      python3 py-setuptools py-pip gcc libffi py-cffi python3-dev \
-      libffi-dev py-openssl musl-dev linux-headers openssl-dev libssl1.1 && \
+      libffi \
+      libssl1.1 \
+      py-cffi \
+      py-openssl \
+      py-pip \
+      py-setuptools \
+      python3 \
+      python3-dev && \
     apk --no-cache add -u --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main \
       py3-cryptography \
+      py3-openssl \
       py3-requests \
       py3-urllib3 \
       sqlite-libs && \
-    pip install --upgrade setuptools wheel && \
-    pip install elasticsearch-curator==5.8.3 && \
-    pip install boto3==1.12.42 && \
-    pip install requests-aws4auth==0.9 && \
-    pip install pyOpenSSL && \
-    apk del py-pip gcc python3-dev libffi-dev musl-dev linux-headers openssl-dev && \
+    pip install --upgrade \
+      setuptools \
+      wheel \
+      elasticsearch-curator==5.8.3 \
+      boto3==1.12.42 \
+      requests-aws4auth==0.9 && \
+    apk del \
+      py-pip \
+      python3-dev && \
     sed -i '/import sys/a urllib3.contrib.pyopenssl.inject_into_urllib3()' /usr/bin/curator && \
     sed -i '/import sys/a import urllib3.contrib.pyopenssl' /usr/bin/curator && \
     sed -i '/import sys/a import urllib3' /usr/bin/curator
