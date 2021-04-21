@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/nats-streaming
-FROM nats-streaming:0.21.0-alpine3.13
+FROM nats-streaming:0.21.2-alpine3.13
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
