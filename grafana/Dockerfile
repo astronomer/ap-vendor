@@ -20,11 +20,12 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-USER root 
 
+# to fix openssl security issues
+USER root
 RUN apk upgrade --no-cache libressl libressl-dev
-
 USER grafana
+
 # Copy default dashboards and datasource configuration
 COPY include/dashboard.yaml /etc/grafana/provisioning/dashboards/dashboard.yaml
 COPY include/nginx-ingress.json /var/lib/grafana/dashboards/nginx-ingress.json
