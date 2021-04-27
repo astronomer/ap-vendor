@@ -22,6 +22,7 @@ workflows:
           directory: alertmanager
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-alertmanager
           filters:
@@ -43,6 +44,7 @@ workflows:
           directory: blackbox-exporter
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-blackbox-exporter
           filters:
@@ -64,6 +66,7 @@ workflows:
           directory: configmap-reloader
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-configmap-reloader
           filters:
@@ -85,6 +88,7 @@ workflows:
           directory: curator
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-curator
           filters:
@@ -106,6 +110,7 @@ workflows:
           directory: elasticsearch
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-elasticsearch
           filters:
@@ -127,6 +132,7 @@ workflows:
           directory: elasticsearch-exporter
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-elasticsearch-exporter
           filters:
@@ -148,6 +154,7 @@ workflows:
           directory: fluentd
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-fluentd
           filters:
@@ -169,6 +176,7 @@ workflows:
           directory: grafana
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-grafana
           filters:
@@ -190,6 +198,7 @@ workflows:
           directory: keda
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-keda
           filters:
@@ -211,6 +220,7 @@ workflows:
           directory: keda-metrics-apiserver
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-keda-metrics-apiserver
           filters:
@@ -232,6 +242,7 @@ workflows:
           directory: kibana
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-kibana
           filters:
@@ -253,6 +264,7 @@ workflows:
           directory: kube-state
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-kube-state
           filters:
@@ -274,6 +286,7 @@ workflows:
           directory: kubed
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-kubed
           filters:
@@ -295,6 +308,7 @@ workflows:
           directory: nats-exporter
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-nats-exporter
           filters:
@@ -316,6 +330,7 @@ workflows:
           directory: nats-server
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-nats-server
           filters:
@@ -337,6 +352,7 @@ workflows:
           directory: nats-streaming
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-nats-streaming
           filters:
@@ -358,6 +374,7 @@ workflows:
           directory: nginx
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-nginx
           filters:
@@ -379,6 +396,7 @@ workflows:
           directory: nginx-es
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-nginx-es
           filters:
@@ -400,6 +418,7 @@ workflows:
           directory: node-exporter
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-node-exporter
           filters:
@@ -421,6 +440,7 @@ workflows:
           directory: pgbouncer
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-pgbouncer
           filters:
@@ -442,6 +462,7 @@ workflows:
           directory: pgbouncer-exporter
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-pgbouncer-exporter
           filters:
@@ -463,6 +484,7 @@ workflows:
           directory: postgres-exporter
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-postgres-exporter
           filters:
@@ -484,6 +506,7 @@ workflows:
           directory: prisma
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-prisma
           filters:
@@ -505,6 +528,7 @@ workflows:
           directory: prometheus
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-prometheus
           filters:
@@ -526,6 +550,7 @@ workflows:
           directory: redis
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-redis
           filters:
@@ -547,6 +572,7 @@ workflows:
           directory: registry
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-registry
           filters:
@@ -568,6 +594,7 @@ workflows:
           directory: statsd-exporter
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-statsd-exporter
           filters:
