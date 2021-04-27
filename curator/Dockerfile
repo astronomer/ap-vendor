@@ -33,7 +33,7 @@ RUN apk --no-cache add \
     pip install --upgrade \
       setuptools \
       wheel \
-      elasticsearch-curator==5.8.3 \
+      elasticsearch-curator==5.8.4 \
       boto3==1.12.42 \
       requests-aws4auth==0.9 && \
     apk del \
