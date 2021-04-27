@@ -20,6 +20,7 @@ workflows:
           directory: {{ directory }}
           context:
             - quay.io
+            - docker.io
           requires:
             - scan-trivy-{{ directory }}
           filters:
