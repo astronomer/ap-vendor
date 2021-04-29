@@ -18,10 +18,9 @@ FROM quay.io/astronomer/ap-base:3.13.5
 RUN apk --no-cache add \
       libffi \
       libssl1.1 \
-      py-cffi \
-      py-openssl \
-      py-pip \
-      py-setuptools \
+      py3-cffi \
+      py3-pip \
+      py3-setuptools \
       python3 \
       python3-dev && \
     apk --no-cache add -u --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main \
@@ -34,8 +33,8 @@ RUN apk --no-cache add \
       setuptools \
       wheel \
       elasticsearch-curator==5.8.4 \
-      boto3==1.12.42 \
-      requests-aws4auth==0.9 && \
+      boto3==1.17.60 \
+      requests-aws4auth==1.0.1 && \
     apk del \
       py-pip \
       python3-dev && \
