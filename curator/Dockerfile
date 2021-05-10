@@ -14,6 +14,11 @@
 # limitations under the License.
 
 FROM quay.io/astronomer/ap-base:3.13.5
+LABEL maintainer="Astronomer <humans@astronomer.io>"
+
+ARG BUILD_NUMBER=-1
+LABEL io.astronomer.docker=true
+LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 RUN apk --no-cache add \
       libffi \
@@ -37,17 +42,9 @@ RUN apk --no-cache add \
       requests-aws4auth==1.0.1 && \
     apk del \
       py-pip \
-      python3-dev && \
-    sed -i '/import sys/a urllib3.contrib.pyopenssl.inject_into_urllib3()' /usr/bin/curator && \
-    sed -i '/import sys/a import urllib3.contrib.pyopenssl' /usr/bin/curator && \
-    sed -i '/import sys/a import urllib3' /usr/bin/curator
+      python3-dev
 
 USER nobody:nobody
 
 ENTRYPOINT ["/usr/bin/curator"]
 
-LABEL maintainer="Astronomer <humans@astronomer.io>"
-
-ARG BUILD_NUMBER=-1
-LABEL io.astronomer.docker=true
-LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
