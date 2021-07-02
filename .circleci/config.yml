@@ -624,7 +624,7 @@ jobs:
             - ~/.cache/pre-commit
       - run:
           name: Run pre-commit
-          command: pre-commit run --all-files || { git --no-pager diff && false ; }
+          command: pre-commit run --all-files --show-diff-on-failure
   build:
     executor: docker-executor
     description: Build an image
