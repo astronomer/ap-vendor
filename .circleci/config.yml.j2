@@ -65,7 +65,7 @@ jobs:
           path: << parameters.directory >>
   scan-trivy:
     docker:
-      - image: docker:18.09-git
+      - image: docker:20.10.7-git
     description: "Trivy: Vulnerability scan a Docker image"
     parameters:
       directory:
@@ -75,7 +75,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.2
+          version: 20.10.6
           image: aquasec/trivy:latest
       - attach_workspace:
           at: /tmp/workspace
@@ -83,8 +83,11 @@ jobs:
           name: Load archived Docker image
           command: docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
       - run:
-          name: Create cache file
-          command: date +%F > date
+          name: Install trivy
+          command: |
+            apk add --update-cache --upgrade curl rpm
+            curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sh -s -- -b /usr/local/bin
+            date +%F > date
       - restore_cache:
           keys:
             {% raw %}- trivy-cache-{{ checksum "date" }}{% endraw %}
