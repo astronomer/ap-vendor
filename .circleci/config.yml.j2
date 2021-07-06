@@ -30,7 +30,7 @@ workflows:
 jobs:
   run_pre_commit:
     docker:
-      - image: quay.io/astronomer/ci-pre-commit:2021-06
+      - image: quay.io/astronomer/ci-pre-commit:2021-07
     steps:
       - checkout
       - run:
@@ -66,7 +66,7 @@ jobs:
   scan-trivy:
     docker:
       - image: docker:18.09-git
-    description: "Trivy: Vulnerability scanner a Docker image"
+    description: "Trivy: Vulnerability scan a Docker image"
     parameters:
       directory:
         description: "The directory name of the image to be scanned"
@@ -76,35 +76,21 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
           version: 20.10.2
+          image: trivy:latest
       - attach_workspace:
           at: /tmp/workspace
       - run:
           name: Load archived Docker image
           command: docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
       - run:
-          name: Install trivy
-          command: |
-            apk add --update-cache --upgrade curl rpm
-            curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sh -s -- -b /usr/local/bin
-            date +%F > date
+          name: Create cache file
+          command: date +%F > date
       - restore_cache:
           keys:
             {% raw %}- trivy-cache-{{ checksum "date" }}{% endraw %}
       - run:
           name: Scan the local image with trivy
-          command: |
-            set +exo pipefail
-            [ -f /etc/os-release ] && cat /etc/os-release
-            output=$(trivy --ignorefile "./ap-<< parameters.directory >>/trivyignore" --ignorefile "./<< parameters.directory >>/trivyignore" --cache-dir /tmp/workspace/trivy-cache --ignore-unfixed -s HIGH,CRITICAL --exit-code 1 --no-progress "ap-<< parameters.directory >>")
-            exit_code=$?
-            # trivy doesn't support busybox scanning right now: https://github.com/aquasecurity/trivy/issues/397
-            # TODO: @andriisoldatenko patch trivy to add busybox
-            if echo "$output" | grep -q -i 'OS is not detected' ; then
-              echo "Skipping trivy scan because of unsupported OS"
-              exit 0
-            fi
-            echo "${output}"
-            exit "${exit_code}"
+          command: bin/trivy-scan.sh "<< parameters.directory >>"
       - save_cache:
           {% raw %}key: trivy-cache-{{ checksum "date" }}{% endraw %}
           paths:
