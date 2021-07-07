@@ -21,7 +21,7 @@ FROM wrouesnel/postgres_exporter:v0.8.0 AS upstream
 # In the next update, I think they are migrating from the scratch image,
 # so it will likely be unnecessary to perform this multi-stage build.
 # https://quay.io/repository/astronomer/ap-base
-FROM quay.io/astronomer/ap-base:3.13.5
+FROM quay.io/astronomer/ap-base:3.14.0
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 LABEL io.astronomer.docker=true
