@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM docker.io/prom/blackbox-exporter:v0.16.0
+FROM docker.io/prom/blackbox-exporter:v0.19.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 LABEL io.astronomer.docker=true
