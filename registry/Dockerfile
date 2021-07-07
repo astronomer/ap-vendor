@@ -36,7 +36,7 @@ RUN git clone https://github.com/distribution/distribution.git $DISTRIBUTION_DIR
 
 RUN CGO_ENABLED=0 make PREFIX=/go clean binaries && file ./bin/registry | grep "statically linked"
 
-FROM quay.io/astronomer/ap-base:3.13.5
+FROM quay.io/astronomer/ap-base:3.14.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
