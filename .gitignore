@@ -19,5 +19,6 @@ java/.project
 java/.settings/
 local.make
 target
+trivy-output.txt
 Untitled*
 venv
