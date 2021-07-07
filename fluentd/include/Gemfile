@@ -1,6 +1,5 @@
 # The original upstream Gemfile is: https://raw.githubusercontent.com/kubernetes/kubernetes/master/cluster/addons/fluentd-elasticsearch/fluentd-es-image/Gemfile
-# We have loosely versioned those, and let `bundle update` pin the most recent
-# compatible versions inside of Gemfile.lock
+# To update, loosely version these packages, then run 'make update-fluentd-gemfile.lock'
 
 source 'https://rubygems.org'
 
