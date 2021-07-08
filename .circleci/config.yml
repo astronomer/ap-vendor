@@ -25,9 +25,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-alertmanager
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-blackbox-exporter
@@ -47,9 +44,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-blackbox-exporter
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-configmap-reloader
@@ -69,9 +63,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-configmap-reloader
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-curator
@@ -91,9 +82,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-curator
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-elasticsearch
@@ -113,9 +101,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-elasticsearch
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-elasticsearch-exporter
@@ -135,9 +120,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-elasticsearch-exporter
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-fluentd
@@ -157,9 +139,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-fluentd
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-grafana
@@ -179,9 +158,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-grafana
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-keda
@@ -201,9 +177,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-keda
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-keda-metrics-apiserver
@@ -223,9 +196,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-keda-metrics-apiserver
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-kibana
@@ -245,9 +215,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-kibana
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-kube-state
@@ -267,9 +234,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-kube-state
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-kubed
@@ -289,9 +253,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-kubed
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-nats-exporter
@@ -311,9 +272,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nats-exporter
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-nats-server
@@ -333,9 +291,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nats-server
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-nats-streaming
@@ -355,9 +310,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nats-streaming
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-nginx
@@ -377,9 +329,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nginx
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-nginx-es
@@ -399,9 +348,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nginx-es
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-node-exporter
@@ -421,9 +367,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-node-exporter
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-pgbouncer
@@ -443,9 +386,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-pgbouncer
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-pgbouncer-exporter
@@ -465,9 +405,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-pgbouncer-exporter
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-postgres-exporter
@@ -487,9 +424,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-postgres-exporter
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-prisma
@@ -509,9 +443,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-prisma
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-prometheus
@@ -531,9 +462,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-prometheus
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-redis
@@ -553,9 +481,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-redis
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-registry
@@ -575,9 +500,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-registry
-          filters:
-            branches:
-              only: main
 
       - build:
           name: build-statsd-exporter
@@ -597,9 +519,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-statsd-exporter
-          filters:
-            branches:
-              only: main
 
 jobs:
   run_pre_commit:
