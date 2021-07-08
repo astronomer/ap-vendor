@@ -694,8 +694,6 @@ jobs:
           image_name: ap-<< parameters.directory >>
 executors:
   docker-executor:
-    environment:
-      DOCKER_REPO: astronomerinc
     docker:
       - image: circleci/python:3
 commands:
@@ -729,9 +727,6 @@ commands:
       comma_separated_tags:
         type: string
         default: latest
-      docker_repository:
-        type: string
-        default: $DOCKER_REPO
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
@@ -746,16 +741,13 @@ commands:
           command: echo "$QUAY_PASSWORD" | docker login --username "$QUAY_USERNAME" --password-stdin quay.io
       - run:
           name: Push Docker image(s)
-          command: bin/docker-push.sh "<< parameters.docker_repository >>" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" quay.io
+          command: bin/docker-push.sh "astronomer" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" quay.io
   push-to-docker-hub:
     description: "Push a Docker image to DockerHub"
     parameters:
       comma_separated_tags:
         type: string
         default: latest
-      docker_repository:
-        type: string
-        default: $DOCKER_REPO
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
@@ -770,4 +762,4 @@ commands:
           command: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin docker.io
       - run:
           name: Push Docker image(s)
-          command: bin/docker-push.sh "<< parameters.docker_repository >>" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" docker.io
+          command: bin/docker-push.sh "astronomerinc" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" docker.io
