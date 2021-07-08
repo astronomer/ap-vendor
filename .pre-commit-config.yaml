@@ -4,7 +4,7 @@ repos:
   - repo: local
     hooks:
       - id: circle-config-yaml
-        name: Checks for consistency between config.yml and config.yml.j2
+        name: Check for consistency between config.yml and config.yml.j2
         language: python
         # https://regex101.com/r/7SNQ2t/2
         files: '\.circleci/config\.yml(?:\.j2)?$|bin/generate_circleci_config\.py|\.pre-commit-config\.yaml$'

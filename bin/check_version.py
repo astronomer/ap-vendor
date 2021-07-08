@@ -1,26 +1,35 @@
 #!/usr/bin/env python3
 """Verify that a given ap-vendor component directory has a valid semver in its version.txt file, and print it out."""
 import sys
+from pathlib import Path
 
 from packaging.version import parse as semver
 
-try:
-    directory = sys.argv[1]
-except IndexError:
-    print("ERROR: no directory given.\n")
-    print(f"Description: {__doc__}\n")
-    print(f"Usage:       {sys.argv[0]} <dir_to_check>")
+
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
+
+def print_usage():
+    eprint(f"Description: {__doc__}\n")
+    eprint(f"Usage:       {sys.argv[0]} <dir_to_check>\n")
+
+
+if len(sys.argv) != 2:
+    print_usage()
     sys.exit(1)
 
+directory = Path(sys.argv[1]).absolute()
+
 try:
-    with open(f"{ directory }/version.txt") as version_file:
+    with open(directory / "version.txt") as version_file:
         version = version_file.read().strip()
 except FileNotFoundError:
-    print(f"ERROR: version.txt not found in {directory}")
+    eprint(f"ERROR: version.txt not found in {directory}")
     sys.exit(1)
 
 if not semver(version).release:
-    sys.stderr.write(f"Please provide a semantic version in { directory }/version.txt")
+    eprint(f"ERROR: No valid semver found in {directory}/version.txt")
     exit(1)
 
-sys.stdout.write(version)
+print(version)
