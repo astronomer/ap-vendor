@@ -645,7 +645,7 @@ commands:
     parameters:
       comma_separated_tags:
         type: string
-        default: latest
+        default: $CIRCLE_BRANCH
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
@@ -666,7 +666,7 @@ commands:
     parameters:
       comma_separated_tags:
         type: string
-        default: latest
+        default: $CIRCLE_BRANCH
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
