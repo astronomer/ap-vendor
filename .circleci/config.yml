@@ -1,11 +1,11 @@
 # Warning: automatically generated file
-# Please edit config.yml.j2, and use the script generate_circleci_config.py
+# Please edit .circleci/config.yml.j2, then run bin/generate_circleci_config.py
 version: 2.1
 workflows:
   version: 2.1
   vendor-build:
     jobs:
-      - run_pre_commit  # this is first because it validates that the versions match between docker and versions.txt
+      - run_pre_commit
 
       - build:
           name: build-alertmanager
@@ -718,15 +718,11 @@ commands:
           version: 20.10.2
       - run:
           name: Build the Docker image
-          command: |
-            set -xe
-            image_name="<< parameters.image_name >>"
-            docker build --platform linux/amd64 -t $image_name --file << parameters.path>>/<< parameters.dockerfile >> --build-arg BUILD_NUMBER=${CIRCLE_BUILD_NUM} << parameters.path >>
-            docker save -o << parameters.image_name >>.tar $image_name
+          command: bin/docker-build.sh << parameters.path>> << parameters.image_name >>
       - persist_to_workspace:
           root: .
           paths:
-            - './*.tar'
+            - "./*.tar"
   push-to-quay-io:
     description: "Push a Docker image to Quay.io"
     parameters:
@@ -849,4 +845,4 @@ commands:
             EOM
             TAG=$(python /tmp/next_patch_version.py)
             # Make this environment variable available to following steps
-            echo "export TAG=${TAG}" >> $BASH_ENV
+            echo "export TAG=${TAG}" >> "$BASH_ENV"
