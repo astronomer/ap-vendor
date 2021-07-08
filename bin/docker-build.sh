@@ -16,7 +16,7 @@ labels=(
 )
 
 if ! [[ "$CIRCLE_BRANCH" =~ ^(master|main)$ ]] ; then
-    labels+=( "--label quay.expires-after=8w" )
+    labels+=( "--label=quay.expires-after=8w" )
 fi
 
 project_path="$1"
