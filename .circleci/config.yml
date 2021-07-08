@@ -683,8 +683,9 @@ jobs:
           docker_layer_caching: true
           version: 20.10.2
       - checkout
-      - get-tag:
-          directory: << parameters.directory >>
+      - run:
+          name: Validate semver tag
+          command: check_version.py << parameters.directory >>
       - push-to-docker-hub:
           comma_separated_tags: "latest,$TAG"
           image_name: ap-<< parameters.directory >>
