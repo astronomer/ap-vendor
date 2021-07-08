@@ -12,10 +12,13 @@ docker build \
     --file "$project_path"/Dockerfile \
     --label io.astronomer.build.branch="$CIRCLE_BRANCH" \
     --label io.astronomer.build.date="$(date +%F)" \
-    --label io.astronomer.build.origin="$CIRCLE_REPOSITORY_URL" \
+    --label io.astronomer.build.job.id="$CIRCLE_BUILD_NUM" \
+    --label io.astronomer.build.job.name="$CIRCLE_JOB" \
+    --label io.astronomer.build.repo="$CIRCLE_REPOSITORY_URL" \
     --label io.astronomer.build.sha="$CIRCLE_SHA1" \
     --label io.astronomer.build.unixtime="$(date +%s)" \
     --label io.astronomer.build.url="$CIRCLE_BUILD_URL" \
+    --label io.astronomer.build.workflow.id="$CIRCLE_WORKFLOW_ID" \
     --build-arg BUILD_NUMBER="$CIRCLE_BUILD_NUM" \
     "$project_path"
 
