@@ -10,11 +10,15 @@ docker_registry="$4" # Must be quay.io or docker.io
 case "$docker_registry" in
     quay.io)
         function docker_tag_exists() {
+            # Return 0 if tag exists
+            [[ "$tag" == "latest" ]] && return 1 # assume 'latest' tag never exists
             curl --silent -f -lSL "https://quay.io/api/v1/repository/$1/tag/$2/images" > /dev/null
         }
         ;;
     docker.io)
         function docker_tag_exists() {
+            # Return 0 if tag exists
+            [[ "$tag" == "latest" ]] && return 1 # assume 'latest' tag never exists
             curl --silent -f -lSL "https://index.docker.io/v1/repositories/$1/tags/$2" > /dev/null
         }
         ;;
@@ -37,11 +41,7 @@ for tag in ${comma_separated_tag_list//,/ } ; do
     [[ "$tag" =~ ^v[0-9] ]] && tag="${tag/v/}"
 
     if docker_tag_exists "${docker_repository}/${image_name}" "${tag}" ; then
-        if [[ "$tag" == "latest" ]]; then
-            tag_and_push "$tag"
-        else
-            echo "This docker tag already exists. Skipping the Docker push!"
-        fi
+        echo "This docker tag already exists. Skipping the Docker push!"
     else
         tag_and_push "$tag"
     fi
