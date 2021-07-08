@@ -3,6 +3,9 @@ set -xe
 
 [[ $# -eq 2 ]] || exit 1
 
+project_path="$1"
+image_name="$2"
+
 labels=(
     "--label=io.astronomer.build.branch=$CIRCLE_BRANCH"
     "--label=io.astronomer.build.date=$(date +%F)"
@@ -19,8 +22,6 @@ if ! [[ "$CIRCLE_BRANCH" =~ ^(master|main)$ ]] ; then
     labels+=( "--label=quay.expires-after=8w" )
 fi
 
-project_path="$1"
-image_name="$2"
 docker build \
     --pull \
     --platform linux/amd64 \
