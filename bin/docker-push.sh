@@ -27,7 +27,7 @@ esac
 
 function tag_and_push() {
     docker tag "${image_name}" "${docker_registry}/${docker_repository}/${image_name}:$1"
-    echo DEBUG docker push "${docker_registry}/${docker_repository}/${image_name}:$1"
+    docker push "${docker_registry}/${docker_repository}/${image_name}:$1"
 }
 
 comma_separated_tag_list="${CIRCLE_BRANCH},"
