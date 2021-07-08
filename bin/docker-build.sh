@@ -23,3 +23,4 @@ docker build \
     "$project_path"
 
 docker save -o "$image_name.tar" "$image_name"
+docker inspect "$image_name"
