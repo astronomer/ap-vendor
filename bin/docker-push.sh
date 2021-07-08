@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -xe
 
-[[ $# -eq 2 ]] || exit 1
+[[ $# -eq 4 ]] || exit 1
 docker_repository="$1" # EG: "astronomer" in "quay.io/astronomer"
 image_name="$2" # EG: "cat-pic-downloader" in "quay.io/astronomer/cat-pic-downloader"
 comma_separated_tag_list="$3" # EG: alpine,latest,main,2021-07
