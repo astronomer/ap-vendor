@@ -26,6 +26,12 @@ function tag_and_push() {
     docker push "${docker_registry}/${docker_repository}/${image_name}:$1"
 }
 
+comma_separated_tag_list="${CIRCLE_BRANCH},"
+
+if ! [[ "$CIRCLE_BRANCH" =~ ^(master|main)$ ]] ; then
+    comma_separated_tag_list="latest,${comma_separated_tag_list}"
+fi
+
 for tag in ${comma_separated_tag_list//,/ } ; do
     # If the tag looks starts with "v" then a digit, remove the "v"
     [[ "$tag" =~ ^v[0-9] ]] && tag="${tag/v/}"

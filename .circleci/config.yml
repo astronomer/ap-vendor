@@ -687,15 +687,14 @@ jobs:
           name: Validate semver tag
           command: check_version.py << parameters.directory >>
       - push-to-docker-hub:
-          comma_separated_tags: "latest,$TAG"
+          comma_separated_tags: "$TAG"
           image_name: ap-<< parameters.directory >>
       - push-to-quay-io:
-          comma_separated_tags: "latest,$TAG"
+          comma_separated_tags: "$TAG"
           image_name: ap-<< parameters.directory >>
 executors:
   docker-executor:
     environment:
-      GIT_ORG: astronomer
       DOCKER_REPO: astronomerinc
     docker:
       - image: circleci/python:3
