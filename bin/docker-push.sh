@@ -28,7 +28,7 @@ function tag_and_push() {
 
 comma_separated_tag_list="${CIRCLE_BRANCH},"
 
-if ! [[ "$CIRCLE_BRANCH" =~ ^(master|main)$ ]] ; then
+if [[ "$CIRCLE_BRANCH" =~ ^(master|main)$ ]] ; then
     comma_separated_tag_list="latest,${comma_separated_tag_list}"
 fi
 
