@@ -172,32 +172,7 @@ commands:
           command: echo "$QUAY_PASSWORD" | docker login --username "$QUAY_USERNAME" --password-stdin quay.io
       - run:
           name: Push Docker image(s)
-          command: |
-            set -xe
-            function docker_tag_exists() {
-                curl --silent -f -lSL "https://quay.io/api/v1/repository/$1/tag/$2/images" > /dev/null
-            }
-            function tag_and_push() {
-                docker tag "<< parameters.image_name >>" "quay.io/astronomer/<< parameters.image_name >>:$1"
-                docker push "quay.io/astronomer/<< parameters.image_name >>:$1"
-            }
-            for tag in $(echo "<< parameters.comma_separated_tags >>" | sed "s/,/ /g");
-            do
-              # If the tag looks starts with "v" then a digit, remove the "v"
-              pattern="^(v[0-9].*)"
-              if [[ $tag =~ $pattern ]]; then
-                tag="${tag:1}"
-              fi
-              if docker_tag_exists "<< parameters.docker_repository >>/<< parameters.image_name >>" "${tag}" ; then
-                  if [[ "$tag" -eq "latest" ]]; then
-                    tag_and_push "$tag"
-                  else
-                    echo "This docker tag already exists. Skipping the Docker push!"
-                  fi
-              else
-                tag_and_push "$tag"
-              fi
-            done
+          command: bin/docker-push.sh "<< parameters.docker_repository >>" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" quay.io
   push-to-docker-hub:
     description: "Push a Docker image to DockerHub"
     parameters:
@@ -218,57 +193,7 @@ commands:
           command: docker load -i /tmp/workspace/<< parameters.image_name >>.tar
       - run:
           name: Login to DockerHub
-          command: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
+          command: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin docker.io
       - run:
           name: Push Docker image(s)
-          command: |
-            set -xe
-            function docker_tag_exists() {
-                curl --silent -f -lSL "https://index.docker.io/v1/repositories/$1/tags/$2" > /dev/null
-            }
-            function tag_and_push() {
-                docker tag "<< parameters.image_name >>" "<< parameters.docker_repository >>/<< parameters.image_name >>:$1"
-                docker push "<< parameters.docker_repository >>/<< parameters.image_name >>:$1"
-            }
-            for tag in $(echo "<< parameters.comma_separated_tags >>" | sed "s/,/ /g");
-            do
-              # If the tag looks starts with "v" then a digit, remove the "v"
-              pattern="^(v[0-9].*)"
-              if [[ $tag =~ $pattern ]]; then
-                tag="${tag:1}"
-              fi
-              if docker_tag_exists "<< parameters.docker_repository >>/<< parameters.image_name >>" "${tag}" ; then
-                  if [[ "$tag" -eq "latest" ]]; then
-                    tag_and_push "$tag"
-                  else
-                    echo 'This docker tag already exists. Skipping the Docker push!'
-                  fi
-              else
-                tag_and_push "$tag"
-              fi
-            done
-  get-tag:
-    description: "Set an environment variable to this release branch with an incremented patch version"
-    parameters:
-      directory:
-        type: string
-    steps:
-      - run:
-          name: Determine the tag
-          command: |
-            set -xe
-            pip install --user packaging
-            cat > /tmp/next_patch_version.py \<<- EOM
-            import sys
-            from packaging.version import parse as semver
-            directory="<< parameters.directory >>"
-            with open(f"{ directory }/version.txt", "r") as version_file:
-              version = version_file.read().strip()
-            if not semver(version).release:
-              sys.stderr.write(f"Please provide a semantic version in { directory }/version.txt")
-              exit(1)
-            sys.stdout.write(version)
-            EOM
-            TAG=$(python /tmp/next_patch_version.py)
-            # Make this environment variable available to following steps
-            echo "export TAG=${TAG}" >> "$BASH_ENV"
+          command: bin/docker-push.sh "<< parameters.docker_repository >>" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" docker.io

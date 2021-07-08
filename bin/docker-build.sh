@@ -3,8 +3,8 @@ set -xe
 
 [[ $# -eq 2 ]] || exit 1
 
-project_path="$1"
-image_name="$2"
+project_path="$1" # EG: "blackbox-exporter" in "$GIT_ROOT/blackbox-exporter"
+image_name="$2" # EG: "cat-pic-downloader" in "quay.io/astronomer/cat-pic-downloader"
 
 labels=(
     "--label=io.astronomer.build.branch=$CIRCLE_BRANCH"
