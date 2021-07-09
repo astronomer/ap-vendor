@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM prom/alertmanager:v0.20.0
+# https://hub.docker.com/r/prom/alertmanager/tags?page=1&ordering=last_updated
+FROM prom/alertmanager:v0.22.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
