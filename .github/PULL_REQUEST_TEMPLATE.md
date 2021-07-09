@@ -11,15 +11,15 @@ When your change is merged to main:
 - any images where the version is not published to Dockerhub, then publish
 -->
 
-**Which issue this PR fixes**:
+## Which issue this PR fixes
 
 <!-- if applicable, otherwise just delete the header -->
 
-**Summary of changes**:
+## Summary of changes
 
 <!-- required -->
 
-**Which images are updated by this PR?**:
+## Images are updated by this PR
 
 <!-- required -->
 
@@ -50,7 +50,9 @@ When your change is merged to main:
 - [ ] registry
 - [ ] statsd-exporter
 
-**Checklist** (required)
+## Checklist
+
+<!-- required -->
 
 Place an '[x]' (no spaces) in all applicable fields. Please remove unrelated fields.
 
@@ -58,8 +60,8 @@ Place an '[x]' (no spaces) in all applicable fields. Please remove unrelated fie
 
 If a security scan fails for an unchanged image...
 
-- [ ]  a fix has been applied OR...
-- [ ]  an [issue](<!-- link to the issue -->) has been created
+- [ ] a fix has been applied OR...
+- [ ] an [issue](<!-- link to the issue -->) has been created
 
 <!--
 Please give it a shot to fix any security issue, even if unrelated to your change.
@@ -73,4 +75,4 @@ If adding a new image:
 - [ ] the file .github/PULL_REQUEST_TEMPLATE.md is updated to include the image in the checklist
 - [ ] execute the script .circleci/generate_circleci_config.py, commit changes to .circleci/config.yml
 
-**Additional notes for your reviewer**:
+## Additional notes for your reviewer
