@@ -608,7 +608,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Bytes Recieved",
+      "title": "Bytes Received",
       "tooltip": {
         "shared": true,
         "sort": 0,

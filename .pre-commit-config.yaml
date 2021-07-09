@@ -4,11 +4,29 @@ repos:
   - repo: local
     hooks:
       - id: circle-config-yaml
-        name: Checks for consistency between config.yml and config.yml.j2
+        name: Check for consistency between config.yml and config.yml.j2
         language: python
-        files: "config.yml$|config.yml.j2|generate_circleci_config.py$"
-        entry: .circleci/generate_circleci_config.py
+        # https://regex101.com/r/7SNQ2t/3
+        files: '^(?:\.circleci/config\.yml(?:\.j2)?|bin/generate_circleci_config\.py|\.pre-commit-config\.yaml)$'
+        entry: bin/generate_circleci_config.py
         additional_dependencies: ["jinja2"]
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.0.0
+    hooks:
+      - id: codespell
+  - repo: https://github.com/asottile/reorder_python_imports
+    rev: v2.5.0
+    hooks:
+      - id: reorder-python-imports
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.17.0
+    hooks:
+      - id: pyupgrade
+        args: ["--py38-plus"]
+  - repo: https://github.com/psf/black
+    rev: 21.5b1
+    hooks:
+      - id: black
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.0.1
     hooks:

@@ -11,11 +11,11 @@ install-hooks: ## Install git hooks
 
 .PHONY: show-quay-urls
 show-quay-urls: ## Show Quay.io URLS for all images in repo
-	@find . -mindepth 1 -maxdepth 1 -type d -iname '[a-z]*' -print | sort | sed 's#^..#https://quay.io/astronomer/ap-#'
+	@find . -mindepth 1 -maxdepth 1 -type d -iname '[a-z]*' ! -name bin -print | sort | sed 's#^..#https://quay.io/astronomer/ap-#'
 
 .PHONY: show-quay-pull-urls
 show-quay-pull-urls: ## Show Quay.io pull for all images in repo
-	@find . -mindepth 1 -maxdepth 1 -type d -iname '[a-z]*' -print | grep -vE 'bin' | sort | while read -r dir ; do echo "quay.io/astronomer/ap-$${dir:2}:$$(cat $$dir/version.txt)" ; done ;
+	@find . -mindepth 1 -maxdepth 1 -type d -iname '[a-z]*' ! -name bin -print | sort | while read -r dir ; do echo "quay.io/astronomer/ap-$${dir:2}:$$(cat $$dir/version.txt)" ; done ;
 
 .PHONY: update-fluentd-gemfile.lock
 update-fluentd-gemfile.lock: ## Update the fluentd Gemfile.lock file

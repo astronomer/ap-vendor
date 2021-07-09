@@ -3,7 +3,7 @@ workflows:
   version: 2.1
   vendor-build:
     jobs:
-      - run_pre_commit  # this is first because it validates that the versions match between docker and versions.txt
+      - run_pre_commit
 {% for directory in directories %}
       - build:
           name: build-{{ directory }}
@@ -30,7 +30,7 @@ workflows:
 jobs:
   run_pre_commit:
     docker:
-      - image: quay.io/astronomer/ci-pre-commit:2021-06
+      - image: quay.io/astronomer/ci-pre-commit:2021-07
     steps:
       - checkout
       - run:
@@ -50,7 +50,7 @@ jobs:
             - ~/.cache/pre-commit
       - run:
           name: Run pre-commit
-          command: pre-commit run --all-files || { git --no-pager diff && false ; }
+          command: pre-commit run --all-files --show-diff-on-failure
   build:
     executor: docker-executor
     description: Build an image
@@ -65,8 +65,8 @@ jobs:
           path: << parameters.directory >>
   scan-trivy:
     docker:
-      - image: docker:18.09-git
-    description: "Trivy: Vulnerability scanner a Docker image"
+      - image: docker:20.10.7-git
+    description: "Trivy: Vulnerability scan a Docker image"
     parameters:
       directory:
         description: "The directory name of the image to be scanned"
@@ -75,7 +75,8 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.2
+          version: 20.10.6
+          image: aquasec/trivy:latest
       - attach_workspace:
           at: /tmp/workspace
       - run:
@@ -84,7 +85,7 @@ jobs:
       - run:
           name: Install trivy
           command: |
-            apk add --update-cache --upgrade curl rpm
+            apk add --update-cache --upgrade curl rpm bash
             curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sh -s -- -b /usr/local/bin
             date +%F > date
       - restore_cache:
@@ -92,19 +93,7 @@ jobs:
             {% raw %}- trivy-cache-{{ checksum "date" }}{% endraw %}
       - run:
           name: Scan the local image with trivy
-          command: |
-            set +exo pipefail
-            [ -f /etc/os-release ] && cat /etc/os-release
-            output=$(trivy --ignorefile "./ap-<< parameters.directory >>/trivyignore" --ignorefile "./<< parameters.directory >>/trivyignore" --cache-dir /tmp/workspace/trivy-cache --ignore-unfixed -s HIGH,CRITICAL --exit-code 1 --no-progress "ap-<< parameters.directory >>")
-            exit_code=$?
-            # trivy doesn't support busybox scanning right now: https://github.com/aquasecurity/trivy/issues/397
-            # TODO: @andriisoldatenko patch trivy to add busybox
-            if echo "$output" | grep -q -i 'OS is not detected' ; then
-              echo "Skipping trivy scan because of unsupported OS"
-              exit 0
-            fi
-            echo "${output}"
-            exit "${exit_code}"
+          command: bin/trivy-scan.sh "<< parameters.directory >>"
       - save_cache:
           {% raw %}key: trivy-cache-{{ checksum "date" }}{% endraw %}
           paths:
@@ -120,19 +109,17 @@ jobs:
           docker_layer_caching: true
           version: 20.10.2
       - checkout
-      - get-tag:
-          directory: << parameters.directory >>
+      - run:
+          name: Validate semver tag
+          command: bin/check_version.py << parameters.directory >>
       - push-to-docker-hub:
-          comma_separated_tags: "latest,$TAG"
+          comma_separated_tags: "$TAG"
           image_name: ap-<< parameters.directory >>
       - push-to-quay-io:
-          comma_separated_tags: "latest,$TAG"
+          comma_separated_tags: "$TAG"
           image_name: ap-<< parameters.directory >>
 executors:
   docker-executor:
-    environment:
-      GIT_ORG: astronomer
-      DOCKER_REPO: astronomerinc
     docker:
       - image: circleci/python:3
 commands:
@@ -155,24 +142,17 @@ commands:
           version: 20.10.2
       - run:
           name: Build the Docker image
-          command: |
-            set -xe
-            image_name="<< parameters.image_name >>"
-            docker build --platform linux/amd64 -t $image_name --file << parameters.path>>/<< parameters.dockerfile >> --build-arg BUILD_NUMBER=${CIRCLE_BUILD_NUM} << parameters.path >>
-            docker save -o << parameters.image_name >>.tar $image_name
+          command: bin/docker-build.sh << parameters.path>> << parameters.image_name >>
       - persist_to_workspace:
           root: .
           paths:
-            - './*.tar'
+            - "./*.tar"
   push-to-quay-io:
     description: "Push a Docker image to Quay.io"
     parameters:
       comma_separated_tags:
         type: string
-        default: latest
-      docker_repository:
-        type: string
-        default: $DOCKER_REPO
+        default: $CIRCLE_BRANCH
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
@@ -187,41 +167,13 @@ commands:
           command: echo "$QUAY_PASSWORD" | docker login --username "$QUAY_USERNAME" --password-stdin quay.io
       - run:
           name: Push Docker image(s)
-          command: |
-            set -xe
-            function docker_tag_exists() {
-                curl --silent -f -lSL "https://quay.io/api/v1/repository/$1/tag/$2/images" > /dev/null
-            }
-            function tag_and_push() {
-                docker tag "<< parameters.image_name >>" "quay.io/astronomer/<< parameters.image_name >>:$1"
-                docker push "quay.io/astronomer/<< parameters.image_name >>:$1"
-            }
-            for tag in $(echo "<< parameters.comma_separated_tags >>" | sed "s/,/ /g");
-            do
-              # If the tag looks starts with "v" then a digit, remove the "v"
-              pattern="^(v[0-9].*)"
-              if [[ $tag =~ $pattern ]]; then
-                tag="${tag:1}"
-              fi
-              if docker_tag_exists "<< parameters.docker_repository >>/<< parameters.image_name >>" "${tag}" ; then
-                  if [[ "$tag" -eq "latest" ]]; then
-                    tag_and_push "$tag"
-                  else
-                    echo "This docker tag already exists. Skipping the Docker push!"
-                  fi
-              else
-                tag_and_push "$tag"
-              fi
-            done
+          command: bin/docker-push.sh "astronomer" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" quay.io
   push-to-docker-hub:
     description: "Push a Docker image to DockerHub"
     parameters:
       comma_separated_tags:
         type: string
-        default: latest
-      docker_repository:
-        type: string
-        default: $DOCKER_REPO
+        default: $CIRCLE_BRANCH
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
@@ -233,57 +185,7 @@ commands:
           command: docker load -i /tmp/workspace/<< parameters.image_name >>.tar
       - run:
           name: Login to DockerHub
-          command: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
+          command: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin docker.io
       - run:
           name: Push Docker image(s)
-          command: |
-            set -xe
-            function docker_tag_exists() {
-                curl --silent -f -lSL "https://index.docker.io/v1/repositories/$1/tags/$2" > /dev/null
-            }
-            function tag_and_push() {
-                docker tag "<< parameters.image_name >>" "<< parameters.docker_repository >>/<< parameters.image_name >>:$1"
-                docker push "<< parameters.docker_repository >>/<< parameters.image_name >>:$1"
-            }
-            for tag in $(echo "<< parameters.comma_separated_tags >>" | sed "s/,/ /g");
-            do
-              # If the tag looks starts with "v" then a digit, remove the "v"
-              pattern="^(v[0-9].*)"
-              if [[ $tag =~ $pattern ]]; then
-                tag="${tag:1}"
-              fi
-              if docker_tag_exists "<< parameters.docker_repository >>/<< parameters.image_name >>" "${tag}" ; then
-                  if [[ "$tag" -eq "latest" ]]; then
-                    tag_and_push "$tag"
-                  else
-                    echo 'This docker tag already exists. Skipping the Docker push!'
-                  fi
-              else
-                tag_and_push "$tag"
-              fi
-            done
-  get-tag:
-    description: "Set an environment variable to this release branch with an incremented patch version"
-    parameters:
-      directory:
-        type: string
-    steps:
-      - run:
-          name: Determine the tag
-          command: |
-            set -xe
-            pip install --user packaging
-            cat > /tmp/next_patch_version.py \<<- EOM
-            import sys
-            from packaging.version import parse as semver
-            directory="<< parameters.directory >>"
-            with open(f"{ directory }/version.txt", "r") as version_file:
-              version = version_file.read().strip()
-            if not semver(version).release:
-              sys.stderr.write(f"Please provide a semantic version in { directory }/version.txt")
-              exit(1)
-            sys.stdout.write(version)
-            EOM
-            TAG=$(python /tmp/next_patch_version.py)
-            # Make this environment variable available to following steps
-            echo "export TAG=${TAG}" >> $BASH_ENV
+          command: bin/docker-push.sh "astronomerinc" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" docker.io
