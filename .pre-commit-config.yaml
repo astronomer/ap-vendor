@@ -6,8 +6,8 @@ repos:
       - id: circle-config-yaml
         name: Check for consistency between config.yml and config.yml.j2
         language: python
-        # https://regex101.com/r/7SNQ2t/2
-        files: '\.circleci/config\.yml(?:\.j2)?$|bin/generate_circleci_config\.py|\.pre-commit-config\.yaml$'
+        # https://regex101.com/r/7SNQ2t/3
+        files: '^(?:\.circleci/config\.yml(?:\.j2)?|bin/generate_circleci_config\.py|\.pre-commit-config\.yaml)$'
         entry: bin/generate_circleci_config.py
         additional_dependencies: ["jinja2"]
   - repo: https://github.com/codespell-project/codespell
