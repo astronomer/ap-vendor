@@ -44,7 +44,6 @@ When your change is merged to main:
 - [ ] pgbouncer
 - [ ] pgbouncer-exporter
 - [ ] postgres-exporter
-- [ ] prisma
 - [ ] prometheus
 - [ ] redis
 - [ ] registry
