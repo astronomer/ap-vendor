@@ -24,7 +24,7 @@ mappings:
   # As of version 0.7.0, we deploy an image that exposes this metric
   # as a counter instead of a gauge. (https://github.com/apache/incubator-airflow/pull/4027).
   # As a result we need to account for this as we transition already running
-  # deployments to the latest docker iamge. This additional label lets us fix up our alerts and dashboards.
+  # deployments to the latest docker image. This additional label lets us fix up our alerts and dashboards.
   - match: airflow.scheduler_heartbeat
     match_type: regex
     name: "airflow_scheduler_heartbeat"
