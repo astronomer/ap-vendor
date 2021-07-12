@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -xe
 
+docker info
+docker version
+
 [[ $# -eq 4 ]] || exit 1
 docker_repository="$1" # EG: "astronomer" in "quay.io/astronomer"
 image_name="$2" # EG: "cat-pic-downloader" in "quay.io/astronomer/cat-pic-downloader"
