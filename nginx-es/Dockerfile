@@ -24,7 +24,7 @@ LABEL io.astronomer.docker.component="default-backend"
 ENV SERVER_ROOT="/usr/share/nginx/html"
 
 # Install NGINX
-RUN apk add --no-cache nginx=1.18.0-r15
+RUN apk add --no-cache nginx-1.20.1-r3
 
 # Run mkdir to create nginx directory
 RUN mkdir -p /run/nginx
