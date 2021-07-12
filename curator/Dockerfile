@@ -37,6 +37,7 @@ RUN apk --no-cache add \
     pip install --upgrade \
       setuptools \
       wheel \
+      # https://pypi.org/project/elasticsearch-curator/
       elasticsearch-curator==5.8.4 \
       boto3==1.17.60 \
       requests-aws4auth==1.0.1 && \
