@@ -492,28 +492,6 @@ workflows:
               only: main
 
       - build:
-          name: build-prisma
-          directory: prisma
-          requires:
-            - run_pre_commit
-      - scan-trivy:
-          name: scan-trivy-prisma
-          directory: prisma
-          requires:
-            - build-prisma
-      - release:
-          name: release-prisma
-          directory: prisma
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - scan-trivy-prisma
-          filters:
-            branches:
-              only: main
-
-      - build:
           name: build-prometheus
           directory: prometheus
           requires:
