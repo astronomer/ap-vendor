@@ -30,7 +30,7 @@ function tag_and_push() {
     docker push "${docker_registry}/${docker_repository}/${image_name}:$1"
 }
 
-comma_separated_tag_list="${CIRCLE_BRANCH},"
+comma_separated_tag_list="${comma_separated_tag_list},${CIRCLE_BRANCH},"
 
 if [[ "$CIRCLE_BRANCH" =~ ^(master|main)$ ]] ; then
     comma_separated_tag_list="latest,${comma_separated_tag_list}"
