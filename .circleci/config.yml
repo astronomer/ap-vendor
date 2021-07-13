@@ -685,7 +685,9 @@ jobs:
       - checkout
       - run:
           name: Validate semver tag
-          command: bin/check_version.py << parameters.directory >>
+          command: |
+            version="$(bin/check_version.py << parameters.directory >>)"
+            echo "export TAG=${TAG}" >> $BASH_ENV
       - push-to-docker-hub:
           comma_separated_tags: "$TAG"
           image_name: ap-<< parameters.directory >>
