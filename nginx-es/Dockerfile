@@ -29,6 +29,8 @@ RUN apk add --no-cache nginx=1.18.0-r15
 # Run mkdir to create nginx directory
 RUN mkdir -p /run/nginx
 
+USER nobody:nobody
+
 # NGINX is configured to listen on 9200
 EXPOSE 9200
 

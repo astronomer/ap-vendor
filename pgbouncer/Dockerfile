@@ -24,3 +24,5 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 RUN set -ex \
     && apk upgrade --no-cache libressl libressl-dev
+
+USER nobody:nobody

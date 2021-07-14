@@ -19,3 +19,4 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+USER nobody:nobody
