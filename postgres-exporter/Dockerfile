@@ -39,4 +39,6 @@ EXPOSE 9187
 COPY include/entrypoint /entrypoint
 COPY include/healthcheck /healthcheck
 
+USER nobody:nobody
+
 ENTRYPOINT [ "/entrypoint" ]

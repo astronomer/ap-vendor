@@ -24,6 +24,8 @@ ENV OPERATOR=/usr/local/bin/keda-apiserver \
     USER_UID=1001 \
     USER_NAME=keda
 
+USER nobody:nobody
+
 ENTRYPOINT ["/keda-adapter", "--secure-port=6443", "--logtostderr=true", "--v=0"]
 
 USER ${USER_UID}

@@ -25,4 +25,6 @@ RUN set -ex \
 
 COPY include/wait-for-db.sh /wait-for-db.sh
 
+USER nobody:nobody
+
 CMD ["/wait-for-db.sh"]

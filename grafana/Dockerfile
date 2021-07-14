@@ -38,3 +38,5 @@ COPY include/kubernetes-pods-metrics.json /var/lib/grafana/dashboards/kubernetes
 COPY include/nats-dash.json /var/lib/grafana/dashboards/nats-dash.json
 COPY include/stan-dash.json /var/lib/grafana/dashboards/stan-dash.json
 COPY include/wait-for-db.sh /wait-for-db.sh
+
+USER nobody:nobody

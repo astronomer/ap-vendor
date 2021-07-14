@@ -25,3 +25,5 @@ RUN set -ex \
     && echo http://dl-cdn.alpinelinux.org/alpine/v3.12/main > /etc/apk/repositories \
     && echo http://dl-cdn.alpinelinux.org/alpine/v3.12/community >> /etc/apk/repositories \
     && apk upgrade --no-cache libressl libressl-dev
+
+USER nobody:nobody

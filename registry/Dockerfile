@@ -52,6 +52,8 @@ COPY ./config-example.yml /etc/docker/registry/config.yml
 VOLUME ["/var/lib/registry"]
 EXPOSE 5000
 
+USER nobody:nobody
+
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 

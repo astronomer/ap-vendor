@@ -27,17 +27,17 @@ RUN set -o xtrace && \
     BUILD_DEPS="build-essential make gcc g++ libc6-dev ruby-dev bundler libffi-dev" \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
-                     $BUILD_DEPS \
-                     ca-certificates \
-                     libjemalloc2 \
-                     ruby \
+        $BUILD_DEPS \
+        ca-certificates \
+        libjemalloc2 \
+        ruby \
     && echo 'gem: --no-document' >> /etc/gemrc \
     && gem install bundler \
     && gem install --file Gemfile \
     && gem list \
     && apt-get purge -y --auto-remove \
-                     -o APT::AutoRemove::RecommendsImportant=false \
-                     $BUILD_DEPS \
+        -o APT::AutoRemove::RecommendsImportant=false \
+        $BUILD_DEPS \
     && apt-get clean -y \
     && rm -rf \
         /var/cache/debconf/* \
@@ -69,3 +69,5 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+USER nobody:nobody

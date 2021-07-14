@@ -21,3 +21,5 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 COPY include/mappings.yml /etc/statsd-exporter/mappings.yml
+
+USER nobody:nobody
