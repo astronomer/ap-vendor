@@ -7,10 +7,13 @@ workflows:
     jobs:
       - run_pre_commit
 
+      - approve-alertmanager:
+          type: approval
       - build:
           name: build-alertmanager
           directory: alertmanager
           requires:
+            - approve-alertmanager
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-alertmanager
@@ -29,10 +32,13 @@ workflows:
             branches:
               only: main
 
+      - approve-blackbox-exporter:
+          type: approval
       - build:
           name: build-blackbox-exporter
           directory: blackbox-exporter
           requires:
+            - approve-blackbox-exporter
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-blackbox-exporter
@@ -51,10 +57,13 @@ workflows:
             branches:
               only: main
 
+      - approve-configmap-reloader:
+          type: approval
       - build:
           name: build-configmap-reloader
           directory: configmap-reloader
           requires:
+            - approve-configmap-reloader
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-configmap-reloader
@@ -73,10 +82,13 @@ workflows:
             branches:
               only: main
 
+      - approve-curator:
+          type: approval
       - build:
           name: build-curator
           directory: curator
           requires:
+            - approve-curator
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-curator
@@ -95,10 +107,13 @@ workflows:
             branches:
               only: main
 
+      - approve-elasticsearch:
+          type: approval
       - build:
           name: build-elasticsearch
           directory: elasticsearch
           requires:
+            - approve-elasticsearch
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-elasticsearch
@@ -117,10 +132,13 @@ workflows:
             branches:
               only: main
 
+      - approve-elasticsearch-exporter:
+          type: approval
       - build:
           name: build-elasticsearch-exporter
           directory: elasticsearch-exporter
           requires:
+            - approve-elasticsearch-exporter
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-elasticsearch-exporter
@@ -139,10 +157,13 @@ workflows:
             branches:
               only: main
 
+      - approve-fluentd:
+          type: approval
       - build:
           name: build-fluentd
           directory: fluentd
           requires:
+            - approve-fluentd
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-fluentd
@@ -161,10 +182,13 @@ workflows:
             branches:
               only: main
 
+      - approve-grafana:
+          type: approval
       - build:
           name: build-grafana
           directory: grafana
           requires:
+            - approve-grafana
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-grafana
@@ -183,10 +207,13 @@ workflows:
             branches:
               only: main
 
+      - approve-keda:
+          type: approval
       - build:
           name: build-keda
           directory: keda
           requires:
+            - approve-keda
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-keda
@@ -205,10 +232,13 @@ workflows:
             branches:
               only: main
 
+      - approve-keda-metrics-apiserver:
+          type: approval
       - build:
           name: build-keda-metrics-apiserver
           directory: keda-metrics-apiserver
           requires:
+            - approve-keda-metrics-apiserver
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-keda-metrics-apiserver
@@ -227,10 +257,13 @@ workflows:
             branches:
               only: main
 
+      - approve-kibana:
+          type: approval
       - build:
           name: build-kibana
           directory: kibana
           requires:
+            - approve-kibana
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-kibana
@@ -249,10 +282,13 @@ workflows:
             branches:
               only: main
 
+      - approve-kube-state:
+          type: approval
       - build:
           name: build-kube-state
           directory: kube-state
           requires:
+            - approve-kube-state
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-kube-state
@@ -271,10 +307,13 @@ workflows:
             branches:
               only: main
 
+      - approve-kubed:
+          type: approval
       - build:
           name: build-kubed
           directory: kubed
           requires:
+            - approve-kubed
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-kubed
@@ -293,10 +332,13 @@ workflows:
             branches:
               only: main
 
+      - approve-nats-exporter:
+          type: approval
       - build:
           name: build-nats-exporter
           directory: nats-exporter
           requires:
+            - approve-nats-exporter
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-nats-exporter
@@ -315,10 +357,13 @@ workflows:
             branches:
               only: main
 
+      - approve-nats-server:
+          type: approval
       - build:
           name: build-nats-server
           directory: nats-server
           requires:
+            - approve-nats-server
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-nats-server
@@ -337,10 +382,13 @@ workflows:
             branches:
               only: main
 
+      - approve-nats-streaming:
+          type: approval
       - build:
           name: build-nats-streaming
           directory: nats-streaming
           requires:
+            - approve-nats-streaming
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-nats-streaming
@@ -359,10 +407,13 @@ workflows:
             branches:
               only: main
 
+      - approve-nginx:
+          type: approval
       - build:
           name: build-nginx
           directory: nginx
           requires:
+            - approve-nginx
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-nginx
@@ -381,10 +432,13 @@ workflows:
             branches:
               only: main
 
+      - approve-nginx-es:
+          type: approval
       - build:
           name: build-nginx-es
           directory: nginx-es
           requires:
+            - approve-nginx-es
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-nginx-es
@@ -403,10 +457,13 @@ workflows:
             branches:
               only: main
 
+      - approve-node-exporter:
+          type: approval
       - build:
           name: build-node-exporter
           directory: node-exporter
           requires:
+            - approve-node-exporter
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-node-exporter
@@ -425,10 +482,13 @@ workflows:
             branches:
               only: main
 
+      - approve-pgbouncer:
+          type: approval
       - build:
           name: build-pgbouncer
           directory: pgbouncer
           requires:
+            - approve-pgbouncer
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-pgbouncer
@@ -447,10 +507,13 @@ workflows:
             branches:
               only: main
 
+      - approve-pgbouncer-exporter:
+          type: approval
       - build:
           name: build-pgbouncer-exporter
           directory: pgbouncer-exporter
           requires:
+            - approve-pgbouncer-exporter
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-pgbouncer-exporter
@@ -469,10 +532,13 @@ workflows:
             branches:
               only: main
 
+      - approve-postgres-exporter:
+          type: approval
       - build:
           name: build-postgres-exporter
           directory: postgres-exporter
           requires:
+            - approve-postgres-exporter
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-postgres-exporter
@@ -491,10 +557,13 @@ workflows:
             branches:
               only: main
 
+      - approve-prisma:
+          type: approval
       - build:
           name: build-prisma
           directory: prisma
           requires:
+            - approve-prisma
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-prisma
@@ -513,10 +582,13 @@ workflows:
             branches:
               only: main
 
+      - approve-prometheus:
+          type: approval
       - build:
           name: build-prometheus
           directory: prometheus
           requires:
+            - approve-prometheus
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-prometheus
@@ -535,10 +607,13 @@ workflows:
             branches:
               only: main
 
+      - approve-redis:
+          type: approval
       - build:
           name: build-redis
           directory: redis
           requires:
+            - approve-redis
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-redis
@@ -557,10 +632,13 @@ workflows:
             branches:
               only: main
 
+      - approve-registry:
+          type: approval
       - build:
           name: build-registry
           directory: registry
           requires:
+            - approve-registry
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-registry
@@ -579,10 +657,13 @@ workflows:
             branches:
               only: main
 
+      - approve-statsd-exporter:
+          type: approval
       - build:
           name: build-statsd-exporter
           directory: statsd-exporter
           requires:
+            - approve-statsd-exporter
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-statsd-exporter

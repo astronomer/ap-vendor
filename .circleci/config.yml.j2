@@ -5,10 +5,13 @@ workflows:
     jobs:
       - run_pre_commit
 {% for directory in directories %}
+      - approve-{{ directory }}:
+          type: approval
       - build:
           name: build-{{ directory }}
           directory: {{ directory }}
           requires:
+            - approve-{{ directory }}
             - run_pre_commit
       - scan-trivy:
           name: scan-trivy-{{ directory }}
