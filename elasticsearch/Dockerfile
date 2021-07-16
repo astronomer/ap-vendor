@@ -22,3 +22,5 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 RUN yum -y update glib2 bind-license dbus openssl bind-export-libs gnutls nettle
+
+USER elasticsearch
