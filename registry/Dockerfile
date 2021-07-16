@@ -43,16 +43,23 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+# Create registry user and group
+RUN addgroup -g 1000 -S registry \
+    && adduser -u 1000 -S registry -G registry
+
 RUN set -ex \
     && apk add --no-cache ca-certificates
 
-COPY --from=build /go/src/github.com/distribution/distribution/bin/registry /bin/registry
-COPY ./config-example.yml /etc/docker/registry/config.yml
+COPY --from=build --chown=1000:1000 /go/src/github.com/distribution/distribution/bin/registry /bin/registry
+COPY --chown=1000:1000 ./config-example.yml /etc/docker/registry/config.yml
 
 VOLUME ["/var/lib/registry"]
 EXPOSE 5000
 
-COPY docker-entrypoint.sh /entrypoint.sh
+COPY --chown=1000:1000 docker-entrypoint.sh /entrypoint.sh
+
+USER registry
+
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/etc/docker/registry/config.yml"]
