@@ -26,9 +26,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-{{ directory }}
-          filters:
-            branches:
-              only: main
 {% endfor %}
 jobs:
   run_pre_commit:

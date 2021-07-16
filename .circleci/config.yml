@@ -28,9 +28,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-alertmanager
-          filters:
-            branches:
-              only: main
 
       - approve-blackbox-exporter:
           type: approval
@@ -53,9 +50,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-blackbox-exporter
-          filters:
-            branches:
-              only: main
 
       - approve-configmap-reloader:
           type: approval
@@ -78,9 +72,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-configmap-reloader
-          filters:
-            branches:
-              only: main
 
       - approve-curator:
           type: approval
@@ -103,9 +94,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-curator
-          filters:
-            branches:
-              only: main
 
       - approve-elasticsearch:
           type: approval
@@ -128,9 +116,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-elasticsearch
-          filters:
-            branches:
-              only: main
 
       - approve-elasticsearch-exporter:
           type: approval
@@ -153,9 +138,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-elasticsearch-exporter
-          filters:
-            branches:
-              only: main
 
       - approve-fluentd:
           type: approval
@@ -178,9 +160,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-fluentd
-          filters:
-            branches:
-              only: main
 
       - approve-grafana:
           type: approval
@@ -203,9 +182,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-grafana
-          filters:
-            branches:
-              only: main
 
       - approve-keda:
           type: approval
@@ -228,9 +204,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-keda
-          filters:
-            branches:
-              only: main
 
       - approve-keda-metrics-apiserver:
           type: approval
@@ -253,9 +226,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-keda-metrics-apiserver
-          filters:
-            branches:
-              only: main
 
       - approve-kibana:
           type: approval
@@ -278,9 +248,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-kibana
-          filters:
-            branches:
-              only: main
 
       - approve-kube-state:
           type: approval
@@ -303,9 +270,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-kube-state
-          filters:
-            branches:
-              only: main
 
       - approve-kubed:
           type: approval
@@ -328,9 +292,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-kubed
-          filters:
-            branches:
-              only: main
 
       - approve-nats-exporter:
           type: approval
@@ -353,9 +314,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nats-exporter
-          filters:
-            branches:
-              only: main
 
       - approve-nats-server:
           type: approval
@@ -378,9 +336,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nats-server
-          filters:
-            branches:
-              only: main
 
       - approve-nats-streaming:
           type: approval
@@ -403,9 +358,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nats-streaming
-          filters:
-            branches:
-              only: main
 
       - approve-nginx:
           type: approval
@@ -428,9 +380,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nginx
-          filters:
-            branches:
-              only: main
 
       - approve-nginx-es:
           type: approval
@@ -453,9 +402,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nginx-es
-          filters:
-            branches:
-              only: main
 
       - approve-node-exporter:
           type: approval
@@ -478,9 +424,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-node-exporter
-          filters:
-            branches:
-              only: main
 
       - approve-pgbouncer:
           type: approval
@@ -503,9 +446,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-pgbouncer
-          filters:
-            branches:
-              only: main
 
       - approve-pgbouncer-exporter:
           type: approval
@@ -528,9 +468,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-pgbouncer-exporter
-          filters:
-            branches:
-              only: main
 
       - approve-postgres-exporter:
           type: approval
@@ -553,9 +490,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-postgres-exporter
-          filters:
-            branches:
-              only: main
 
       - approve-prometheus:
           type: approval
@@ -578,9 +512,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-prometheus
-          filters:
-            branches:
-              only: main
 
       - approve-redis:
           type: approval
@@ -603,9 +534,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-redis
-          filters:
-            branches:
-              only: main
 
       - approve-registry:
           type: approval
@@ -628,9 +556,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-registry
-          filters:
-            branches:
-              only: main
 
       - approve-statsd-exporter:
           type: approval
@@ -653,9 +578,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-statsd-exporter
-          filters:
-            branches:
-              only: main
 
 jobs:
   run_pre_commit:
