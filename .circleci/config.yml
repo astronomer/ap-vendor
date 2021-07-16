@@ -557,31 +557,6 @@ workflows:
             branches:
               only: main
 
-      - approve-prisma:
-          type: approval
-      - build:
-          name: build-prisma
-          directory: prisma
-          requires:
-            - approve-prisma
-            - run_pre_commit
-      - scan-trivy:
-          name: scan-trivy-prisma
-          directory: prisma
-          requires:
-            - build-prisma
-      - release:
-          name: release-prisma
-          directory: prisma
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - scan-trivy-prisma
-          filters:
-            branches:
-              only: main
-
       - approve-prometheus:
           type: approval
       - build:
