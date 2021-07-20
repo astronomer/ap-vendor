@@ -1,0 +1,3 @@
+# A flaw was found in FasterXML Jackson Databind,
+# upstream vendor has not released any fix to mitigate this CVE
+CVE-2020-25649: FasterXML
