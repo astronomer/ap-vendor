@@ -19,7 +19,7 @@ GEM
     aws-sdk-kms (1.44.0)
       aws-sdk-core (~> 3, >= 3.112.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.96.1)
+    aws-sdk-s3 (1.96.2)
       aws-sdk-core (~> 3, >= 3.112.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
@@ -74,7 +74,7 @@ GEM
       elasticsearch
       excon
       fluentd (>= 0.14.22)
-    fluent-plugin-kubernetes_metadata_filter (2.7.1)
+    fluent-plugin-kubernetes_metadata_filter (2.7.2)
       fluentd (>= 0.14.0, < 1.14)
       kubeclient (< 5)
       lru_redux
