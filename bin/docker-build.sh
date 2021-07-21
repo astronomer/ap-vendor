@@ -26,10 +26,11 @@ docker build \
     --pull \
     --platform linux/amd64 \
     --tag "$image_name" \
+    --tag "${image_name}:${CIRCLE_SHA1}" \
     --file "$project_path"/Dockerfile \
     --build-arg BUILD_NUMBER="$CIRCLE_BUILD_NUM" \
     "${labels[@]}" \
     "$project_path"
 
-docker save -o "$image_name.tar" "$image_name"
-docker inspect "$image_name"
+docker save -o "$image_name.tar" "${image_name}:${CIRCLE_SHA1}"
+docker inspect "${image_name}:${CIRCLE_SHA1}"

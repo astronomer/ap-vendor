@@ -15,7 +15,7 @@ trivy \
   --ignore-unfixed -s HIGH,CRITICAL \
   --exit-code 1 \
   --no-progress \
-  "ap-${scan_target}" > "${GIT_ROOT}/trivy-output.txt"
+  "ap-${scan_target}:${CIRCLE_SHA1}" > "${GIT_ROOT}/trivy-output.txt"
 exit_code=$?
 
 cat "${GIT_ROOT}/trivy-output.txt"
