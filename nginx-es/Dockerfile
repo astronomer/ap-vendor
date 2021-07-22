@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/astronomer/ap-base:3.13.5
+FROM nginxinc/nginx-unprivileged:1.20.1-alpine
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -21,16 +21,10 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 LABEL io.astronomer.docker.module="default-backend"
 LABEL io.astronomer.docker.component="default-backend"
 
-ENV SERVER_ROOT="/usr/share/nginx/html"
-
-# Install NGINX
-RUN apk add --no-cache nginx=1.18.0-r15
-
-# Run mkdir to create nginx directory
-RUN mkdir -p /run/nginx
-
-# NGINX is configured to listen on 9200
+# Expose HTTP
 EXPOSE 9200
 
-# Run NGINX
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+# fix some CVEs
+USER root
+RUN apk update && apk upgrade
+USER 101
