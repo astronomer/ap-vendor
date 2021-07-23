@@ -44,7 +44,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 # Create blackbox-exporter user and group
 RUN addgroup -g 1000 -S blackbox-exporter \
-    && adduser -u 1000 -S blackbox-exporter -G blackbox-exporter 
+    && adduser -u 1000 -S blackbox-exporter -G blackbox-exporter
 
 RUN set -ex \
     && apk add --no-cache ca-certificates
