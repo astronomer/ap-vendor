@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM justwatch/elasticsearch_exporter:1.1.0
+FROM prometheuscommunity/elasticsearch-exporter:v1.2.1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
