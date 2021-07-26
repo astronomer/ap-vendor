@@ -43,9 +43,18 @@ RUN set -o xtrace && \
         /var/cache/debconf/* \
         /var/lib/apt/lists/* \
         /var/log/* \
-        /tmp/* \
-        /var/tmp/* \
+       /tmp/* \ 
+       /var/tmp/* \
+       /usr/lib/ruby/gems/*/cache/*.gem \
+       /usr/lib/ruby/gems/2.*/gems/fluentd-*/test \
     && ulimit -n 65536 # Ensure fluent has enough file descriptors
+
+RUN groupadd -r fluent && useradd -r -g fluent fluent \
+    # for log storage (maybe shared with host)
+    && mkdir -p /fluentd/log \
+    # configuration/plugins path (default: copied from .)
+    && mkdir -p /fluentd/etc /fluentd/plugins \
+    && chown -R fluent /fluentd && chgrp -R fluent /fluentd
 
 # Copy the Fluentd configuration file for logging Docker container logs.
 COPY include/fluent.conf /etc/fluent/fluent.conf
@@ -61,6 +70,8 @@ RUN mkdir -p /var/log/journal
 # The helm chart may call this if istio is enabled
 # to prevent a race condition
 COPY include/wait-for-istio-proxy.rb /wait-for-istio-proxy.rb
+
+USER fluent
 
 CMD exec /usr/local/bin/fluentd ${FLUENTD_ARGS}
 
