@@ -43,7 +43,7 @@ RUN set -o xtrace && \
         /var/cache/debconf/* \
         /var/lib/apt/lists/* \
         /var/log/* \
-       /tmp/* \ 
+       /tmp/* \
        /var/tmp/* \
        /usr/lib/ruby/gems/*/cache/*.gem \
        /usr/lib/ruby/gems/2.*/gems/fluentd-*/test \
