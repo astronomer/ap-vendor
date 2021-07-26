@@ -15,6 +15,11 @@
 
 FROM debian:sid-slim
 
+LABEL maintainer="Astronomer <humans@astronomer.io>"
+LABEL io.astronomer.docker=true
+LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+ARG BUILD_NUMBER=-1
 ARG DEBIAN_FRONTEND=noninteractive
 
 COPY include/Gemfile /Gemfile
@@ -74,9 +79,3 @@ COPY include/wait-for-istio-proxy.rb /wait-for-istio-proxy.rb
 USER fluent
 
 CMD exec /usr/local/bin/fluentd ${FLUENTD_ARGS}
-
-LABEL maintainer="Astronomer <humans@astronomer.io>"
-
-ARG BUILD_NUMBER=-1
-LABEL io.astronomer.docker=true
-LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
