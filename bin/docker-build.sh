@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -xe
 
+docker info
+docker version
+
 [[ $# -eq 2 ]] || exit 1
 
 project_path="$1" # EG: "blackbox-exporter" in "$GIT_ROOT/blackbox-exporter"
