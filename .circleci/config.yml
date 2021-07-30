@@ -711,7 +711,9 @@ jobs:
           at: /tmp/workspace
       - run:
           name: Load archived Docker image
-          command: docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
+          command: |
+            docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
+            docker images | grep ap-<< parameters.directory >>
       - run:
           name: Install trivy
           command: |
