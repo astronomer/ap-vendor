@@ -115,6 +115,7 @@ jobs:
       - run:
           name: Validate semver tag
           command: |
+            pip install packaging
             version="$(bin/check_version.py << parameters.directory >>)"
             echo "export TAG=${version}" >> $BASH_ENV
       - push-to-docker-hub:
