@@ -170,7 +170,10 @@ commands:
           at: /tmp/workspace
       - run:
           name: Load archived Docker image
-          command: docker load -i /tmp/workspace/<< parameters.image_name >>.tar
+          command: |
+            set -x
+            docker load -i /tmp/workspace/<< parameters.image_name >>.tar
+            docker images | grep << parameters.image_name >>
       - run:
           name: Login to Quay.io
           command: echo "$QUAY_PASSWORD" | docker login --username "$QUAY_USERNAME" --password-stdin quay.io
