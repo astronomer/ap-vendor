@@ -52,10 +52,6 @@ RUN set -o xtrace && \
        /var/tmp/* \
        /usr/lib/ruby/gems/*/cache/*.gem \
        /usr/lib/ruby/gems/2.*/gems/fluentd-*/test \
-       /tmp/* \ 
-       /var/tmp/* \
-       /usr/lib/ruby/gems/*/cache/*.gem \
-       /usr/lib/ruby/gems/2.*/gems/fluentd-*/test \
     && ulimit -n 65536 # Ensure fluent has enough file descriptors
 
 RUN groupadd -r fluent && useradd -r -g fluent fluent \
@@ -80,14 +76,6 @@ RUN mkdir -p /var/log/journal
 # to prevent a race condition
 COPY include/wait-for-istio-proxy.rb /wait-for-istio-proxy.rb
 
-<<<<<<< HEAD
 USER fluent
-||||||| parent of c231235 (ap-fluentd: image should be created with a non root user)
-CMD exec /usr/local/bin/fluentd ${FLUENTD_ARGS}
-=======
-USER fluent
-
-CMD exec /usr/local/bin/fluentd ${FLUENTD_ARGS}
->>>>>>> c231235 (ap-fluentd: image should be created with a non root user)
 
 CMD exec /usr/local/bin/fluentd ${FLUENTD_ARGS}
