@@ -18,9 +18,9 @@ FROM debian:sid-slim
 ARG BUILD_NUMBER=-1
 ARG DEBIAN_FRONTEND=noninteractive
 
-LABEL maintainer="Astronomer <humans@astronomer.io>"
-LABEL io.astronomer.docker=true
-LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+LABEL maintainer="Astronomer <humans@astronomer.io>" \
+		io.astronomer.docker=true \
+		io.astronomer.docker.build.number=$BUILD_NUMBER
 
 COPY include/Gemfile /Gemfile
 
