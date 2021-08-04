@@ -15,7 +15,12 @@
 
 FROM debian:sid-slim
 
+ARG BUILD_NUMBER=-1
 ARG DEBIAN_FRONTEND=noninteractive
+
+LABEL maintainer="Astronomer <humans@astronomer.io>"
+LABEL io.astronomer.docker=true
+LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 COPY include/Gemfile /Gemfile
 
@@ -40,12 +45,21 @@ RUN set -o xtrace && \
                      $BUILD_DEPS \
     && apt-get clean -y \
     && rm -rf \
-        /var/cache/debconf/* \
-        /var/lib/apt/lists/* \
-        /var/log/* \
-        /tmp/* \
-        /var/tmp/* \
+       /var/cache/debconf/* \
+       /var/lib/apt/lists/* \
+       /var/log/* \
+       /tmp/* \
+       /var/tmp/* \
+       /usr/lib/ruby/gems/*/cache/*.gem \
+       /usr/lib/ruby/gems/2.*/gems/fluentd-*/test \
     && ulimit -n 65536 # Ensure fluent has enough file descriptors
+
+RUN groupadd -r fluent && useradd -r -g fluent fluent \
+    # for log storage (maybe shared with host)
+    && mkdir -p /fluentd/log \
+    # configuration/plugins path (default: copied from .)
+    && mkdir -p /fluentd/etc /fluentd/plugins \
+    && chown -R fluent /fluentd && chgrp -R fluent /fluentd
 
 # Copy the Fluentd configuration file for logging Docker container logs.
 COPY include/fluent.conf /etc/fluent/fluent.conf
@@ -62,10 +76,6 @@ RUN mkdir -p /var/log/journal
 # to prevent a race condition
 COPY include/wait-for-istio-proxy.rb /wait-for-istio-proxy.rb
 
+USER fluent
+
 CMD exec /usr/local/bin/fluentd ${FLUENTD_ARGS}
-
-LABEL maintainer="Astronomer <humans@astronomer.io>"
-
-ARG BUILD_NUMBER=-1
-LABEL io.astronomer.docker=true
-LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
