@@ -45,9 +45,9 @@ RUN set -o xtrace && \
                      $BUILD_DEPS \
     && apt-get clean -y \
     && rm -rf \
-        /var/cache/debconf/* \
-        /var/lib/apt/lists/* \
-        /var/log/* \
+       /var/cache/debconf/* \
+       /var/lib/apt/lists/* \
+       /var/log/* \
        /tmp/* \
        /var/tmp/* \
        /usr/lib/ruby/gems/*/cache/*.gem \
