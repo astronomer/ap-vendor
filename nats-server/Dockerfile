@@ -25,7 +25,7 @@ ENV NATS_SERVER 2.3.2
 
 # Create nats-streamming user and group
 RUN addgroup -g 1000 -S nats \
-    && adduser -u 1000 -S nats-G nats
+    && adduser -u 1000 -S nats -G nats
 
 RUN set -eux; \
 	apkArch="$(apk --print-arch)"; \
@@ -53,6 +53,7 @@ RUN set -eux; \
 
 COPY --chown=1000:1000 nats-server.conf /etc/nats/nats-server.conf
 COPY --chown=1000:1000 docker-entrypoint.sh /usr/local/bin
+USER nats
 EXPOSE 4222 8222 6222
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["nats-server", "--config", "/etc/nats/nats-server.conf"]
