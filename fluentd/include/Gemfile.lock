@@ -43,7 +43,7 @@ GEM
     elasticsearch-transport (7.13.3)
       faraday (~> 1)
       multi_json
-    elasticsearch-xpack (7.14.0)
+    elasticsearch-xpack (7.13.3)
       elasticsearch-api (>= 6)
     excon (0.85.0)
     faraday (1.7.0)
@@ -181,7 +181,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport (~> 6.1)
   elasticsearch (= 7.13.3)
-  elasticsearch-xpack (~> 7.9)
+  elasticsearch-xpack (= 7.13.3)
   fluent-plugin-cloudwatch-logs (~> 0.13.4)
   fluent-plugin-concat (~> 2.5)
   fluent-plugin-detect-exceptions (~> 0.0)
