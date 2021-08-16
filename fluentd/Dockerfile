@@ -76,6 +76,4 @@ RUN mkdir -p /var/log/journal
 # to prevent a race condition
 COPY include/wait-for-istio-proxy.rb /wait-for-istio-proxy.rb
 
-USER fluentd
-
 CMD exec /usr/local/bin/fluentd ${FLUENTD_ARGS}
