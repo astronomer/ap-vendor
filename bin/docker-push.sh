@@ -29,7 +29,7 @@ case "$docker_registry" in
 esac
 
 function tag_and_push() {
-    docker tag "${image_name}" "${docker_registry}/${docker_repository}/${image_name}:$1"
+    docker tag "${image_name}:${CIRCLE_SHA1}" "${docker_registry}/${docker_repository}/${image_name}:$1"
     docker push "${docker_registry}/${docker_repository}/${image_name}:$1"
 }
 
