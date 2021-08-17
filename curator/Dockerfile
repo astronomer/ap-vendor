@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/astronomer/ap-base:3.13.5
+FROM quay.io/astronomer/ap-base:3.14.1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -37,6 +37,7 @@ RUN apk --no-cache add \
     pip install --upgrade \
       setuptools \
       wheel \
+      # https://pypi.org/project/elasticsearch-curator/
       elasticsearch-curator==5.8.4 \
       boto3==1.17.60 \
       requests-aws4auth==1.0.1 && \
