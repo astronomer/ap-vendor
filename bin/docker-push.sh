@@ -44,7 +44,7 @@ for tag in ${comma_separated_tag_list//,/ } ; do
     [[ "$tag" =~ ^v[0-9] ]] && tag="${tag/v/}"
 
     if docker_tag_exists "${docker_repository}/${image_name}" "${tag}" ; then
-        echo "This docker tag already exists. Skipping the Docker push!"
+        echo "The docker tag ${docker_repository}/${image_name}:${tag} already exists. Skipping the Docker push!"
     else
         tag_and_push "$tag"
     fi
