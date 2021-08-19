@@ -24,3 +24,4 @@ gem 'fluent-plugin-s3', '~>1.6'
 gem 'json', '~>2.5'
 gem 'rake', '~>12.3'
 gem 'yajl-ruby', '~>1.4' # CVE-2017-16516
+gem 'fluent-plugin-newrelic', '~>1.2'
