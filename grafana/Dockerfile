@@ -14,12 +14,17 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/grafana/grafana
-FROM grafana/grafana:7.5.9
+FROM grafana/grafana:7.5.10
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+# apk updates
+USER root
+RUN apk update  && apk upgrade
+USER grafana
 
 # Copy default dashboards and datasource configuration
 COPY include/dashboard.yaml /etc/grafana/provisioning/dashboards/dashboard.yaml
