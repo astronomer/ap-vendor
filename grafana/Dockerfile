@@ -23,7 +23,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 # apk updates
 USER root
-RUN apk update  && apk upgrade
+RUN apk upgrade --no-cache
 USER grafana
 
 # Copy default dashboards and datasource configuration
