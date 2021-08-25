@@ -17,6 +17,9 @@
 FROM redis:6.2.5-alpine3.14
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
+# apk upgrade
+RUN apk upgrade --no-cache
+
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
