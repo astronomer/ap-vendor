@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM jimmidyson/configmap-reload:v0.4.0
+FROM jimmidyson/configmap-reload:v0.5.0
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
