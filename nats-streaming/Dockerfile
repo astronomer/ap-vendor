@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM alpine:3.14
+FROM alpine:3.14.0
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
@@ -43,7 +43,8 @@ RUN set -eux; \
 	echo "${sha256} *nats-streaming-server.zip" | sha256sum -c -; \
 	\
 	apk add --no-cache ca-certificates; \
-	apk add --no-cache --virtual buildtmp unzip apk-tools; \
+	apk add --no-cache --virtual buildtmp unzip; \
+	apk upgrade --no-cache; \
 	\
 	unzip nats-streaming-server.zip "nats-streaming-server-v${NATS_STREAMING_SERVER}-linux-${natsArch}/nats-streaming-server"; \
 	rm nats-streaming-server.zip; \
