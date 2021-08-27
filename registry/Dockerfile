@@ -14,7 +14,7 @@
 # limitations under the License.
 ARG GO_VERSION=1.15
 
-FROM golang:${GO_VERSION}-alpine3.14 AS build
+FROM golang:${GO_VERSION}-alpine3.12 AS build
 
 ENV DISTRIBUTION_DIR /go/src/github.com/distribution/distribution
 ENV BUILDTAGS include_oss include_gcs
@@ -34,9 +34,9 @@ WORKDIR $DISTRIBUTION_DIR
 # since no official release since 2019 o_O
 RUN git clone https://github.com/distribution/distribution.git $DISTRIBUTION_DIR && git checkout d0deff9cd6c2b8c82c6f3d1c713af51df099d07b
 
-RUN CGO_ENABLED=0 make PREFIX=/go clean binaries
+RUN CGO_ENABLED=0 make PREFIX=/go clean binaries && file ./bin/registry | grep "statically linked"
 
-FROM quay.io/astronomer/ap-base:3.14.1
+FROM quay.io/astronomer/ap-base:3.13.5
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
