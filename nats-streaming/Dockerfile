@@ -43,7 +43,7 @@ RUN set -eux; \
 	echo "${sha256} *nats-streaming-server.zip" | sha256sum -c -; \
 	\
 	apk add --no-cache ca-certificates; \
-	apk add --no-cache --virtual buildtmp unzip; \
+	apk add --no-cache --virtual buildtmp unzip apk-tools; \
 	\
 	unzip nats-streaming-server.zip "nats-streaming-server-v${NATS_STREAMING_SERVER}-linux-${natsArch}/nats-streaming-server"; \
 	rm nats-streaming-server.zip; \
