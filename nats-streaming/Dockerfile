@@ -44,6 +44,7 @@ RUN set -eux; \
 	\
 	apk add --no-cache ca-certificates; \
 	apk add --no-cache --virtual buildtmp unzip; \
+	apk upgrade --no-cache; \
 	\
 	unzip nats-streaming-server.zip "nats-streaming-server-v${NATS_STREAMING_SERVER}-linux-${natsArch}/nats-streaming-server"; \
 	rm nats-streaming-server.zip; \
