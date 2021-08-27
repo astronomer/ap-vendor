@@ -34,7 +34,7 @@ WORKDIR $DISTRIBUTION_DIR
 # since no official release since 2019 o_O
 RUN git clone https://github.com/distribution/distribution.git $DISTRIBUTION_DIR && git checkout d0deff9cd6c2b8c82c6f3d1c713af51df099d07b
 
-RUN CGO_ENABLED=0 make PREFIX=/go clean binaries && file ./bin/registry | grep "statically linked"
+RUN CGO_ENABLED=0 make PREFIX=/go clean binaries
 
 FROM quay.io/astronomer/ap-base:3.14.1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
