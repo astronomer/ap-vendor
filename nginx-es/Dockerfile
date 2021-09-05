@@ -26,5 +26,5 @@ EXPOSE 9200
 
 # fix some CVEs
 USER root
-RUN apk update && apk upgrade
+RUN apk upgrade --no-cache
 USER 101
