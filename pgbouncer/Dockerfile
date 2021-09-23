@@ -59,6 +59,6 @@ RUN apk add --no-cache --virtual .build-deps \
     && rm pgbouncer-$PGBOUNCER_VERSION.tar.gz \
     && rm -rf pgbouncer-$PGBOUNCER_VERSION \
     && apk del .build-deps
-
+USER pgbouncer
 CMD ["pgbouncer", "-u", "pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
 
