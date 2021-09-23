@@ -61,3 +61,4 @@ RUN apk add --no-cache --virtual .build-deps \
     && apk del .build-deps
 
 CMD ["pgbouncer", "-u", "pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
+
