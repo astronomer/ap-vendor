@@ -20,7 +20,7 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-RUN apk --no-cache add \
+RUN set -x ; apk --no-cache add \
       libffi \
       libssl1.1 \
       py3-cffi \
@@ -34,7 +34,7 @@ RUN apk --no-cache add \
       py3-requests \
       py3-urllib3 \
       sqlite-libs && \
-    pip install --upgrade \
+    pip install --upgrade --no-cache-dir \
       setuptools \
       wheel \
       "elasticsearch<7.14" \
