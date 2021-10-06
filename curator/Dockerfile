@@ -40,8 +40,8 @@ RUN apk --no-cache add \
       "elasticsearch<7.14" \
       # https://pypi.org/project/elasticsearch-curator/
       elasticsearch-curator==5.8.4 \
-      boto3==1.17.60 \
-      requests-aws4auth==1.0.1 && \
+      boto3==1.18.55 \
+      requests-aws4auth==1.1.1 && \
     apk del \
       py-pip \
       python3-dev
