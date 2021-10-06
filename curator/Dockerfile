@@ -13,14 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/astronomer/ap-base:3.14.2
+FROM quay.io/astronomer/ap-base:3.14.2-1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-RUN apk --no-cache add \
+RUN set -x ; apk --no-cache add \
       libffi \
       libssl1.1 \
       py3-cffi \
@@ -34,14 +34,14 @@ RUN apk --no-cache add \
       py3-requests \
       py3-urllib3 \
       sqlite-libs && \
-    pip install --upgrade \
+    pip install --upgrade --no-cache-dir \
       setuptools \
       wheel \
       "elasticsearch<7.14" \
       # https://pypi.org/project/elasticsearch-curator/
       elasticsearch-curator==5.8.4 \
-      boto3==1.17.60 \
-      requests-aws4auth==1.0.1 && \
+      boto3==1.18.55 \
+      requests-aws4auth==1.1.1 && \
     apk del \
       py-pip \
       python3-dev
