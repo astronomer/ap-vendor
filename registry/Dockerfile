@@ -31,7 +31,7 @@ WORKDIR $DISTRIBUTION_DIR
 
 # this commit includes some important fixes we need to apply:  https://github.com/distribution/distribution/issues/3097
 # since no official release since 2019 o_O
-RUN git clone https://github.com/distribution/distribution.git $DISTRIBUTION_DIR && git checkout d0deff9cd6c2b8c82c6f3d1c713af51df099d07b
+RUN git clone https://github.com/distribution/distribution.git $DISTRIBUTION_DIR && git checkout 1563384b69df9376389fe45ce949173a6383770a
 
 RUN CGO_ENABLED=0 make PREFIX=/go clean binaries && file ./bin/registry | grep "statically linked"
 
