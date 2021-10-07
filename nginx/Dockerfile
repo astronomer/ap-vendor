@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://github.com/kubernetes/ingress-nginx
-FROM k8s.gcr.io/ingress-nginx/controller:v0.49.0
+FROM k8s.gcr.io/ingress-nginx/controller:v0.49.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 USER root
 RUN apk add --upgrade --no-cache apk-tools curl patch libxml2 openssl

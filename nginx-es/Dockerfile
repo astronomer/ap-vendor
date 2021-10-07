@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM nginxinc/nginx-unprivileged:1.20.1-alpine
+# https://hub.docker.com/r/nginxinc/nginx-unprivileged/tags
+FROM nginxinc/nginx-unprivileged:1.21.3-alpine
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
