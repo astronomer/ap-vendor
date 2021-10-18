@@ -29,9 +29,10 @@ RUN set -ex \
 
 WORKDIR $DISTRIBUTION_DIR
 
-# this commit includes some important fixes we need to apply:  https://github.com/distribution/distribution/issues/3097
+# this commit includes some important fixes we need to apply:  https://github.com/distribution/distribution/issues/3097 and
+# in includes fix of https://github.com/distribution/distribution/issues/625
 # since no official release since 2019 o_O
-RUN git clone https://github.com/distribution/distribution.git $DISTRIBUTION_DIR && git checkout 1563384b69df9376389fe45ce949173a6383770a
+RUN git clone https://github.com/astronomer/distribution.git $DISTRIBUTION_DIR && git checkout efc278d063a4cddeff3d3b172d438a1e82375b6d
 
 RUN CGO_ENABLED=0 make PREFIX=/go clean binaries && file ./bin/registry | grep "statically linked"
 
