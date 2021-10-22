@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://www.docker.elastic.co/r/kibana/kibana-oss
-FROM docker.elastic.co/kibana/kibana-oss:7.10.2
+# https://hub.docker.com/_/kibana
+FROM kibana:7.14.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1

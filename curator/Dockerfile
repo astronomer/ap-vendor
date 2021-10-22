@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/astronomer/ap-base:3.14.2-1
+# https://quay.io/repository/astronomer/ap-base?tab=tags
+FROM quay.io/astronomer/ap-base:3.14.2-2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1

@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 
 ### Upstream packages
 gem 'activesupport', '~>6.1'
-gem 'elasticsearch', '<7.14.0'
+gem 'elasticsearch', '~>7.14'
 gem 'elasticsearch-xpack', '<7.14.0'
 gem 'fluent-plugin-concat', '~>2.5'
 gem 'fluent-plugin-detect-exceptions', '~>0.0'
