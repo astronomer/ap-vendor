@@ -21,7 +21,12 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+RUN addgroup -S pgexporter \
+    && adduser -D -S -s /sbin/nologin -G pgexporter pgexporter
+
 RUN set -ex \
     && echo http://dl-cdn.alpinelinux.org/alpine/v3.12/main > /etc/apk/repositories \
     && echo http://dl-cdn.alpinelinux.org/alpine/v3.12/community >> /etc/apk/repositories \
     && apk upgrade --no-cache libressl libressl-dev
+
+USER pgexporter
