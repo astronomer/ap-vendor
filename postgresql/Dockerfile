@@ -16,11 +16,11 @@
 
 # https://hub.docker.com/r/bitnami/postgresql/tags/
 # https://quay.io/repository/bitnami/postgresql?tab=tags
-FROM quay.io/bitnami/postgresql:11.11.0-debian-10-r30
+FROM quay.io/bitnami/postgresql:11.13.0-debian-10-r73
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-
+ENV POSTGRESQL_MAX_CONNECTIONS 200
