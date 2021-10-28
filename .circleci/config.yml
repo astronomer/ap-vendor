@@ -557,6 +557,31 @@ workflows:
             branches:
               only: main
 
+      - approve-postgresql:
+          type: approval
+      - build:
+          name: build-postgresql
+          directory: postgresql
+          requires:
+            - approve-postgresql
+            - run_pre_commit
+      - scan-trivy:
+          name: scan-trivy-postgresql
+          directory: postgresql
+          requires:
+            - build-postgresql
+      - release:
+          name: release-postgresql
+          directory: postgresql
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-postgresql
+          filters:
+            branches:
+              only: main
+
       - approve-prometheus:
           type: approval
       - build:
