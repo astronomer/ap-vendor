@@ -15,7 +15,7 @@ gem 'fluent-plugin-kubernetes_metadata_filter', '~>2.7'
 gem 'fluent-plugin-multi-format-parser', '~>1.0'
 gem 'fluent-plugin-prometheus', '~>1.8'
 gem 'fluent-plugin-systemd', '~>1.0'
-gem 'fluentd', '~>1.13'
+gem 'fluentd', '~>1.14'
 gem 'oj', '~>3.10'
 
 ### Packages not included with upstream
