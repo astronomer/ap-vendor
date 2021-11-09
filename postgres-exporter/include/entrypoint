@@ -16,4 +16,4 @@ append_ssl_mode() {
 echo "Running Astronomer container entrypoint"
 append_ssl_mode
 echo "Executing postgres_exporter"
-exec /postgres_exporter "$@"
+exec /bin/postgres_exporter "$@"
