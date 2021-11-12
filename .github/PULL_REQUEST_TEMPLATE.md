@@ -38,11 +38,13 @@ When your change is merged to main:
 - [ ] kubed
 - [ ] nats-server
 - [ ] nats-streaming
+- [ ] nats-exporter
 - [ ] nginx
 - [ ] nginx-es
 - [ ] node-exporter
 - [ ] pgbouncer
 - [ ] pgbouncer-exporter
+- [ ] postgresql
 - [ ] postgres-exporter
 - [ ] prometheus
 - [ ] redis
