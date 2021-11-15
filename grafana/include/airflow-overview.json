@@ -71,11 +71,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": true,
-      "colors": [
-        "#d44a3a",
-        "#299c46",
-        "#299c46"
-      ],
+      "colors": ["#d44a3a", "#299c46", "#299c46"],
       "datasource": "Prometheus",
       "description": "Indication of whether all deployment containers are running.",
       "format": "none",
@@ -174,11 +170,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": true,
-      "colors": [
-        "#d44a3a",
-        "#299c46",
-        "#299c46"
-      ],
+      "colors": ["#d44a3a", "#299c46", "#299c46"],
       "datasource": "Prometheus",
       "description": "Indication of whether the scheduler is up and running its loop. An value of \"Unknown\" means that the airflow image is running an older version.",
       "format": "none",
@@ -275,11 +267,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "Prometheus",
       "description": "Maximum total pods allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "none",
@@ -355,11 +343,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "Prometheus",
       "description": "Maximum total CPU limits allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "none",
@@ -437,11 +421,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "Prometheus",
       "description": "Maximum total memory limits allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "decbytes",
@@ -519,11 +499,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "Prometheus",
       "decimals": null,
       "description": "Percentage of total pods in use currently. Each airflow deployment namespace has resource quotas applied.",
@@ -603,11 +579,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "Prometheus",
       "decimals": null,
       "description": "Percentage of total CPU limits in use currently. Each airflow deployment namespace has resource quotas applied.",
@@ -686,11 +658,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "Prometheus",
       "decimals": null,
       "description": "Percentage of total memory limits in use currently. Each airflow deployment namespace has resource quotas applied.",
@@ -782,11 +750,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "Prometheus",
       "description": "Total successful tasks.",
       "format": "none",
@@ -864,11 +828,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "Prometheus",
       "description": "Total failed tasks.",
       "format": "none",
@@ -946,11 +906,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "Prometheus",
       "description": "Amount of DAGs the scheduler is processing.",
       "format": "none",
@@ -1029,11 +985,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "Prometheus",
       "description": "Tasks that have not sent a heartbeat in a while.",
       "format": "none",
@@ -1402,11 +1354,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "Prometheus",
       "description": "Total connections to the backend database.",
       "format": "none",
@@ -1485,11 +1433,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "Prometheus",
       "description": "Number of airflow clients waiting for a connection to the backend database.",
       "format": "none",
@@ -1982,11 +1926,7 @@
         {
           "alias": "Status",
           "colorMode": "cell",
-          "colors": [
-            "#bf1b00",
-            "rgba(50, 172, 45, 0.97)",
-            "#bf1b00"
-          ],
+          "colors": ["#bf1b00", "rgba(50, 172, 45, 0.97)", "#bf1b00"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "link": false,
@@ -2006,10 +1946,7 @@
             }
           ],
           "sanitize": false,
-          "thresholds": [
-            "0",
-            "1"
-          ],
+          "thresholds": ["0", "1"],
           "type": "string",
           "unit": "short",
           "valueMaps": [
@@ -2026,11 +1963,7 @@
         {
           "alias": "",
           "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
+          "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "mappingType": 1,
@@ -2042,11 +1975,7 @@
         {
           "alias": "Container",
           "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
+          "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "mappingType": 1,
@@ -2058,11 +1987,7 @@
         {
           "alias": "Pod",
           "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
+          "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "mappingType": 1,
@@ -2074,11 +1999,7 @@
         {
           "alias": "Reason",
           "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
+          "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "mappingType": 1,
@@ -2126,11 +2047,7 @@
         {
           "alias": "Status",
           "colorMode": "cell",
-          "colors": [
-            "#bf1b00",
-            "rgba(50, 172, 45, 0.97)",
-            "#bf1b00"
-          ],
+          "colors": ["#bf1b00", "rgba(50, 172, 45, 0.97)", "#bf1b00"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "link": false,
@@ -2150,10 +2067,7 @@
             }
           ],
           "sanitize": false,
-          "thresholds": [
-            "0",
-            "1"
-          ],
+          "thresholds": ["0", "1"],
           "type": "string",
           "unit": "short",
           "valueMaps": [
@@ -2170,11 +2084,7 @@
         {
           "alias": "",
           "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
+          "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "mappingType": 1,
@@ -2186,11 +2096,7 @@
         {
           "alias": "Container",
           "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
+          "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "mappingType": 1,
@@ -2202,11 +2108,7 @@
         {
           "alias": "Pod",
           "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
+          "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "mappingType": 1,
@@ -2218,11 +2120,7 @@
         {
           "alias": "Reason",
           "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
+          "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "mappingType": 1,
@@ -2249,9 +2147,7 @@
   "refresh": "10s",
   "schemaVersion": 19,
   "style": "dark",
-  "tags": [
-    "airflow"
-  ],
+  "tags": ["airflow"],
   "templating": {
     "list": [
       {
@@ -2283,29 +2179,8 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": [
-      "5s",
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ]
+    "refresh_intervals": ["5s", "10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"],
+    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "timezone": "",
   "title": "Airflow Deployment Overview",

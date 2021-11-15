@@ -97,11 +97,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "rgba(245, 54, 54, 0.9)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
-      ],
+      "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
       "datasource": "Prometheus",
       "decimals": 3,
       "description": "Percentage of uptime during the most recent $interval period.  Change the period with the 'interval' dropdown above.",
@@ -210,11 +206,7 @@
         {
           "alias": "",
           "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
+          "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "pattern": "/__name__|job|Value/",
@@ -225,20 +217,12 @@
         {
           "alias": "   ",
           "colorMode": "cell",
-          "colors": [
-            "rgba(255, 0, 0, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(255, 0, 0, 0.97)"
-          ],
+          "colors": ["rgba(255, 0, 0, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(255, 0, 0, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "link": false,
           "pattern": "instance",
-          "thresholds": [
-            "",
-            "",
-            ""
-          ],
+          "thresholds": ["", "", ""],
           "type": "string",
           "unit": "short"
         }
@@ -261,11 +245,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "rgba(50, 172, 45, 0.97)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(245, 54, 54, 0.9)"
-      ],
+      "colors": ["rgba(50, 172, 45, 0.97)", "rgba(237, 129, 40, 0.89)", "rgba(245, 54, 54, 0.9)"],
       "datasource": "Prometheus",
       "description": "Total number of time series in prometheus",
       "format": "short",
@@ -344,11 +324,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "rgba(245, 54, 54, 0.9)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
-      ],
+      "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
       "datasource": "Prometheus",
       "format": "short",
       "gauge": {
@@ -440,11 +416,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": true,
-      "colors": [
-        "rgba(50, 172, 45, 0.97)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(245, 54, 54, 0.9)"
-      ],
+      "colors": ["rgba(50, 172, 45, 0.97)", "rgba(237, 129, 40, 0.89)", "rgba(245, 54, 54, 0.9)"],
       "datasource": "Prometheus",
       "description": "The total number of rule group evaluations missed due to slow rule group evaluation.",
       "format": "none",
@@ -523,11 +495,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": true,
-      "colors": [
-        "rgba(50, 172, 45, 0.97)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(245, 54, 54, 0.9)"
-      ],
+      "colors": ["rgba(50, 172, 45, 0.97)", "rgba(237, 129, 40, 0.89)", "rgba(245, 54, 54, 0.9)"],
       "datasource": "Prometheus",
       "description": "The total number of rule group evaluations skipped due to throttled metric storage.",
       "format": "none",
@@ -606,11 +574,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "rgba(50, 172, 45, 0.97)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(245, 54, 54, 0.9)"
-      ],
+      "colors": ["rgba(50, 172, 45, 0.97)", "rgba(237, 129, 40, 0.89)", "rgba(245, 54, 54, 0.9)"],
       "datasource": "Prometheus",
       "description": "Total number of scrapes that hit the sample limit and were rejected.",
       "format": "none",
@@ -689,11 +653,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "rgba(50, 172, 45, 0.97)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(245, 54, 54, 0.9)"
-      ],
+      "colors": ["rgba(50, 172, 45, 0.97)", "rgba(237, 129, 40, 0.89)", "rgba(245, 54, 54, 0.9)"],
       "datasource": "Prometheus",
       "description": "Number of times the database failed to reload block data from disk.",
       "format": "none",
@@ -772,11 +732,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "rgba(50, 172, 45, 0.97)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(245, 54, 54, 0.9)"
-      ],
+      "colors": ["rgba(50, 172, 45, 0.97)", "rgba(237, 129, 40, 0.89)", "rgba(245, 54, 54, 0.9)"],
       "datasource": "Prometheus",
       "description": "Sum of all skipped scrapes",
       "format": "none",
@@ -3080,10 +3036,7 @@
   "refresh": "10s",
   "schemaVersion": 19,
   "style": "dark",
-  "tags": [
-    "prometheus",
-    "platform"
-  ],
+  "tags": ["prometheus", "platform"],
   "templating": {
     "list": [
       {
@@ -3211,29 +3164,8 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": [
-      "5s",
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ]
+    "refresh_intervals": ["5s", "10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"],
+    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "timezone": "",
   "title": "Prometheus",

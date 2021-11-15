@@ -2,7 +2,6 @@
 # Used for local testing
 version: "3"
 services:
-
   statsd:
     build:
       context: .
