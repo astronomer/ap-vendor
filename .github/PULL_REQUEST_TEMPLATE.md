@@ -30,6 +30,7 @@ When your change is merged to main:
 - [ ] elasticsearch
 - [ ] elasticsearch-exporter
 - [ ] fluentd
+- [ ] git-sync
 - [ ] grafana
 - [ ] keda
 - [ ] keda-metrics-apiserver
