@@ -482,6 +482,31 @@ workflows:
             branches:
               only: main
 
+      - approve-openresty:
+          type: approval
+      - build:
+          name: build-openresty
+          directory: openresty
+          requires:
+            - approve-openresty
+            - run_pre_commit
+      - scan-trivy:
+          name: scan-trivy-openresty
+          directory: openresty
+          requires:
+            - build-openresty
+      - release:
+          name: release-openresty
+          directory: openresty
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-openresty
+          filters:
+            branches:
+              only: main
+
       - approve-pgbouncer:
           type: approval
       - build:

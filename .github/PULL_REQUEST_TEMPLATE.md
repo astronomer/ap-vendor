@@ -50,6 +50,7 @@ When your change is merged to main:
 - [ ] redis
 - [ ] registry
 - [ ] statsd-exporter
+- [ ] openresty
 
 ## Checklist
 
