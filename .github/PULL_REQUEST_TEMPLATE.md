@@ -73,7 +73,6 @@ If adding a new image:
 
 - [ ] the directory has the same name you intend it to be published as, less a preceding "ap-"
 - [ ] the directory includes a file "version.txt", with version matching the underlying software version
-- [ ] the directory includes a file "cve-whitelist.yaml", which may be empty
 - [ ] the file .github/PULL_REQUEST_TEMPLATE.md is updated to include the image in the checklist
 - [ ] execute the script .circleci/generate_circleci_config.py, commit changes to .circleci/config.yml
 
