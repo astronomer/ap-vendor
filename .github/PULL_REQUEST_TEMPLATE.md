@@ -43,6 +43,7 @@ When your change is merged to main:
 - [ ] nginx
 - [ ] nginx-es
 - [ ] node-exporter
+- [ ] openresty
 - [ ] pgbouncer
 - [ ] pgbouncer-exporter
 - [ ] postgresql
@@ -51,7 +52,6 @@ When your change is merged to main:
 - [ ] redis
 - [ ] registry
 - [ ] statsd-exporter
-- [ ] openresty
 
 ## Checklist
 
