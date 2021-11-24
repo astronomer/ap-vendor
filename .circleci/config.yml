@@ -182,6 +182,31 @@ workflows:
             branches:
               only: main
 
+      - approve-git-sync:
+          type: approval
+      - build:
+          name: build-git-sync
+          directory: git-sync
+          requires:
+            - approve-git-sync
+            - run_pre_commit
+      - scan-trivy:
+          name: scan-trivy-git-sync
+          directory: git-sync
+          requires:
+            - build-git-sync
+      - release:
+          name: release-git-sync
+          directory: git-sync
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-git-sync
+          filters:
+            branches:
+              only: main
+
       - approve-grafana:
           type: approval
       - build:
