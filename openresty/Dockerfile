@@ -33,4 +33,4 @@ RUN mkdir -p /usr/local/openresty/nginx/client_body_temp \
     && chown -R nobody:nobody /usr/local/openresty \
     && chmod -R g+w /usr/local/openresty
 
-USER 65534
+USER nobody
