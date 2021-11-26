@@ -24,7 +24,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 ENV GOLANG_VERSION 1.17.3
 
 #
-# Install Golang 
+# Install Golang
 #
 
 RUN apk add --no-cache \
