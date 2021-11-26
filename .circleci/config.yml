@@ -106,7 +106,7 @@ workflows:
           filters:
             branches:
               only: main
-      
+
       - approve-dind-golang:
           type: approval
       - build:
