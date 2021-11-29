@@ -32,6 +32,31 @@ workflows:
             branches:
               only: main
 
+      - approve-awsesproxy:
+          type: approval
+      - build:
+          name: build-awsesproxy
+          directory: awsesproxy
+          requires:
+            - approve-awsesproxy
+            - run_pre_commit
+      - scan-trivy:
+          name: scan-trivy-awsesproxy
+          directory: awsesproxy
+          requires:
+            - build-awsesproxy
+      - release:
+          name: release-awsesproxy
+          directory: awsesproxy
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-awsesproxy
+          filters:
+            branches:
+              only: main
+
       - approve-blackbox-exporter:
           type: approval
       - build:

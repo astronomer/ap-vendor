@@ -24,6 +24,7 @@ When your change is merged to main:
 <!-- required -->
 
 - [ ] alertmanager
+- [ ] awsesproxy
 - [ ] blackbox-exporter
 - [ ] configmap-reloader
 - [ ] curator
