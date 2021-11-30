@@ -107,6 +107,31 @@ workflows:
             branches:
               only: main
 
+      - approve-dind-golang:
+          type: approval
+      - build:
+          name: build-dind-golang
+          directory: dind-golang
+          requires:
+            - approve-dind-golang
+            - run_pre_commit
+      - scan-trivy:
+          name: scan-trivy-dind-golang
+          directory: dind-golang
+          requires:
+            - build-dind-golang
+      - release:
+          name: release-dind-golang
+          directory: dind-golang
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-dind-golang
+          filters:
+            branches:
+              only: main
+
       - approve-elasticsearch:
           type: approval
       - build:

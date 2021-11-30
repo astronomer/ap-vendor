@@ -27,6 +27,7 @@ When your change is merged to main:
 - [ ] blackbox-exporter
 - [ ] configmap-reloader
 - [ ] curator
+- [ ] dind-golang
 - [ ] elasticsearch
 - [ ] elasticsearch-exporter
 - [ ] fluentd
