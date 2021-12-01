@@ -22,6 +22,8 @@ RUN set -ex \
 
 WORKDIR $AWSESPROXY_DIR
 
+# This commit upgrades go version and related PR can be found here: https://github.com/abutaha/aws-es-proxy/pull/109
+# waiting for the upstream to merge those changes until then we will checkout to custom commit id
 RUN git clone https://github.com/astronomer/aws-es-proxy.git $AWSESPROXY_DIR && git checkout 4b359c78b9052c4cb8145cb92c7d560b99512043
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o aws-es-proxy
