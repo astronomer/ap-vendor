@@ -20,8 +20,3 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-
-# to fix glib2 bind-license and openssl security issues
-USER root
-RUN yum -y update glib2 bind-license dbus openssl bind-export-libs gnutls nettle
-USER kibana
