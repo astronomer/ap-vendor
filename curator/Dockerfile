@@ -38,11 +38,10 @@ RUN set -x ; apk --no-cache add \
     pip install --upgrade --no-cache-dir \
       setuptools \
       wheel \
-      "elasticsearch<7.14" \
-      # https://pypi.org/project/elasticsearch-curator/
-      elasticsearch-curator==5.8.4 \
-      boto3==1.18.55 \
-      requests-aws4auth==1.1.1 && \
+      elasticsearch \
+      elasticsearch-curator \
+      boto3 \
+      requests-aws4auth && \
     apk del \
       py-pip \
       python3-dev
