@@ -13,20 +13,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/r/jbub/pgbouncer_exporter
-FROM jbub/pgbouncer_exporter:v0.11.0
+
+# https://github.com/openresty/docker-openresty/
+# https://quay.io/repository/bitnami/postgresql?tab=tags
+FROM docker.io/openresty/openresty:1.19.9.1-3-alpine
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-RUN addgroup -S pgexporter \
-    && adduser -D -S -s /sbin/nologin -G pgexporter pgexporter
+RUN mkdir -p /usr/local/openresty/nginx/client_body_temp \
+    && mkdir -p /usr/local/openresty/nginx/proxy_temp \
+    && mkdir -p /usr/local/openresty/nginx/client_temp \
+    && mkdir -p /usr/local/openresty/nginx/fastcgi_temp \
+    && mkdir -p /usr/local/openresty/nginx/uwsgi_temp \
+    && mkdir -p /usr/local/openresty/nginx/scgi_temp \
+    && chown -R nobody:nobody /var/run/openresty \
+    && chown -R nobody:nobody /usr/local/openresty \
+    && chmod -R g+w /usr/local/openresty
 
-RUN set -ex \
-    && echo http://dl-cdn.alpinelinux.org/alpine/v3.12/main > /etc/apk/repositories \
-    && echo http://dl-cdn.alpinelinux.org/alpine/v3.12/community >> /etc/apk/repositories \
-    && apk upgrade --no-cache libressl libressl-dev
-
-USER pgexporter
+USER nobody

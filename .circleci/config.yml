@@ -32,6 +32,31 @@ workflows:
             branches:
               only: main
 
+      - approve-awsesproxy:
+          type: approval
+      - build:
+          name: build-awsesproxy
+          directory: awsesproxy
+          requires:
+            - approve-awsesproxy
+            - run_pre_commit
+      - scan-trivy:
+          name: scan-trivy-awsesproxy
+          directory: awsesproxy
+          requires:
+            - build-awsesproxy
+      - release:
+          name: release-awsesproxy
+          directory: awsesproxy
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-awsesproxy
+          filters:
+            branches:
+              only: main
+
       - approve-blackbox-exporter:
           type: approval
       - build:
@@ -107,6 +132,31 @@ workflows:
             branches:
               only: main
 
+      - approve-dind-golang:
+          type: approval
+      - build:
+          name: build-dind-golang
+          directory: dind-golang
+          requires:
+            - approve-dind-golang
+            - run_pre_commit
+      - scan-trivy:
+          name: scan-trivy-dind-golang
+          directory: dind-golang
+          requires:
+            - build-dind-golang
+      - release:
+          name: release-dind-golang
+          directory: dind-golang
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-dind-golang
+          filters:
+            branches:
+              only: main
+
       - approve-elasticsearch:
           type: approval
       - build:
@@ -178,6 +228,31 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-fluentd
+          filters:
+            branches:
+              only: main
+
+      - approve-git-sync:
+          type: approval
+      - build:
+          name: build-git-sync
+          directory: git-sync
+          requires:
+            - approve-git-sync
+            - run_pre_commit
+      - scan-trivy:
+          name: scan-trivy-git-sync
+          directory: git-sync
+          requires:
+            - build-git-sync
+      - release:
+          name: release-git-sync
+          directory: git-sync
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-git-sync
           filters:
             branches:
               only: main
@@ -482,6 +557,31 @@ workflows:
             branches:
               only: main
 
+      - approve-openresty:
+          type: approval
+      - build:
+          name: build-openresty
+          directory: openresty
+          requires:
+            - approve-openresty
+            - run_pre_commit
+      - scan-trivy:
+          name: scan-trivy-openresty
+          directory: openresty
+          requires:
+            - build-openresty
+      - release:
+          name: release-openresty
+          directory: openresty
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-openresty
+          filters:
+            branches:
+              only: main
+
       - approve-pgbouncer:
           type: approval
       - build:
@@ -553,6 +653,31 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-postgres-exporter
+          filters:
+            branches:
+              only: main
+
+      - approve-postgresql:
+          type: approval
+      - build:
+          name: build-postgresql
+          directory: postgresql
+          requires:
+            - approve-postgresql
+            - run_pre_commit
+      - scan-trivy:
+          name: scan-trivy-postgresql
+          directory: postgresql
+          requires:
+            - build-postgresql
+      - release:
+          name: release-postgresql
+          directory: postgresql
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-postgresql
           filters:
             branches:
               only: main

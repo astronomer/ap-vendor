@@ -1,5 +1,5 @@
 #
-# Copyright 2020 Astronomer Inc.
+# Copyright 2016 Astronomer Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,15 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/r/prometheuscommunity/postgres-exporter
-# https://github.com/prometheus-community/postgres_exporter/blob/v0.10.0/Dockerfile
 
-FROM quay.io/prometheuscommunity/postgres-exporter:v0.10.0
-
+# https://hub.docker.com/r/bitnami/postgresql/tags/
+# https://quay.io/repository/bitnami/postgresql?tab=tags
+FROM quay.io/bitnami/postgresql:11.13.0-debian-10-r73
 LABEL maintainer="Astronomer <humans@astronomer.io>"
+
+ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
+LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-COPY include/entrypoint /entrypoint
-COPY include/healthcheck /healthcheck
+ENV POSTGRESQL_MAX_CONNECTIONS 200
 
-ENTRYPOINT [ "/entrypoint" ]
+USER root
+
+RUN addgroup postgres --gid 1001 && useradd -s /sbin/nologin --gid 1001 --uid 1001 postgres
+
+RUN chown -R 1001:1001 /opt/bitnami
+
+USER 1001

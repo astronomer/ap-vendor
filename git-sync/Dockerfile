@@ -1,5 +1,5 @@
 #
-# Copyright 2020 Astronomer Inc.
+# Copyright 2018 Astronomer Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,15 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/r/prometheuscommunity/postgres-exporter
-# https://github.com/prometheus-community/postgres_exporter/blob/v0.10.0/Dockerfile
-
-FROM quay.io/prometheuscommunity/postgres-exporter:v0.10.0
-
+# https://github.com/kubernetes/git-sync/releases
+FROM k8s.gcr.io/git-sync/git-sync:v3.3.5
 LABEL maintainer="Astronomer <humans@astronomer.io>"
+
+ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
-
-COPY include/entrypoint /entrypoint
-COPY include/healthcheck /healthcheck
-
-ENTRYPOINT [ "/entrypoint" ]
+LABEL io.astronomer.docker.build.number=$BUILD_NUMBER

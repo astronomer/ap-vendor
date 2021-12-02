@@ -7,7 +7,7 @@ from pathlib import Path
 from jinja2 import Template
 
 dirs_to_skip = ["bin"]
-required_files = ["Dockerfile", "version.txt", "cve-whitelist.yaml"]
+required_files = ["Dockerfile", "version.txt"]
 
 
 def list_docker_dirs(path):
