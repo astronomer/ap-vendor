@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/_/elasticsearch
-FROM elasticsearch:7.14.2
+# https://www.docker.elastic.co/r/elasticsearch
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.15.2-amd64
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
