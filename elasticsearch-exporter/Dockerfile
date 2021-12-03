@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM prometheuscommunity/elasticsearch-exporter:v1.2.1
+# https://hub.docker.com/r/prometheuscommunity/elasticsearch-exporter/tags
+FROM prometheuscommunity/elasticsearch-exporter:v1.3.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
