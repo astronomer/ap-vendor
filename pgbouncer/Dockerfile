@@ -29,6 +29,7 @@ RUN addgroup -S pgbouncer \
     && adduser -D -S -s /sbin/nologin -G pgbouncer pgbouncer \
     && apk add --no-cache --virtual .run-deps \
       c-ares \
+      entr \
       libevent \
       libressl
 
