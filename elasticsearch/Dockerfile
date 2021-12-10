@@ -25,4 +25,4 @@ RUN yum -y update glib2 bind-license dbus openssl bind-export-libs gnutls nettle
 
 USER elasticsearch
 
-ENV ES_JAVA_OPTS Dlog4j2.formatMsgNoLookups=true
+ENV ES_JAVA_OPTS -Dlog4j2.formatMsgNoLookups=true
