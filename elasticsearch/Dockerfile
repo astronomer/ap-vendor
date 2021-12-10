@@ -25,4 +25,4 @@ RUN yum -y update glib2 bind-license dbus openssl bind-export-libs gnutls nettle
 
 USER elasticsearch
 
-RUN echo "-Dlog4j2.formatMsgNoLookups=true"  >> /usr/share/elasticsearch/config/jvm.options.d/CVE-2021-44228-fix
+RUN echo "-Dlog4j2.formatMsgNoLookups=true" >> /usr/share/elasticsearch/config/jvm.options.d/CVE-2021-44228-fix
