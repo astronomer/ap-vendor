@@ -8,6 +8,7 @@ import requests
 from prometheus_client.parser import text_string_to_metric_families
 from statsd import StatsClient
 
+
 def _increment_metric(statsd_metric):
     """
     Send messages to statsd, this is similar to:
@@ -20,6 +21,7 @@ def _increment_metric(statsd_metric):
     # and serve new values
     sleep(0.5)
 
+
 def _gauge_metric(statsd_metric, value):
     """
     Send messages to statsd, this is similar to:
@@ -31,6 +33,7 @@ def _gauge_metric(statsd_metric, value):
     # statsd, we should allow time for statsd exporter to collect
     # and serve new values
     sleep(0.5)
+
 
 def _get_metrics():
     response = requests.get(f"http://localhost:9102/metrics")
@@ -48,6 +51,7 @@ def _get_metric_by_name(name):
         found_metrics.append(metric.name)
     raise Exception(f"Did not find metric {name}, only found metrics: {found_metrics}")
 
+
 class Metric:
     def __str__(self):
         return f"name: {self.name}, labels: {self.labels}, value: {self.value}"
@@ -57,12 +61,12 @@ class Metric:
         self.labels = labels
         self.value = value
 
+
 @pytest.mark.usefixtures("statsd_docker_compose")
 class TestGen1:
     def test_server_running(self):
         response = requests.get("http://localhost:9102")
         assert response.status_code == 200
-
 
     def test_increment_metric(self):
         _increment_metric("scheduler_heartbeat")
@@ -72,7 +76,6 @@ class TestGen1:
         metric = _get_metric_by_name("airflow_scheduler_heartbeat_total")
         assert metric.value == 2
 
-
     def test_operators_conflated_to_single_metric(self):
         _increment_metric("operator_successes_PythonOperator")
         metric = _get_metric_by_name("airflow_operator_successes_total")
@@ -80,7 +83,6 @@ class TestGen1:
         _increment_metric("operator_successes_BashOperator")
         metric = _get_metric_by_name("airflow_operator_successes_total")
         assert metric.value == 2
-
 
     def test_operators_labeled_with_value(self):
         _increment_metric("operator_successes_PythonOperator")
@@ -102,7 +104,7 @@ class TestGen2:
         _increment_metric("scheduler.tasks.starving")
         metric = _get_metric_by_name("airflow_scheduler_tasks_starving_total")
         assert metric.value == 2
-    
+
         # scheduler.tasks.killed_externally
         _increment_metric("scheduler.tasks.killed_externally")
         metric = _get_metric_by_name("airflow_scheduler_tasks_killed_externally_total")
@@ -110,7 +112,7 @@ class TestGen2:
         _increment_metric("scheduler.tasks.killed_externally")
         metric = _get_metric_by_name("airflow_scheduler_tasks_killed_externally_total")
         assert metric.value == 2
-    
+
         # dag_processing.import_errors
         _gauge_metric("dag_processing.import_errors", 2)
         metric = _get_metric_by_name("airflow_dag_processing_import_errors")
@@ -118,7 +120,7 @@ class TestGen2:
         _gauge_metric("dag_processing.import_errors", 3)
         metric = _get_metric_by_name("airflow_dag_processing_import_errors")
         assert metric.value == 3
-        
+
         # dag_processing.total_parse_time
         _gauge_metric("dag_processing.total_parse_time", 20)
         metric = _get_metric_by_name("airflow_dag_processing_total_parse_time")
@@ -135,7 +137,7 @@ class TestGen2:
         _increment_metric("operator_successes_BashOperator")
         metric = _get_metric_by_name("airflow_operator_successes_total")
         assert metric.value == 2
-        
+
         # pool.running_slots
         _increment_metric("pool.running_slots.PoolName")
         metric = _get_metric_by_name("airflow_pool_running_slots_total")
@@ -151,6 +153,7 @@ class TestGen2:
         metric = _get_metric_by_name("airflow_operator_successes_total")
         assert metric.labels["operator"] == "Value"
 
+
 @pytest.fixture(scope="class")
 def statsd_docker_compose():
     subprocess.run(
@@ -160,6 +163,7 @@ def statsd_docker_compose():
     sleep(1)
     yield
     subprocess.run("docker-compose down", shell=True)
+
 
 @pytest.fixture(scope="class")
 def statsd_docker_compose_gen2():
