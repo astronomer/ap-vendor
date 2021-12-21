@@ -44,7 +44,7 @@ def main():
     )
     with config_path.open("w") as circle_ci_config_file:
         circle_ci_config_file.write(warning_header)
-        circle_ci_config_file.write(config)
+        circle_ci_config_file.write(config + "\n")
 
 
 if __name__ == "__main__":

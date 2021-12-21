@@ -1,6 +1,6 @@
-- name: 'default'
+- name: "default"
   org_id: 1
-  folder: ''
+  folder: ""
   type: file
   options:
     folder: /var/lib/grafana/dashboards
