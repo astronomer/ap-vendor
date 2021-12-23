@@ -32,6 +32,7 @@ When your change is merged to main:
 - [ ] elasticsearch
 - [ ] elasticsearch-exporter
 - [ ] fluentd
+- [ ] git-daemon
 - [ ] git-sync
 - [ ] grafana
 - [ ] keda
