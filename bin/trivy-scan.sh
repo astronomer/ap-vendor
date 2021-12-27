@@ -8,7 +8,7 @@ scan_target="$1"
 
 set +exo pipefail
 
-trivy \
+trivy image \
   --ignorefile "${GIT_ROOT}/ap-${scan_target}/trivyignore" \
   --ignorefile "${GIT_ROOT}/${scan_target}/trivyignore" \
   --cache-dir /tmp/workspace/trivy-cache \
