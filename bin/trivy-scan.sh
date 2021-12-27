@@ -8,10 +8,11 @@ scan_target="$1"
 
 set +exo pipefail
 
-trivy image \
+trivy \
+  --cache-dir /tmp/workspace/trivy-cache \
+  image \
   --ignorefile "${GIT_ROOT}/ap-${scan_target}/trivyignore" \
   --ignorefile "${GIT_ROOT}/${scan_target}/trivyignore" \
-  --cache-dir /tmp/workspace/trivy-cache \
   --ignore-unfixed -s HIGH,CRITICAL \
   --exit-code 1 \
   --no-progress \
