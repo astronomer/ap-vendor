@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM alpine:3.14
+FROM alpine:3.15
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
