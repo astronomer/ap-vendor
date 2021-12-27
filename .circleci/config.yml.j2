@@ -1,3 +1,6 @@
+{# https://circleci.com/docs/2.0/building-docker-images/#docker-version #}
+{%- set docker_version = '20.10.11' -%}
+---
 version: 2.1
 workflows:
   version: 2.1
@@ -33,7 +36,7 @@ workflows:
 jobs:
   run_pre_commit:
     docker:
-      - image: quay.io/astronomer/ci-pre-commit:2021-09
+      - image: quay.io/astronomer/ci-pre-commit:2021-12
     steps:
       - checkout
       - run:
@@ -68,7 +71,7 @@ jobs:
           path: << parameters.directory >>
   scan-trivy:
     docker:
-      - image: docker:20.10.7-git
+      - image: docker:{{ docker_version }}-git
     description: "Trivy: Vulnerability scan a Docker image"
     parameters:
       directory:
@@ -78,7 +81,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.6
+          version: {{ docker_version }}
           image: aquasec/trivy:latest
       - attach_workspace:
           at: /tmp/workspace
@@ -113,7 +116,7 @@ jobs:
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.2
+          version: {{ docker_version }}
       - checkout
       - run:
           name: Validate semver tag
@@ -148,7 +151,7 @@ commands:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.6
+          version: {{ docker_version }}
       - run:
           name: Build the Docker image
           command: bin/docker-build.sh << parameters.path>> << parameters.image_name >>
