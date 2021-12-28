@@ -10,6 +10,7 @@ repos:
         files: '^(?:\.circleci/config\.yml(?:\.j2)?|bin/generate_circleci_config\.py|\.pre-commit-config\.yaml)$'
         entry: bin/generate_circleci_config.py
         additional_dependencies: ["jinja2"]
+        always_run: True
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: "v2.3.2"
     hooks:

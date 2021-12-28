@@ -233,6 +233,31 @@ workflows:
             branches:
               only: main
 
+      - approve-git-daemon:
+          type: approval
+      - build:
+          name: build-git-daemon
+          directory: git-daemon
+          requires:
+            - approve-git-daemon
+            - run_pre_commit
+      - scan-trivy:
+          name: scan-trivy-git-daemon
+          directory: git-daemon
+          requires:
+            - build-git-daemon
+      - release:
+          name: release-git-daemon
+          directory: git-daemon
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-git-daemon
+          filters:
+            branches:
+              only: main
+
       - approve-git-sync:
           type: approval
       - build:
