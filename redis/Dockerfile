@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/redis
-FROM redis:6.2.5-alpine3.14
+FROM redis:6.2.6-alpine3.15
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 # apk upgrade
