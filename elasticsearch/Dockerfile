@@ -14,13 +14,11 @@
 # limitations under the License.
 
 # https://www.docker.elastic.co/r/elasticsearch
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.15.2-amd64
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.16.2-amd64
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-
-RUN yum -y update glib2 bind-license dbus openssl bind-export-libs gnutls nettle
 
 USER elasticsearch
