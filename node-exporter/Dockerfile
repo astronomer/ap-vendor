@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/prometheus/node-exporter:v0.18.1
+FROM quay.io/prometheus/node-exporter:v1.3.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
