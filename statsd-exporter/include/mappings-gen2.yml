@@ -33,7 +33,8 @@ mappings:
 
   - match: airflow.dag.*.*.duration
     name: "airflow_task_duration"
-    labels: {}
+    labels:
+       dag_id: "$1"
 
   - match: airflow.dagrun.duration.success.*
     name: "airflow_dagrun_duration"
