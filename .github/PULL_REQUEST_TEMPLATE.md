@@ -45,6 +45,7 @@ When your change is merged to main:
 - [ ] nats-exporter
 - [ ] nginx
 - [ ] nginx-es
+- [ ] nginx-unprivileged
 - [ ] node-exporter
 - [ ] openresty
 - [ ] pgbouncer
