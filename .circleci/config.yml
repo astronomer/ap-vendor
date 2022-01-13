@@ -558,6 +558,56 @@ workflows:
             branches:
               only: main
 
+      - approve-nginx-unprivileged:
+          type: approval
+      - build:
+          name: build-nginx-unprivileged
+          directory: nginx-unprivileged
+          requires:
+            - approve-nginx-unprivileged
+            - run_pre_commit
+      - scan-trivy:
+          name: scan-trivy-nginx-unprivileged
+          directory: nginx-unprivileged
+          requires:
+            - build-nginx-unprivileged
+      - release:
+          name: release-nginx-unprivileged
+          directory: nginx-unprivileged
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-nginx-unprivileged
+          filters:
+            branches:
+              only: main
+
+      - approve-nginx-unprivileged:
+          type: approval
+      - build:
+          name: build-nginx-unprivileged
+          directory: nginx-unprivileged
+          requires:
+            - approve-nginx-unprivileged
+            - run_pre_commit
+      - scan-trivy:
+          name: scan-trivy-nginx-unprivileged
+          directory: nginx-unprivileged
+          requires:
+            - build-nginx-unprivileged
+      - release:
+          name: release-nginx-unprivileged
+          directory: nginx-unprivileged
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-nginx-unprivileged
+          filters:
+            branches:
+              only: main
+
       - approve-node-exporter:
           type: approval
       - build:
