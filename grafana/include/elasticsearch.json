@@ -990,7 +990,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(elasticsearch_transport_rx_packets_total[5m]))",
+          "expr": "sum(rate(elasticsearch_transport_rx_size_bytes_total[5m]))",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "RX",
@@ -998,7 +998,7 @@
           "step": 240
         },
         {
-          "expr": "sum(rate(elasticsearch_transport_tx_packets_total[5m])) * -1",
+          "expr": "sum(rate(elasticsearch_transport_tx_size_bytes_total[5m])) * -1",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "TX",
@@ -1009,7 +1009,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "RX/TX Rate 5m",
+      "title": "RX/TX Bytes Rate 5m",
       "tooltip": {
         "msResolution": true,
         "shared": true,
