@@ -24,6 +24,7 @@ When your change is merged to main:
 <!-- required -->
 
 - [ ] alertmanager
+- [ ] auth-sidecar
 - [ ] awsesproxy
 - [ ] blackbox-exporter
 - [ ] configmap-reloader
@@ -45,7 +46,6 @@ When your change is merged to main:
 - [ ] nats-exporter
 - [ ] nginx
 - [ ] nginx-es
-- [ ] nginx-unprivileged
 - [ ] node-exporter
 - [ ] openresty
 - [ ] pgbouncer
