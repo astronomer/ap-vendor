@@ -433,6 +433,31 @@ workflows:
             branches:
               only: main
 
+      - approve-logging-sidecar:
+          type: approval
+      - build:
+          name: build-logging-sidecar
+          directory: logging-sidecar
+          requires:
+            - approve-logging-sidecar
+            - run_pre_commit
+      - scan-trivy:
+          name: scan-trivy-logging-sidecar
+          directory: logging-sidecar
+          requires:
+            - build-logging-sidecar
+      - release:
+          name: release-logging-sidecar
+          directory: logging-sidecar
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-logging-sidecar
+          filters:
+            branches:
+              only: main
+
       - approve-nats-exporter:
           type: approval
       - build:
@@ -554,31 +579,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nginx-es
-          filters:
-            branches:
-              only: main
-
-      - approve-logging-sidecar:
-          type: approval
-      - build:
-          name: build-logging-sidecar
-          directory: logging-sidecar
-          requires:
-            - approve-logging-sidecar
-            - run_pre_commit
-      - scan-trivy:
-          name: scan-trivy-logging-sidecar
-          directory: logging-sidecar
-          requires:
-            - build-logging-sidecar
-      - release:
-          name: release-logging-sidecar
-          directory: logging-sidecar
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - scan-trivy-logging-sidecar
           filters:
             branches:
               only: main
