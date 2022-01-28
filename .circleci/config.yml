@@ -33,6 +33,31 @@ workflows:
             branches:
               only: main
 
+      - approve-auth-sidecar:
+          type: approval
+      - build:
+          name: build-auth-sidecar
+          directory: auth-sidecar
+          requires:
+            - approve-auth-sidecar
+            - run_pre_commit
+      - scan-trivy:
+          name: scan-trivy-auth-sidecar
+          directory: auth-sidecar
+          requires:
+            - build-auth-sidecar
+      - release:
+          name: release-auth-sidecar
+          directory: auth-sidecar
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-auth-sidecar
+          filters:
+            branches:
+              only: main
+
       - approve-awsesproxy:
           type: approval
       - build:
@@ -429,31 +454,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-kubed
-          filters:
-            branches:
-              only: main
-
-      - approve-auth-sidecar:
-          type: approval
-      - build:
-          name: build-auth-sidecar
-          directory: auth-sidecar
-          requires:
-            - approve-auth-sidecar
-            - run_pre_commit
-      - scan-trivy:
-          name: scan-trivy-auth-sidecar
-          directory: auth-sidecar
-          requires:
-            - build-auth-sidecar
-      - release:
-          name: release-auth-sidecar
-          directory: auth-sidecar
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - scan-trivy-auth-sidecar
           filters:
             branches:
               only: main
