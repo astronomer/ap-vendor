@@ -558,27 +558,27 @@ workflows:
             branches:
               only: main
 
-      - approve-nginx-unprivileged:
+      - approve-logging-sidecar:
           type: approval
       - build:
-          name: build-nginx-unprivileged
-          directory: nginx-unprivileged
+          name: build-logging-sidecar
+          directory: logging-sidecar
           requires:
-            - approve-nginx-unprivileged
+            - approve-logging-sidecar
             - run_pre_commit
       - scan-trivy:
-          name: scan-trivy-nginx-unprivileged
-          directory: nginx-unprivileged
+          name: scan-trivy-logging-sidecar
+          directory: logging-sidecar
           requires:
-            - build-nginx-unprivileged
+            - build-logging-sidecar
       - release:
-          name: release-nginx-unprivileged
-          directory: nginx-unprivileged
+          name: release-logging-sidecar
+          directory: logging-sidecar
           context:
             - quay.io
             - docker.io
           requires:
-            - scan-trivy-nginx-unprivileged
+            - scan-trivy-logging-sidecar
           filters:
             branches:
               only: main
