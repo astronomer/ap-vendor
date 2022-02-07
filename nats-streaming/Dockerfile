@@ -21,7 +21,6 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-
 ENV NATS_STREAMING_SERVER 0.24.1
 
 # Create nats-streamming user and group
@@ -29,7 +28,9 @@ RUN addgroup -g 1000 -S nats-streaming \
 	&& adduser -u 1000 -S nats-streaming -G nats-streaming
 
 RUN set -eux ; \
-	wget -O nats-streaming-server.zip "https://github.com/nats-io/nats-streaming-server/releases/download/v${NATS_STREAMING_SERVER}/nats-streaming-server-v${NATS_STREAMING_SERVER}-linux-amd64.zip" ; \
+	url="https://github.com/nats-io/nats-streaming-server/releases/download/v${NATS_STREAMING_SERVER}/nats-streaming-server-v${NATS_STREAMING_SERVER}-linux-amd64.zip" ; \
+	sha256="5763cc6ac9ad5802f8b78deda6b335a8089d2e40c2307433aecf40e7b9b9e395" ; \
+	wget -O nats-streaming-server.zip "${url}" ; \
 	echo "${sha256} *nats-streaming-server.zip" | sha256sum -c - ; \
 	apk add --no-cache ca-certificates ; \
 	apk add --no-cache --virtual buildtmp unzip ; \

@@ -23,12 +23,13 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 ENV NATS_SERVER 2.7.2
 
-# Create nats-streamming user and group
 RUN addgroup -g 1000 -S nats \
 	&& adduser -u 1000 -S nats -G nats
 
 RUN set -eux ; \
-	wget -O nats-server.tar.gz "https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-linux-amd64.tar.gz" ; \
+	url="https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-linux-amd64.tar.gz" ; \
+	sha256="6f58d9df9d9ab47d93ecb06d1041c86a784fc61c3475ab994e144e8ae15584d9" ; \
+	wget -O nats-server.tar.gz "${url}" ; \
 	echo "${sha256} *nats-server.tar.gz" | sha256sum -c - ; \
 	apk add --no-cache ca-certificates ; \
 	apk add --no-cache --virtual buildtmp ; \
