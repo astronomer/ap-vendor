@@ -19,11 +19,8 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-LABEL io.astronomer.docker.module="default-backend"
-LABEL io.astronomer.docker.component="default-backend"
-
-# Expose HTTP
-EXPOSE 9200
+LABEL io.astronomer.docker.module="auth-sidecar"
+LABEL io.astronomer.docker.component="auth-sidecar"
 
 # fix some CVEs
 USER root
