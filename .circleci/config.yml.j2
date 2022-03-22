@@ -2,6 +2,8 @@
 {%- set docker_version = '20.10.11' -%}
 ---
 version: 2.1
+orbs:
+  python: circleci/python@2.0.3
 workflows:
   version: 2.1
   vendor-build:
@@ -16,11 +18,17 @@ workflows:
           requires:
             - approve-{{ directory }}
             - run_pre_commit
+      - test:
+          name: test-{{ directory }}
+          directory: {{ directory }}
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-{{ directory }}
       - scan-trivy:
           name: scan-trivy-{{ directory }}
           directory: {{ directory }}
           requires:
-            - build-{{ directory }}
+            - test-{{ directory }}
       - release:
           name: release-{{ directory }}
           directory: {{ directory }}
@@ -35,28 +43,10 @@ workflows:
 {% endfor %}
 jobs:
   run_pre_commit:
-    docker:
-      - image: quay.io/astronomer/ci-pre-commit:2022-01
+    description: "Run pre-commit checks"
+    executor: docker-pre-commit-executor
     steps:
-      - checkout
-      - run:
-          name: Create pre-commit-cache-key.txt
-          command: |
-            cp .pre-commit-config.yaml /tmp/pre-commit-cache-key.txt
-            python --version --version | sed 's/^/# /' >> /tmp/pre-commit-cache-key.txt
-      - restore_cache:
-          keys:
-            - pre-commit-cache-{{ '{{' }} checksum "/tmp/pre-commit-cache-key.txt" }}
-      - run:
-          name: Install pre-commit hooks
-          command: pre-commit install-hooks
-      - save_cache:
-          key: pre-commit-cache-{{ '{{' }} checksum "/tmp/pre-commit-cache-key.txt" }}
-          paths:
-            - ~/.cache/pre-commit
-      - run:
-          name: Run pre-commit
-          command: pre-commit run --all-files --show-diff-on-failure
+      - pre-commit
   build:
     executor: docker-executor
     description: Build an image
@@ -69,6 +59,21 @@ jobs:
           image_name: ap-<< parameters.directory >>
           dockerfile: Dockerfile
           path: << parameters.directory >>
+  test:
+    executor: docker-executor
+    description: "Test the docker image"
+    parameters:
+      directory:
+        description: "The directory of the image to build"
+        type: string
+      test_script:
+        description: "The pytest test script"
+        type: string
+    steps:
+      - docker-test:
+          image_name: ap-<< parameters.directory >>
+          path: << parameters.directory >>
+          test_script: << parameters.test_script >>
   scan-trivy:
     docker:
       - image: docker:{{ docker_version }}-git
@@ -131,10 +136,35 @@ jobs:
           comma_separated_tags: "$TAG"
           image_name: ap-<< parameters.directory >>
 executors:
+  docker-pre-commit-executor:
+    docker:
+      - image: quay.io/astronomer/ci-pre-commit:2022-01
   docker-executor:
     docker:
       - image: cimg/python:3.9
 commands:
+  pre-commit:
+    description: "Pre-commit execution"
+    steps:
+      - checkout
+      - run:
+          name: Create pre-commit-cache-key.txt
+          command: |
+            cp .pre-commit-config.yaml /tmp/pre-commit-cache-key.txt
+            python --version --version | sed 's/^/# /' >> /tmp/pre-commit-cache-key.txt
+      - restore_cache:
+          keys:
+            - pre-commit-cache-{{ '{{' }} checksum "/tmp/pre-commit-cache-key.txt" }}
+      - run:
+          name: Install pre-commit hooks
+          command: pre-commit install-hooks
+      - save_cache:
+          key: pre-commit-cache-{{ '{{' }} checksum "/tmp/pre-commit-cache-key.txt" }}
+          paths:
+            - ~/.cache/pre-commit
+      - run:
+          name: Run pre-commit
+          command: pre-commit run --all-files --show-diff-on-failure
   docker-build:
     description: "Build a Docker image"
     parameters:
@@ -159,6 +189,26 @@ commands:
           root: .
           paths:
             - "./*.tar"
+  docker-test:
+    description: "Test a Docker image"
+    parameters:
+      path:
+        type: string
+        default: "."
+      image_name:
+        type: string
+        default: $CIRCLE_PROJECT_REPONAME
+      test_script:
+        type: string
+        default: bin/test_capabilities.py
+    steps:
+      - run:
+          name: Load archived Docker image
+          environment:
+            ASTRO_IMAGE_NAME: << parameters.image_name >>
+            ASTRO_IMAGE_TEST_CONFIG_PATH: << parameters.path >>/test.yaml
+          command: |
+            pytest << parameters.test_script>>
   push-to-quay-io:
     description: "Push a Docker image to Quay.io"
     parameters:

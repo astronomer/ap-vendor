@@ -2,6 +2,8 @@
 # Please edit .circleci/config.yml.j2, then run bin/generate_circleci_config.py
 ---
 version: 2.1
+orbs:
+  python: circleci/python@2.0.3
 workflows:
   version: 2.1
   vendor-build:
@@ -16,11 +18,17 @@ workflows:
           requires:
             - approve-alertmanager
             - run_pre_commit
+      - test:
+          name: test-alertmanager
+          directory: alertmanager
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-alertmanager
       - scan-trivy:
           name: scan-trivy-alertmanager
           directory: alertmanager
           requires:
-            - build-alertmanager
+            - test-alertmanager
       - release:
           name: release-alertmanager
           directory: alertmanager
@@ -41,11 +49,17 @@ workflows:
           requires:
             - approve-awsesproxy
             - run_pre_commit
+      - test:
+          name: test-awsesproxy
+          directory: awsesproxy
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-awsesproxy
       - scan-trivy:
           name: scan-trivy-awsesproxy
           directory: awsesproxy
           requires:
-            - build-awsesproxy
+            - test-awsesproxy
       - release:
           name: release-awsesproxy
           directory: awsesproxy
@@ -66,11 +80,17 @@ workflows:
           requires:
             - approve-blackbox-exporter
             - run_pre_commit
+      - test:
+          name: test-blackbox-exporter
+          directory: blackbox-exporter
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-blackbox-exporter
       - scan-trivy:
           name: scan-trivy-blackbox-exporter
           directory: blackbox-exporter
           requires:
-            - build-blackbox-exporter
+            - test-blackbox-exporter
       - release:
           name: release-blackbox-exporter
           directory: blackbox-exporter
@@ -91,11 +111,17 @@ workflows:
           requires:
             - approve-configmap-reloader
             - run_pre_commit
+      - test:
+          name: test-configmap-reloader
+          directory: configmap-reloader
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-configmap-reloader
       - scan-trivy:
           name: scan-trivy-configmap-reloader
           directory: configmap-reloader
           requires:
-            - build-configmap-reloader
+            - test-configmap-reloader
       - release:
           name: release-configmap-reloader
           directory: configmap-reloader
@@ -116,11 +142,17 @@ workflows:
           requires:
             - approve-curator
             - run_pre_commit
+      - test:
+          name: test-curator
+          directory: curator
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-curator
       - scan-trivy:
           name: scan-trivy-curator
           directory: curator
           requires:
-            - build-curator
+            - test-curator
       - release:
           name: release-curator
           directory: curator
@@ -141,11 +173,17 @@ workflows:
           requires:
             - approve-dind-golang
             - run_pre_commit
+      - test:
+          name: test-dind-golang
+          directory: dind-golang
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-dind-golang
       - scan-trivy:
           name: scan-trivy-dind-golang
           directory: dind-golang
           requires:
-            - build-dind-golang
+            - test-dind-golang
       - release:
           name: release-dind-golang
           directory: dind-golang
@@ -166,11 +204,17 @@ workflows:
           requires:
             - approve-elasticsearch
             - run_pre_commit
+      - test:
+          name: test-elasticsearch
+          directory: elasticsearch
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-elasticsearch
       - scan-trivy:
           name: scan-trivy-elasticsearch
           directory: elasticsearch
           requires:
-            - build-elasticsearch
+            - test-elasticsearch
       - release:
           name: release-elasticsearch
           directory: elasticsearch
@@ -191,11 +235,17 @@ workflows:
           requires:
             - approve-elasticsearch-exporter
             - run_pre_commit
+      - test:
+          name: test-elasticsearch-exporter
+          directory: elasticsearch-exporter
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-elasticsearch-exporter
       - scan-trivy:
           name: scan-trivy-elasticsearch-exporter
           directory: elasticsearch-exporter
           requires:
-            - build-elasticsearch-exporter
+            - test-elasticsearch-exporter
       - release:
           name: release-elasticsearch-exporter
           directory: elasticsearch-exporter
@@ -216,11 +266,17 @@ workflows:
           requires:
             - approve-fluentd
             - run_pre_commit
+      - test:
+          name: test-fluentd
+          directory: fluentd
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-fluentd
       - scan-trivy:
           name: scan-trivy-fluentd
           directory: fluentd
           requires:
-            - build-fluentd
+            - test-fluentd
       - release:
           name: release-fluentd
           directory: fluentd
@@ -241,11 +297,17 @@ workflows:
           requires:
             - approve-git-daemon
             - run_pre_commit
+      - test:
+          name: test-git-daemon
+          directory: git-daemon
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-git-daemon
       - scan-trivy:
           name: scan-trivy-git-daemon
           directory: git-daemon
           requires:
-            - build-git-daemon
+            - test-git-daemon
       - release:
           name: release-git-daemon
           directory: git-daemon
@@ -266,11 +328,17 @@ workflows:
           requires:
             - approve-git-sync
             - run_pre_commit
+      - test:
+          name: test-git-sync
+          directory: git-sync
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-git-sync
       - scan-trivy:
           name: scan-trivy-git-sync
           directory: git-sync
           requires:
-            - build-git-sync
+            - test-git-sync
       - release:
           name: release-git-sync
           directory: git-sync
@@ -291,11 +359,17 @@ workflows:
           requires:
             - approve-grafana
             - run_pre_commit
+      - test:
+          name: test-grafana
+          directory: grafana
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-grafana
       - scan-trivy:
           name: scan-trivy-grafana
           directory: grafana
           requires:
-            - build-grafana
+            - test-grafana
       - release:
           name: release-grafana
           directory: grafana
@@ -316,11 +390,17 @@ workflows:
           requires:
             - approve-keda
             - run_pre_commit
+      - test:
+          name: test-keda
+          directory: keda
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-keda
       - scan-trivy:
           name: scan-trivy-keda
           directory: keda
           requires:
-            - build-keda
+            - test-keda
       - release:
           name: release-keda
           directory: keda
@@ -341,11 +421,17 @@ workflows:
           requires:
             - approve-keda-metrics-apiserver
             - run_pre_commit
+      - test:
+          name: test-keda-metrics-apiserver
+          directory: keda-metrics-apiserver
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-keda-metrics-apiserver
       - scan-trivy:
           name: scan-trivy-keda-metrics-apiserver
           directory: keda-metrics-apiserver
           requires:
-            - build-keda-metrics-apiserver
+            - test-keda-metrics-apiserver
       - release:
           name: release-keda-metrics-apiserver
           directory: keda-metrics-apiserver
@@ -366,11 +452,17 @@ workflows:
           requires:
             - approve-kibana
             - run_pre_commit
+      - test:
+          name: test-kibana
+          directory: kibana
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-kibana
       - scan-trivy:
           name: scan-trivy-kibana
           directory: kibana
           requires:
-            - build-kibana
+            - test-kibana
       - release:
           name: release-kibana
           directory: kibana
@@ -391,11 +483,17 @@ workflows:
           requires:
             - approve-kube-state
             - run_pre_commit
+      - test:
+          name: test-kube-state
+          directory: kube-state
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-kube-state
       - scan-trivy:
           name: scan-trivy-kube-state
           directory: kube-state
           requires:
-            - build-kube-state
+            - test-kube-state
       - release:
           name: release-kube-state
           directory: kube-state
@@ -416,11 +514,17 @@ workflows:
           requires:
             - approve-kubed
             - run_pre_commit
+      - test:
+          name: test-kubed
+          directory: kubed
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-kubed
       - scan-trivy:
           name: scan-trivy-kubed
           directory: kubed
           requires:
-            - build-kubed
+            - test-kubed
       - release:
           name: release-kubed
           directory: kubed
@@ -441,11 +545,17 @@ workflows:
           requires:
             - approve-nats-exporter
             - run_pre_commit
+      - test:
+          name: test-nats-exporter
+          directory: nats-exporter
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-nats-exporter
       - scan-trivy:
           name: scan-trivy-nats-exporter
           directory: nats-exporter
           requires:
-            - build-nats-exporter
+            - test-nats-exporter
       - release:
           name: release-nats-exporter
           directory: nats-exporter
@@ -466,11 +576,17 @@ workflows:
           requires:
             - approve-nats-server
             - run_pre_commit
+      - test:
+          name: test-nats-server
+          directory: nats-server
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-nats-server
       - scan-trivy:
           name: scan-trivy-nats-server
           directory: nats-server
           requires:
-            - build-nats-server
+            - test-nats-server
       - release:
           name: release-nats-server
           directory: nats-server
@@ -491,11 +607,17 @@ workflows:
           requires:
             - approve-nats-streaming
             - run_pre_commit
+      - test:
+          name: test-nats-streaming
+          directory: nats-streaming
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-nats-streaming
       - scan-trivy:
           name: scan-trivy-nats-streaming
           directory: nats-streaming
           requires:
-            - build-nats-streaming
+            - test-nats-streaming
       - release:
           name: release-nats-streaming
           directory: nats-streaming
@@ -516,11 +638,17 @@ workflows:
           requires:
             - approve-nginx
             - run_pre_commit
+      - test:
+          name: test-nginx
+          directory: nginx
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-nginx
       - scan-trivy:
           name: scan-trivy-nginx
           directory: nginx
           requires:
-            - build-nginx
+            - test-nginx
       - release:
           name: release-nginx
           directory: nginx
@@ -541,11 +669,17 @@ workflows:
           requires:
             - approve-nginx-es
             - run_pre_commit
+      - test:
+          name: test-nginx-es
+          directory: nginx-es
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-nginx-es
       - scan-trivy:
           name: scan-trivy-nginx-es
           directory: nginx-es
           requires:
-            - build-nginx-es
+            - test-nginx-es
       - release:
           name: release-nginx-es
           directory: nginx-es
@@ -566,11 +700,17 @@ workflows:
           requires:
             - approve-node-exporter
             - run_pre_commit
+      - test:
+          name: test-node-exporter
+          directory: node-exporter
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-node-exporter
       - scan-trivy:
           name: scan-trivy-node-exporter
           directory: node-exporter
           requires:
-            - build-node-exporter
+            - test-node-exporter
       - release:
           name: release-node-exporter
           directory: node-exporter
@@ -591,11 +731,17 @@ workflows:
           requires:
             - approve-openresty
             - run_pre_commit
+      - test:
+          name: test-openresty
+          directory: openresty
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-openresty
       - scan-trivy:
           name: scan-trivy-openresty
           directory: openresty
           requires:
-            - build-openresty
+            - test-openresty
       - release:
           name: release-openresty
           directory: openresty
@@ -616,11 +762,17 @@ workflows:
           requires:
             - approve-pgbouncer
             - run_pre_commit
+      - test:
+          name: test-pgbouncer
+          directory: pgbouncer
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-pgbouncer
       - scan-trivy:
           name: scan-trivy-pgbouncer
           directory: pgbouncer
           requires:
-            - build-pgbouncer
+            - test-pgbouncer
       - release:
           name: release-pgbouncer
           directory: pgbouncer
@@ -641,11 +793,17 @@ workflows:
           requires:
             - approve-pgbouncer-exporter
             - run_pre_commit
+      - test:
+          name: test-pgbouncer-exporter
+          directory: pgbouncer-exporter
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-pgbouncer-exporter
       - scan-trivy:
           name: scan-trivy-pgbouncer-exporter
           directory: pgbouncer-exporter
           requires:
-            - build-pgbouncer-exporter
+            - test-pgbouncer-exporter
       - release:
           name: release-pgbouncer-exporter
           directory: pgbouncer-exporter
@@ -666,11 +824,17 @@ workflows:
           requires:
             - approve-postgres-exporter
             - run_pre_commit
+      - test:
+          name: test-postgres-exporter
+          directory: postgres-exporter
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-postgres-exporter
       - scan-trivy:
           name: scan-trivy-postgres-exporter
           directory: postgres-exporter
           requires:
-            - build-postgres-exporter
+            - test-postgres-exporter
       - release:
           name: release-postgres-exporter
           directory: postgres-exporter
@@ -691,11 +855,17 @@ workflows:
           requires:
             - approve-postgresql
             - run_pre_commit
+      - test:
+          name: test-postgresql
+          directory: postgresql
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-postgresql
       - scan-trivy:
           name: scan-trivy-postgresql
           directory: postgresql
           requires:
-            - build-postgresql
+            - test-postgresql
       - release:
           name: release-postgresql
           directory: postgresql
@@ -716,11 +886,17 @@ workflows:
           requires:
             - approve-prometheus
             - run_pre_commit
+      - test:
+          name: test-prometheus
+          directory: prometheus
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-prometheus
       - scan-trivy:
           name: scan-trivy-prometheus
           directory: prometheus
           requires:
-            - build-prometheus
+            - test-prometheus
       - release:
           name: release-prometheus
           directory: prometheus
@@ -741,11 +917,17 @@ workflows:
           requires:
             - approve-redis
             - run_pre_commit
+      - test:
+          name: test-redis
+          directory: redis
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-redis
       - scan-trivy:
           name: scan-trivy-redis
           directory: redis
           requires:
-            - build-redis
+            - test-redis
       - release:
           name: release-redis
           directory: redis
@@ -766,11 +948,17 @@ workflows:
           requires:
             - approve-registry
             - run_pre_commit
+      - test:
+          name: test-registry
+          directory: registry
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-registry
       - scan-trivy:
           name: scan-trivy-registry
           directory: registry
           requires:
-            - build-registry
+            - test-registry
       - release:
           name: release-registry
           directory: registry
@@ -791,11 +979,17 @@ workflows:
           requires:
             - approve-statsd-exporter
             - run_pre_commit
+      - test:
+          name: test-statsd-exporter
+          directory: statsd-exporter
+          test_script: bin/test_capabilities.py
+          requires:
+            - build-statsd-exporter
       - scan-trivy:
           name: scan-trivy-statsd-exporter
           directory: statsd-exporter
           requires:
-            - build-statsd-exporter
+            - test-statsd-exporter
       - release:
           name: release-statsd-exporter
           directory: statsd-exporter
@@ -810,28 +1004,10 @@ workflows:
 
 jobs:
   run_pre_commit:
-    docker:
-      - image: quay.io/astronomer/ci-pre-commit:2022-01
+    description: "Run pre-commit checks"
+    executor: docker-pre-commit-executor
     steps:
-      - checkout
-      - run:
-          name: Create pre-commit-cache-key.txt
-          command: |
-            cp .pre-commit-config.yaml /tmp/pre-commit-cache-key.txt
-            python --version --version | sed 's/^/# /' >> /tmp/pre-commit-cache-key.txt
-      - restore_cache:
-          keys:
-            - pre-commit-cache-{{ checksum "/tmp/pre-commit-cache-key.txt" }}
-      - run:
-          name: Install pre-commit hooks
-          command: pre-commit install-hooks
-      - save_cache:
-          key: pre-commit-cache-{{ checksum "/tmp/pre-commit-cache-key.txt" }}
-          paths:
-            - ~/.cache/pre-commit
-      - run:
-          name: Run pre-commit
-          command: pre-commit run --all-files --show-diff-on-failure
+      - pre-commit
   build:
     executor: docker-executor
     description: Build an image
@@ -844,6 +1020,21 @@ jobs:
           image_name: ap-<< parameters.directory >>
           dockerfile: Dockerfile
           path: << parameters.directory >>
+  test:
+    executor: docker-executor
+    description: "Test the docker image"
+    parameters:
+      directory:
+        description: "The directory of the image to build"
+        type: string
+      test_script:
+        description: "The pytest test script"
+        type: string
+    steps:
+      - docker-test:
+          image_name: ap-<< parameters.directory >>
+          path: << parameters.directory >>
+          test_script: << parameters.test_script >>
   scan-trivy:
     docker:
       - image: docker:20.10.11-git
@@ -906,10 +1097,35 @@ jobs:
           comma_separated_tags: "$TAG"
           image_name: ap-<< parameters.directory >>
 executors:
+  docker-pre-commit-executor:
+    docker:
+      - image: quay.io/astronomer/ci-pre-commit:2022-01
   docker-executor:
     docker:
       - image: cimg/python:3.9
 commands:
+  pre-commit:
+    description: "Pre-commit execution"
+    steps:
+      - checkout
+      - run:
+          name: Create pre-commit-cache-key.txt
+          command: |
+            cp .pre-commit-config.yaml /tmp/pre-commit-cache-key.txt
+            python --version --version | sed 's/^/# /' >> /tmp/pre-commit-cache-key.txt
+      - restore_cache:
+          keys:
+            - pre-commit-cache-{{ checksum "/tmp/pre-commit-cache-key.txt" }}
+      - run:
+          name: Install pre-commit hooks
+          command: pre-commit install-hooks
+      - save_cache:
+          key: pre-commit-cache-{{ checksum "/tmp/pre-commit-cache-key.txt" }}
+          paths:
+            - ~/.cache/pre-commit
+      - run:
+          name: Run pre-commit
+          command: pre-commit run --all-files --show-diff-on-failure
   docker-build:
     description: "Build a Docker image"
     parameters:
@@ -934,6 +1150,26 @@ commands:
           root: .
           paths:
             - "./*.tar"
+  docker-test:
+    description: "Test a Docker image"
+    parameters:
+      path:
+        type: string
+        default: "."
+      image_name:
+        type: string
+        default: $CIRCLE_PROJECT_REPONAME
+      test_script:
+        type: string
+        default: bin/test_capabilities.py
+    steps:
+      - run:
+          name: Load archived Docker image
+          environment:
+            ASTRO_IMAGE_NAME: << parameters.image_name >>
+            ASTRO_IMAGE_TEST_CONFIG_PATH: << parameters.path >>/test.yaml
+          command: |
+            pytest << parameters.test_script>>
   push-to-quay-io:
     description: "Push a Docker image to Quay.io"
     parameters:
