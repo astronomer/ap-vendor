@@ -208,6 +208,12 @@ commands:
           pkg-manager: pip
       - run:
           name: Load archived Docker image
+          command: |
+            set -x
+            docker load -i /tmp/workspace/<< parameters.image_name >>.tar
+            docker images | grep << parameters.image_name >>
+      - run:
+          name: Run Docker image test
           environment:
             ASTRO_IMAGE_NAME: << parameters.image_name >>
             ASTRO_IMAGE_TEST_CONFIG_PATH: << parameters.path >>/test.yaml
