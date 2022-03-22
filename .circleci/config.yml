@@ -1167,6 +1167,9 @@ commands:
       - python/install-packages:
           pip-dependency-file: requirements.txt
           pkg-manager: pip
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 20.10.11
       - attach_workspace:
           at: /tmp/workspace
       - run:
