@@ -10,8 +10,9 @@ ASTRO_IMAGE_TEST_CONFIG_PATH = os.environ["ASTRO_IMAGE_TEST_CONFIG_PATH"]
 test_config = {}
 
 # Read the test config
-with open(ASTRO_IMAGE_TEST_CONFIG_PATH) as file:
-    test_config = yaml.safe_load(file)["tests"]
+if os.path.isfile(ASTRO_IMAGE_TEST_CONFIG_PATH):
+    with open(ASTRO_IMAGE_TEST_CONFIG_PATH) as file:
+        test_config = yaml.safe_load(file)["tests"]
 
 
 @pytest.fixture(scope="session")
@@ -34,7 +35,6 @@ def docker_host(request):
 
 
 def test_no_root_user(docker_host):
-
     user_info = docker_host.user()
     assert user_info.name != "root"
     assert user_info.group != "root"
@@ -43,15 +43,16 @@ def test_no_root_user(docker_host):
 
 
 def test_default_user(docker_host):
-    """Ensure default user"""
-    user = docker_host.check_output("whoami")
-    assert (
-        user == test_config["default_user"]
-    ), f"Expected container to be running as 'nobody', not '{user}'"
+    if "default_user" in test_config:
+        """Ensure default user"""
+        user = docker_host.check_output("whoami")
+        assert (
+            user == test_config["default_user"]
+        ), f"Expected container to be running as 'nobody', not '{user}'"
 
 
 def test_user_config(docker_host):
-    if "test_user_config" in test_config:
+    if "users_config" in test_config:
 
         for user_config in test_config["users_config"]:
 
@@ -67,7 +68,7 @@ def test_user_config(docker_host):
                 assert user_info.uid == user_config["uid"]
 
 
-def test_root_user(docker_host):
+def test_no_root_user(docker_host):
     user_info = docker_host.user()
     assert user_info.name != "root"
     assert user_info.group != "root"
@@ -81,7 +82,7 @@ def test_root_user(docker_host):
 
 
 def test_http_service_running(docker_host):
-    if "test_http_service_running" in test_config:
+    if "http_services_running" in test_config:
 
         for service_config in test_config["http_services_running"]:
             """Ensure user is 'nobody'"""

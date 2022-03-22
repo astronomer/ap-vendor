@@ -1,0 +1,6 @@
+---
+tests:
+  default_user: nobody
+  users_config:
+    - name: nobody
+      group: nobody

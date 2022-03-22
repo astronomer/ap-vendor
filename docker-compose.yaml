@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  alertmanager:
+    build:
+      context: alertmanager
+
+  awsesproxy:
+    build:
+      context: awsesproxy
+    ports:
+      - 9200:9200
+    command:
+      - -endpoint
+      - https://dummy-host.eu-west-1.es.amazonaws.com
+      - -version
+
+  blackbox-exporter:
+    build:
+      context: blackbox-exporter
+    ports:
+      - 9115:9115
