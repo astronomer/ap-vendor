@@ -1108,9 +1108,6 @@ commands:
     description: "Pre-commit execution"
     steps:
       - checkout
-      - python/install-packages:
-          pip-dependency-file: requirements.txt
-          pkg-manager: pip
       - run:
           name: Create pre-commit-cache-key.txt
           command: |
@@ -1166,6 +1163,9 @@ commands:
         type: string
         default: bin/test_capabilities.py
     steps:
+      - python/install-packages:
+          pip-dependency-file: requirements.txt
+          pkg-manager: pip
       - run:
           name: Load archived Docker image
           environment:
