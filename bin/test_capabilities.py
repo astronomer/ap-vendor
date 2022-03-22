@@ -19,12 +19,9 @@ if os.path.isfile(ASTRO_IMAGE_TEST_CONFIG_PATH):
 @pytest.fixture(scope="session")
 def docker_host(request):
     # run a container
+    astro_image = ASTRO_IMAGE_NAME + ":" + ASTRO_IMAGE_TAG
     docker_id = (
-        subprocess.check_output(
-            ["docker", "run", "-d", ASTRO_IMAGE_NAME + ":" + ASTRO_IMAGE_TAG]
-        )
-        .decode()
-        .strip()
+        subprocess.check_output(["docker", "run", "-d", astro_image]).decode().strip()
     )
     # return a testinfra connection to the container
     yield testinfra.get_host("docker://" + docker_id)
