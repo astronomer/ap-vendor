@@ -24,6 +24,7 @@ When your change is merged to main:
 <!-- required -->
 
 - [ ] alertmanager
+- [ ] auth-sidecar
 - [ ] awsesproxy
 - [ ] blackbox-exporter
 - [ ] configmap-reloader
