@@ -1,1 +1,3 @@
 pytest==7.1.1
+testinfra==6.0.0
+PyYAML==6.0.0
