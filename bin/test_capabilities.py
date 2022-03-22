@@ -6,6 +6,7 @@ import testinfra
 import yaml
 
 ASTRO_IMAGE_NAME = os.environ["ASTRO_IMAGE_NAME"]
+ASTRO_IMAGE_TAG = os.environ.get("CIRCLE_SHA1", "latest")
 ASTRO_IMAGE_TEST_CONFIG_PATH = os.environ["ASTRO_IMAGE_TEST_CONFIG_PATH"]
 test_config = {}
 
@@ -19,7 +20,9 @@ if os.path.isfile(ASTRO_IMAGE_TEST_CONFIG_PATH):
 def docker_host(request):
     # run a container
     docker_id = (
-        subprocess.check_output(["docker", "run", "-d", ASTRO_IMAGE_NAME])
+        subprocess.check_output(
+            ["docker", "run", "-d", ASTRO_IMAGE_NAME + ":" + ASTRO_IMAGE_TAG]
+        )
         .decode()
         .strip()
     )
