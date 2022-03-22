@@ -1108,6 +1108,9 @@ commands:
     description: "Pre-commit execution"
     steps:
       - checkout
+      - python/install-packages:
+          pip-dependency-file: requirements.txt
+          pkg-manager: pip
       - run:
           name: Create pre-commit-cache-key.txt
           command: |
