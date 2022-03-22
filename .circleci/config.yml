@@ -1167,6 +1167,8 @@ commands:
       - python/install-packages:
           pip-dependency-file: requirements.txt
           pkg-manager: pip
+      - attach_workspace:
+          at: /tmp/workspace
       - run:
           name: Load archived Docker image
           command: |
