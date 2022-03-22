@@ -202,6 +202,7 @@ commands:
         type: string
         default: bin/test_capabilities.py
     steps:
+      - checkout
       - python/install-packages:
           pip-dependency-file: requirements.txt
           pkg-manager: pip
