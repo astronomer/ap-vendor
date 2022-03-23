@@ -1,0 +1,12 @@
+---
+#---
+#docker:
+#  entrypoint: top
+#tests:
+#  root_user_test: True
+#  default_user: kibana
+#  users_config:
+#    - name: kibana
+#      group: kibana
+#      gid: 1000
+#      uid: 1000

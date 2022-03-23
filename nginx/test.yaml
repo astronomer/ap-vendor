@@ -1,0 +1,11 @@
+---
+docker:
+  entrypoint: top
+tests:
+  root_user_test: True
+  default_user: www-data
+  users_config:
+    - name: www-data
+      group: www-data
+      gid: 82
+      uid: 101

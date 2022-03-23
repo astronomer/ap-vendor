@@ -1,0 +1,11 @@
+---
+#docker:
+#  entrypoint: top
+#tests:
+#  root_user_test: True
+#  default_user: keda
+#  users_config:
+#    - name: keda
+#      group: keda
+#      gid: 1001
+#      uid: 1001

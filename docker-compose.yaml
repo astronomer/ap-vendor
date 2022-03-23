@@ -2,10 +2,12 @@ version: "3.9"
 
 services:
   alertmanager:
+    image: ap-alertmanager
     build:
       context: alertmanager
 
   awsesproxy:
+    image: ap-awsesproxy
     build:
       context: awsesproxy
     ports:
@@ -16,7 +18,113 @@ services:
       - -version
 
   blackbox-exporter:
+    image: ap-blackbox-exporter
     build:
       context: blackbox-exporter
     ports:
       - 9115:9115
+
+  configmap-reloader:
+    image: ap-configmap-reloader
+    build:
+      context: configmap-reloader
+
+  curator:
+    image: ap-curator
+    build:
+      context: curator
+
+  dind-golang:
+    image: ap-dind-golang
+    build:
+      context: dind-golang
+
+  elasticsearch:
+    image: ap-elasticsearch
+    build:
+      context: elasticsearch
+
+  elasticsearch-exporter:
+    image: ap-elasticsearch-exporter
+    build:
+      context: elasticsearch-exporter
+
+  fluentd:
+    image: ap-fluentd
+    build:
+      context: fluentd
+
+  git-daemon:
+    image: ap-git-daemon
+    build:
+      context: git-daemon
+
+  git-sync:
+    image: ap-git-sync
+    build:
+      context: git-sync
+
+  grafana:
+    image: ap-grafana
+    build:
+      context: grafana
+
+  keda:
+    image: ap-keda
+    build:
+      context: keda
+
+  keda-metrics-apiserver:
+    image: ap-keda-metrics-apiserver
+    build:
+      context: keda-metrics-apiserver
+
+  kibana:
+    image: ap-kibana
+    build:
+      context: kibana
+
+  kube-state:
+    image: ap-kube-state
+    build:
+      context: kube-state
+
+  kubed:
+    image: ap-kubed
+    build:
+      context: kubed
+
+  nats-exporter:
+    image: ap-nats-exporter
+    build:
+      context: nats-exporter
+
+  nats-server:
+    image: ap-nats-server
+    build:
+      context: nats-server
+
+  nats-streaming:
+    image: ap-nats-streaming
+    build:
+      context: nats-streaming
+
+  nginx:
+    image: ap-nginx
+    build:
+      context: nginx
+
+  nginx-es:
+    image: ap-nginx-es
+    build:
+      context: nginx-es
+
+  node-exporter:
+    image: ap-node-exporter
+    build:
+      context: node-exporter
+
+  openresty:
+    image: ap-openresty
+    build:
+      context: openresty

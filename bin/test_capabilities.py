@@ -17,12 +17,15 @@ if os.path.exists(ASTRO_IMAGE_TEST_CONFIG_PATH):
     with open(ASTRO_IMAGE_TEST_CONFIG_PATH) as file:
         config = yaml.safe_load(file)
 
-        # Reading test config
-        test_config = config["tests"]
+        if config is not None:
 
-        # Reading docker config
-        if "docker" in config and "entrypoint" in config["docker"]:
-            docker_run_entrypoint = config["docker"]["entrypoint"]
+            # Reading test config
+            if "tests" in config:
+                test_config = config["tests"]
+
+            # Reading docker config
+            if "docker" in config and "entrypoint" in config["docker"]:
+                docker_run_entrypoint = config["docker"]["entrypoint"]
 
 
 @pytest.fixture(scope="session")

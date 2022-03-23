@@ -1,0 +1,9 @@
+---
+tests:
+  root_user_test: True
+  default_user: nats-streaming
+  users_config:
+    - name: nats-streaming
+      group: nats-streaming
+      gid: 1000
+      uid: 1000
