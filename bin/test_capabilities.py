@@ -11,9 +11,10 @@ ASTRO_IMAGE_TEST_CONFIG_PATH = os.environ["ASTRO_IMAGE_TEST_CONFIG_PATH"]
 test_config = {}
 
 # Read the test config
-if os.path.isfile(ASTRO_IMAGE_TEST_CONFIG_PATH):
+if os.path.exists(ASTRO_IMAGE_TEST_CONFIG_PATH):
     with open(ASTRO_IMAGE_TEST_CONFIG_PATH) as file:
         test_config = yaml.safe_load(file)["tests"]
+        print(test_config)
 
 
 @pytest.fixture(scope="session")
@@ -34,6 +35,10 @@ def docker_host(request):
 #################################################
 
 
+@pytest.mark.skipif(
+    "root_user_test" not in test_config or False == test_config["root_user_test"],
+    reason="Config `root_user_test` is not set in `test.yaml`.",
+)
 def test_no_root_user(docker_host):
     user_info = docker_host.user()
     assert user_info.name != "root"
@@ -42,6 +47,10 @@ def test_no_root_user(docker_host):
     assert user_info.uid != 0
 
 
+@pytest.mark.skipif(
+    "default_user" not in test_config,
+    reason="Config `default_user` is not set in `test.yaml`.",
+)
 def test_default_user(docker_host):
     if "default_user" in test_config:
         """Ensure default user"""
@@ -51,6 +60,10 @@ def test_default_user(docker_host):
         ), f"Expected container to be running as 'nobody', not '{user}'"
 
 
+@pytest.mark.skipif(
+    "users_config" not in test_config,
+    reason="Config `users_config` is not set in `test.yaml`.",
+)
 def test_user_config(docker_host):
     if "users_config" in test_config:
 
@@ -68,19 +81,15 @@ def test_user_config(docker_host):
                 assert user_info.uid == user_config["uid"]
 
 
-def test_no_root_user(docker_host):
-    user_info = docker_host.user()
-    assert user_info.name != "root"
-    assert user_info.group != "root"
-    assert user_info.gid != 0
-    assert user_info.uid != 0
-
-
 #################################################
 #                   Service Test                #
 #################################################
 
 
+@pytest.mark.skipif(
+    "http_services_running" not in test_config,
+    reason="Config `http_services_running` is not set in `test.yaml`.",
+)
 def test_http_service_running(docker_host):
     if "http_services_running" in test_config:
 

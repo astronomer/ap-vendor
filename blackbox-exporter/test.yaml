@@ -1,5 +1,6 @@
 ---
 tests:
+  root_user_test: True
   default_user: blackbox-exporter
   users_config:
     - name: blackbox-exporter
