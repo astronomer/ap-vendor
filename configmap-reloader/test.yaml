@@ -7,3 +7,5 @@ tests:
   users_config:
     - name: nobody
       group: nobody
+      gid: 65534
+      uid: 65534

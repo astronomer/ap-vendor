@@ -1,0 +1,11 @@
+---
+#docker:
+#  entrypoint: top
+tests:
+  root_user_test: True
+  default_user: grafana
+  users_config:
+    - name: grafana
+      group: root
+      gid: 0
+      uid: 472

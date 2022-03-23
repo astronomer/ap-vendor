@@ -1,0 +1,11 @@
+---
+docker:
+  entrypoint: top
+tests:
+  root_user_test: True
+  default_user: root
+  users_config:
+    - name: root
+      group: root
+      gid: 0
+      uid: 0
