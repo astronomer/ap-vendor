@@ -8,22 +8,43 @@ import yaml
 ASTRO_IMAGE_NAME = os.environ["ASTRO_IMAGE_NAME"]
 ASTRO_IMAGE_TAG = os.environ.get("CIRCLE_SHA1", "latest")
 ASTRO_IMAGE_TEST_CONFIG_PATH = os.environ["ASTRO_IMAGE_TEST_CONFIG_PATH"]
+
+docker_run_entrypoint = None
 test_config = {}
 
 # Read the test config
 if os.path.exists(ASTRO_IMAGE_TEST_CONFIG_PATH):
     with open(ASTRO_IMAGE_TEST_CONFIG_PATH) as file:
-        test_config = yaml.safe_load(file)["tests"]
-        print(test_config)
+        config = yaml.safe_load(file)
+
+        # Reading test config
+        test_config = config["tests"]
+
+        # Reading docker config
+        if "docker" in config and "entrypoint" in config["docker"]:
+            docker_run_entrypoint = config["docker"]["entrypoint"]
 
 
 @pytest.fixture(scope="session")
 def docker_host(request):
     # run a container
     astro_image = ASTRO_IMAGE_NAME + ":" + ASTRO_IMAGE_TAG
-    docker_id = (
-        subprocess.check_output(["docker", "run", "-d", astro_image]).decode().strip()
-    )
+    if docker_run_entrypoint is None:
+        docker_id = (
+            subprocess.check_output(["docker", "run", "-d", astro_image])
+            .decode()
+            .strip()
+        )
+    else:
+        astro_image_run_entrypoint = "--entrypoint=" + docker_run_entrypoint
+        docker_id = (
+            subprocess.check_output(
+                ["docker", "run", "-d", astro_image_run_entrypoint, astro_image]
+            )
+            .decode()
+            .strip()
+        )
+
     # return a testinfra connection to the container
     yield testinfra.get_host("docker://" + docker_id)
     # cleanup container after test completion
