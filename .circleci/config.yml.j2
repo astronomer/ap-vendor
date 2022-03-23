@@ -43,10 +43,28 @@ workflows:
 {% endfor %}
 jobs:
   run_pre_commit:
-    description: "Run pre-commit checks"
-    executor: docker-pre-commit-executor
+    docker:
+      - image: quay.io/astronomer/ci-pre-commit:2022-01
     steps:
-      - pre-commit
+      - checkout
+      - run:
+          name: Create pre-commit-cache-key.txt
+          command: |
+            cp .pre-commit-config.yaml /tmp/pre-commit-cache-key.txt
+            python --version --version | sed 's/^/# /' >> /tmp/pre-commit-cache-key.txt
+      - restore_cache:
+          keys:
+            - pre-commit-cache-{{ '{{' }} checksum "/tmp/pre-commit-cache-key.txt" }}
+      - run:
+          name: Install pre-commit hooks
+          command: pre-commit install-hooks
+      - save_cache:
+          key: pre-commit-cache-{{ '{{' }} checksum "/tmp/pre-commit-cache-key.txt" }}
+          paths:
+            - ~/.cache/pre-commit
+      - run:
+          name: Run pre-commit
+          command: pre-commit run --all-files --show-diff-on-failure
   build:
     executor: docker-executor
     description: Build an image
@@ -136,35 +154,10 @@ jobs:
           comma_separated_tags: "$TAG"
           image_name: ap-<< parameters.directory >>
 executors:
-  docker-pre-commit-executor:
-    docker:
-      - image: quay.io/astronomer/ci-pre-commit:2022-01
   docker-executor:
     docker:
       - image: cimg/python:3.9
 commands:
-  pre-commit:
-    description: "Pre-commit execution"
-    steps:
-      - checkout
-      - run:
-          name: Create pre-commit-cache-key.txt
-          command: |
-            cp .pre-commit-config.yaml /tmp/pre-commit-cache-key.txt
-            python --version --version | sed 's/^/# /' >> /tmp/pre-commit-cache-key.txt
-      - restore_cache:
-          keys:
-            - pre-commit-cache-{{ '{{' }} checksum "/tmp/pre-commit-cache-key.txt" }}
-      - run:
-          name: Install pre-commit hooks
-          command: pre-commit install-hooks
-      - save_cache:
-          key: pre-commit-cache-{{ '{{' }} checksum "/tmp/pre-commit-cache-key.txt" }}
-          paths:
-            - ~/.cache/pre-commit
-      - run:
-          name: Run pre-commit
-          command: pre-commit run --all-files --show-diff-on-failure
   docker-build:
     description: "Build a Docker image"
     parameters:
