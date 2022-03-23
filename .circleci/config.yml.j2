@@ -216,7 +216,10 @@ commands:
             ASTRO_IMAGE_NAME: << parameters.image_name >>
             ASTRO_IMAGE_TEST_CONFIG_PATH: << parameters.path >>/test.yaml
           command: |
-            pytest -v << parameters.test_script>>
+            mkdir test-results
+            pytest -v --junitxml=test-results/junit.xml << parameters.test_script>>
+      - store_test_results:
+          path: test-results
   push-to-quay-io:
     description: "Push a Docker image to Quay.io"
     parameters:
