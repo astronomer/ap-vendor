@@ -26,7 +26,7 @@ if os.path.exists(ASTRO_IMAGE_TEST_CONFIG_PATH):
 @pytest.fixture(scope="session")
 def docker_host(request):
 
-    run_command = ["docker-compose", "run", "-d", "ASTRO_IMAGE_NAME"]
+    run_command = ["docker-compose", "run", "-d", ASTRO_IMAGE_NAME]
 
     # run a container
     docker_id = subprocess.check_output(run_command).decode().strip()
