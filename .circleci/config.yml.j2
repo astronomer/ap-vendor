@@ -21,7 +21,7 @@ workflows:
       - test:
           name: test-{{ directory }}
           directory: {{ directory }}
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-{{ directory }}
       - scan-trivy:
@@ -193,7 +193,7 @@ commands:
         default: $CIRCLE_PROJECT_REPONAME
       test_script:
         type: string
-        default: bin/test_capabilities.py
+        default: bin/test.py
     steps:
       - checkout
       - python/install-packages:

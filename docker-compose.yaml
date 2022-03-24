@@ -1,12 +1,12 @@
 version: "3.9"
 
 services:
-  alertmanager:
+  ap-alertmanager:
     image: ap-alertmanager
     build:
       context: alertmanager
 
-  awsesproxy:
+  ap-awsesproxy:
     image: ap-awsesproxy
     build:
       context: awsesproxy
@@ -17,114 +17,136 @@ services:
       - https://dummy-host.eu-west-1.es.amazonaws.com
       - -version
 
-  blackbox-exporter:
+  ap-blackbox-exporter:
     image: ap-blackbox-exporter
     build:
       context: blackbox-exporter
     ports:
       - 9115:9115
 
-  configmap-reloader:
+  ap-configmap-reloader:
     image: ap-configmap-reloader
     build:
       context: configmap-reloader
 
-  curator:
+  ap-curator:
     image: ap-curator
     build:
       context: curator
 
-  dind-golang:
+  ap-dind-golang:
     image: ap-dind-golang
     build:
       context: dind-golang
 
-  elasticsearch:
+  ap-elasticsearch:
     image: ap-elasticsearch
     build:
       context: elasticsearch
 
-  elasticsearch-exporter:
+  ap-elasticsearch-exporter:
     image: ap-elasticsearch-exporter
     build:
       context: elasticsearch-exporter
 
-  fluentd:
+  ap-fluentd:
     image: ap-fluentd
     build:
       context: fluentd
 
-  git-daemon:
+  ap-git-daemon:
     image: ap-git-daemon
     build:
       context: git-daemon
 
-  git-sync:
+  ap-git-sync:
     image: ap-git-sync
     build:
       context: git-sync
 
-  grafana:
+  ap-grafana:
     image: ap-grafana
     build:
       context: grafana
 
-  keda:
+  ap-keda:
     image: ap-keda
     build:
       context: keda
 
-  keda-metrics-apiserver:
+  ap-keda-metrics-apiserver:
     image: ap-keda-metrics-apiserver
     build:
       context: keda-metrics-apiserver
 
-  kibana:
+  ap-kibana:
     image: ap-kibana
     build:
       context: kibana
 
-  kube-state:
+  ap-kube-state:
     image: ap-kube-state
     build:
       context: kube-state
 
-  kubed:
+  ap-kubed:
     image: ap-kubed
     build:
       context: kubed
 
-  nats-exporter:
+  ap-nats-exporter:
     image: ap-nats-exporter
     build:
       context: nats-exporter
 
-  nats-server:
+  ap-nats-server:
     image: ap-nats-server
     build:
       context: nats-server
 
-  nats-streaming:
+  ap-nats-streaming:
     image: ap-nats-streaming
     build:
       context: nats-streaming
 
-  nginx:
+  ap-nginx:
     image: ap-nginx
     build:
       context: nginx
 
-  nginx-es:
+  ap-nginx-es:
     image: ap-nginx-es
     build:
       context: nginx-es
 
-  node-exporter:
+  ap-node-exporter:
     image: ap-node-exporter
     build:
       context: node-exporter
 
-  openresty:
+  ap-openresty:
     image: ap-openresty
     build:
       context: openresty
+
+  ap-pgbouncer:
+    image: ap-pgbouncer
+    build:
+      context: pgbouncer
+
+  ap-pgbouncer-exporter:
+    image: ap-pgbouncer-exporter
+    build:
+      context: pgbouncer-exporter
+
+  ap-postgres-exporter:
+    image: ap-postgres-exporter
+    build:
+      context: postgres-exporter
+
+  ap-postgresql:
+    image: ap-postgresql:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: postgresql
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes

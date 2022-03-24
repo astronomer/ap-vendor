@@ -21,7 +21,7 @@ workflows:
       - test:
           name: test-alertmanager
           directory: alertmanager
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-alertmanager
       - scan-trivy:
@@ -52,7 +52,7 @@ workflows:
       - test:
           name: test-awsesproxy
           directory: awsesproxy
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-awsesproxy
       - scan-trivy:
@@ -83,7 +83,7 @@ workflows:
       - test:
           name: test-blackbox-exporter
           directory: blackbox-exporter
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-blackbox-exporter
       - scan-trivy:
@@ -114,7 +114,7 @@ workflows:
       - test:
           name: test-configmap-reloader
           directory: configmap-reloader
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-configmap-reloader
       - scan-trivy:
@@ -145,7 +145,7 @@ workflows:
       - test:
           name: test-curator
           directory: curator
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-curator
       - scan-trivy:
@@ -176,7 +176,7 @@ workflows:
       - test:
           name: test-dind-golang
           directory: dind-golang
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-dind-golang
       - scan-trivy:
@@ -207,7 +207,7 @@ workflows:
       - test:
           name: test-elasticsearch
           directory: elasticsearch
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-elasticsearch
       - scan-trivy:
@@ -238,7 +238,7 @@ workflows:
       - test:
           name: test-elasticsearch-exporter
           directory: elasticsearch-exporter
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-elasticsearch-exporter
       - scan-trivy:
@@ -269,7 +269,7 @@ workflows:
       - test:
           name: test-fluentd
           directory: fluentd
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-fluentd
       - scan-trivy:
@@ -300,7 +300,7 @@ workflows:
       - test:
           name: test-git-daemon
           directory: git-daemon
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-git-daemon
       - scan-trivy:
@@ -331,7 +331,7 @@ workflows:
       - test:
           name: test-git-sync
           directory: git-sync
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-git-sync
       - scan-trivy:
@@ -362,7 +362,7 @@ workflows:
       - test:
           name: test-grafana
           directory: grafana
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-grafana
       - scan-trivy:
@@ -393,7 +393,7 @@ workflows:
       - test:
           name: test-keda
           directory: keda
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-keda
       - scan-trivy:
@@ -424,7 +424,7 @@ workflows:
       - test:
           name: test-keda-metrics-apiserver
           directory: keda-metrics-apiserver
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-keda-metrics-apiserver
       - scan-trivy:
@@ -455,7 +455,7 @@ workflows:
       - test:
           name: test-kibana
           directory: kibana
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-kibana
       - scan-trivy:
@@ -486,7 +486,7 @@ workflows:
       - test:
           name: test-kube-state
           directory: kube-state
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-kube-state
       - scan-trivy:
@@ -517,7 +517,7 @@ workflows:
       - test:
           name: test-kubed
           directory: kubed
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-kubed
       - scan-trivy:
@@ -548,7 +548,7 @@ workflows:
       - test:
           name: test-nats-exporter
           directory: nats-exporter
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-nats-exporter
       - scan-trivy:
@@ -579,7 +579,7 @@ workflows:
       - test:
           name: test-nats-server
           directory: nats-server
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-nats-server
       - scan-trivy:
@@ -610,7 +610,7 @@ workflows:
       - test:
           name: test-nats-streaming
           directory: nats-streaming
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-nats-streaming
       - scan-trivy:
@@ -641,7 +641,7 @@ workflows:
       - test:
           name: test-nginx
           directory: nginx
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-nginx
       - scan-trivy:
@@ -672,7 +672,7 @@ workflows:
       - test:
           name: test-nginx-es
           directory: nginx-es
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-nginx-es
       - scan-trivy:
@@ -703,7 +703,7 @@ workflows:
       - test:
           name: test-node-exporter
           directory: node-exporter
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-node-exporter
       - scan-trivy:
@@ -734,7 +734,7 @@ workflows:
       - test:
           name: test-openresty
           directory: openresty
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-openresty
       - scan-trivy:
@@ -765,7 +765,7 @@ workflows:
       - test:
           name: test-pgbouncer
           directory: pgbouncer
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-pgbouncer
       - scan-trivy:
@@ -796,7 +796,7 @@ workflows:
       - test:
           name: test-pgbouncer-exporter
           directory: pgbouncer-exporter
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-pgbouncer-exporter
       - scan-trivy:
@@ -827,7 +827,7 @@ workflows:
       - test:
           name: test-postgres-exporter
           directory: postgres-exporter
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-postgres-exporter
       - scan-trivy:
@@ -858,7 +858,7 @@ workflows:
       - test:
           name: test-postgresql
           directory: postgresql
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-postgresql
       - scan-trivy:
@@ -889,7 +889,7 @@ workflows:
       - test:
           name: test-prometheus
           directory: prometheus
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-prometheus
       - scan-trivy:
@@ -920,7 +920,7 @@ workflows:
       - test:
           name: test-redis
           directory: redis
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-redis
       - scan-trivy:
@@ -951,7 +951,7 @@ workflows:
       - test:
           name: test-registry
           directory: registry
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-registry
       - scan-trivy:
@@ -982,7 +982,7 @@ workflows:
       - test:
           name: test-statsd-exporter
           directory: statsd-exporter
-          test_script: bin/test_capabilities.py
+          test_script: bin/test.py
           requires:
             - build-statsd-exporter
       - scan-trivy:
@@ -1154,7 +1154,7 @@ commands:
         default: $CIRCLE_PROJECT_REPONAME
       test_script:
         type: string
-        default: bin/test_capabilities.py
+        default: bin/test.py
     steps:
       - checkout
       - python/install-packages:

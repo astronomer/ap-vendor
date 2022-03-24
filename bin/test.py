@@ -9,7 +9,6 @@ ASTRO_IMAGE_NAME = os.environ["ASTRO_IMAGE_NAME"]
 ASTRO_IMAGE_TAG = os.environ.get("CIRCLE_SHA1", "latest")
 ASTRO_IMAGE_TEST_CONFIG_PATH = os.environ["ASTRO_IMAGE_TEST_CONFIG_PATH"]
 
-docker_config = {}
 test_config = {}
 
 # Read the test config
@@ -23,34 +22,14 @@ if os.path.exists(ASTRO_IMAGE_TEST_CONFIG_PATH):
             if "tests" in config:
                 test_config = config["tests"]
 
-            # Reading docker config
-            if "docker" in config:
-                docker_config = config["docker"]
-
 
 @pytest.fixture(scope="session")
 def docker_host(request):
 
-    docker_command = ["docker", "run", "-d"]
-
-    for docker_config_key in docker_config:
-
-        if "environment" == docker_config_key:
-            print(docker_config_key["environment"])
-            for key, val in docker_config_key["environment"]:
-                docker_command.append(
-                    "-e", key + "=" + docker_config_key["environment"]["key"]
-                )
-
-        if "entrypoint" == docker_config_key:
-            docker_command.append("--entrypoint=" + docker_config_key["entrypoint"])
-
-    # docker image
-    astro_image = ASTRO_IMAGE_NAME + ":" + ASTRO_IMAGE_TAG
-    docker_command.append(astro_image)
+    run_command = ["docker-compose", "run", "-d", "ASTRO_IMAGE_NAME"]
 
     # run a container
-    docker_id = subprocess.check_output(docker_command).decode().strip()
+    docker_id = subprocess.check_output(run_command).decode().strip()
 
     # return a testinfra connection to the container
     yield testinfra.get_host("docker://" + docker_id)

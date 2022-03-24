@@ -27,7 +27,7 @@ update-fluentd-gemfile.lock: ## Update the fluentd Gemfile.lock file
 
 .PHONY: build
 build:
-	docker-compose build $(image_name)
+	docker-compose build ap-$(image_name)
 
 .PHONY: test
 test: export ASTRO_IMAGE_NAME = ap-$(image_name)
@@ -36,4 +36,4 @@ test: export ASTRO_IMAGE_TEST_CONFIG_PATH = $(image_test_config)
 
 test:
 	env | grep ASTRO
-	pytest -v bin/test_capabilities.py
+	pytest -v bin/test.py

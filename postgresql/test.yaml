@@ -1,0 +1,9 @@
+---
+tests:
+  root_user_test: True
+  default_user: postgres
+  users_config:
+    - name: postgres
+      group: postgres
+      gid: 1001
+      uid: 1001
