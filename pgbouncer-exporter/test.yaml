@@ -1,0 +1,11 @@
+---
+docker:
+  entrypoint: top
+tests:
+  root_user_test: True
+  default_user: pgexporter
+  users_config:
+    - name: pgexporter
+      group: pgexporter
+      gid: 102
+      uid: 102
