@@ -1,7 +1,5 @@
 ---
 #---
-#docker:
-#  entrypoint: top
 #tests:
 #  root_user_test: True
 #  default_user: kibana
