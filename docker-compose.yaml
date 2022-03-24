@@ -25,6 +25,7 @@ services:
     image: ap-configmap-reloader:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: configmap-reloader
+    entrypoint: "top"
 
   ap-curator:
     image: ap-curator:${ASTRO_IMAGE_TAG:-latest}
