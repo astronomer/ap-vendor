@@ -1,6 +1,6 @@
 ---
 tests:
-  root_user_test: True
+  root_user_test: False
   default_user: root
   users_config:
     - name: root
