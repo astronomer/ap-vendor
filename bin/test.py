@@ -6,9 +6,9 @@ import testinfra
 import yaml
 
 ASTRO_IMAGE_NAME = os.environ["ASTRO_IMAGE_NAME"]
-ASTRO_IMAGE_TAG = os.environ.get("CIRCLE_SHA1", "latest")
 ASTRO_IMAGE_TEST_CONFIG_PATH = os.environ["ASTRO_IMAGE_TEST_CONFIG_PATH"]
 
+os.environ["ASTRO_IMAGE_TAG"] = os.environ.get("CIRCLE_SHA1", "latest")
 test_config = {}
 
 # Read the test config
@@ -25,7 +25,6 @@ if os.path.exists(ASTRO_IMAGE_TEST_CONFIG_PATH):
 
 @pytest.fixture(scope="session")
 def docker_host(request):
-
     run_command = ["docker-compose", "run", "-d", ASTRO_IMAGE_NAME]
 
     # run a container
