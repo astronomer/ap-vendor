@@ -22,8 +22,8 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV PGBOUNCER_VERSION=1.16.1 \
-    PGBOUNCER_SHA256=087477e9e4766d032b04b7b006c0c8d64160a54141a7bfc2c6e5ae7ae11bf7fc
+ENV PGBOUNCER_VERSION=1.17.0 \
+    PGBOUNCER_SHA256=657309b7bc5c7a85cbf70a9a441b535f7824123081eabb7ba86d00349a256e23
 
 RUN addgroup -S pgbouncer \
     && adduser -D -S -s /sbin/nologin -G pgbouncer pgbouncer \
@@ -40,7 +40,7 @@ RUN apk add --no-cache --virtual .build-deps \
       c-ares-dev \
       libevent-dev \
       libressl-dev \
-    && wget https://pgbouncer.github.io/downloads/files/$PGBOUNCER_VERSION/pgbouncer-$PGBOUNCER_VERSION.tar.gz \
+    && wget https://www.pgbouncer.org/downloads/files/$PGBOUNCER_VERSION/pgbouncer-$PGBOUNCER_VERSION.tar.gz \
     && echo "$PGBOUNCER_SHA256  /pgbouncer-$PGBOUNCER_VERSION.tar.gz" | sha256sum -c - \
     && tar -xzvf pgbouncer-$PGBOUNCER_VERSION.tar.gz \
     && cd pgbouncer-$PGBOUNCER_VERSION \
