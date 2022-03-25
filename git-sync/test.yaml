@@ -1,9 +1,9 @@
 ---
-#tests:
-#  root_user_test: True
-#  default_user: git-sync
-#  users_config:
-#    - name: git-sync
-#      group: git-sync
-#      gid: 65533
-#      uid: 65533
+tests:
+  root_user_test: True
+  default_user: git-sync
+  users_config:
+    - name: git-sync
+      group: git-sync
+      gid: 65533
+      uid: 65533

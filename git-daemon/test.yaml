@@ -1,6 +1,4 @@
 ---
-docker:
-  entrypoint: top
 tests:
   root_user_test: False
   default_user: root

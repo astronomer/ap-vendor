@@ -61,6 +61,7 @@ services:
 
   ap-git-sync:
     image: ap-git-sync:${ASTRO_IMAGE_TAG:-latest}
+    entrypoint: "/bin/sleep 1m"
     build:
       context: git-sync
 
