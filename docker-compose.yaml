@@ -6,6 +6,11 @@ services:
     build:
       context: alertmanager
 
+  ap-auth-sidecar:
+    image: ap-auth-sidecar:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: auth-sidecar
+
   ap-awsesproxy:
     image: ap-awsesproxy:${ASTRO_IMAGE_TAG:-latest}
     build:
