@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/docker?tab=tags&page=1&name=dind-alpine
-FROM docker:20.10.11-dind-alpine3.14
+FROM docker:20.10.14-dind-alpine3.15
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
