@@ -151,5 +151,11 @@ services:
     image: ap-postgresql:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: postgresql
+    entrypoint: "/bin/sleep 1m"
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
+
+  ap-prometheus:
+    image: ap-prometheus:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: prometheus
