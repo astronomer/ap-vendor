@@ -16,7 +16,7 @@
 
 # https://github.com/openresty/docker-openresty/
 # https://quay.io/repository/bitnami/postgresql?tab=tags
-FROM docker.io/openresty/openresty:1.19.9.1-3-alpine
+FROM docker.io/openresty/openresty:1.19.9.1-7-alpine
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -32,5 +32,8 @@ RUN mkdir -p /usr/local/openresty/nginx/client_body_temp \
     && chown -R nobody:nobody /var/run/openresty \
     && chown -R nobody:nobody /usr/local/openresty \
     && chmod -R g+w /usr/local/openresty
+
+# upgrade apk packages
+RUN apk upgrade --no-cache
 
 USER nobody
