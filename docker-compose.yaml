@@ -159,3 +159,18 @@ services:
     image: ap-prometheus:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: prometheus
+
+  ap-redis:
+    image: ap-redis:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: redis
+
+  ap-registry:
+    image: ap-registry:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: registry
+
+  ap-statsd-exporter:
+    image: ap-statsd-exporter:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: statsd-exporter
