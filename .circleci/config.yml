@@ -49,11 +49,17 @@ workflows:
           requires:
             - approve-auth-sidecar
             - run_pre_commit
+      - test:
+          name: test-auth-sidecar
+          directory: auth-sidecar
+          test_script: bin/test.py
+          requires:
+            - build-auth-sidecar
       - scan-trivy:
           name: scan-trivy-auth-sidecar
           directory: auth-sidecar
           requires:
-            - build-auth-sidecar
+            - test-auth-sidecar
       - release:
           name: release-auth-sidecar
           directory: auth-sidecar
