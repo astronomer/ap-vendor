@@ -16,11 +16,9 @@ if os.path.exists(ASTRO_IMAGE_TEST_CONFIG_PATH):
     with open(ASTRO_IMAGE_TEST_CONFIG_PATH) as file:
         config = yaml.safe_load(file)
 
-        if config is not None:
-
-            # Reading test config
-            if "tests" in config:
-                test_config = config["tests"]
+        # Reading test config
+        if config is not None and "tests" in config:
+            test_config = config["tests"]
 
 
 @pytest.fixture(scope="session")
@@ -42,7 +40,7 @@ def docker_host(request):
 
 
 @pytest.mark.skipif(
-    "root_user_test" not in test_config or False == test_config["root_user_test"],
+    "root_user_test" not in test_config or test_config["root_user_test"] == False,
     reason="Config `root_user_test` is not set in `test.yaml`.",
 )
 def test_no_root_user(docker_host):

@@ -26,7 +26,7 @@ update-fluentd-gemfile.lock: ## Update the fluentd Gemfile.lock file
 	docker run -v "$$PWD/fluentd/include:/docker-share" --workdir=/docker-share --rm -ti ruby bundle update
 
 .PHONY: build
-build:
+build: ## Build the docker image with docker-compose. Ex: `make build image_name=alertmanager`
 	docker-compose build ap-$(image_name)
 
 .PHONY: test
@@ -34,6 +34,6 @@ test: export ASTRO_IMAGE_NAME = ap-$(image_name)
 test: export ASTRO_IMAGE_TAG = $(image_tag)
 test: export ASTRO_IMAGE_TEST_CONFIG_PATH = $(image_test_config)
 
-test:
+test: ## Test the docker image. Ex: `make test image_name=alertmanager`
 	env | grep ASTRO
 	pytest -v bin/test.py
