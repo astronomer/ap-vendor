@@ -508,7 +508,19 @@
           "refId": "A"
         }
       ],
-      "thresholds": "",
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "red",
+            "value": null
+          },
+          {
+            "color": "green",
+            "value": 20
+          }
+        ]
+      },
       "title": "Prometheus Available Disk Space",
       "type": "singlestat",
       "valueFontSize": "80%",
@@ -586,7 +598,19 @@
           "refId": "A"
         }
       ],
-      "thresholds": "",
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "red",
+            "value": null
+          },
+          {
+            "color": "green",
+            "value": 20
+          }
+        ]
+      },
       "title": "Registry Available Disk Space",
       "type": "singlestat",
       "valueFontSize": "80%",
@@ -664,7 +688,19 @@
           "refId": "A"
         }
       ],
-      "thresholds": "",
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "red",
+            "value": null
+          },
+          {
+            "color": "green",
+            "value": 20
+          }
+        ]
+      },
       "title": "Elasticsearch Available Disk Space",
       "type": "singlestat",
       "valueFontSize": "80%",
