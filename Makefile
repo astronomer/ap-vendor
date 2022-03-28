@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-image_name:=alertmanager
+image_name:=
 image_tag:=latest
 image_test_config:=$(image_name)/test.yaml
 
