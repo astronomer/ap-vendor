@@ -1228,9 +1228,10 @@ commands:
         default: requirements/test-requirements.txt
     steps:
       - checkout
-      - python/install-packages:
-          pip-dependency-file: << parameters.test_requirements >>
-          pkg-manager: pip
+      - run:
+          name: Install Python dependencies.
+          command: |
+            pip install -r << parameters.test_requirements >>
       - setup_remote_docker:
           docker_layer_caching: true
           version: 20.10.11
