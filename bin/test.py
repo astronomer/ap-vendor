@@ -34,11 +34,6 @@ def docker_host(request):
     subprocess.check_call(["docker", "rm", "-f", docker_id])
 
 
-#################################################
-#                   User Test                   #
-#################################################
-
-
 @pytest.mark.skipif(
     "root_user_test" not in test_config or test_config["root_user_test"] == False,
     reason="Config `root_user_test` is not set in `test.yaml`.",
@@ -83,11 +78,6 @@ def test_user_config(docker_host):
 
             if "uid" in user_config:
                 assert user_info.uid == user_config["uid"]
-
-
-#################################################
-#                   Service Test                #
-#################################################
 
 
 @pytest.mark.skipif(
