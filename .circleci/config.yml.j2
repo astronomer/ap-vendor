@@ -22,6 +22,7 @@ workflows:
           name: test-{{ directory }}
           directory: {{ directory }}
           test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
           requires:
             - build-{{ directory }}
       - scan-trivy:
@@ -87,11 +88,15 @@ jobs:
       test_script:
         description: "The pytest test script"
         type: string
+      test_requirements:
+        description: "The python requirement file."
+        type: string
     steps:
       - docker-test:
           image_name: ap-<< parameters.directory >>
           path: << parameters.directory >>
           test_script: << parameters.test_script >>
+          test_requirements: << parameters.test_requirements >>
   scan-trivy:
     docker:
       - image: docker:{{ docker_version }}-git
@@ -194,10 +199,13 @@ commands:
       test_script:
         type: string
         default: bin/test.py
+      test_requirements:
+        type: string
+        default: requirements/test-requirements.txt
     steps:
       - checkout
       - python/install-packages:
-          pip-dependency-file: requirements.txt
+          pip-dependency-file: << parameters.test_requirements >>
           pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true

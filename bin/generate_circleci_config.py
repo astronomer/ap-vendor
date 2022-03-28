@@ -6,7 +6,7 @@ from pathlib import Path
 
 from jinja2 import Template
 
-dirs_to_skip = ["bin"]
+dirs_to_skip = ["bin", "requirements"]
 required_files = ["Dockerfile", "version.txt"]
 
 

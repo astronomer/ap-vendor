@@ -25,6 +25,11 @@ show-quay-pull-urls: ## Show Quay.io pull for all images in repo
 update-fluentd-gemfile.lock: ## Update the fluentd Gemfile.lock file
 	docker run -v "$$PWD/fluentd/include:/docker-share" --workdir=/docker-share --rm -ti ruby bundle update
 
+.PHONY: update-requirements
+update-requirements: ## Update all requirements.txt files
+	for FILE in requirements/*.in ; do pip-compile --quiet --generate-hashes --allow-unsafe --upgrade $${FILE} ; done ;
+	-pre-commit run requirements-txt-fixer --all-files --show-diff-on-failure
+
 .PHONY: build
 build: ## Build the docker image with docker-compose. Ex: `make build image_name=alertmanager`
 	docker-compose build ap-$(image_name)
