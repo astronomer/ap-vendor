@@ -2,8 +2,6 @@
 # Please edit .circleci/config.yml.j2, then run bin/generate_circleci_config.py
 ---
 version: 2.1
-orbs:
-  python: circleci/python@2.0.3
 workflows:
   version: 2.1
   vendor-build:
