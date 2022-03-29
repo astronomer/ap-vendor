@@ -15,7 +15,7 @@
 
 # https://github.com/CenterForOpenScience/docker-library/blob/master/pgbouncer/Dockerfile
 # https://quay.io/repository/centerforopenscience/pgbouncer
-FROM quay.io/astronomer/ap-base:3.15.1
+FROM quay.io/astronomer/ap-base:3.15.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -40,6 +40,7 @@ RUN apk add --no-cache --virtual .build-deps \
       c-ares-dev \
       libevent-dev \
       libressl-dev \
+      openssl-dev \
     && wget https://www.pgbouncer.org/downloads/files/$PGBOUNCER_VERSION/pgbouncer-$PGBOUNCER_VERSION.tar.gz \
     && echo "$PGBOUNCER_SHA256  /pgbouncer-$PGBOUNCER_VERSION.tar.gz" | sha256sum -c - \
     && tar -xzvf pgbouncer-$PGBOUNCER_VERSION.tar.gz \
