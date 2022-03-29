@@ -2,6 +2,8 @@
 # Please edit .circleci/config.yml.j2, then run bin/generate_circleci_config.py
 ---
 version: 2.1
+orbs:
+  python: circleci/python@2.0.3
 workflows:
   version: 2.1
   vendor-build:
@@ -1226,10 +1228,9 @@ commands:
         default: requirements/test-requirements.txt
     steps:
       - checkout
-      - run:
-          name: Install Python dependencies.
-          command: |
-            pip install -r << parameters.test_requirements >>
+      - python/install-packages:
+          pip-dependency-file: << parameters.test_requirements >>
+          pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
           version: 20.10.11
