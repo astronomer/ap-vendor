@@ -5,5 +5,5 @@ tests:
   users_config:
     - name: pgbouncer
       group: pgbouncer
-      gid: 101
-      uid: 100
+      gid: 102
+      uid: 102
