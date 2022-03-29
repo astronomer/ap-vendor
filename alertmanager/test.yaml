@@ -1,0 +1,12 @@
+---
+tests:
+  root_user_test: True
+  default_user: nobody
+  users_config:
+    - name: nobody
+      group: nobody
+      gid: 65534
+      uid: 65534
+  http_services_running:
+    - port: 9093
+      response_code: 200

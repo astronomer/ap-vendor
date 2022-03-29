@@ -1,0 +1,12 @@
+---
+tests:
+  root_user_test: True
+  default_user: blackbox-exporter
+  users_config:
+    - name: blackbox-exporter
+      group: blackbox-exporter
+      gid: 1000
+      uid: 1000
+  http_services_running:
+    - port: 9115
+      response_code: 200

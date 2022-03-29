@@ -1,0 +1,9 @@
+---
+tests:
+  root_user_test: False
+  default_user: grafana
+  users_config:
+    - name: grafana
+      group: root
+      gid: 0
+      uid: 472

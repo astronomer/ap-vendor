@@ -1,4 +1,4 @@
+prometheus_client
 pytest
 requests
-prometheus_client
 statsd

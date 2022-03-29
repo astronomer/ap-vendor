@@ -1,0 +1,9 @@
+---
+tests:
+  root_user_test: True
+  default_user: prometheus-nats-exporter
+  users_config:
+    - name: prometheus-nats-exporter
+      group: prometheus-nats-exporter
+      gid: 1000
+      uid: 1000

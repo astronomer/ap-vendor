@@ -2,6 +2,8 @@
 {%- set docker_version = '20.10.11' -%}
 ---
 version: 2.1
+orbs:
+  python: circleci/python@2.0.3
 workflows:
   version: 2.1
   vendor-build:
@@ -16,11 +18,18 @@ workflows:
           requires:
             - approve-{{ directory }}
             - run_pre_commit
+      - test:
+          name: test-{{ directory }}
+          directory: {{ directory }}
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-{{ directory }}
       - scan-trivy:
           name: scan-trivy-{{ directory }}
           directory: {{ directory }}
           requires:
-            - build-{{ directory }}
+            - test-{{ directory }}
       - release:
           name: release-{{ directory }}
           directory: {{ directory }}
@@ -69,6 +78,25 @@ jobs:
           image_name: ap-<< parameters.directory >>
           dockerfile: Dockerfile
           path: << parameters.directory >>
+  test:
+    executor: docker-executor
+    description: "Test the docker image"
+    parameters:
+      directory:
+        description: "The directory of the image to build"
+        type: string
+      test_script:
+        description: "The pytest test script"
+        type: string
+      test_requirements:
+        description: "The python requirement file."
+        type: string
+    steps:
+      - docker-test:
+          image_name: ap-<< parameters.directory >>
+          path: << parameters.directory >>
+          test_script: << parameters.test_script >>
+          test_requirements: << parameters.test_requirements >>
   scan-trivy:
     docker:
       - image: docker:{{ docker_version }}-git
@@ -159,6 +187,47 @@ commands:
           root: .
           paths:
             - "./*.tar"
+  docker-test:
+    description: "Test a Docker image"
+    parameters:
+      path:
+        type: string
+        default: "."
+      image_name:
+        type: string
+        default: $CIRCLE_PROJECT_REPONAME
+      test_script:
+        type: string
+        default: bin/test.py
+      test_requirements:
+        type: string
+        default: requirements/test-requirements.txt
+    steps:
+      - checkout
+      - python/install-packages:
+          pip-dependency-file: << parameters.test_requirements >>
+          pkg-manager: pip
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: {{ docker_version }}
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load archived Docker image
+          command: |
+            set -x
+            docker load -i /tmp/workspace/<< parameters.image_name >>.tar
+            docker images | grep << parameters.image_name >>
+      - run:
+          name: Run Docker image test
+          environment:
+            ASTRO_IMAGE_NAME: << parameters.image_name >>
+            ASTRO_IMAGE_TEST_CONFIG_PATH: << parameters.path >>/test.yaml
+          command: |
+            mkdir test-results
+            pytest -v --junitxml=test-results/junit.xml << parameters.test_script>>
+      - store_test_results:
+          path: test-results
   push-to-quay-io:
     description: "Push a Docker image to Quay.io"
     parameters:

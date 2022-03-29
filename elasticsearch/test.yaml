@@ -1,0 +1,9 @@
+---
+tests:
+  root_user_test: True
+  default_user: elasticsearch
+  users_config:
+    - name: elasticsearch
+      group: elasticsearch
+      gid: 1000
+      uid: 1000
