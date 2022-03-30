@@ -14,8 +14,12 @@
 # limitations under the License.
 
 # https://www.elastic.co/guide/en/kibana/current/docker.html
-FROM docker.elastic.co/kibana/kibana:7.16.3
+FROM docker.elastic.co/kibana/kibana:7.17.1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
+
+USER root
+RUN apt update && apt upgrade  -y && rm -rf /var/lib/apt/lists/*
+USER kibana
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
