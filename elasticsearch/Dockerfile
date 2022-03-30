@@ -14,11 +14,12 @@
 # limitations under the License.
 
 # https://www.docker.elastic.co/r/elasticsearch
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.16.3-amd64
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.1-amd64
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+RUN apt update && apt upgrade  -y && rm -rf /var/lib/apt/lists/*
 USER elasticsearch
