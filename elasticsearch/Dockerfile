@@ -21,4 +21,5 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+RUN apt update && apt upgrade  -y && rm -rf /var/lib/apt/lists/*
 USER elasticsearch
