@@ -17,6 +17,10 @@
 FROM docker.elastic.co/kibana/kibana:7.17.1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
+USER root
+RUN apt update && apt upgrade  && rm -rf /var/lib/apt/lists/*
+USER kibana
+
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
