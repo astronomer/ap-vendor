@@ -18,7 +18,7 @@ FROM docker.elastic.co/kibana/kibana:7.17.1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 USER root
-RUN apt update && apt upgrade  && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt upgrade  -y && rm -rf /var/lib/apt/lists/*
 USER kibana
 
 ARG BUILD_NUMBER=-1
