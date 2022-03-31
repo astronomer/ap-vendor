@@ -17,7 +17,7 @@
 FROM k8s.gcr.io/ingress-nginx/controller:v1.1.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 USER root
-RUN apk add --upgrade --no-cache apk-tools curl patch libxml2 openssl
+RUN apk add --upgrade --no-cache apk-tools curl patch libxml2 openssl zlib
 USER www-data
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
