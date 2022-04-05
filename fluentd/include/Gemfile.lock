@@ -176,7 +176,7 @@ GEM
       unf_ext
     unf_ext (0.0.8.1)
     webrick (1.7.0)
-    yajl-ruby (1.4.1)
+    yajl-ruby (1.4.2)
     zeitwerk (2.5.4)
 
 PLATFORMS
