@@ -1,5 +1,4 @@
-#!/usr/bin/env sh
-
+#!/usr/bin/env bash
 set -e
 
 wait_for_it() {
@@ -11,8 +10,8 @@ wait_for_it() {
 }
 
 # Parse string like: postgres://postgres:postgres@astronomer-postgresql.astronomer.svc.cluster.local:5432/astronomer_houston
-POSTGRES_HOST=$(echo "${GF_DATABASE_URL}" | awk -F@ '{print $2}' | awk -F: '{print $1}')
-POSTGRES_PORT=$(echo "${GF_DATABASE_URL}" | awk -F@ '{print $2}' | awk -F: '{print $2}' | awk -F/ '{print $1}')
+POSTGRES_HOST="$(echo "${GF_DATABASE_URL##*@}" | awk -F: '{print $1}')"
+POSTGRES_PORT="$(echo "${GF_DATABASE_URL##*:}" | awk -F/ '{print $1}')"
 
 if [ -n "${POSTGRES_HOST}" ] ; then
     wait_for_it "$POSTGRES_HOST" "$POSTGRES_PORT"
