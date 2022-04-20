@@ -1,0 +1,9 @@
+---
+tests:
+  root_user_test: True
+  default_user: nobody
+  users_config:
+    - name: nobody
+      group: nobody
+      gid: 65533
+      uid: 65533
