@@ -1066,6 +1066,38 @@ workflows:
             branches:
               only: main
 
+      - approve-vector:
+          type: approval
+      - build:
+          name: build-vector
+          directory: vector
+          requires:
+            - approve-vector
+            - run_pre_commit
+      - test:
+          name: test-vector
+          directory: vector
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-vector
+      - scan-trivy:
+          name: scan-trivy-vector
+          directory: vector
+          requires:
+            - test-vector
+      - release:
+          name: release-vector
+          directory: vector
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-vector
+          filters:
+            branches:
+              only: main
+
 jobs:
   run_pre_commit:
     docker:
