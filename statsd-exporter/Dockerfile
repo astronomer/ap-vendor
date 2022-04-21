@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM prom/statsd-exporter:v0.18.0
+FROM prom/statsd-exporter:v0.22.4
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -22,3 +22,4 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 COPY include/mappings.yml /etc/statsd-exporter/mappings.yml
 COPY include/mappings-gen2.yml /etc/statsd-exporter/mappings-gen2.yml
+
