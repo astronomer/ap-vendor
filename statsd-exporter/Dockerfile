@@ -23,4 +23,3 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 COPY include/mappings.yml /etc/statsd-exporter/mappings.yml
 COPY include/mappings-gen2.yml /etc/statsd-exporter/mappings-gen2.yml
 
-USER 65534
