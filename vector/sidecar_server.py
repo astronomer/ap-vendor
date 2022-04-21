@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 """Launch vector in a subprocess and handle web signaling for the sidecar."""
-# TODO:
-# - Terminate when subprocess dies
-# - Handle options, maybe just through env vars to make it simple.
 import os
 import signal
 from http import server
@@ -17,22 +14,30 @@ proc = subprocess.Popen("/usr/local/bin/vector", shell=True)
 
 class ExitHandler(server.BaseHTTPRequestHandler):
     def do_POST(self):
-        if self.path == "/quitquitquit":
-            print("Exiting.")
-            try:
-                outs, errs = proc.communicate(timeout=5)
-            except subprocess.TimeoutExpired:
-                proc.kill()
-                outs, errs = proc.communicate()
-            if outs:
-                print(f"{outs=}")
-            if errs:
-                print(f"{errs=}")
-            raise SystemExit()
+        if self.path != "/quitquitquit":
+            return
+        print("Exiting.")
+        try:
+            outs, errs = proc.communicate(timeout=5)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            outs, errs = proc.communicate()
+        if outs:
+            print(f"{outs=}")
+        if errs:
+            print(f"{errs=}")
+        raise SystemExit()
+
+
+class ThisServer(server.HTTPServer):
+    def service_actions(self):
+        proc.poll()
+        if proc.returncode is not None:
+            raise SystemExit(proc.returncode)
 
 
 print(f"{ppid=}")
 
 address = ("127.0.0.1", 8000)
-server = server.HTTPServer(address, ExitHandler)
+server = ThisServer(address, ExitHandler)
 server.serve_forever()
