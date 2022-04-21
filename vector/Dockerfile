@@ -29,7 +29,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 COPY --from=downloader /usr/local/bin/vector /usr/local/bin/vector
 
-ADD sidecar_server.py /usr/local/bin/
+ADD sidecar_server.py terminate_server.py /usr/local/bin/
 
 USER nobody:nogroup
 
