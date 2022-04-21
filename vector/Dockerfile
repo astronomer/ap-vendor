@@ -12,18 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM python:3.10-buster
-LABEL maintainer="Astronomer <humans@astronomer.io>"
-
-ARG BUILD_NUMBER=-1
-LABEL io.astronomer.docker=true
-LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+FROM python:3.10-buster as downloader
 
 ENV VECTOR_VERSION 0.21.0
 
 RUN curl -fsSL https://github.com/vectordotdev/vector/releases/download/v${VECTOR_VERSION}/vector-${VECTOR_VERSION}-x86_64-unknown-linux-gnu.tar.gz \
     | tar --directory=/usr/local/bin/ --strip-components=3 --no-anchored -xzf - vector-x86_64-unknown-linux-gnu/bin/vector
 
-ADD sidecar_server.py /usr/local/bin/
+FROM python:3.10-slim
+
+LABEL maintainer="Astronomer <humans@astronomer.io>"
+
+ARG BUILD_NUMBER=-1
+LABEL io.astronomer.docker=true
+LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+COPY --from=downloader /usr/local/bin/vector /usr/local/bin/vector
+
+# ADD sidecar_server.py /usr/local/bin/
 
 USER nobody:nogroup
