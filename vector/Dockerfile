@@ -33,6 +33,4 @@ ADD sidecar_server.py terminate_server.py /usr/local/bin/
 
 USER nobody:nogroup
 
-# Unset upstream entrypoint
-ENTRYPOINT ["python"]
-CMD [ "/usr/local/bin/sidecar_server.py" ]
+ENTRYPOINT ["/usr/local/bin/sidecar_server.py"]
