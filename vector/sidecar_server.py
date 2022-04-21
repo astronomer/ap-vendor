@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """Launch vector in a subprocess and handle web signaling for the sidecar."""
+# TODO:
+# - Terminate when subprocess dies
+# - Handle options, maybe just through env vars to make it simple.
 import os
 import signal
 from http import server
