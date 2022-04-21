@@ -26,4 +26,4 @@ RUN curl -fsSL https://github.com/vectordotdev/vector/releases/download/v${VECTO
 
 ADD sidecar_server.py /usr/local/bin/
 
-USER nobody:nobody
+USER nobody:nogroup

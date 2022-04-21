@@ -4,6 +4,6 @@ tests:
   default_user: nobody
   users_config:
     - name: nobody
-      group: nobody
-      gid: 65533
-      uid: 65533
+      group: nogroup
+      gid: 65534
+      uid: 65534
