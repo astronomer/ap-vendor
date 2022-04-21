@@ -9,9 +9,7 @@ ppid = os.getppid()
 import subprocess
 
 # The below process would be a call to vector, but it is a date loop just for demonstration
-proc = subprocess.Popen(
-    "while sleep 1 ; do date '+%FT%T%z' >> out.txt ; done ;", shell=True
-)
+proc = subprocess.Popen("/usr/local/bin/vector", shell=True)
 
 
 class ExitHandler(server.BaseHTTPRequestHandler):
