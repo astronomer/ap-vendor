@@ -17,6 +17,9 @@ class ExitHandler(server.BaseHTTPRequestHandler):
         if self.path != "/quitquitquit":
             return
         print("Exiting.")
+        self.send_response(200)
+        self.end_headers()
+
         try:
             outs, errs = proc.communicate(timeout=5)
         except subprocess.TimeoutExpired:
