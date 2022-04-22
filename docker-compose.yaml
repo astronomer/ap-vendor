@@ -181,3 +181,8 @@ services:
     image: ap-statsd-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: statsd-exporter
+
+  ap-vector:
+    image: ap-vector:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: vector

@@ -41,21 +41,22 @@ When your change is merged to main:
 - [ ] kibana
 - [ ] kube-state
 - [ ] kubed
+- [ ] nats-exporter
 - [ ] nats-server
 - [ ] nats-streaming
-- [ ] nats-exporter
 - [ ] nginx
 - [ ] nginx-es
 - [ ] node-exporter
 - [ ] openresty
 - [ ] pgbouncer
 - [ ] pgbouncer-exporter
-- [ ] postgresql
 - [ ] postgres-exporter
+- [ ] postgresql
 - [ ] prometheus
 - [ ] redis
 - [ ] registry
 - [ ] statsd-exporter
+- [ ] vector
 
 ## Checklist
 
