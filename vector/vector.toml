@@ -1,4 +1,4 @@
-# Vector Sample Config
+# Vector Sample Configuration for defaults
 
 # Random Syslog-formatted logs
 [sources.dummy_logs]
