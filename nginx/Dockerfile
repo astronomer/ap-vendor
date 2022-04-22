@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://github.com/kubernetes/ingress-nginx
-FROM k8s.gcr.io/ingress-nginx/controller:v0.51.0
+FROM k8s.gcr.io/ingress-nginx/controller:v1.2.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 # commented for 0.51.0 nginx release
 #USER root
