@@ -31,6 +31,6 @@ COPY --from=downloader /usr/local/bin/vector /usr/local/bin/vector
 
 ADD sidecar_server.py terminate_server.py /usr/local/bin/
 
-USER nobody:nogroup
+USER 65534:65534
 
 ENTRYPOINT ["/usr/local/bin/sidecar_server.py"]
