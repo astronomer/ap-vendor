@@ -27,7 +27,7 @@ RUN apk upgrade --no-cache
 USER root
 
 RUN apk add --no-cache shadow && \
-    addgroup grafana && \
+    addgroup --gid 472 grafana && \
     gpasswd -d grafana root && \
     usermod -g grafana grafana && \
     apk del shadow && \
