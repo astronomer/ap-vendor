@@ -24,6 +24,14 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 # apk updates
 USER root
 RUN apk upgrade --no-cache
+USER root
+
+RUN apk add --no-cache shadow && \
+    addgroup --gid 472 grafana && \
+    gpasswd -d grafana root && \
+    usermod -g grafana grafana && \
+    apk del shadow && \
+    chown -R grafana:grafana /usr/share/grafana
 USER grafana
 
 # Copy default dashboards and datasource configuration

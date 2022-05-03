@@ -19,6 +19,7 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 USER root
 RUN apt update && apt upgrade  -y && rm -rf /var/lib/apt/lists/*
+RUN gpasswd -d kibana root
 USER kibana
 
 ARG BUILD_NUMBER=-1

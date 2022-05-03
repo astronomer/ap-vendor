@@ -22,4 +22,5 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 RUN apt update && apt upgrade  -y && rm -rf /var/lib/apt/lists/*
+RUN gpasswd -d elasticsearch root
 USER elasticsearch
