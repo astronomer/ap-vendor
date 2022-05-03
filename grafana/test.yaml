@@ -1,6 +1,6 @@
 ---
 tests:
-  root_user_test: False
+  root_user_test: True
   default_user: grafana
   users_config:
     - name: grafana
