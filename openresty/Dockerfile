@@ -13,9 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
+# https://hub.docker.com/r/openresty/openresty/tags
 # https://github.com/openresty/docker-openresty/
-# https://quay.io/repository/bitnami/postgresql?tab=tags
 FROM docker.io/openresty/openresty:1.19.9.1-7-alpine
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
