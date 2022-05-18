@@ -14,11 +14,10 @@
 # limitations under the License.
 
 # https://github.com/kubernetes/ingress-nginx
-FROM k8s.gcr.io/ingress-nginx/controller:v1.2.0
+FROM k8s.gcr.io/ingress-nginx/controller:v0.51.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
-# commented for 0.51.0 nginx release
-#USER root
-#RUN apk add --upgrade --no-cache apk-tools curl patch libxml2 openssl zlib
+USER root
+RUN apk add --upgrade --no-cache apk-tools curl patch libxml2 openssl zlib
 USER www-data
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
