@@ -1399,7 +1399,7 @@ jobs:
   scan-snyk:
     docker:
       - image: cimg/node:12.22
-    description: "Snyk: Vulnerability scanner a Docker image"
+    description: "Snyk: Vulnerability scan a Docker image"
     parameters:
       directory:
         description: "The directory name of the image to be scanned"
