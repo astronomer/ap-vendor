@@ -144,7 +144,7 @@ jobs:
             - /tmp/workspace/trivy-cache
   scan-snyk:
     docker:
-      - image: circleci/node:12
+      - image: cimg/node:12.22
     description: "Snyk: Vulnerability scanner a Docker image"
     parameters:
       directory:
