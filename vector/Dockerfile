@@ -14,6 +14,7 @@
 
 FROM python:3.10-buster as downloader
 
+# https://github.com/vectordotdev/vector/releases/
 ENV VECTOR_VERSION 0.21.2
 
 RUN curl -fsSL https://github.com/vectordotdev/vector/releases/download/v${VECTOR_VERSION}/vector-${VECTOR_VERSION}-x86_64-unknown-linux-gnu.tar.gz \
