@@ -11,6 +11,14 @@ repos:
         entry: bin/generate_circleci_config.py
         additional_dependencies: ["jinja2"]
         always_run: True
+      - id: docker-compose-yaml
+        name: Check for consistency between docker-compose.yaml and docker-compose.yaml.j2
+        language: python
+        # https://regex101.com/r/7SNQ2t/3
+        files: '^(?:\.docker-compose\.yml(?:\.j2)?|bin/generate_docker_compose\.py|\.pre-commit-config\.yaml)$'
+        entry: bin/generate_docker_compose.py
+        additional_dependencies: ["jinja2", "PyYaml"]
+        always_run: True
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: "v2.6.2"
     hooks:
