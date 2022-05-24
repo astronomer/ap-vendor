@@ -7,3 +7,5 @@ tests:
       group: root
       gid: 0
       uid: 0
+docker:
+  entrypoint: "top"

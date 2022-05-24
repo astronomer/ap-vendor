@@ -1,3 +1,5 @@
+# Warning: automatically generated file
+# Please edit docker-compose.yaml.j2, then run bin/generate_docker_compose.py
 version: "3.9"
 
 services:
@@ -34,9 +36,9 @@ services:
 
   ap-curator:
     image: ap-curator:${ASTRO_IMAGE_TAG:-latest}
-    entrypoint: "/bin/sleep 1m"
     build:
       context: curator
+    entrypoint: "/bin/sleep 1m"
 
   ap-dind-golang:
     image: ap-dind-golang:${ASTRO_IMAGE_TAG:-latest}
@@ -67,9 +69,9 @@ services:
 
   ap-git-sync:
     image: ap-git-sync:${ASTRO_IMAGE_TAG:-latest}
-    entrypoint: "/bin/sleep 1m"
     build:
       context: git-sync
+    entrypoint: "/bin/sleep 1m"
 
   ap-grafana:
     image: ap-grafana:${ASTRO_IMAGE_TAG:-latest}

@@ -7,3 +7,7 @@ tests:
       group: postgres
       gid: 1001
       uid: 1001
+docker:
+  entrypoint: "/bin/sleep 1m"
+  environment:
+    - ALLOW_EMPTY_PASSWORD=yes

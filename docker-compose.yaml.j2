@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+{%- for docker_image, docker_config  in docker_images.items() %}
+  ap-{{ docker_image }}:
+    image: ap-{{ docker_image }}:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: {{ docker_image }}
+{%- if "ports" in docker_config %}
+    ports:
+{%- for port  in docker_config["ports"] %}
+      - {{ port }}
+{%- endfor %}
+{%- endif %}
+{%- if "entrypoint" in docker_config %}
+    entrypoint: "{{ docker_config["entrypoint"] }}"
+{%- endif %}
+{%- if "environment" in docker_config %}
+    environment:
+{%- for env  in docker_config["environment"] %}
+      - {{ env }}
+{%- endfor %}
+{%- endif %}
+{% endfor %}

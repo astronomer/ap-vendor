@@ -7,3 +7,5 @@ tests:
       group: www-data
       gid: 82
       uid: 101
+docker:
+  entrypoint: "top"
