@@ -1,7 +1,7 @@
 ---
 tests:
   root_user_test: True
-  default_user: root
+  default_user: redis
   users_config:
     - name: redis
       group: redis
