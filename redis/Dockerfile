@@ -14,12 +14,17 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/redis
-FROM redis:6.2.6-alpine3.15
+FROM redis:6.2.7
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
-# apk upgrade
-RUN apk upgrade --no-cache
+# apt-get upgrade
+RUN apt-get update --no-cache
+# Adding enough permission for redis to use redis-server service  https://redis.io/docs/manual/persistence/
+RUN chown redis:redis /usr/local/bin/redis*
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+# Switching user to redis:999
+USER redis
