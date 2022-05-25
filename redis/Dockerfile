@@ -17,8 +17,6 @@
 FROM redis:6.2.7
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
-# apt-get upgrade
-RUN apt-get update --no-cache
 # Adding enough permission for redis to use redis-server service  https://redis.io/docs/manual/persistence/
 RUN chown redis:redis /usr/local/bin/redis*
 
