@@ -21,7 +21,7 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get dist-upgrade -y && \
-    rm -rf rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*
 
 # Adding enough permission for redis to use redis-server service  https://redis.io/docs/manual/persistence/
 RUN chown redis:redis /usr/local/bin/redis*

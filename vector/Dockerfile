@@ -18,7 +18,7 @@ FROM python:3.10-buster as downloader
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get dist-upgrade -y && \
-    rm -rf rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*
 
 # https://github.com/vectordotdev/vector/releases/
 ENV VECTOR_VERSION 0.21.2
