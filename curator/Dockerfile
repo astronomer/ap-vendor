@@ -29,7 +29,7 @@ RUN set -x ; apk --no-cache add \
       py3-setuptools \
       python3 \
       python3-dev && \
-    apk --no-cache add -u --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main \
+    apk add --no-cache  \
       py3-cryptography \
       py3-openssl \
       py3-requests \
