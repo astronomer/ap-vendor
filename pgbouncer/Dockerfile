@@ -33,18 +33,26 @@ RUN addgroup -S pgbouncer \
       libevent \
       libressl
 
+
 RUN apk add --no-cache --virtual .build-deps \
       build-base \
       autoconf \
       wget \
+      git \
       c-ares-dev \
       libevent-dev \
       libressl-dev \
       openssl-dev \
-    && wget https://www.pgbouncer.org/downloads/files/$PGBOUNCER_VERSION/pgbouncer-$PGBOUNCER_VERSION.tar.gz \
-    && echo "$PGBOUNCER_SHA256  /pgbouncer-$PGBOUNCER_VERSION.tar.gz" | sha256sum -c - \
-    && tar -xzvf pgbouncer-$PGBOUNCER_VERSION.tar.gz \
-    && cd pgbouncer-$PGBOUNCER_VERSION \
+      libtool \
+      automake \
+    && wget "https://github.com/jgm/pandoc/releases/download/2.18/pandoc-2.18-linux-amd64.tar.gz" \
+    && tar xvzf pandoc-2.18-linux-amd64.tar.gz --strip-components 1 -C /usr/local \
+    && git clone https://github.com/astronomer/pgbouncer.git /tmp/pgbouncer; \
+       cd /tmp/pgbouncer; \
+       git checkout 9a346b0e451d842d7202abc3eccf0ff5a66b2dd6; \
+       git submodule init; \
+       git submodule update \
+    && cd /tmp/pgbouncer && ./autogen.sh \
     && ./configure --prefix=/usr --disable-debug \
     && make \
     && make install \
@@ -58,9 +66,8 @@ RUN apk add --no-cache --virtual .build-deps \
       -e "s|auth_type = .*|auth_type = md5|" \
       /etc/pgbouncer/pgbouncer.ini \
     && cd .. \
-    && rm pgbouncer-$PGBOUNCER_VERSION.tar.gz \
-    && rm -rf pgbouncer-$PGBOUNCER_VERSION \
+    && rm -rf pgbouncer \
     && apk del .build-deps
-USER pgbouncer
-CMD ["pgbouncer", "-u", "pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
+# USER pgbouncer
+# CMD ["pgbouncer", "-u", "pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
 
