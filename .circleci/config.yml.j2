@@ -44,7 +44,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-{{ directory }}
-            - scan-snyk-{{ directory }}
           filters:
             branches:
               only: main
