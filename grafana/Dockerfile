@@ -34,6 +34,9 @@ RUN apk add --no-cache shadow && \
     chown -R grafana:grafana /usr/share/grafana
 USER grafana
 
+# Install singlestat panel plugin
+RUN grafana-cli plugins install grafana-singlestat-panel
+
 # Copy default dashboards and datasource configuration
 COPY include/dashboard.yaml /etc/grafana/provisioning/dashboards/dashboard.yaml
 COPY include/nginx-ingress.json /var/lib/grafana/dashboards/nginx-ingress.json

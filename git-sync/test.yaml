@@ -7,3 +7,5 @@ tests:
       group: git-sync
       gid: 65533
       uid: 65533
+docker:
+  entrypoint: "/bin/sleep 1m"

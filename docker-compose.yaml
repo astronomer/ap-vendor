@@ -1,3 +1,5 @@
+# Warning: automatically generated file
+# Please edit docker-compose.yaml.j2, then run bin/generate_docker_compose.py
 version: "3.9"
 
 services:
@@ -5,12 +7,10 @@ services:
     image: ap-alertmanager:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: alertmanager
-
   ap-auth-sidecar:
     image: ap-auth-sidecar:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: auth-sidecar
-
   ap-awsesproxy:
     image: ap-awsesproxy:${ASTRO_IMAGE_TAG:-latest}
     build:
@@ -18,142 +18,116 @@ services:
     ports:
       - 9200:9200
     entrypoint: "top"
-
   ap-blackbox-exporter:
     image: ap-blackbox-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: blackbox-exporter
     ports:
       - 9115:9115
-
   ap-configmap-reloader:
     image: ap-configmap-reloader:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: configmap-reloader
     entrypoint: "top"
-
   ap-curator:
     image: ap-curator:${ASTRO_IMAGE_TAG:-latest}
-    entrypoint: "/bin/sleep 1m"
     build:
       context: curator
-
+    entrypoint: "/bin/sleep 1m"
   ap-dind-golang:
     image: ap-dind-golang:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: dind-golang
     entrypoint: "top"
-
   ap-elasticsearch:
     image: ap-elasticsearch:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: elasticsearch
-
   ap-elasticsearch-exporter:
     image: ap-elasticsearch-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: elasticsearch-exporter
-
   ap-fluentd:
     image: ap-fluentd:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: fluentd
-
   ap-git-daemon:
     image: ap-git-daemon:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: git-daemon
     entrypoint: "top"
-
   ap-git-sync:
     image: ap-git-sync:${ASTRO_IMAGE_TAG:-latest}
-    entrypoint: "/bin/sleep 1m"
     build:
       context: git-sync
-
+    entrypoint: "/bin/sleep 1m"
   ap-grafana:
     image: ap-grafana:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: grafana
-
   ap-keda:
     image: ap-keda:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: keda
-
   ap-keda-metrics-apiserver:
     image: ap-keda-metrics-apiserver:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: keda-metrics-apiserver
-
   ap-kibana:
     image: ap-kibana:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: kibana
-
   ap-kube-state:
     image: ap-kube-state:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: kube-state
-
   ap-kubed:
     image: ap-kubed:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: kubed
-
   ap-nats-exporter:
     image: ap-nats-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: nats-exporter
     entrypoint: "top"
-
   ap-nats-server:
     image: ap-nats-server:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: nats-server
-
   ap-nats-streaming:
     image: ap-nats-streaming:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: nats-streaming
-
   ap-nginx:
     image: ap-nginx:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: nginx
     entrypoint: "top"
-
   ap-nginx-es:
     image: ap-nginx-es:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: nginx-es
-
   ap-node-exporter:
     image: ap-node-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: node-exporter
-
   ap-openresty:
     image: ap-openresty:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: openresty
-
   ap-pgbouncer:
     image: ap-pgbouncer:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: pgbouncer
-
   ap-pgbouncer-exporter:
     image: ap-pgbouncer-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: pgbouncer-exporter
     entrypoint: "top"
-
   ap-postgres-exporter:
     image: ap-postgres-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: postgres-exporter
-
   ap-postgresql:
     image: ap-postgresql:${ASTRO_IMAGE_TAG:-latest}
     build:
@@ -161,27 +135,22 @@ services:
     entrypoint: "/bin/sleep 1m"
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
-
   ap-prometheus:
     image: ap-prometheus:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: prometheus
-
   ap-redis:
     image: ap-redis:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: redis
-
   ap-registry:
     image: ap-registry:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: registry
-
   ap-statsd-exporter:
     image: ap-statsd-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: statsd-exporter
-
   ap-vector:
     image: ap-vector:${ASTRO_IMAGE_TAG:-latest}
     build:
