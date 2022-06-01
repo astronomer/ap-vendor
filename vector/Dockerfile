@@ -14,12 +14,6 @@
 
 FROM python:3.10-buster as downloader
 
-# Update packages to solve security vulnerabilities
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && \
-    apt-get dist-upgrade -y && \
-    rm -rf /var/lib/apt/lists/*
-
 # https://github.com/vectordotdev/vector/releases/
 ENV VECTOR_VERSION 0.21.2
 
@@ -33,6 +27,12 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+# Update packages to solve security vulnerabilities
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY --from=downloader /usr/local/bin/vector /usr/local/bin/vector
 
