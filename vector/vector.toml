@@ -1,0 +1,13 @@
+# Default config. This is just to allow vector to launch, but should not be used in production.
+# A custom config must be used for this to be valuable in production.
+
+[sources.default]
+type = "exec"
+command = ["echo", "This is the default config. You must mount a custom vector config to suit your needs."]
+mode = "scheduled"
+scheduled.exec_interval_secs = 5
+
+[sinks.print]
+type = "console"
+inputs = ["default"]
+encoding.codec = "json"
