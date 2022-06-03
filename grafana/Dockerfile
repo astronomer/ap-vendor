@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/r/grafana/grafana
-FROM grafana/grafana:8.4.5
+# https://hub.docker.com/r/grafana/grafana/tags
+FROM grafana/grafana:8.5.4
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
