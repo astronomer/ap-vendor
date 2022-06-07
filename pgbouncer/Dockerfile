@@ -56,9 +56,10 @@ RUN apk add --no-cache --virtual .build-deps \
     && ./configure --prefix=/usr --disable-debug \
     && make \
     && make install \
-    && mkdir /etc/pgbouncer \
+    && mkdir /etc/pgbouncer /var/log/pgbouncer /var/run/pgbouncer \
     && cp ./etc/pgbouncer.ini /etc/pgbouncer/ \
     && touch /etc/pgbouncer/userlist.txt \
+    && chown -R pgbouncer /var/run/pgbouncer /etc/pgbouncer \
     && sed -i \
       -e "s|logfile = |#logfile = |" \
       -e "s|pidfile = |#pidfile = |" \
@@ -68,6 +69,8 @@ RUN apk add --no-cache --virtual .build-deps \
     && cd .. \
     && rm -rf pgbouncer \
     && apk del .build-deps
-# USER pgbouncer
-# CMD ["pgbouncer", "-u", "pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
+COPY entrypoint.sh /entrypoint.sh
+USER pgbouncer
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["pgbouncer", "-u", "pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
 
