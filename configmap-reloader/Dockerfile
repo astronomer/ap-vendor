@@ -13,9 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM jimmidyson/configmap-reload:v0.5.0 as base
+# https://github.com/jimmidyson/configmap-reload
+# https://hub.docker.com/r/jimmidyson/configmap-reload/tags
+FROM jimmidyson/configmap-reload:v0.7.1 as base
 
-FROM busybox:1.33.1
+# https://hub.docker.com/_/busybox?tab=tags
+FROM busybox:1.35.1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
