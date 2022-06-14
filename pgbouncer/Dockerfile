@@ -49,7 +49,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && tar xvzf pandoc-2.18-linux-amd64.tar.gz --strip-components 1 -C /usr/local \
     && git clone https://github.com/astronomer/pgbouncer.git /tmp/pgbouncer; \
        cd /tmp/pgbouncer; \
-       git checkout 9a346b0e451d842d7202abc3eccf0ff5a66b2dd6; \
+       git checkout 503a165; \
        git submodule init; \
        git submodule update \
     && cd /tmp/pgbouncer && ./autogen.sh \
