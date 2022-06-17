@@ -53,7 +53,7 @@ RUN apk add --no-cache --virtual .build-deps \
        git submodule init; \
        git submodule update \
     && cd /tmp/pgbouncer && ./autogen.sh \
-    && ./configure --prefix=/usr --disable-debug \
+    && ./configure --prefix=/usr --with-gss \
     && make \
     && make install \
     && mkdir /etc/pgbouncer /var/log/pgbouncer /var/run/pgbouncer \

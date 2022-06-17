@@ -144,6 +144,8 @@ ${TCP_KEEPCNT:+tcp_keepcnt = ${TCP_KEEPCNT}\n}\
 ${TCP_KEEPIDLE:+tcp_keepidle = ${TCP_KEEPIDLE}\n}\
 ${TCP_KEEPINTVL:+tcp_keepintvl = ${TCP_KEEPINTVL}\n}\
 ${TCP_USER_TIMEOUT:+tcp_user_timeout = ${TCP_USER_TIMEOUT}\n}\
+# Kerberos
+${KRB_SERVER_KEYFILE}:+krb_server_keyfile = ${KRB_SERVER_KEYFILE}\n}\
 ################## end file ##################
 " > ${PG_CONFIG_DIR}/pgbouncer.ini
 cat ${PG_CONFIG_DIR}/pgbouncer.ini
