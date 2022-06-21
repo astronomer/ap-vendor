@@ -25,15 +25,6 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 ENV PGBOUNCER_VERSION=1.17.0 \
     PGBOUNCER_SHA256=657309b7bc5c7a85cbf70a9a441b535f7824123081eabb7ba86d00349a256e23
 
-RUN addgroup -S pgbouncer \
-    && adduser -D -S -s /sbin/nologin -G pgbouncer pgbouncer \
-    && apk add --no-cache --virtual .run-deps \
-      c-ares \
-      entr \
-      libevent \
-      libressl
-
-
 RUN apk add --no-cache --virtual .build-deps \
       build-base \
       autoconf \
@@ -56,19 +47,21 @@ RUN apk add --no-cache --virtual .build-deps \
     && ./configure --prefix=/usr --with-gss \
     && make \
     && make install \
-    && mkdir /etc/pgbouncer /var/log/pgbouncer /var/run/pgbouncer \
-    && cp ./etc/pgbouncer.ini /etc/pgbouncer/ \
-    && touch /etc/pgbouncer/userlist.txt \
-    && chown -R pgbouncer /var/run/pgbouncer /etc/pgbouncer \
-    && sed -i \
-      -e "s|logfile = |#logfile = |" \
-      -e "s|pidfile = |#pidfile = |" \
-      -e "s|listen_addr = .*|listen_addr = 0.0.0.0|" \
-      -e "s|auth_type = .*|auth_type = md5|" \
-      /etc/pgbouncer/pgbouncer.ini \
-    && cd .. \
-    && rm -rf pgbouncer \
-    && apk del .build-deps
+    make && \
+    # Manual install
+    cp pgbouncer /usr/bin && \
+    mkdir -p /etc/pgbouncer /var/log/pgbouncer /var/run/pgbouncer && \
+    # entrypoint installs the configuration, allow to write as postgres user
+    cp etc/pgbouncer.ini /etc/pgbouncer/pgbouncer.ini.example && \
+    cp etc/userlist.txt /etc/pgbouncer/userlist.txt.example && \
+    touch /etc/pgbouncer/userlist.txt && \
+    addgroup -g 70 -S pgbouncer 2>/dev/null && \
+    adduser -u 70 -S -D -H -h /var/lib/postgresql -g "Postgres user" -s /bin/sh -G pgbouncer pgbouncer 2>/dev/null && \
+    chown -R pgbouncer /var/run/pgbouncer /etc/pgbouncer && \
+    # Cleanupc)
+    cd /tmp && \
+    rm -rf /tmp/pgbouncer*  && \
+    apk del .build-deps
 COPY entrypoint.sh /entrypoint.sh
 USER pgbouncer
 ENTRYPOINT ["/entrypoint.sh"]
