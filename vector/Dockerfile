@@ -12,14 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM python:3.10-buster as downloader
+# https://hub.docker.com/r/curlimages/curl/tags
+FROM curlimages/curl:7.83.1 as downloader
 
 # https://github.com/vectordotdev/vector/releases/
-ENV VECTOR_VERSION 0.22.0
+ENV VECTOR_VERSION 0.22.2
 
 RUN curl -fsSL https://github.com/vectordotdev/vector/releases/download/v${VECTOR_VERSION}/vector-${VECTOR_VERSION}-x86_64-unknown-linux-gnu.tar.gz \
-    | tar --directory=/usr/local/bin/ --strip-components=3 --no-anchored -xzf - vector-x86_64-unknown-linux-gnu/bin/vector
+    | tar --directory=/tmp --strip-components=3 -xzf - ./vector-x86_64-unknown-linux-gnu/bin/vector
 
+# https://hub.docker.com/_/python?tab=tags&name=slim
 FROM python:3.10-slim
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
@@ -34,7 +36,7 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=downloader /usr/local/bin/vector /usr/local/bin/vector
+COPY --from=downloader /tmp/vector /usr/local/bin/vector
 
 ADD sidecar_server.py terminate_server.py /usr/local/bin/
 
