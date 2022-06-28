@@ -4,6 +4,7 @@
 version: 2.1
 orbs:
   python: circleci/python@2.0.3
+  snyk: snyk/snyk@1.1.2
 workflows:
   vendor-build:
     jobs:
@@ -26,6 +27,11 @@ workflows:
             - build-{{ directory }}
       - scan-trivy:
           name: scan-trivy-{{ directory }}
+          directory: {{ directory }}
+          requires:
+            - test-{{ directory }}
+      - scan-snyk:
+          name: scan-snyk-{{ directory }}
           directory: {{ directory }}
           requires:
             - test-{{ directory }}
@@ -134,6 +140,34 @@ jobs:
           {% raw %}key: trivy-cache-{{ checksum "date" }}{% endraw %}
           paths:
             - /tmp/workspace/trivy-cache
+  scan-snyk:
+    docker:
+      - image: cimg/node:12.22
+    description: "Snyk: Vulnerability scan a Docker image"
+    parameters:
+      directory:
+        description: "The directory name of the image to be scanned"
+        type: string
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: {{ docker_version }}
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load archived Docker image
+          command: |
+            set -x
+            docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
+            docker images | grep ap-<< parameters.directory >>
+      - snyk/scan:
+          docker-image-name: ap-<< parameters.directory >>:${CIRCLE_SHA1}
+          fail-on-issues: true
+          severity-threshold: high
+          target-file: << parameters.directory >>/Dockerfile
+          monitor-on-build: false
+          additional-arguments: --policy-path=<< parameters.directory >>/.snyk
   release:
     executor: docker-executor
     parameters:

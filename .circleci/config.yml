@@ -4,6 +4,7 @@
 version: 2.1
 orbs:
   python: circleci/python@2.0.3
+  snyk: snyk/snyk@1.1.2
 workflows:
   vendor-build:
     jobs:
@@ -26,6 +27,11 @@ workflows:
             - build-alertmanager
       - scan-trivy:
           name: scan-trivy-alertmanager
+          directory: alertmanager
+          requires:
+            - test-alertmanager
+      - scan-snyk:
+          name: scan-snyk-alertmanager
           directory: alertmanager
           requires:
             - test-alertmanager
@@ -61,6 +67,11 @@ workflows:
           directory: auth-sidecar
           requires:
             - test-auth-sidecar
+      - scan-snyk:
+          name: scan-snyk-auth-sidecar
+          directory: auth-sidecar
+          requires:
+            - test-auth-sidecar
       - release:
           name: release-auth-sidecar
           directory: auth-sidecar
@@ -90,6 +101,11 @@ workflows:
             - build-awsesproxy
       - scan-trivy:
           name: scan-trivy-awsesproxy
+          directory: awsesproxy
+          requires:
+            - test-awsesproxy
+      - scan-snyk:
+          name: scan-snyk-awsesproxy
           directory: awsesproxy
           requires:
             - test-awsesproxy
@@ -125,6 +141,11 @@ workflows:
           directory: blackbox-exporter
           requires:
             - test-blackbox-exporter
+      - scan-snyk:
+          name: scan-snyk-blackbox-exporter
+          directory: blackbox-exporter
+          requires:
+            - test-blackbox-exporter
       - release:
           name: release-blackbox-exporter
           directory: blackbox-exporter
@@ -154,6 +175,11 @@ workflows:
             - build-configmap-reloader
       - scan-trivy:
           name: scan-trivy-configmap-reloader
+          directory: configmap-reloader
+          requires:
+            - test-configmap-reloader
+      - scan-snyk:
+          name: scan-snyk-configmap-reloader
           directory: configmap-reloader
           requires:
             - test-configmap-reloader
@@ -189,6 +215,11 @@ workflows:
           directory: curator
           requires:
             - test-curator
+      - scan-snyk:
+          name: scan-snyk-curator
+          directory: curator
+          requires:
+            - test-curator
       - release:
           name: release-curator
           directory: curator
@@ -218,6 +249,11 @@ workflows:
             - build-dind-golang
       - scan-trivy:
           name: scan-trivy-dind-golang
+          directory: dind-golang
+          requires:
+            - test-dind-golang
+      - scan-snyk:
+          name: scan-snyk-dind-golang
           directory: dind-golang
           requires:
             - test-dind-golang
@@ -253,6 +289,11 @@ workflows:
           directory: elasticsearch
           requires:
             - test-elasticsearch
+      - scan-snyk:
+          name: scan-snyk-elasticsearch
+          directory: elasticsearch
+          requires:
+            - test-elasticsearch
       - release:
           name: release-elasticsearch
           directory: elasticsearch
@@ -282,6 +323,11 @@ workflows:
             - build-elasticsearch-exporter
       - scan-trivy:
           name: scan-trivy-elasticsearch-exporter
+          directory: elasticsearch-exporter
+          requires:
+            - test-elasticsearch-exporter
+      - scan-snyk:
+          name: scan-snyk-elasticsearch-exporter
           directory: elasticsearch-exporter
           requires:
             - test-elasticsearch-exporter
@@ -317,6 +363,11 @@ workflows:
           directory: fluentd
           requires:
             - test-fluentd
+      - scan-snyk:
+          name: scan-snyk-fluentd
+          directory: fluentd
+          requires:
+            - test-fluentd
       - release:
           name: release-fluentd
           directory: fluentd
@@ -346,6 +397,11 @@ workflows:
             - build-git-daemon
       - scan-trivy:
           name: scan-trivy-git-daemon
+          directory: git-daemon
+          requires:
+            - test-git-daemon
+      - scan-snyk:
+          name: scan-snyk-git-daemon
           directory: git-daemon
           requires:
             - test-git-daemon
@@ -381,6 +437,11 @@ workflows:
           directory: git-sync
           requires:
             - test-git-sync
+      - scan-snyk:
+          name: scan-snyk-git-sync
+          directory: git-sync
+          requires:
+            - test-git-sync
       - release:
           name: release-git-sync
           directory: git-sync
@@ -410,6 +471,11 @@ workflows:
             - build-grafana
       - scan-trivy:
           name: scan-trivy-grafana
+          directory: grafana
+          requires:
+            - test-grafana
+      - scan-snyk:
+          name: scan-snyk-grafana
           directory: grafana
           requires:
             - test-grafana
@@ -445,6 +511,11 @@ workflows:
           directory: keda
           requires:
             - test-keda
+      - scan-snyk:
+          name: scan-snyk-keda
+          directory: keda
+          requires:
+            - test-keda
       - release:
           name: release-keda
           directory: keda
@@ -474,6 +545,11 @@ workflows:
             - build-keda-metrics-apiserver
       - scan-trivy:
           name: scan-trivy-keda-metrics-apiserver
+          directory: keda-metrics-apiserver
+          requires:
+            - test-keda-metrics-apiserver
+      - scan-snyk:
+          name: scan-snyk-keda-metrics-apiserver
           directory: keda-metrics-apiserver
           requires:
             - test-keda-metrics-apiserver
@@ -509,6 +585,11 @@ workflows:
           directory: kibana
           requires:
             - test-kibana
+      - scan-snyk:
+          name: scan-snyk-kibana
+          directory: kibana
+          requires:
+            - test-kibana
       - release:
           name: release-kibana
           directory: kibana
@@ -538,6 +619,11 @@ workflows:
             - build-kube-state
       - scan-trivy:
           name: scan-trivy-kube-state
+          directory: kube-state
+          requires:
+            - test-kube-state
+      - scan-snyk:
+          name: scan-snyk-kube-state
           directory: kube-state
           requires:
             - test-kube-state
@@ -573,6 +659,11 @@ workflows:
           directory: kubed
           requires:
             - test-kubed
+      - scan-snyk:
+          name: scan-snyk-kubed
+          directory: kubed
+          requires:
+            - test-kubed
       - release:
           name: release-kubed
           directory: kubed
@@ -602,6 +693,11 @@ workflows:
             - build-nats-exporter
       - scan-trivy:
           name: scan-trivy-nats-exporter
+          directory: nats-exporter
+          requires:
+            - test-nats-exporter
+      - scan-snyk:
+          name: scan-snyk-nats-exporter
           directory: nats-exporter
           requires:
             - test-nats-exporter
@@ -637,6 +733,11 @@ workflows:
           directory: nats-server
           requires:
             - test-nats-server
+      - scan-snyk:
+          name: scan-snyk-nats-server
+          directory: nats-server
+          requires:
+            - test-nats-server
       - release:
           name: release-nats-server
           directory: nats-server
@@ -666,6 +767,11 @@ workflows:
             - build-nats-streaming
       - scan-trivy:
           name: scan-trivy-nats-streaming
+          directory: nats-streaming
+          requires:
+            - test-nats-streaming
+      - scan-snyk:
+          name: scan-snyk-nats-streaming
           directory: nats-streaming
           requires:
             - test-nats-streaming
@@ -701,6 +807,11 @@ workflows:
           directory: nginx
           requires:
             - test-nginx
+      - scan-snyk:
+          name: scan-snyk-nginx
+          directory: nginx
+          requires:
+            - test-nginx
       - release:
           name: release-nginx
           directory: nginx
@@ -730,6 +841,11 @@ workflows:
             - build-nginx-es
       - scan-trivy:
           name: scan-trivy-nginx-es
+          directory: nginx-es
+          requires:
+            - test-nginx-es
+      - scan-snyk:
+          name: scan-snyk-nginx-es
           directory: nginx-es
           requires:
             - test-nginx-es
@@ -765,6 +881,11 @@ workflows:
           directory: node-exporter
           requires:
             - test-node-exporter
+      - scan-snyk:
+          name: scan-snyk-node-exporter
+          directory: node-exporter
+          requires:
+            - test-node-exporter
       - release:
           name: release-node-exporter
           directory: node-exporter
@@ -794,6 +915,11 @@ workflows:
             - build-openresty
       - scan-trivy:
           name: scan-trivy-openresty
+          directory: openresty
+          requires:
+            - test-openresty
+      - scan-snyk:
+          name: scan-snyk-openresty
           directory: openresty
           requires:
             - test-openresty
@@ -829,6 +955,11 @@ workflows:
           directory: pgbouncer
           requires:
             - test-pgbouncer
+      - scan-snyk:
+          name: scan-snyk-pgbouncer
+          directory: pgbouncer
+          requires:
+            - test-pgbouncer
       - release:
           name: release-pgbouncer
           directory: pgbouncer
@@ -858,6 +989,11 @@ workflows:
             - build-pgbouncer-exporter
       - scan-trivy:
           name: scan-trivy-pgbouncer-exporter
+          directory: pgbouncer-exporter
+          requires:
+            - test-pgbouncer-exporter
+      - scan-snyk:
+          name: scan-snyk-pgbouncer-exporter
           directory: pgbouncer-exporter
           requires:
             - test-pgbouncer-exporter
@@ -893,6 +1029,11 @@ workflows:
           directory: postgres-exporter
           requires:
             - test-postgres-exporter
+      - scan-snyk:
+          name: scan-snyk-postgres-exporter
+          directory: postgres-exporter
+          requires:
+            - test-postgres-exporter
       - release:
           name: release-postgres-exporter
           directory: postgres-exporter
@@ -922,6 +1063,11 @@ workflows:
             - build-postgresql
       - scan-trivy:
           name: scan-trivy-postgresql
+          directory: postgresql
+          requires:
+            - test-postgresql
+      - scan-snyk:
+          name: scan-snyk-postgresql
           directory: postgresql
           requires:
             - test-postgresql
@@ -957,6 +1103,11 @@ workflows:
           directory: prometheus
           requires:
             - test-prometheus
+      - scan-snyk:
+          name: scan-snyk-prometheus
+          directory: prometheus
+          requires:
+            - test-prometheus
       - release:
           name: release-prometheus
           directory: prometheus
@@ -986,6 +1137,11 @@ workflows:
             - build-redis
       - scan-trivy:
           name: scan-trivy-redis
+          directory: redis
+          requires:
+            - test-redis
+      - scan-snyk:
+          name: scan-snyk-redis
           directory: redis
           requires:
             - test-redis
@@ -1021,6 +1177,11 @@ workflows:
           directory: registry
           requires:
             - test-registry
+      - scan-snyk:
+          name: scan-snyk-registry
+          directory: registry
+          requires:
+            - test-registry
       - release:
           name: release-registry
           directory: registry
@@ -1053,6 +1214,11 @@ workflows:
           directory: statsd-exporter
           requires:
             - test-statsd-exporter
+      - scan-snyk:
+          name: scan-snyk-statsd-exporter
+          directory: statsd-exporter
+          requires:
+            - test-statsd-exporter
       - release:
           name: release-statsd-exporter
           directory: statsd-exporter
@@ -1082,6 +1248,11 @@ workflows:
             - build-vector
       - scan-trivy:
           name: scan-trivy-vector
+          directory: vector
+          requires:
+            - test-vector
+      - scan-snyk:
+          name: scan-snyk-vector
           directory: vector
           requires:
             - test-vector
@@ -1190,6 +1361,34 @@ jobs:
           key: trivy-cache-{{ checksum "date" }}
           paths:
             - /tmp/workspace/trivy-cache
+  scan-snyk:
+    docker:
+      - image: cimg/node:12.22
+    description: "Snyk: Vulnerability scan a Docker image"
+    parameters:
+      directory:
+        description: "The directory name of the image to be scanned"
+        type: string
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 20.10.11
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load archived Docker image
+          command: |
+            set -x
+            docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
+            docker images | grep ap-<< parameters.directory >>
+      - snyk/scan:
+          docker-image-name: ap-<< parameters.directory >>:${CIRCLE_SHA1}
+          fail-on-issues: true
+          severity-threshold: high
+          target-file: << parameters.directory >>/Dockerfile
+          monitor-on-build: false
+          additional-arguments: --policy-path=<< parameters.directory >>/.snyk
   release:
     executor: docker-executor
     parameters:

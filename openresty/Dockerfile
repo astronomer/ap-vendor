@@ -15,8 +15,8 @@
 
 
 # https://github.com/openresty/docker-openresty/
-# https://quay.io/repository/bitnami/postgresql?tab=tags
-FROM docker.io/openresty/openresty:1.19.9.1-7-alpine
+# https://hub.docker.com/r/openresty/openresty/tags
+FROM docker.io/openresty/openresty:1.21.4.1-alpine
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1

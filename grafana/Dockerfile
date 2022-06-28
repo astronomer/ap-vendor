@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/r/grafana/grafana
-FROM grafana/grafana:8.3.7
+# https://hub.docker.com/r/grafana/grafana/tags
+FROM grafana/grafana:8.5.4
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -24,7 +24,18 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 # apk updates
 USER root
 RUN apk upgrade --no-cache
+USER root
+
+RUN apk add --no-cache shadow && \
+    addgroup --gid 472 grafana && \
+    gpasswd -d grafana root && \
+    usermod -g grafana grafana && \
+    apk del shadow && \
+    chown -R grafana:grafana /usr/share/grafana
 USER grafana
+
+# Install singlestat panel plugin
+RUN grafana-cli plugins install grafana-singlestat-panel
 
 # Copy default dashboards and datasource configuration
 COPY include/dashboard.yaml /etc/grafana/provisioning/dashboards/dashboard.yaml

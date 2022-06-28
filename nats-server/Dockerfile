@@ -21,14 +21,14 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV NATS_SERVER 2.7.2
+ENV NATS_SERVER 2.8.1
 
 RUN addgroup -g 1000 -S nats \
 	&& adduser -u 1000 -S nats -G nats
 
 RUN set -eux ; \
 	url="https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-linux-amd64.tar.gz" ; \
-	sha256="6f58d9df9d9ab47d93ecb06d1041c86a784fc61c3475ab994e144e8ae15584d9" ; \
+	sha256="7fa8300afa29afb0432abbb7455dc8517549b3cf1a32de8f4dc3617cca8e70a5" ; \
 	wget -O nats-server.tar.gz "${url}" ; \
 	echo "${sha256} *nats-server.tar.gz" | sha256sum -c - ; \
 	apk add --no-cache ca-certificates ; \
