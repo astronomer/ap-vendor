@@ -13,9 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 # https://hub.docker.com/r/bitnami/postgresql/tags/
-FROM bitnami/postgresql:14.3.0-debian-10-r20
+
+FROM bitnami/postgresql:14.4.0-debian-11-r4
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
