@@ -14,14 +14,14 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/docker?tab=tags&page=1&name=dind-alpine
-FROM docker:20.10.14-dind-alpine3.15
+FROM docker:20.10.17-dind-alpine3.16
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV GOLANG_VERSION 1.17.8
+ENV GOLANG_VERSION 1.18.3
 
 #
 # Install Golang
@@ -41,7 +41,7 @@ RUN set -eux; \
         ; \
         \
         wget -O go.tgz "https://golang.org/dl/go$GOLANG_VERSION.src.tar.gz"; \
-        echo '2effcd898140da79a061f3784ca4f8d8b13d811fb2abe9dad2404442dabbdf7a *go.tgz' | sha256sum -c -; \
+        echo '0012386ddcbb5f3350e407c679923811dbd283fcdc421724931614a842ecbc2d *go.tgz' | sha256sum -c -; \
         tar -C /usr/local -xzf go.tgz; \
         rm go.tgz; \
         \
