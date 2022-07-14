@@ -874,6 +874,38 @@ workflows:
             branches:
               only: main
 
+      - approve-po-logical-backup:
+          type: approval
+      - build:
+          name: build-po-logical-backup
+          directory: po-logical-backup
+          requires:
+            - approve-po-logical-backup
+            - run_pre_commit
+      - test:
+          name: test-po-logical-backup
+          directory: po-logical-backup
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-po-logical-backup
+      - scan-trivy:
+          name: scan-trivy-po-logical-backup
+          directory: po-logical-backup
+          requires:
+            - test-po-logical-backup
+      - release:
+          name: release-po-logical-backup
+          directory: po-logical-backup
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-po-logical-backup
+          filters:
+            branches:
+              only: main
+
       - approve-postgres-exporter:
           type: approval
       - build:
