@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#https://github.com/zalando/postgres-operator/tags
 FROM registry.opensource.zalan.do/acid/postgres-operator:v1.8.1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
