@@ -906,6 +906,38 @@ workflows:
             branches:
               only: main
 
+      - approve-postgres-operator:
+          type: approval
+      - build:
+          name: build-postgres-operator
+          directory: postgres-operator
+          requires:
+            - approve-postgres-operator
+            - run_pre_commit
+      - test:
+          name: test-postgres-operator
+          directory: postgres-operator
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-postgres-operator
+      - scan-trivy:
+          name: scan-trivy-postgres-operator
+          directory: postgres-operator
+          requires:
+            - test-postgres-operator
+      - release:
+          name: release-postgres-operator
+          directory: postgres-operator
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-postgres-operator
+          filters:
+            branches:
+              only: main
+
       - approve-postgresql:
           type: approval
       - build:
