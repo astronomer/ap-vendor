@@ -25,19 +25,12 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-{{ directory }}
-      - scan-trivy:
-          name: scan-trivy-{{ directory }}
-          directory: {{ directory }}
-          requires:
-            - test-{{ directory }}
       - release:
           name: release-{{ directory }}
           directory: {{ directory }}
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-{{ directory }}
           filters:
             branches:
               only: main
