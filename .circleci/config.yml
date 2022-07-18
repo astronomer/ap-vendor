@@ -896,12 +896,36 @@ workflows:
             - test-po-logical-backup
       - release:
           name: release-po-logical-backup
-          directory: po-logical-backup
+          directory: po-logical-backup 
+      - approve-po-pgbouncer:
+          type: approval
+      - build:
+          name: build-po-pgbouncer
+          directory: po-pgbouncer
+          requires:
+            - approve-po-pgbouncer
+            - run_pre_commit
+      - test:
+          name: test-po-pgbouncer
+          directory: po-pgbouncer
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-po-pgbouncer
+      - scan-trivy:
+          name: scan-trivy-po-pgbouncer
+          directory: po-pgbouncer
+          requires:
+            - test-po-pgbouncer
+      - release:
+          name: release-po-pgbouncer
+          directory: po-pgbouncer
           context:
             - quay.io
             - docker.io
           requires:
             - scan-trivy-po-logical-backup
+            - scan-trivy-po-pgbouncer
           filters:
             branches:
               only: main
@@ -934,6 +958,38 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-postgres-exporter
+          filters:
+            branches:
+              only: main
+
+      - approve-postgres-operator:
+          type: approval
+      - build:
+          name: build-postgres-operator
+          directory: postgres-operator
+          requires:
+            - approve-postgres-operator
+            - run_pre_commit
+      - test:
+          name: test-postgres-operator
+          directory: postgres-operator
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-postgres-operator
+      - scan-trivy:
+          name: scan-trivy-postgres-operator
+          directory: postgres-operator
+          requires:
+            - test-postgres-operator
+      - release:
+          name: release-postgres-operator
+          directory: postgres-operator
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-postgres-operator
           filters:
             branches:
               only: main
