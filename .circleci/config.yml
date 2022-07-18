@@ -30,6 +30,7 @@ workflows:
           directory: alertmanager
           context:
             - quay.io
+            - docker.io
           requires:
             - test-alertmanager
           filters:
@@ -56,6 +57,7 @@ workflows:
           directory: auth-sidecar
           context:
             - quay.io
+            - docker.io
           requires:
             - test-auth-sidecar
           filters:
@@ -82,6 +84,7 @@ workflows:
           directory: awsesproxy
           context:
             - quay.io
+            - docker.io
           requires:
             - test-awsesproxy
           filters:
@@ -108,6 +111,7 @@ workflows:
           directory: blackbox-exporter
           context:
             - quay.io
+            - docker.io
           requires:
             - test-blackbox-exporter
           filters:
@@ -134,6 +138,7 @@ workflows:
           directory: configmap-reloader
           context:
             - quay.io
+            - docker.io
           requires:
             - test-configmap-reloader
           filters:
@@ -160,6 +165,7 @@ workflows:
           directory: curator
           context:
             - quay.io
+            - docker.io
           requires:
             - test-curator
           filters:
@@ -186,6 +192,7 @@ workflows:
           directory: dind-golang
           context:
             - quay.io
+            - docker.io
           requires:
             - test-dind-golang
           filters:
@@ -212,6 +219,7 @@ workflows:
           directory: elasticsearch
           context:
             - quay.io
+            - docker.io
           requires:
             - test-elasticsearch
           filters:
@@ -238,6 +246,7 @@ workflows:
           directory: elasticsearch-exporter
           context:
             - quay.io
+            - docker.io
           requires:
             - test-elasticsearch-exporter
           filters:
@@ -264,6 +273,7 @@ workflows:
           directory: fluentd
           context:
             - quay.io
+            - docker.io
           requires:
             - test-fluentd
           filters:
@@ -290,6 +300,7 @@ workflows:
           directory: git-daemon
           context:
             - quay.io
+            - docker.io
           requires:
             - test-git-daemon
           filters:
@@ -316,6 +327,7 @@ workflows:
           directory: git-sync
           context:
             - quay.io
+            - docker.io
           requires:
             - test-git-sync
           filters:
@@ -342,6 +354,7 @@ workflows:
           directory: grafana
           context:
             - quay.io
+            - docker.io
           requires:
             - test-grafana
           filters:
@@ -368,6 +381,7 @@ workflows:
           directory: keda
           context:
             - quay.io
+            - docker.io
           requires:
             - test-keda
           filters:
@@ -394,6 +408,7 @@ workflows:
           directory: keda-metrics-apiserver
           context:
             - quay.io
+            - docker.io
           requires:
             - test-keda-metrics-apiserver
           filters:
@@ -420,6 +435,7 @@ workflows:
           directory: kibana
           context:
             - quay.io
+            - docker.io
           requires:
             - test-kibana
           filters:
@@ -446,6 +462,7 @@ workflows:
           directory: kube-state
           context:
             - quay.io
+            - docker.io
           requires:
             - test-kube-state
           filters:
@@ -472,6 +489,7 @@ workflows:
           directory: kubed
           context:
             - quay.io
+            - docker.io
           requires:
             - test-kubed
           filters:
@@ -498,6 +516,7 @@ workflows:
           directory: nats-exporter
           context:
             - quay.io
+            - docker.io
           requires:
             - test-nats-exporter
           filters:
@@ -524,6 +543,7 @@ workflows:
           directory: nats-server
           context:
             - quay.io
+            - docker.io
           requires:
             - test-nats-server
           filters:
@@ -550,6 +570,7 @@ workflows:
           directory: nats-streaming
           context:
             - quay.io
+            - docker.io
           requires:
             - test-nats-streaming
           filters:
@@ -576,6 +597,7 @@ workflows:
           directory: nginx
           context:
             - quay.io
+            - docker.io
           requires:
             - test-nginx
           filters:
@@ -602,6 +624,7 @@ workflows:
           directory: nginx-es
           context:
             - quay.io
+            - docker.io
           requires:
             - test-nginx-es
           filters:
@@ -628,6 +651,7 @@ workflows:
           directory: node-exporter
           context:
             - quay.io
+            - docker.io
           requires:
             - test-node-exporter
           filters:
@@ -654,6 +678,7 @@ workflows:
           directory: openresty
           context:
             - quay.io
+            - docker.io
           requires:
             - test-openresty
           filters:
@@ -680,6 +705,7 @@ workflows:
           directory: pgbouncer
           context:
             - quay.io
+            - docker.io
           requires:
             - test-pgbouncer
           filters:
@@ -706,6 +732,7 @@ workflows:
           directory: pgbouncer-exporter
           context:
             - quay.io
+            - docker.io
           requires:
             - test-pgbouncer-exporter
           filters:
@@ -732,6 +759,7 @@ workflows:
           directory: po-logical-backup
           context:
             - quay.io
+            - docker.io
           requires:
             - test-po-logical-backup
           filters:
@@ -758,6 +786,7 @@ workflows:
           directory: po-pgbouncer
           context:
             - quay.io
+            - docker.io
           requires:
             - test-po-pgbouncer
           filters:
@@ -784,6 +813,7 @@ workflows:
           directory: po-spilo
           context:
             - quay.io
+            - docker.io
           requires:
             - test-po-spilo
           filters:
@@ -810,6 +840,7 @@ workflows:
           directory: postgres-exporter
           context:
             - quay.io
+            - docker.io
           requires:
             - test-postgres-exporter
           filters:
@@ -836,6 +867,7 @@ workflows:
           directory: postgres-operator
           context:
             - quay.io
+            - docker.io
           requires:
             - test-postgres-operator
           filters:
@@ -862,6 +894,7 @@ workflows:
           directory: postgresql
           context:
             - quay.io
+            - docker.io
           requires:
             - test-postgresql
           filters:
@@ -888,6 +921,7 @@ workflows:
           directory: prometheus
           context:
             - quay.io
+            - docker.io
           requires:
             - test-prometheus
           filters:
@@ -914,6 +948,7 @@ workflows:
           directory: redis
           context:
             - quay.io
+            - docker.io
           requires:
             - test-redis
           filters:
@@ -940,6 +975,7 @@ workflows:
           directory: registry
           context:
             - quay.io
+            - docker.io
           requires:
             - test-registry
           filters:
@@ -966,6 +1002,7 @@ workflows:
           directory: statsd-exporter
           context:
             - quay.io
+            - docker.io
           requires:
             - test-statsd-exporter
           filters:
@@ -992,6 +1029,7 @@ workflows:
           directory: vector
           context:
             - quay.io
+            - docker.io
           requires:
             - test-vector
           filters:
@@ -1108,10 +1146,10 @@ jobs:
             pip install packaging
             version="$(bin/check_version.py << parameters.directory >>)"
             echo "export TAG=${version}" >> $BASH_ENV
-      - push-to-docker-hub:
+      - push-to-quay-io:
           comma_separated_tags: "$TAG"
           image_name: ap-<< parameters.directory >>
-      - push-to-quay-io:
+      - push-to-docker-hub:
           comma_separated_tags: "$TAG"
           image_name: ap-<< parameters.directory >>
 executors:
