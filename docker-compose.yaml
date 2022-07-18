@@ -124,6 +124,11 @@ services:
     build:
       context: pgbouncer-exporter
     entrypoint: "top"
+  ap-po-pgbouncer:
+    image: ap-po-pgbouncer:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: po-pgbouncer
+    entrypoint: "/bin/sleep 1m"
   ap-postgres-exporter:
     image: ap-postgres-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:

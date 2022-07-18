@@ -874,6 +874,38 @@ workflows:
             branches:
               only: main
 
+      - approve-po-pgbouncer:
+          type: approval
+      - build:
+          name: build-po-pgbouncer
+          directory: po-pgbouncer
+          requires:
+            - approve-po-pgbouncer
+            - run_pre_commit
+      - test:
+          name: test-po-pgbouncer
+          directory: po-pgbouncer
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-po-pgbouncer
+      - scan-trivy:
+          name: scan-trivy-po-pgbouncer
+          directory: po-pgbouncer
+          requires:
+            - test-po-pgbouncer
+      - release:
+          name: release-po-pgbouncer
+          directory: po-pgbouncer
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-po-pgbouncer
+          filters:
+            branches:
+              only: main
+
       - approve-postgres-exporter:
           type: approval
       - build:
