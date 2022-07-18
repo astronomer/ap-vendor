@@ -30,7 +30,6 @@ workflows:
           directory: {{ directory }}
           context:
             - quay.io
-            - docker.io
           requires:
             - test-{{ directory }}
           filters:
