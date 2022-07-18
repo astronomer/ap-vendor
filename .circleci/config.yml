@@ -896,7 +896,16 @@ workflows:
             - test-po-logical-backup
       - release:
           name: release-po-logical-backup
-          directory: po-logical-backup 
+          directory: po-logical-backup
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-po-logical-backup
+          filters:
+            branches:
+              only: main
+
       - approve-po-pgbouncer:
           type: approval
       - build:
@@ -924,7 +933,6 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - scan-trivy-po-logical-backup
             - scan-trivy-po-pgbouncer
           filters:
             branches:
