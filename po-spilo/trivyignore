@@ -1,2 +1,7 @@
 # Upstream prometheus images include several CVEs.
 # We should try to remove these each time we update.
+CVE-2021-38561
+CVE-2021-33194
+CVE-2021-44716
+CVE-2021-33194
+CVE-2020-29652
