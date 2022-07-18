@@ -31,6 +31,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-alertmanager
           filters:
             branches:
               only: main
@@ -56,6 +58,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-auth-sidecar
           filters:
             branches:
               only: main
@@ -81,6 +85,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-awsesproxy
           filters:
             branches:
               only: main
@@ -106,6 +112,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-blackbox-exporter
           filters:
             branches:
               only: main
@@ -131,6 +139,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-configmap-reloader
           filters:
             branches:
               only: main
@@ -156,6 +166,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-curator
           filters:
             branches:
               only: main
@@ -181,6 +193,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-dind-golang
           filters:
             branches:
               only: main
@@ -206,6 +220,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-elasticsearch
           filters:
             branches:
               only: main
@@ -231,6 +247,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-elasticsearch-exporter
           filters:
             branches:
               only: main
@@ -256,6 +274,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-fluentd
           filters:
             branches:
               only: main
@@ -281,6 +301,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-git-daemon
           filters:
             branches:
               only: main
@@ -306,6 +328,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-git-sync
           filters:
             branches:
               only: main
@@ -331,6 +355,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-grafana
           filters:
             branches:
               only: main
@@ -356,6 +382,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-keda
           filters:
             branches:
               only: main
@@ -381,6 +409,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-keda-metrics-apiserver
           filters:
             branches:
               only: main
@@ -406,6 +436,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-kibana
           filters:
             branches:
               only: main
@@ -431,6 +463,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-kube-state
           filters:
             branches:
               only: main
@@ -456,6 +490,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-kubed
           filters:
             branches:
               only: main
@@ -481,6 +517,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-nats-exporter
           filters:
             branches:
               only: main
@@ -506,6 +544,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-nats-server
           filters:
             branches:
               only: main
@@ -531,6 +571,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-nats-streaming
           filters:
             branches:
               only: main
@@ -556,6 +598,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-nginx
           filters:
             branches:
               only: main
@@ -581,6 +625,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-nginx-es
           filters:
             branches:
               only: main
@@ -606,6 +652,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-node-exporter
           filters:
             branches:
               only: main
@@ -631,6 +679,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-openresty
           filters:
             branches:
               only: main
@@ -656,6 +706,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-pgbouncer
           filters:
             branches:
               only: main
@@ -681,6 +733,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-pgbouncer-exporter
           filters:
             branches:
               only: main
@@ -706,6 +760,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-po-logical-backup
           filters:
             branches:
               only: main
@@ -731,6 +787,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-po-pgbouncer
           filters:
             branches:
               only: main
@@ -756,6 +814,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-po-spilo
           filters:
             branches:
               only: main
@@ -781,6 +841,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-postgres-exporter
           filters:
             branches:
               only: main
@@ -806,6 +868,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-postgres-operator
           filters:
             branches:
               only: main
@@ -831,6 +895,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-postgresql
           filters:
             branches:
               only: main
@@ -856,6 +922,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-prometheus
           filters:
             branches:
               only: main
@@ -881,6 +949,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-redis
           filters:
             branches:
               only: main
@@ -906,6 +976,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-registry
           filters:
             branches:
               only: main
@@ -931,6 +1003,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-statsd-exporter
           filters:
             branches:
               only: main
@@ -956,6 +1030,8 @@ workflows:
           context:
             - quay.io
             - docker.io
+          requires:
+            - test-vector
           filters:
             branches:
               only: main
