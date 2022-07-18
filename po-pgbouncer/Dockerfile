@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM registry.opensource.zalan.do/acid/pgbouncer:22.0
+FROM registry.opensource.zalan.do/acid/pgbouncer:master-22
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
