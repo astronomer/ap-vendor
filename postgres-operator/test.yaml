@@ -1,0 +1,11 @@
+---
+tests:
+  root_user_test: True
+  default_user: pgo
+  users_config:
+    - name: pgo
+      group: pgo
+      gid: 1000
+      uid: 1000
+docker:
+  entrypoint: "/bin/sleep 1m"
