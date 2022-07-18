@@ -7,3 +7,5 @@ tests:
       group: prometheus-nats-exporter
       gid: 1000
       uid: 1000
+docker:
+  entrypoint: "top"

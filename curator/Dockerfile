@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://quay.io/repository/astronomer/ap-base?tab=tags
-FROM quay.io/astronomer/ap-base:3.15.4
+FROM quay.io/astronomer/ap-base:3.16.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -29,7 +29,7 @@ RUN set -x ; apk --no-cache add \
       py3-setuptools \
       python3 \
       python3-dev && \
-    apk --no-cache add -u --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main \
+    apk add --no-cache  \
       py3-cryptography \
       py3-openssl \
       py3-requests \

@@ -13,10 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 # https://hub.docker.com/r/bitnami/postgresql/tags/
-# https://quay.io/repository/bitnami/postgresql?tab=tags
-FROM bitnami/postgresql:11.15.0-debian-10-r76
+
+FROM bitnami/postgresql:14.4.0-debian-11-r7
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -26,7 +25,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 ENV POSTGRESQL_MAX_CONNECTIONS 200
 
 USER root
-
+RUN apt-get update && apt-get -y upgrade
 RUN addgroup postgres --gid 1001 && useradd -s /sbin/nologin --gid 1001 --uid 1001 postgres
 
 RUN chown -R 1001:1001 /opt/bitnami

@@ -7,3 +7,5 @@ tests:
       group: pgexporter
       gid: 102
       uid: 102
+docker:
+  entrypoint: "top"

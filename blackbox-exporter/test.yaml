@@ -10,3 +10,6 @@ tests:
   http_services_running:
     - port: 9115
       response_code: 200
+docker:
+  ports:
+    - 9115:9115
