@@ -31,8 +31,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-{{ directory }}
           filters:
             branches:
               only: main

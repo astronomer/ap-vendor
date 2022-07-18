@@ -31,8 +31,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-alertmanager
           filters:
             branches:
               only: main
@@ -58,8 +56,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-auth-sidecar
           filters:
             branches:
               only: main
@@ -85,8 +81,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-awsesproxy
           filters:
             branches:
               only: main
@@ -112,8 +106,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-blackbox-exporter
           filters:
             branches:
               only: main
@@ -139,8 +131,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-configmap-reloader
           filters:
             branches:
               only: main
@@ -166,8 +156,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-curator
           filters:
             branches:
               only: main
@@ -193,8 +181,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-dind-golang
           filters:
             branches:
               only: main
@@ -220,8 +206,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-elasticsearch
           filters:
             branches:
               only: main
@@ -247,8 +231,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-elasticsearch-exporter
           filters:
             branches:
               only: main
@@ -274,8 +256,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-fluentd
           filters:
             branches:
               only: main
@@ -301,8 +281,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-git-daemon
           filters:
             branches:
               only: main
@@ -328,8 +306,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-git-sync
           filters:
             branches:
               only: main
@@ -355,8 +331,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-grafana
           filters:
             branches:
               only: main
@@ -382,8 +356,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-keda
           filters:
             branches:
               only: main
@@ -409,8 +381,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-keda-metrics-apiserver
           filters:
             branches:
               only: main
@@ -436,8 +406,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-kibana
           filters:
             branches:
               only: main
@@ -463,8 +431,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-kube-state
           filters:
             branches:
               only: main
@@ -490,8 +456,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-kubed
           filters:
             branches:
               only: main
@@ -517,8 +481,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-nats-exporter
           filters:
             branches:
               only: main
@@ -544,8 +506,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-nats-server
           filters:
             branches:
               only: main
@@ -571,8 +531,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-nats-streaming
           filters:
             branches:
               only: main
@@ -598,8 +556,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-nginx
           filters:
             branches:
               only: main
@@ -625,8 +581,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-nginx-es
           filters:
             branches:
               only: main
@@ -652,8 +606,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-node-exporter
           filters:
             branches:
               only: main
@@ -679,8 +631,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-openresty
           filters:
             branches:
               only: main
@@ -706,8 +656,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-pgbouncer
           filters:
             branches:
               only: main
@@ -733,8 +681,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-pgbouncer-exporter
           filters:
             branches:
               only: main
@@ -760,8 +706,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-po-logical-backup
           filters:
             branches:
               only: main
@@ -787,8 +731,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-po-pgbouncer
           filters:
             branches:
               only: main
@@ -814,8 +756,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-po-spilo
           filters:
             branches:
               only: main
@@ -841,8 +781,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-postgres-exporter
           filters:
             branches:
               only: main
@@ -868,8 +806,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-postgres-operator
           filters:
             branches:
               only: main
@@ -895,8 +831,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-postgresql
           filters:
             branches:
               only: main
@@ -922,8 +856,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-prometheus
           filters:
             branches:
               only: main
@@ -949,8 +881,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-redis
           filters:
             branches:
               only: main
@@ -976,8 +906,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-registry
           filters:
             branches:
               only: main
@@ -1003,8 +931,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-statsd-exporter
           filters:
             branches:
               only: main
@@ -1030,8 +956,6 @@ workflows:
           context:
             - quay.io
             - docker.io
-          requires:
-            - scan-trivy-vector
           filters:
             branches:
               only: main
