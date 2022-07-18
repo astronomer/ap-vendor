@@ -938,6 +938,38 @@ workflows:
             branches:
               only: main
 
+      - approve-po-spilo:
+          type: approval
+      - build:
+          name: build-po-spilo
+          directory: po-spilo
+          requires:
+            - approve-po-spilo
+            - run_pre_commit
+      - test:
+          name: test-po-spilo
+          directory: po-spilo
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-po-spilo
+      - scan-trivy:
+          name: scan-trivy-po-spilo
+          directory: po-spilo
+          requires:
+            - test-po-spilo
+      - release:
+          name: release-po-spilo
+          directory: po-spilo
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-po-spilo
+          filters:
+            branches:
+              only: main
+
       - approve-postgres-exporter:
           type: approval
       - build:

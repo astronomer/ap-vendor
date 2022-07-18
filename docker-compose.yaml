@@ -133,6 +133,10 @@ services:
     build:
       context: po-pgbouncer
     entrypoint: "/bin/sleep 1m"
+  ap-po-spilo:
+    image: ap-po-spilo:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: po-spilo
   ap-postgres-exporter:
     image: ap-postgres-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
