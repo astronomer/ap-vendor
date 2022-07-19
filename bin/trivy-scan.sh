@@ -11,6 +11,7 @@ set +exo pipefail
 trivy \
   --cache-dir /tmp/workspace/trivy-cache \
   image \
+  --config "${GIT_ROOT}/${scan_target}/trivy.yaml" \
   --ignorefile "${GIT_ROOT}/ap-${scan_target}/trivyignore" \
   --ignorefile "${GIT_ROOT}/${scan_target}/trivyignore" \
   --ignore-unfixed -s HIGH,CRITICAL \
