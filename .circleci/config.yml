@@ -25,6 +25,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-alertmanager
+      - scan-trivy:
+          name: scan-trivy-alertmanager
+          directory: alertmanager
+          requires:
+            - test-alertmanager
       - release:
           name: release-alertmanager
           directory: alertmanager
@@ -32,7 +37,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-alertmanager
+            - scan-trivy-alertmanager
           filters:
             branches:
               only: main
@@ -52,6 +57,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-auth-sidecar
+      - scan-trivy:
+          name: scan-trivy-auth-sidecar
+          directory: auth-sidecar
+          requires:
+            - test-auth-sidecar
       - release:
           name: release-auth-sidecar
           directory: auth-sidecar
@@ -59,7 +69,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-auth-sidecar
+            - scan-trivy-auth-sidecar
           filters:
             branches:
               only: main
@@ -79,6 +89,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-awsesproxy
+      - scan-trivy:
+          name: scan-trivy-awsesproxy
+          directory: awsesproxy
+          requires:
+            - test-awsesproxy
       - release:
           name: release-awsesproxy
           directory: awsesproxy
@@ -86,7 +101,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-awsesproxy
+            - scan-trivy-awsesproxy
           filters:
             branches:
               only: main
@@ -106,6 +121,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-blackbox-exporter
+      - scan-trivy:
+          name: scan-trivy-blackbox-exporter
+          directory: blackbox-exporter
+          requires:
+            - test-blackbox-exporter
       - release:
           name: release-blackbox-exporter
           directory: blackbox-exporter
@@ -113,7 +133,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-blackbox-exporter
+            - scan-trivy-blackbox-exporter
           filters:
             branches:
               only: main
@@ -133,6 +153,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-configmap-reloader
+      - scan-trivy:
+          name: scan-trivy-configmap-reloader
+          directory: configmap-reloader
+          requires:
+            - test-configmap-reloader
       - release:
           name: release-configmap-reloader
           directory: configmap-reloader
@@ -140,7 +165,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-configmap-reloader
+            - scan-trivy-configmap-reloader
           filters:
             branches:
               only: main
@@ -160,6 +185,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-curator
+      - scan-trivy:
+          name: scan-trivy-curator
+          directory: curator
+          requires:
+            - test-curator
       - release:
           name: release-curator
           directory: curator
@@ -167,7 +197,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-curator
+            - scan-trivy-curator
           filters:
             branches:
               only: main
@@ -187,6 +217,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-dind-golang
+      - scan-trivy:
+          name: scan-trivy-dind-golang
+          directory: dind-golang
+          requires:
+            - test-dind-golang
       - release:
           name: release-dind-golang
           directory: dind-golang
@@ -194,7 +229,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-dind-golang
+            - scan-trivy-dind-golang
           filters:
             branches:
               only: main
@@ -214,6 +249,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-elasticsearch
+      - scan-trivy:
+          name: scan-trivy-elasticsearch
+          directory: elasticsearch
+          requires:
+            - test-elasticsearch
       - release:
           name: release-elasticsearch
           directory: elasticsearch
@@ -221,7 +261,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-elasticsearch
+            - scan-trivy-elasticsearch
           filters:
             branches:
               only: main
@@ -241,6 +281,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-elasticsearch-exporter
+      - scan-trivy:
+          name: scan-trivy-elasticsearch-exporter
+          directory: elasticsearch-exporter
+          requires:
+            - test-elasticsearch-exporter
       - release:
           name: release-elasticsearch-exporter
           directory: elasticsearch-exporter
@@ -248,7 +293,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-elasticsearch-exporter
+            - scan-trivy-elasticsearch-exporter
           filters:
             branches:
               only: main
@@ -268,6 +313,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-fluentd
+      - scan-trivy:
+          name: scan-trivy-fluentd
+          directory: fluentd
+          requires:
+            - test-fluentd
       - release:
           name: release-fluentd
           directory: fluentd
@@ -275,7 +325,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-fluentd
+            - scan-trivy-fluentd
           filters:
             branches:
               only: main
@@ -295,6 +345,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-git-daemon
+      - scan-trivy:
+          name: scan-trivy-git-daemon
+          directory: git-daemon
+          requires:
+            - test-git-daemon
       - release:
           name: release-git-daemon
           directory: git-daemon
@@ -302,7 +357,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-git-daemon
+            - scan-trivy-git-daemon
           filters:
             branches:
               only: main
@@ -322,6 +377,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-git-sync
+      - scan-trivy:
+          name: scan-trivy-git-sync
+          directory: git-sync
+          requires:
+            - test-git-sync
       - release:
           name: release-git-sync
           directory: git-sync
@@ -329,7 +389,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-git-sync
+            - scan-trivy-git-sync
           filters:
             branches:
               only: main
@@ -349,6 +409,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-grafana
+      - scan-trivy:
+          name: scan-trivy-grafana
+          directory: grafana
+          requires:
+            - test-grafana
       - release:
           name: release-grafana
           directory: grafana
@@ -356,7 +421,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-grafana
+            - scan-trivy-grafana
           filters:
             branches:
               only: main
@@ -376,6 +441,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-keda
+      - scan-trivy:
+          name: scan-trivy-keda
+          directory: keda
+          requires:
+            - test-keda
       - release:
           name: release-keda
           directory: keda
@@ -383,7 +453,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-keda
+            - scan-trivy-keda
           filters:
             branches:
               only: main
@@ -403,6 +473,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-keda-metrics-apiserver
+      - scan-trivy:
+          name: scan-trivy-keda-metrics-apiserver
+          directory: keda-metrics-apiserver
+          requires:
+            - test-keda-metrics-apiserver
       - release:
           name: release-keda-metrics-apiserver
           directory: keda-metrics-apiserver
@@ -410,7 +485,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-keda-metrics-apiserver
+            - scan-trivy-keda-metrics-apiserver
           filters:
             branches:
               only: main
@@ -430,6 +505,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-kibana
+      - scan-trivy:
+          name: scan-trivy-kibana
+          directory: kibana
+          requires:
+            - test-kibana
       - release:
           name: release-kibana
           directory: kibana
@@ -437,7 +517,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-kibana
+            - scan-trivy-kibana
           filters:
             branches:
               only: main
@@ -457,6 +537,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-kube-state
+      - scan-trivy:
+          name: scan-trivy-kube-state
+          directory: kube-state
+          requires:
+            - test-kube-state
       - release:
           name: release-kube-state
           directory: kube-state
@@ -464,7 +549,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-kube-state
+            - scan-trivy-kube-state
           filters:
             branches:
               only: main
@@ -484,6 +569,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-kubed
+      - scan-trivy:
+          name: scan-trivy-kubed
+          directory: kubed
+          requires:
+            - test-kubed
       - release:
           name: release-kubed
           directory: kubed
@@ -491,7 +581,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-kubed
+            - scan-trivy-kubed
           filters:
             branches:
               only: main
@@ -511,6 +601,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-nats-exporter
+      - scan-trivy:
+          name: scan-trivy-nats-exporter
+          directory: nats-exporter
+          requires:
+            - test-nats-exporter
       - release:
           name: release-nats-exporter
           directory: nats-exporter
@@ -518,7 +613,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-nats-exporter
+            - scan-trivy-nats-exporter
           filters:
             branches:
               only: main
@@ -538,6 +633,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-nats-server
+      - scan-trivy:
+          name: scan-trivy-nats-server
+          directory: nats-server
+          requires:
+            - test-nats-server
       - release:
           name: release-nats-server
           directory: nats-server
@@ -545,7 +645,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-nats-server
+            - scan-trivy-nats-server
           filters:
             branches:
               only: main
@@ -565,6 +665,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-nats-streaming
+      - scan-trivy:
+          name: scan-trivy-nats-streaming
+          directory: nats-streaming
+          requires:
+            - test-nats-streaming
       - release:
           name: release-nats-streaming
           directory: nats-streaming
@@ -572,7 +677,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-nats-streaming
+            - scan-trivy-nats-streaming
           filters:
             branches:
               only: main
@@ -592,6 +697,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-nginx
+      - scan-trivy:
+          name: scan-trivy-nginx
+          directory: nginx
+          requires:
+            - test-nginx
       - release:
           name: release-nginx
           directory: nginx
@@ -599,7 +709,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-nginx
+            - scan-trivy-nginx
           filters:
             branches:
               only: main
@@ -619,6 +729,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-nginx-es
+      - scan-trivy:
+          name: scan-trivy-nginx-es
+          directory: nginx-es
+          requires:
+            - test-nginx-es
       - release:
           name: release-nginx-es
           directory: nginx-es
@@ -626,7 +741,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-nginx-es
+            - scan-trivy-nginx-es
           filters:
             branches:
               only: main
@@ -646,6 +761,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-node-exporter
+      - scan-trivy:
+          name: scan-trivy-node-exporter
+          directory: node-exporter
+          requires:
+            - test-node-exporter
       - release:
           name: release-node-exporter
           directory: node-exporter
@@ -653,7 +773,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-node-exporter
+            - scan-trivy-node-exporter
           filters:
             branches:
               only: main
@@ -673,6 +793,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-openresty
+      - scan-trivy:
+          name: scan-trivy-openresty
+          directory: openresty
+          requires:
+            - test-openresty
       - release:
           name: release-openresty
           directory: openresty
@@ -680,7 +805,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-openresty
+            - scan-trivy-openresty
           filters:
             branches:
               only: main
@@ -700,6 +825,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-pgbouncer
+      - scan-trivy:
+          name: scan-trivy-pgbouncer
+          directory: pgbouncer
+          requires:
+            - test-pgbouncer
       - release:
           name: release-pgbouncer
           directory: pgbouncer
@@ -707,7 +837,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-pgbouncer
+            - scan-trivy-pgbouncer
           filters:
             branches:
               only: main
@@ -727,6 +857,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-pgbouncer-exporter
+      - scan-trivy:
+          name: scan-trivy-pgbouncer-exporter
+          directory: pgbouncer-exporter
+          requires:
+            - test-pgbouncer-exporter
       - release:
           name: release-pgbouncer-exporter
           directory: pgbouncer-exporter
@@ -734,7 +869,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-pgbouncer-exporter
+            - scan-trivy-pgbouncer-exporter
           filters:
             branches:
               only: main
@@ -754,6 +889,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-po-logical-backup
+      - scan-trivy:
+          name: scan-trivy-po-logical-backup
+          directory: po-logical-backup
+          requires:
+            - test-po-logical-backup
       - release:
           name: release-po-logical-backup
           directory: po-logical-backup
@@ -761,7 +901,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-po-logical-backup
+            - scan-trivy-po-logical-backup
           filters:
             branches:
               only: main
@@ -781,6 +921,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-po-pgbouncer
+      - scan-trivy:
+          name: scan-trivy-po-pgbouncer
+          directory: po-pgbouncer
+          requires:
+            - test-po-pgbouncer
       - release:
           name: release-po-pgbouncer
           directory: po-pgbouncer
@@ -788,7 +933,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-po-pgbouncer
+            - scan-trivy-po-pgbouncer
           filters:
             branches:
               only: main
@@ -808,6 +953,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-po-spilo
+      - scan-trivy:
+          name: scan-trivy-po-spilo
+          directory: po-spilo
+          requires:
+            - test-po-spilo
       - release:
           name: release-po-spilo
           directory: po-spilo
@@ -815,7 +965,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-po-spilo
+            - scan-trivy-po-spilo
           filters:
             branches:
               only: main
@@ -835,6 +985,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-postgres-exporter
+      - scan-trivy:
+          name: scan-trivy-postgres-exporter
+          directory: postgres-exporter
+          requires:
+            - test-postgres-exporter
       - release:
           name: release-postgres-exporter
           directory: postgres-exporter
@@ -842,7 +997,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-postgres-exporter
+            - scan-trivy-postgres-exporter
           filters:
             branches:
               only: main
@@ -862,6 +1017,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-postgres-operator
+      - scan-trivy:
+          name: scan-trivy-postgres-operator
+          directory: postgres-operator
+          requires:
+            - test-postgres-operator
       - release:
           name: release-postgres-operator
           directory: postgres-operator
@@ -869,7 +1029,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-postgres-operator
+            - scan-trivy-postgres-operator
           filters:
             branches:
               only: main
@@ -889,6 +1049,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-postgresql
+      - scan-trivy:
+          name: scan-trivy-postgresql
+          directory: postgresql
+          requires:
+            - test-postgresql
       - release:
           name: release-postgresql
           directory: postgresql
@@ -896,7 +1061,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-postgresql
+            - scan-trivy-postgresql
           filters:
             branches:
               only: main
@@ -916,6 +1081,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-prometheus
+      - scan-trivy:
+          name: scan-trivy-prometheus
+          directory: prometheus
+          requires:
+            - test-prometheus
       - release:
           name: release-prometheus
           directory: prometheus
@@ -923,7 +1093,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-prometheus
+            - scan-trivy-prometheus
           filters:
             branches:
               only: main
@@ -943,6 +1113,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-redis
+      - scan-trivy:
+          name: scan-trivy-redis
+          directory: redis
+          requires:
+            - test-redis
       - release:
           name: release-redis
           directory: redis
@@ -950,7 +1125,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-redis
+            - scan-trivy-redis
           filters:
             branches:
               only: main
@@ -970,6 +1145,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-registry
+      - scan-trivy:
+          name: scan-trivy-registry
+          directory: registry
+          requires:
+            - test-registry
       - release:
           name: release-registry
           directory: registry
@@ -977,7 +1157,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-registry
+            - scan-trivy-registry
           filters:
             branches:
               only: main
@@ -997,6 +1177,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-statsd-exporter
+      - scan-trivy:
+          name: scan-trivy-statsd-exporter
+          directory: statsd-exporter
+          requires:
+            - test-statsd-exporter
       - release:
           name: release-statsd-exporter
           directory: statsd-exporter
@@ -1004,7 +1189,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-statsd-exporter
+            - scan-trivy-statsd-exporter
           filters:
             branches:
               only: main
@@ -1024,6 +1209,11 @@ workflows:
           test_requirements: requirements/test-requirements.txt
           requires:
             - build-vector
+      - scan-trivy:
+          name: scan-trivy-vector
+          directory: vector
+          requires:
+            - test-vector
       - release:
           name: release-vector
           directory: vector
@@ -1031,7 +1221,7 @@ workflows:
             - quay.io
             - docker.io
           requires:
-            - test-vector
+            - scan-trivy-vector
           filters:
             branches:
               only: main
