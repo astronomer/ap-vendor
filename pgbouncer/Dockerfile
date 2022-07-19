@@ -26,7 +26,14 @@ RUN apk add --no-cache --virtual .run-deps \
       c-ares \
       entr \
       libevent \
+<<<<<<< HEAD
       libressl \
+||||||| parent of ad1267f (add both krb5 and krb5-dev)
+      libressl \ 
+=======
+      libressl \
+      krb5 \
+>>>>>>> ad1267f (add both krb5 and krb5-dev)
       krb5-dev
 
 
