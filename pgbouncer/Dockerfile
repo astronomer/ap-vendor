@@ -22,8 +22,13 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV PGBOUNCER_VERSION=1.17.0 \
-    PGBOUNCER_SHA256=657309b7bc5c7a85cbf70a9a441b535f7824123081eabb7ba86d00349a256e23
+RUN apk add --no-cache --virtual .run-deps \
+      c-ares \
+      entr \
+      libevent \
+      libressl \ 
+      krb5-dev
+
 
 RUN apk add --no-cache --virtual .build-deps \
       build-base \
@@ -38,16 +43,14 @@ RUN apk add --no-cache --virtual .build-deps \
       automake \
     && wget "https://github.com/jgm/pandoc/releases/download/2.18/pandoc-2.18-linux-amd64.tar.gz" \
     && tar xvzf pandoc-2.18-linux-amd64.tar.gz --strip-components 1 -C /usr/local \
-    && git clone https://github.com/astronomer/pgbouncer.git /tmp/pgbouncer; \
-       cd /tmp/pgbouncer; \
-       git checkout 503a165; \
+    && git clone https://github.com/astronomer/pgbouncer.git --single-branch --branch cory/gss-authentication /tmp/pgbouncer
+
+RUN cd /tmp/pgbouncer; \
        git submodule init; \
        git submodule update \
     && cd /tmp/pgbouncer && ./autogen.sh \
-    && ./configure --prefix=/usr --with-gss \
-    && make \
-    && make install \
-    make && \
+    && ./configure --prefix=/usr --with-server-gssenc \
+    && make && \
     # Manual install
     cp pgbouncer /usr/bin && \
     mkdir -p /etc/pgbouncer /var/log/pgbouncer /var/run/pgbouncer && \
@@ -62,8 +65,10 @@ RUN apk add --no-cache --virtual .build-deps \
     cd /tmp && \
     rm -rf /tmp/pgbouncer*  && \
     apk del .build-deps
+
 COPY entrypoint.sh /entrypoint.sh
 USER pgbouncer
+ENV KRB5_KTNAME "/keytab-volume/houston.keytab"
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["pgbouncer", "-u", "pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
-
+# CMD ["sleep", "3600"]
