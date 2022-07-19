@@ -12,6 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# https://registry.opensource.zalan.do/v2/acid/spilo-14/tags/list
 FROM registry.opensource.zalan.do/acid/spilo-14:2.1-p5
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
