@@ -26,7 +26,7 @@ RUN apk add --no-cache --virtual .run-deps \
       c-ares \
       entr \
       libevent \
-      libressl \ 
+      libressl \
       krb5-dev
 
 
