@@ -31,25 +31,7 @@ RUN addgroup -S pgbouncer \
       c-ares \
       entr \
       libevent \
-<<<<<<< HEAD
-<<<<<<< HEAD
-      libressl \
-||||||| parent of ad1267f (add both krb5 and krb5-dev)
-      libressl \ 
-=======
-      libressl \
-      krb5 \
->>>>>>> ad1267f (add both krb5 and krb5-dev)
-      krb5-dev
-
-||||||| parent of 69d910d (fixup!)
-      libressl \
-      krb5 \
-      krb5-dev
-
-=======
       libressl
->>>>>>> 69d910d (fixup!)
 
 RUN apk add --no-cache --virtual .build-deps \
       build-base \
@@ -81,3 +63,4 @@ RUN apk add --no-cache --virtual .build-deps \
     && apk del .build-deps
 USER pgbouncer
 CMD ["pgbouncer", "-u", "pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
+
