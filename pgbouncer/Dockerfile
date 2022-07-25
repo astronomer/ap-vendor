@@ -22,10 +22,16 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-RUN apk add --no-cache --virtual .run-deps \
+ENV PGBOUNCER_VERSION=1.17.0 \
+    PGBOUNCER_SHA256=657309b7bc5c7a85cbf70a9a441b535f7824123081eabb7ba86d00349a256e23
+
+RUN addgroup -S pgbouncer \
+    && adduser -D -S -s /sbin/nologin -G pgbouncer pgbouncer \
+    && apk add --no-cache --virtual .run-deps \
       c-ares \
       entr \
       libevent \
+<<<<<<< HEAD
 <<<<<<< HEAD
       libressl \
 ||||||| parent of ad1267f (add both krb5 and krb5-dev)
@@ -36,46 +42,42 @@ RUN apk add --no-cache --virtual .run-deps \
 >>>>>>> ad1267f (add both krb5 and krb5-dev)
       krb5-dev
 
+||||||| parent of 69d910d (fixup!)
+      libressl \
+      krb5 \
+      krb5-dev
+
+=======
+      libressl
+>>>>>>> 69d910d (fixup!)
 
 RUN apk add --no-cache --virtual .build-deps \
       build-base \
       autoconf \
       wget \
-      git \
       c-ares-dev \
       libevent-dev \
       libressl-dev \
       openssl-dev \
-      libtool \
-      automake \
-    && wget "https://github.com/jgm/pandoc/releases/download/2.18/pandoc-2.18-linux-amd64.tar.gz" \
-    && tar xvzf pandoc-2.18-linux-amd64.tar.gz --strip-components 1 -C /usr/local \
-    && git clone https://github.com/astronomer/pgbouncer.git --single-branch --branch cory/gss-authentication /tmp/pgbouncer
-
-RUN cd /tmp/pgbouncer; \
-       git submodule init; \
-       git submodule update \
-    && cd /tmp/pgbouncer && ./autogen.sh \
-    && ./configure --prefix=/usr --with-server-gssenc \
-    && make && \
-    # Manual install
-    cp pgbouncer /usr/bin && \
-    mkdir -p /etc/pgbouncer /var/log/pgbouncer /var/run/pgbouncer && \
-    # entrypoint installs the configuration, allow to write as postgres user
-    cp etc/pgbouncer.ini /etc/pgbouncer/pgbouncer.ini.example && \
-    cp etc/userlist.txt /etc/pgbouncer/userlist.txt.example && \
-    touch /etc/pgbouncer/userlist.txt && \
-    addgroup -g 70 -S pgbouncer 2>/dev/null && \
-    adduser -u 70 -S -D -H -h /var/lib/postgresql -g "Postgres user" -s /bin/sh -G pgbouncer pgbouncer 2>/dev/null && \
-    chown -R pgbouncer /var/run/pgbouncer /etc/pgbouncer && \
-    # Cleanupc)
-    cd /tmp && \
-    rm -rf /tmp/pgbouncer*  && \
-    apk del .build-deps
-
-COPY entrypoint.sh /entrypoint.sh
+    && wget https://www.pgbouncer.org/downloads/files/$PGBOUNCER_VERSION/pgbouncer-$PGBOUNCER_VERSION.tar.gz \
+    && echo "$PGBOUNCER_SHA256  /pgbouncer-$PGBOUNCER_VERSION.tar.gz" | sha256sum -c - \
+    && tar -xzvf pgbouncer-$PGBOUNCER_VERSION.tar.gz \
+    && cd pgbouncer-$PGBOUNCER_VERSION \
+    && ./configure --prefix=/usr --disable-debug \
+    && make \
+    && make install \
+    && mkdir /etc/pgbouncer \
+    && cp ./etc/pgbouncer.ini /etc/pgbouncer/ \
+    && touch /etc/pgbouncer/userlist.txt \
+    && sed -i \
+      -e "s|logfile = |#logfile = |" \
+      -e "s|pidfile = |#pidfile = |" \
+      -e "s|listen_addr = .*|listen_addr = 0.0.0.0|" \
+      -e "s|auth_type = .*|auth_type = md5|" \
+      /etc/pgbouncer/pgbouncer.ini \
+    && cd .. \
+    && rm pgbouncer-$PGBOUNCER_VERSION.tar.gz \
+    && rm -rf pgbouncer-$PGBOUNCER_VERSION \
+    && apk del .build-deps
 USER pgbouncer
-ENV KRB5_KTNAME "/keytab-volume/houston.keytab"
-ENTRYPOINT ["/entrypoint.sh"]
 CMD ["pgbouncer", "-u", "pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
-# CMD ["sleep", "3600"]
