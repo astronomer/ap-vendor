@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM prom/statsd-exporter:v0.22.4
+#https://hub.docker.com/r/prom/statsd-exporter/tags
+FROM prom/statsd-exporter:v0.22.7
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1

@@ -4,7 +4,6 @@
 version: 2.1
 orbs:
   python: circleci/python@2.0.3
-  snyk: snyk/snyk@1.1.2
 workflows:
   version: 2.1
   vendor-build:
@@ -31,11 +30,6 @@ workflows:
           directory: alertmanager
           requires:
             - test-alertmanager
-      - scan-snyk:
-          name: scan-snyk-alertmanager
-          directory: alertmanager
-          requires:
-            - test-alertmanager
       - release:
           name: release-alertmanager
           directory: alertmanager
@@ -44,7 +38,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-alertmanager
-            - scan-snyk-alertmanager
           filters:
             branches:
               only: main
@@ -69,11 +62,6 @@ workflows:
           directory: auth-sidecar
           requires:
             - test-auth-sidecar
-      - scan-snyk:
-          name: scan-snyk-auth-sidecar
-          directory: auth-sidecar
-          requires:
-            - test-auth-sidecar
       - release:
           name: release-auth-sidecar
           directory: auth-sidecar
@@ -82,7 +70,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-auth-sidecar
-            - scan-snyk-auth-sidecar
           filters:
             branches:
               only: main
@@ -107,11 +94,6 @@ workflows:
           directory: awsesproxy
           requires:
             - test-awsesproxy
-      - scan-snyk:
-          name: scan-snyk-awsesproxy
-          directory: awsesproxy
-          requires:
-            - test-awsesproxy
       - release:
           name: release-awsesproxy
           directory: awsesproxy
@@ -120,7 +102,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-awsesproxy
-            - scan-snyk-awsesproxy
           filters:
             branches:
               only: main
@@ -145,11 +126,6 @@ workflows:
           directory: blackbox-exporter
           requires:
             - test-blackbox-exporter
-      - scan-snyk:
-          name: scan-snyk-blackbox-exporter
-          directory: blackbox-exporter
-          requires:
-            - test-blackbox-exporter
       - release:
           name: release-blackbox-exporter
           directory: blackbox-exporter
@@ -158,7 +134,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-blackbox-exporter
-            - scan-snyk-blackbox-exporter
           filters:
             branches:
               only: main
@@ -183,11 +158,6 @@ workflows:
           directory: configmap-reloader
           requires:
             - test-configmap-reloader
-      - scan-snyk:
-          name: scan-snyk-configmap-reloader
-          directory: configmap-reloader
-          requires:
-            - test-configmap-reloader
       - release:
           name: release-configmap-reloader
           directory: configmap-reloader
@@ -196,7 +166,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-configmap-reloader
-            - scan-snyk-configmap-reloader
           filters:
             branches:
               only: main
@@ -221,11 +190,6 @@ workflows:
           directory: curator
           requires:
             - test-curator
-      - scan-snyk:
-          name: scan-snyk-curator
-          directory: curator
-          requires:
-            - test-curator
       - release:
           name: release-curator
           directory: curator
@@ -234,7 +198,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-curator
-            - scan-snyk-curator
           filters:
             branches:
               only: main
@@ -259,11 +222,6 @@ workflows:
           directory: dind-golang
           requires:
             - test-dind-golang
-      - scan-snyk:
-          name: scan-snyk-dind-golang
-          directory: dind-golang
-          requires:
-            - test-dind-golang
       - release:
           name: release-dind-golang
           directory: dind-golang
@@ -272,7 +230,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-dind-golang
-            - scan-snyk-dind-golang
           filters:
             branches:
               only: main
@@ -297,11 +254,6 @@ workflows:
           directory: elasticsearch
           requires:
             - test-elasticsearch
-      - scan-snyk:
-          name: scan-snyk-elasticsearch
-          directory: elasticsearch
-          requires:
-            - test-elasticsearch
       - release:
           name: release-elasticsearch
           directory: elasticsearch
@@ -310,7 +262,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-elasticsearch
-            - scan-snyk-elasticsearch
           filters:
             branches:
               only: main
@@ -335,11 +286,6 @@ workflows:
           directory: elasticsearch-exporter
           requires:
             - test-elasticsearch-exporter
-      - scan-snyk:
-          name: scan-snyk-elasticsearch-exporter
-          directory: elasticsearch-exporter
-          requires:
-            - test-elasticsearch-exporter
       - release:
           name: release-elasticsearch-exporter
           directory: elasticsearch-exporter
@@ -348,7 +294,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-elasticsearch-exporter
-            - scan-snyk-elasticsearch-exporter
           filters:
             branches:
               only: main
@@ -373,11 +318,6 @@ workflows:
           directory: fluentd
           requires:
             - test-fluentd
-      - scan-snyk:
-          name: scan-snyk-fluentd
-          directory: fluentd
-          requires:
-            - test-fluentd
       - release:
           name: release-fluentd
           directory: fluentd
@@ -386,7 +326,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-fluentd
-            - scan-snyk-fluentd
           filters:
             branches:
               only: main
@@ -411,11 +350,6 @@ workflows:
           directory: git-daemon
           requires:
             - test-git-daemon
-      - scan-snyk:
-          name: scan-snyk-git-daemon
-          directory: git-daemon
-          requires:
-            - test-git-daemon
       - release:
           name: release-git-daemon
           directory: git-daemon
@@ -424,7 +358,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-git-daemon
-            - scan-snyk-git-daemon
           filters:
             branches:
               only: main
@@ -449,11 +382,6 @@ workflows:
           directory: git-sync
           requires:
             - test-git-sync
-      - scan-snyk:
-          name: scan-snyk-git-sync
-          directory: git-sync
-          requires:
-            - test-git-sync
       - release:
           name: release-git-sync
           directory: git-sync
@@ -462,7 +390,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-git-sync
-            - scan-snyk-git-sync
           filters:
             branches:
               only: main
@@ -487,11 +414,6 @@ workflows:
           directory: grafana
           requires:
             - test-grafana
-      - scan-snyk:
-          name: scan-snyk-grafana
-          directory: grafana
-          requires:
-            - test-grafana
       - release:
           name: release-grafana
           directory: grafana
@@ -500,7 +422,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-grafana
-            - scan-snyk-grafana
           filters:
             branches:
               only: main
@@ -525,11 +446,6 @@ workflows:
           directory: keda
           requires:
             - test-keda
-      - scan-snyk:
-          name: scan-snyk-keda
-          directory: keda
-          requires:
-            - test-keda
       - release:
           name: release-keda
           directory: keda
@@ -538,7 +454,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-keda
-            - scan-snyk-keda
           filters:
             branches:
               only: main
@@ -563,11 +478,6 @@ workflows:
           directory: keda-metrics-apiserver
           requires:
             - test-keda-metrics-apiserver
-      - scan-snyk:
-          name: scan-snyk-keda-metrics-apiserver
-          directory: keda-metrics-apiserver
-          requires:
-            - test-keda-metrics-apiserver
       - release:
           name: release-keda-metrics-apiserver
           directory: keda-metrics-apiserver
@@ -576,7 +486,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-keda-metrics-apiserver
-            - scan-snyk-keda-metrics-apiserver
           filters:
             branches:
               only: main
@@ -601,11 +510,6 @@ workflows:
           directory: kibana
           requires:
             - test-kibana
-      - scan-snyk:
-          name: scan-snyk-kibana
-          directory: kibana
-          requires:
-            - test-kibana
       - release:
           name: release-kibana
           directory: kibana
@@ -614,7 +518,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-kibana
-            - scan-snyk-kibana
           filters:
             branches:
               only: main
@@ -639,11 +542,6 @@ workflows:
           directory: kube-state
           requires:
             - test-kube-state
-      - scan-snyk:
-          name: scan-snyk-kube-state
-          directory: kube-state
-          requires:
-            - test-kube-state
       - release:
           name: release-kube-state
           directory: kube-state
@@ -652,7 +550,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-kube-state
-            - scan-snyk-kube-state
           filters:
             branches:
               only: main
@@ -677,11 +574,6 @@ workflows:
           directory: kubed
           requires:
             - test-kubed
-      - scan-snyk:
-          name: scan-snyk-kubed
-          directory: kubed
-          requires:
-            - test-kubed
       - release:
           name: release-kubed
           directory: kubed
@@ -690,7 +582,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-kubed
-            - scan-snyk-kubed
           filters:
             branches:
               only: main
@@ -715,11 +606,6 @@ workflows:
           directory: nats-exporter
           requires:
             - test-nats-exporter
-      - scan-snyk:
-          name: scan-snyk-nats-exporter
-          directory: nats-exporter
-          requires:
-            - test-nats-exporter
       - release:
           name: release-nats-exporter
           directory: nats-exporter
@@ -728,7 +614,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nats-exporter
-            - scan-snyk-nats-exporter
           filters:
             branches:
               only: main
@@ -753,11 +638,6 @@ workflows:
           directory: nats-server
           requires:
             - test-nats-server
-      - scan-snyk:
-          name: scan-snyk-nats-server
-          directory: nats-server
-          requires:
-            - test-nats-server
       - release:
           name: release-nats-server
           directory: nats-server
@@ -766,7 +646,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nats-server
-            - scan-snyk-nats-server
           filters:
             branches:
               only: main
@@ -791,11 +670,6 @@ workflows:
           directory: nats-streaming
           requires:
             - test-nats-streaming
-      - scan-snyk:
-          name: scan-snyk-nats-streaming
-          directory: nats-streaming
-          requires:
-            - test-nats-streaming
       - release:
           name: release-nats-streaming
           directory: nats-streaming
@@ -804,7 +678,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nats-streaming
-            - scan-snyk-nats-streaming
           filters:
             branches:
               only: main
@@ -829,11 +702,6 @@ workflows:
           directory: nginx
           requires:
             - test-nginx
-      - scan-snyk:
-          name: scan-snyk-nginx
-          directory: nginx
-          requires:
-            - test-nginx
       - release:
           name: release-nginx
           directory: nginx
@@ -842,7 +710,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nginx
-            - scan-snyk-nginx
           filters:
             branches:
               only: main
@@ -867,11 +734,6 @@ workflows:
           directory: nginx-es
           requires:
             - test-nginx-es
-      - scan-snyk:
-          name: scan-snyk-nginx-es
-          directory: nginx-es
-          requires:
-            - test-nginx-es
       - release:
           name: release-nginx-es
           directory: nginx-es
@@ -880,7 +742,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-nginx-es
-            - scan-snyk-nginx-es
           filters:
             branches:
               only: main
@@ -905,11 +766,6 @@ workflows:
           directory: node-exporter
           requires:
             - test-node-exporter
-      - scan-snyk:
-          name: scan-snyk-node-exporter
-          directory: node-exporter
-          requires:
-            - test-node-exporter
       - release:
           name: release-node-exporter
           directory: node-exporter
@@ -918,7 +774,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-node-exporter
-            - scan-snyk-node-exporter
           filters:
             branches:
               only: main
@@ -943,11 +798,6 @@ workflows:
           directory: openresty
           requires:
             - test-openresty
-      - scan-snyk:
-          name: scan-snyk-openresty
-          directory: openresty
-          requires:
-            - test-openresty
       - release:
           name: release-openresty
           directory: openresty
@@ -956,7 +806,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-openresty
-            - scan-snyk-openresty
           filters:
             branches:
               only: main
@@ -981,11 +830,6 @@ workflows:
           directory: pgbouncer
           requires:
             - test-pgbouncer
-      - scan-snyk:
-          name: scan-snyk-pgbouncer
-          directory: pgbouncer
-          requires:
-            - test-pgbouncer
       - release:
           name: release-pgbouncer
           directory: pgbouncer
@@ -994,7 +838,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-pgbouncer
-            - scan-snyk-pgbouncer
           filters:
             branches:
               only: main
@@ -1019,11 +862,6 @@ workflows:
           directory: pgbouncer-exporter
           requires:
             - test-pgbouncer-exporter
-      - scan-snyk:
-          name: scan-snyk-pgbouncer-exporter
-          directory: pgbouncer-exporter
-          requires:
-            - test-pgbouncer-exporter
       - release:
           name: release-pgbouncer-exporter
           directory: pgbouncer-exporter
@@ -1032,7 +870,102 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-pgbouncer-exporter
-            - scan-snyk-pgbouncer-exporter
+          filters:
+            branches:
+              only: main
+
+      - approve-po-logical-backup:
+          type: approval
+      - build:
+          name: build-po-logical-backup
+          directory: po-logical-backup
+          requires:
+            - approve-po-logical-backup
+            - run_pre_commit
+      - test:
+          name: test-po-logical-backup
+          directory: po-logical-backup
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-po-logical-backup
+      - scan-trivy:
+          name: scan-trivy-po-logical-backup
+          directory: po-logical-backup
+          requires:
+            - test-po-logical-backup
+      - release:
+          name: release-po-logical-backup
+          directory: po-logical-backup
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-po-logical-backup
+          filters:
+            branches:
+              only: main
+
+      - approve-po-pgbouncer:
+          type: approval
+      - build:
+          name: build-po-pgbouncer
+          directory: po-pgbouncer
+          requires:
+            - approve-po-pgbouncer
+            - run_pre_commit
+      - test:
+          name: test-po-pgbouncer
+          directory: po-pgbouncer
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-po-pgbouncer
+      - scan-trivy:
+          name: scan-trivy-po-pgbouncer
+          directory: po-pgbouncer
+          requires:
+            - test-po-pgbouncer
+      - release:
+          name: release-po-pgbouncer
+          directory: po-pgbouncer
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-po-pgbouncer
+          filters:
+            branches:
+              only: main
+
+      - approve-po-spilo:
+          type: approval
+      - build:
+          name: build-po-spilo
+          directory: po-spilo
+          requires:
+            - approve-po-spilo
+            - run_pre_commit
+      - test:
+          name: test-po-spilo
+          directory: po-spilo
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-po-spilo
+      - scan-trivy:
+          name: scan-trivy-po-spilo
+          directory: po-spilo
+          requires:
+            - test-po-spilo
+      - release:
+          name: release-po-spilo
+          directory: po-spilo
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-po-spilo
           filters:
             branches:
               only: main
@@ -1095,11 +1028,6 @@ workflows:
           directory: postgres-exporter
           requires:
             - test-postgres-exporter
-      - scan-snyk:
-          name: scan-snyk-postgres-exporter
-          directory: postgres-exporter
-          requires:
-            - test-postgres-exporter
       - release:
           name: release-postgres-exporter
           directory: postgres-exporter
@@ -1108,7 +1036,38 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-postgres-exporter
-            - scan-snyk-postgres-exporter
+          filters:
+            branches:
+              only: main
+
+      - approve-postgres-operator:
+          type: approval
+      - build:
+          name: build-postgres-operator
+          directory: postgres-operator
+          requires:
+            - approve-postgres-operator
+            - run_pre_commit
+      - test:
+          name: test-postgres-operator
+          directory: postgres-operator
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-postgres-operator
+      - scan-trivy:
+          name: scan-trivy-postgres-operator
+          directory: postgres-operator
+          requires:
+            - test-postgres-operator
+      - release:
+          name: release-postgres-operator
+          directory: postgres-operator
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-postgres-operator
           filters:
             branches:
               only: main
@@ -1133,11 +1092,6 @@ workflows:
           directory: postgresql
           requires:
             - test-postgresql
-      - scan-snyk:
-          name: scan-snyk-postgresql
-          directory: postgresql
-          requires:
-            - test-postgresql
       - release:
           name: release-postgresql
           directory: postgresql
@@ -1146,7 +1100,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-postgresql
-            - scan-snyk-postgresql
           filters:
             branches:
               only: main
@@ -1171,11 +1124,6 @@ workflows:
           directory: prometheus
           requires:
             - test-prometheus
-      - scan-snyk:
-          name: scan-snyk-prometheus
-          directory: prometheus
-          requires:
-            - test-prometheus
       - release:
           name: release-prometheus
           directory: prometheus
@@ -1184,7 +1132,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-prometheus
-            - scan-snyk-prometheus
           filters:
             branches:
               only: main
@@ -1209,11 +1156,6 @@ workflows:
           directory: redis
           requires:
             - test-redis
-      - scan-snyk:
-          name: scan-snyk-redis
-          directory: redis
-          requires:
-            - test-redis
       - release:
           name: release-redis
           directory: redis
@@ -1222,7 +1164,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-redis
-            - scan-snyk-redis
           filters:
             branches:
               only: main
@@ -1247,11 +1188,6 @@ workflows:
           directory: registry
           requires:
             - test-registry
-      - scan-snyk:
-          name: scan-snyk-registry
-          directory: registry
-          requires:
-            - test-registry
       - release:
           name: release-registry
           directory: registry
@@ -1260,7 +1196,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-registry
-            - scan-snyk-registry
           filters:
             branches:
               only: main
@@ -1285,11 +1220,6 @@ workflows:
           directory: statsd-exporter
           requires:
             - test-statsd-exporter
-      - scan-snyk:
-          name: scan-snyk-statsd-exporter
-          directory: statsd-exporter
-          requires:
-            - test-statsd-exporter
       - release:
           name: release-statsd-exporter
           directory: statsd-exporter
@@ -1298,7 +1228,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-statsd-exporter
-            - scan-snyk-statsd-exporter
           filters:
             branches:
               only: main
@@ -1323,11 +1252,6 @@ workflows:
           directory: vector
           requires:
             - test-vector
-      - scan-snyk:
-          name: scan-snyk-vector
-          directory: vector
-          requires:
-            - test-vector
       - release:
           name: release-vector
           directory: vector
@@ -1336,7 +1260,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-vector
-            - scan-snyk-vector
           filters:
             branches:
               only: main
@@ -1434,34 +1357,6 @@ jobs:
           key: trivy-cache-{{ checksum "date" }}
           paths:
             - /tmp/workspace/trivy-cache
-  scan-snyk:
-    docker:
-      - image: cimg/node:12.22
-    description: "Snyk: Vulnerability scan a Docker image"
-    parameters:
-      directory:
-        description: "The directory name of the image to be scanned"
-        type: string
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-          version: 20.10.11
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          name: Load archived Docker image
-          command: |
-            set -x
-            docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
-            docker images | grep ap-<< parameters.directory >>
-      - snyk/scan:
-          docker-image-name: ap-<< parameters.directory >>:${CIRCLE_SHA1}
-          fail-on-issues: true
-          severity-threshold: high
-          target-file: << parameters.directory >>/Dockerfile
-          monitor-on-build: false
-          additional-arguments: --policy-path=<< parameters.directory >>/.snyk
   release:
     executor: docker-executor
     parameters:
@@ -1479,10 +1374,10 @@ jobs:
             pip install packaging
             version="$(bin/check_version.py << parameters.directory >>)"
             echo "export TAG=${version}" >> $BASH_ENV
-      - push-to-docker-hub:
+      - push-to-quay-io:
           comma_separated_tags: "$TAG"
           image_name: ap-<< parameters.directory >>
-      - push-to-quay-io:
+      - push-to-docker-hub:
           comma_separated_tags: "$TAG"
           image_name: ap-<< parameters.directory >>
 executors:

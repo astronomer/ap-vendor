@@ -1,0 +1,11 @@
+---
+tests:
+  root_user_test: True
+  default_user: pgbouncer
+  users_config:
+    - name: pgbouncer
+      group: nogroup
+      gid: 65533
+      uid: 100
+docker:
+  entrypoint: "/bin/sleep 1m"
