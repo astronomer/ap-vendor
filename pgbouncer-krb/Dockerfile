@@ -74,5 +74,9 @@ RUN apk add --no-cache --virtual .build-deps \
 # COPY init-script.sh configureKerberosClient.sh /tmp/
 # CMD /tmp/init-script.sh
 
+COPY entrypoint.sh /entrypoint.sh
+
 USER pgbouncer
+
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["pgbouncer", "-u", "pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
