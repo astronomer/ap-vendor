@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://github.com/CenterForOpenScience/docker-library/blob/master/pgbouncer/Dockerfile
 FROM quay.io/astronomer/ap-base:3.15.4
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
@@ -25,7 +24,9 @@ ENV REALM ${REALM:-EXAMPLE.COM}
 ENV KADMIN_PRINCIPAL ${KADMIN_PRINCIPAL:-kadmin/admin}
 ENV KADMIN_PASSWORD ${KADMIN_PASSWORD:-MITiys4K5}
 
-RUN apk add --no-cache --virtual .run-deps \
+RUN addgroup -S pgbouncer \
+    && adduser -D -S -s /sbin/nologin -G pgbouncer pgbouncer \
+    && apk add --no-cache --virtual .run-deps \
       c-ares \
       entr \
       libevent \
@@ -48,28 +49,30 @@ RUN apk add --no-cache --virtual .build-deps \
       automake \
     && wget "https://github.com/jgm/pandoc/releases/download/2.18/pandoc-2.18-linux-amd64.tar.gz" \
     && tar xvzf pandoc-2.18-linux-amd64.tar.gz --strip-components 1 -C /usr/local \
-    && git clone https://github.com/astronomer/pgbouncer.git --single-branch --branch cory/gss-authentication /tmp/pgbouncer
-
-RUN cd /tmp/pgbouncer; \
+    && git clone https://github.com/astronomer/pgbouncer.git --single-branch --branch cory/gss-authentication \
+    && cd /pgbouncer; \
        git submodule init; \
        git submodule update \
-    && cd /tmp/pgbouncer && ./autogen.sh \
+    && ./autogen.sh \
     && ./configure --prefix=/usr --with-server-gssenc \
-    && make && \
-    # Manual install
-    cp pgbouncer /usr/bin && \
-    mkdir -p /etc/pgbouncer /var/log/pgbouncer /var/run/pgbouncer && \
-    # cp ./pgbouncer.ini /etc/pgbouncer/pgbouncer.ini && \
-    # cp ./userlist.txt /etc/pgbouncer/userlist.txt && \
-    # entrypoint installs the configuration, allow to write as postgres user
-    addgroup -g 70 -S pgbouncer 2>/dev/null && \
-    adduser -u 70 -S -D -H -h /var/lib/postgresql -g "Postgres user" -s /bin/sh -G pgbouncer pgbouncer 2>/dev/null && \
-    chown -R pgbouncer /var/run/pgbouncer /etc/pgbouncer && \
-    # Cleanupc)
-    cd /tmp && \
-    rm -rf /tmp/pgbouncer*  && \
-    apk del .build-deps
+    && make \
+    && make install \
+    && mkdir /etc/pgbouncer \
+    && cp ./etc/pgbouncer.ini /etc/pgbouncer/ \
+    && touch /etc/pgbouncer/userlist.txt \
+    && sed -i \
+      -e "s|logfile = |#logfile = |" \
+      -e "s|pidfile = |#pidfile = |" \
+      -e "s|listen_addr = .*|listen_addr = 0.0.0.0|" \
+      -e "s|auth_type = .*|auth_type = md5|" \
+      /etc/pgbouncer/pgbouncer.ini \
+    && cd .. \
+    && rm -rf /pgbouncer* \
+    && apk del .build-deps
 
-COPY pgbouncer.ini users.txt /etc/pgbouncer
-COPY init-script.sh configureKerberosClient.sh /tmp/
-CMD /tmp/init-script.sh
+# COPY pgbouncer.ini users.txt /etc/pgbouncer
+# COPY init-script.sh configureKerberosClient.sh /tmp/
+# CMD /tmp/init-script.sh
+
+USER pgbouncer
+CMD ["pgbouncer", "-u", "pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]

@@ -874,6 +874,38 @@ workflows:
             branches:
               only: main
 
+      - approve-pgbouncer-krb:
+          type: approval
+      - build:
+          name: build-pgbouncer-krb
+          directory: pgbouncer-krb
+          requires:
+            - approve-pgbouncer-krb
+            - run_pre_commit
+      - test:
+          name: test-pgbouncer-krb
+          directory: pgbouncer-krb
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-pgbouncer-krb
+      - scan-trivy:
+          name: scan-trivy-pgbouncer-krb
+          directory: pgbouncer-krb
+          requires:
+            - test-pgbouncer-krb
+      - release:
+          name: release-pgbouncer-krb
+          directory: pgbouncer-krb
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-pgbouncer-krb
+          filters:
+            branches:
+              only: main
+
       - approve-po-logical-backup:
           type: approval
       - build:
@@ -966,44 +998,6 @@ workflows:
             - docker.io
           requires:
             - scan-trivy-po-spilo
-          filters:
-            branches:
-              only: main
-
-      - approve-pgbouncer-krb:
-          type: approval
-      - build:
-          name: build-pgbouncer-krb
-          directory: pgbouncer-krb
-          requires:
-            - approve-pgbouncer-krb
-            - run_pre_commit
-      - test:
-          name: test-pgbouncer-krb
-          directory: pgbouncer-krb
-          test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
-          requires:
-            - build-pgbouncer-krb
-      - scan-trivy:
-          name: scan-trivy-pgbouncer-krb
-          directory: pgbouncer-krb
-          requires:
-            - test-pgbouncer-krb
-      - scan-snyk:
-          name: scan-snyk-pgbouncer-krb
-          directory: pgbouncer-krb
-          requires:
-            - test-pgbouncer-krb
-      - release:
-          name: release-pgbouncer-krb
-          directory: pgbouncer-krb
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - scan-trivy-pgbouncer-krb
-            - scan-snyk-pgbouncer-krb
           filters:
             branches:
               only: main
