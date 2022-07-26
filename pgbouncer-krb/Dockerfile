@@ -14,7 +14,6 @@
 # limitations under the License.
 
 # https://github.com/CenterForOpenScience/docker-library/blob/master/pgbouncer/Dockerfile
-# https://quay.io/repository/centerforopenscience/pgbouncer
 FROM quay.io/astronomer/ap-base:3.15.4
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
@@ -22,13 +21,18 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+ENV REALM ${REALM:-EXAMPLE.COM}
+ENV KADMIN_PRINCIPAL ${KADMIN_PRINCIPAL:-kadmin/admin}
+ENV KADMIN_PASSWORD ${KADMIN_PASSWORD:-MITiys4K5}
+
 RUN apk add --no-cache --virtual .run-deps \
       c-ares \
       entr \
       libevent \
       libressl \
       krb5 \
-      krb5-dev
+      krb5-dev \
+      bash
 
 
 RUN apk add --no-cache --virtual .build-deps \
@@ -55,10 +59,9 @@ RUN cd /tmp/pgbouncer; \
     # Manual install
     cp pgbouncer /usr/bin && \
     mkdir -p /etc/pgbouncer /var/log/pgbouncer /var/run/pgbouncer && \
+    # cp ./pgbouncer.ini /etc/pgbouncer/pgbouncer.ini && \
+    # cp ./userlist.txt /etc/pgbouncer/userlist.txt && \
     # entrypoint installs the configuration, allow to write as postgres user
-    cp etc/pgbouncer.ini /etc/pgbouncer/pgbouncer.ini.example && \
-    cp etc/userlist.txt /etc/pgbouncer/userlist.txt.example && \
-    touch /etc/pgbouncer/userlist.txt && \
     addgroup -g 70 -S pgbouncer 2>/dev/null && \
     adduser -u 70 -S -D -H -h /var/lib/postgresql -g "Postgres user" -s /bin/sh -G pgbouncer pgbouncer 2>/dev/null && \
     chown -R pgbouncer /var/run/pgbouncer /etc/pgbouncer && \
@@ -67,9 +70,6 @@ RUN cd /tmp/pgbouncer; \
     rm -rf /tmp/pgbouncer*  && \
     apk del .build-deps
 
-COPY entrypoint.sh /entrypoint.sh
-USER pgbouncer
-ENV KRB5_KTNAME "/keytab-volume/houston.keytab"
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["pgbouncer", "-u", "pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
-# CMD ["sleep", "3600"]
+COPY pgbouncer.ini users.txt /etc/pgbouncer
+COPY init-script.sh configureKerberosClient.sh /tmp/
+CMD /tmp/init-script.sh
