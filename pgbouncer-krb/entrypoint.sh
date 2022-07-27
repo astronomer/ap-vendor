@@ -1,5 +1,5 @@
 #!/bin/sh
-# Based on https://github.com/edoburu/docker-pgbouncer/blob/master/entrypoint.sh
+# Based on https://github.com/edoburu/docker-pgbouncer/blob/860ed3643/entrypoint.sh
 # but pass alls shellcheks
 
 set -e
@@ -61,9 +61,9 @@ fi
 if [ ! -f ${PG_CONFIG_DIR}/pgbouncer.ini ]; then
   echo "Create pgbouncer config in ${PG_CONFIG_DIR}"
 
-# Config file is in ¿ini¿ format. Section names are between ¿[¿ and ¿]¿.
-# Lines starting with ¿;¿ or ¿#¿ are taken as comments and ignored.
-# The characters ¿;¿ and ¿#¿ are not recognized when they appear later in the line.
+# Config file is in Â¿iniÂ¿ format. Section names are between Â¿[Â¿ and Â¿]Â¿.
+# Lines starting with Â¿;Â¿ or Â¿#Â¿ are taken as comments and ignored.
+# The characters Â¿;Â¿ and Â¿#Â¿ are not recognized when they appear later in the line.
 # shellcheck disable=SC2059
   printf "\
 ################## Auto generated ##################
