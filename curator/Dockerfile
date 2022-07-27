@@ -42,6 +42,8 @@ RUN set -x ; apk --no-cache add \
       elasticsearch-curator \
       boto3 \
       requests-aws4auth && \
+    # workaround until https://github.com/elastic/curator/issues/1622 is addressed
+    pip install --upgrade --no-cache-dir urllib3 && \
     apk del \
       py-pip \
       python3-dev
