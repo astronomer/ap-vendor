@@ -22,7 +22,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 ENV REALM ${REALM:-EXAMPLE.COM}
 ENV KADMIN_PRINCIPAL ${KADMIN_PRINCIPAL:-kadmin/admin}
-ENV KADMIN_PASSWORD ${KADMIN_PASSWORD:-MITiys4K5}
+ENV KADMIN_PASSWORD ${KADMIN_PASSWORD:-postgres}
 
 RUN addgroup -S pgbouncer \
     && adduser -D -S -s /sbin/nologin -G pgbouncer pgbouncer \
