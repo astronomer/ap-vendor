@@ -60,11 +60,11 @@ if [ -n "$DATABASE_URL" ]; then
   # Thanks to https://stackoverflow.com/a/17287984/146289
 
   # Allow to pass values like dj-database-url / django-environ accept
-  proto="$(echo "$DATABASE_URL" | grep :// | sed -e's,^(.*://).*,1,g')"
+  proto="$(echo "$DATABASE_URL" | grep :// | sed -e's,^\(.*://\).*,\1,g')"
   url="$(echo "$DATABASE_URL" | sed -e s,"$proto",,g)"
 
   # extract the user and password (if any)
-  userpass=$(echo "$url" | grep @ | sed -r 's/^(.*)@([^@]*)$/1/')
+  userpass=$(echo "$url" | grep @ | sed -r 's/^(.*)@([^@]*)$/\1/')
   DB_PASSWORD="$(echo "$userpass" | grep : | cut -d: -f2)"
   if [ -n "$DB_PASSWORD" ]; then
     DB_USER=$(echo "$userpass" | grep : | cut -d: -f1)
@@ -95,13 +95,13 @@ if [ ! -e "${_AUTH_FILE}" ]; then
   touch "${_AUTH_FILE}"
 fi
 # shellcheck disable=SC2166
-if [ -n "$DB_USER" -a -n "$DB_PASSWORD" -a -e "${_AUTH_FILE}" ] && ! grep -q "^$DB_USER" "${_AUTH_FILE}"; then
+if [ -n "$DB_USER" -a -n "$DB_PASSWORD" -a -e "${_AUTH_FILE}" ] && ! grep -q "^\"$DB_USER\"" "${_AUTH_FILE}"; then
   if [ "$AUTH_TYPE" != "plain" ]; then
      pass="md5$(echo "$DB_PASSWORD$DB_USER" | md5sum | cut -f 1 -d ' ')"
   else
      pass="$DB_PASSWORD"
   fi
-  echo "$DB_USER" "$pass" >> ${PG_CONFIG_DIR}/userlist.txt
+  echo "\"$DB_USER\" \"$pass\"" >> ${PG_CONFIG_DIR}/userlist.txt
   echo "Wrote authentication credentials to ${PG_CONFIG_DIR}/userlist.txt"
 fi
 
