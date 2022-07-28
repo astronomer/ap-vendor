@@ -3,7 +3,7 @@
 ### Environment variables
 
 ```
-# Manage to gnerate example of /etc/krb5
+# Manage to generate example of /etc/krb5
 GENERATE_KRB5_CONFIG=true
 ```
 

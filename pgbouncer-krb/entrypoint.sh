@@ -1,6 +1,6 @@
 #!/bin/sh
 # Based on https://github.com/edoburu/docker-pgbouncer/blob/860ed3643/entrypoint.sh
-# but pass alls shellcheks
+# but pass all shellchecks
 
 set -ex
 
