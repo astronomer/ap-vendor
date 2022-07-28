@@ -70,9 +70,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && rm -rf /pgbouncer* \
     && apk del .build-deps
 
-# COPY pgbouncer.ini users.txt /etc/pgbouncer
-# COPY init-script.sh configureKerberosClient.sh /tmp/
-# CMD /tmp/init-script.sh
+RUN chown -R pgbouncer /etc/krb5.conf
 
 COPY entrypoint.sh /entrypoint.sh
 

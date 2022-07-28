@@ -2,7 +2,54 @@
 # Based on https://github.com/edoburu/docker-pgbouncer/blob/860ed3643/entrypoint.sh
 # but pass alls shellcheks
 
-set -e
+set -ex
+
+
+if [ -z "$GENERATE_KRB5_CONFIG" ]
+then
+  echo "skipping generating /etc/krb5.conf"
+else
+  echo "==================================================================================="
+  echo "==== Kerberos Client =============================================================="
+  echo "==================================================================================="
+  KADMIN_PRINCIPAL_FULL=$KADMIN_PRINCIPAL@$REALM
+
+  echo "REALM: $REALM"
+  echo "KADMIN_PRINCIPAL_FULL: $KADMIN_PRINCIPAL_FULL"
+  echo "KADMIN_PASSWORD: $KADMIN_PASSWORD"
+  echo ""
+
+  kadminCommand() {
+      kadmin -p "$KADMIN_PRINCIPAL_FULL" -w "$KADMIN_PASSWORD" -q "$1"
+  }
+
+  echo "==================================================================================="
+  echo "==== /etc/krb5.conf ==============================================================="
+  echo "==================================================================================="
+  whoami
+  ls -la /etc/krb5*
+  tee /etc/krb5.conf <<EOF
+[libdefaults]
+  rdns = false
+  default_realm = $REALM
+[realms]
+  $REALM = {
+    kdc = kdc-kadmin
+    admin_server = kdc-kadmin
+  }
+EOF
+  echo ""
+
+  echo "==================================================================================="
+  echo "==== Testing ======================================================================"
+  echo "==================================================================================="
+  until kadminCommand "list_principals $KADMIN_PRINCIPAL_FULL"; do
+    >&2 echo "KDC is unavailable - sleeping 1 sec"
+    sleep 1
+  done
+  echo "KDC and Kadmin are operational"
+  echo ""
+fi
 
 # Here are some parameters. See all on
 # https://pgbouncer.github.io/config.html
@@ -61,9 +108,9 @@ fi
 if [ ! -f ${PG_CONFIG_DIR}/pgbouncer.ini ]; then
   echo "Create pgbouncer config in ${PG_CONFIG_DIR}"
 
-# Config file is in ¿ini¿ format. Section names are between ¿[¿ and ¿]¿.
-# Lines starting with ¿;¿ or ¿#¿ are taken as comments and ignored.
-# The characters ¿;¿ and ¿#¿ are not recognized when they appear later in the line.
+# Config file is in "ini" format. Section names are between "[" and "]".
+# Lines starting with ";" or "#" are taken as comments and ignored.
+# The characters ";" and "#" are not recognized when they appear later in the line.
 # shellcheck disable=SC2059
   printf "\
 ################## Auto generated ##################
