@@ -7,7 +7,6 @@
 GENERATE_KRB5_CONFIG=true
 ```
 
-
 Without specifying it:
 
 ```bash
