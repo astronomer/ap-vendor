@@ -6,6 +6,6 @@ tests:
     - name: pgexporter
       group: pgexporter
       gid: 102
-      uid: 102
+      uid: 101
 docker:
   entrypoint: "top"
