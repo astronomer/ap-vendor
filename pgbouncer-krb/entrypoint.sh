@@ -49,6 +49,11 @@ EOF
   done
   echo "KDC and Kadmin are operational"
   echo ""
+
+  # Show a Kerberos connection
+  # TODO: replace it to env variable
+  sleep 255
+  kinit -kt /keytab-volume/houston.keytab houston@EXAMPLE.COM
 fi
 
 # Here are some parameters. See all on
@@ -111,11 +116,10 @@ if [ ! -f ${PG_CONFIG_DIR}/pgbouncer.ini ]; then
 # Config file is in "ini" format. Section names are between "[" and "]".
 # Lines starting with ";" or "#" are taken as comments and ignored.
 # The characters ";" and "#" are not recognized when they appear later in the line.
-  cat <<EOF > "${PG_CONFIG_DIR}/pgbouncer.ini"
+cat <<EOF | sed '/^$/d' > "${PG_CONFIG_DIR}/pgbouncer.ini"
 ################## Auto generated ##################
 [databases]
-${DB_NAME:-*} = host=${DB_HOST:?"Setup pgbouncer config error! You must set DB_HOST env"}
-port=${DB_PORT:-5432} user=${DB_USER:-postgres}
+${DB_NAME:-*} = host=${DB_HOST:?"Setup pgbouncer config error! You must set DB_HOST env"} port=${DB_PORT:-5432} user=${DB_USER:-postgres}
 ${CLIENT_ENCODING:+client_encoding = ${CLIENT_ENCODING}}
 [pgbouncer]
 listen_addr = ${LISTEN_ADDR:-0.0.0.0}

@@ -58,19 +58,12 @@ RUN apk add --no-cache --virtual .build-deps \
     && make \
     && make install \
     && mkdir /etc/pgbouncer \
-    && cp ./etc/pgbouncer.ini /etc/pgbouncer/ \
     && touch /etc/pgbouncer/userlist.txt \
-    && sed -i \
-      -e "s|logfile = |#logfile = |" \
-      -e "s|pidfile = |#pidfile = |" \
-      -e "s|listen_addr = .*|listen_addr = 0.0.0.0|" \
-      -e "s|auth_type = .*|auth_type = md5|" \
-      /etc/pgbouncer/pgbouncer.ini \
     && cd .. \
     && rm -rf /pgbouncer* \
     && apk del .build-deps
 
-RUN chown -R pgbouncer /etc/krb5.conf
+RUN chown -R pgbouncer /etc/krb5.conf /etc/pgbouncer/
 
 COPY entrypoint.sh /entrypoint.sh
 
