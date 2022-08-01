@@ -52,7 +52,7 @@ EOF
 
   # Show a Kerberos connection
   # TODO: replace it to env variable
-  sleep 255
+  sleep 5
   kinit -kt /keytab-volume/houston.keytab houston@EXAMPLE.COM
 fi
 

@@ -33,6 +33,7 @@ RUN addgroup -S pgbouncer \
       libressl \
       krb5 \
       krb5-dev \
+      krb5-pkinit \
       bash
 
 
