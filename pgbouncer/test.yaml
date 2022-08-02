@@ -6,4 +6,4 @@ tests:
     - name: pgbouncer
       group: pgbouncer
       gid: 102
-      uid: 102
+      uid: 101
