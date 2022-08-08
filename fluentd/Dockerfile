@@ -13,10 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ARG BUILD_NUMBER=-1
-ARG DEBIAN_FRONTEND=noninteractive
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 LABEL maintainer="Astronomer <humans@astronomer.io>" \
 	io.astronomer.docker=true \
