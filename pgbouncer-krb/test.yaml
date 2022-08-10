@@ -1,0 +1,9 @@
+---
+tests:
+  root_user_test: True
+  default_user: pgbouncer
+  users_config:
+    - name: pgbouncer
+      group: pgbouncer
+      gid: 102
+      uid: 102

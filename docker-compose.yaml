@@ -124,6 +124,10 @@ services:
     build:
       context: pgbouncer-exporter
     entrypoint: "top"
+  ap-pgbouncer-krb:
+    image: ap-pgbouncer-krb:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: pgbouncer-krb
   ap-po-logical-backup:
     image: ap-po-logical-backup:${ASTRO_IMAGE_TAG:-latest}
     build:
