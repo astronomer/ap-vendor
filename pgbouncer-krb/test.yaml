@@ -7,3 +7,5 @@ tests:
       group: pgbouncer
       gid: 102
       uid: 101
+docker:
+  entrypoint: "top"
