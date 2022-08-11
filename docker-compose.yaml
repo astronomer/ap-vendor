@@ -128,6 +128,7 @@ services:
     image: ap-pgbouncer-krb:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: pgbouncer-krb
+    entrypoint: "top"
   ap-po-logical-backup:
     image: ap-po-logical-backup:${ASTRO_IMAGE_TAG:-latest}
     build:
