@@ -39,6 +39,10 @@ services:
     build:
       context: dind-golang
     entrypoint: "top"
+  ap-dogstatsd:
+    image: ap-dogstatsd:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: dogstatsd
   ap-elasticsearch:
     image: ap-elasticsearch:${ASTRO_IMAGE_TAG:-latest}
     build:
