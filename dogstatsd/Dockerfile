@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/_/redis
+# https://hub.docker.com/r/datadog/dogstatsd/tags
 FROM datadog/dogstatsd:7
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
