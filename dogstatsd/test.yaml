@@ -1,5 +1,5 @@
 ---
 tests:
-  root_user_test: True
+  root_user_test: False
 docker:
   entrypoint: "/bin/sleep 1m"
