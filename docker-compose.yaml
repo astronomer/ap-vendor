@@ -43,6 +43,7 @@ services:
     image: ap-dogstatsd:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: dogstatsd
+    entrypoint: "/bin/sleep 1m"
   ap-elasticsearch:
     image: ap-elasticsearch:${ASTRO_IMAGE_TAG:-latest}
     build:
