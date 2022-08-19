@@ -234,6 +234,38 @@ workflows:
             branches:
               only: main
 
+      - approve-dogstatsd:
+          type: approval
+      - build:
+          name: build-dogstatsd
+          directory: dogstatsd
+          requires:
+            - approve-dogstatsd
+            - run_pre_commit
+      - test:
+          name: test-dogstatsd
+          directory: dogstatsd
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-dogstatsd
+      - scan-trivy:
+          name: scan-trivy-dogstatsd
+          directory: dogstatsd
+          requires:
+            - test-dogstatsd
+      - release:
+          name: release-dogstatsd
+          directory: dogstatsd
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-dogstatsd
+          filters:
+            branches:
+              only: main
+
       - approve-elasticsearch:
           type: approval
       - build:
