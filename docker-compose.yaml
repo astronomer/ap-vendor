@@ -151,6 +151,7 @@ services:
     image: ap-postgres-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: postgres-exporter
+    entrypoint: "/bin/sleep 1m"
   ap-postgres-operator:
     image: ap-postgres-operator:${ASTRO_IMAGE_TAG:-latest}
     build:
