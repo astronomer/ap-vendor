@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/prometheus/prometheus:v2.36.2
+# https://prometheus.io/docs/introduction/release-cycle/
+FROM quay.io/prometheus/prometheus:v2.37.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
