@@ -1,5 +1,5 @@
 # Upstream ingress controller images include several CVEs.
 # We should try to remove these each time we update.
 # more info for CVE-2022-1996 available in https://github.com/kubernetes/ingress-nginx/issues/8745
-CVE-2022-1996
+
 
