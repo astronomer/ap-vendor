@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://prometheus.io/docs/introduction/release-cycle/
-FROM quay.io/prometheus/prometheus:v2.37.0
+FROM quay.io/prometheus/prometheus:v2.37.1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
