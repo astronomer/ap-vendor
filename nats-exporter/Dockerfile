@@ -28,7 +28,7 @@ RUN git clone --branch v0.10.0 https://github.com/nats-io/prometheus-nats-export
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -tags netgo -installsuffix netgo -ldflags "-s -w"
 
 # Final docker image building stage
-FROM quay.io/astronomer/ap-base:3.16.2
+FROM quay.io/astronomer/ap-base:3.16.2-1
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
