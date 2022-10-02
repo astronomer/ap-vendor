@@ -13,10 +13,10 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/curlimages/curl/tags
-FROM curlimages/curl:7.83.1 as downloader
+FROM curlimages/curl:7.85.0 as downloader
 
 # https://github.com/vectordotdev/vector/releases/
-ENV VECTOR_VERSION 0.23.3
+ENV VECTOR_VERSION 0.24.1
 
 RUN curl -fsSL https://github.com/vectordotdev/vector/releases/download/v${VECTOR_VERSION}/vector-${VECTOR_VERSION}-x86_64-unknown-linux-gnu.tar.gz \
     | tar --directory=/tmp --strip-components=3 -xzf - ./vector-x86_64-unknown-linux-gnu/bin/vector
