@@ -101,11 +101,11 @@ mappings:
     name: "airflow_executor_queued_tasks"
     labels: {}
 
-- match: airflow.executor.*.resources.*
+  - match: airflow.executor.*.resources.*
     name: airflow_runner_resources
     labels: {}
 
-  - match: ariflow.executor.task_resources.*
+  - match: airflow.executor.task_resources.*
     name: airflow_executor_task_resources
     labels: {}
 
