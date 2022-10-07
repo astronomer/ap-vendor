@@ -1423,8 +1423,14 @@ commands:
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
+      build_requirements:
+        type: string
+        default: requirements/build-requirements.txt
     steps:
       - checkout
+      - python/install-packages:
+          pip-dependency-file: << parameters.build_requirements >>
+          pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
           version: 20.10.11
