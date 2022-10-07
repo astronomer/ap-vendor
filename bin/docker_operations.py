@@ -22,20 +22,6 @@ docker_labels = {
 }
 
 
-def check_docker_image_tag(docker_client: docker, docker_image: str, tag: str):
-    docker_image_str = docker_image + ":" + tag
-
-    try:
-        docker_client.images.get_registry_data(name=docker_image_str)
-
-        return True
-    except APIError as dokerAPIError:
-        print("INFO: Image not found on server")
-        return False
-    except:
-        raise Exception("Error: Unable to read registry...")
-
-
 def build(docker_client: docker, project_path: str, image: str):
     today = date.today()
     docker_labels["io.astronomer.build.date"] = today.strftime("%Y-%m-%d")
@@ -84,17 +70,32 @@ def build(docker_client: docker, project_path: str, image: str):
     return docker_image
 
 
-def push(docker_client: docker, registry: str, repository: str, image: str, tag: str):
+def push(
+    docker_client: docker,
+    registry: str,
+    username: str,
+    password: str,
+    repository: str,
+    image: str,
+    tag: str,
+):
     try:
         docker_image = registry + "/" + repository + "/" + image
 
+        print("INFO: Login to: " + registry)
+        docker_client.login(username=username, password=password, registry=registry)
+
         # Check for tag exist already on server
-        if tag == "latest":  # assume 'latest' tag never exists
-            docker_image_tag_exists = False
-        else:
-            docker_image_tag_exists = check_docker_image_tag(
-                docker_client=docker_client, docker_image=docker_image, tag=tag
-            )
+        docker_image_tag_exists = False
+        if tag != "latest":
+            try:
+                docker_client.images.get_registry_data(name=(docker_image + ":" + tag))
+                docker_image_tag_exists = True
+            except APIError as dokerAPIError:
+                print("INFO: Image not found on server.")
+                docker_image_tag_exists = False
+            except:
+                raise Exception("Error: Unable to read registry...")
 
         if docker_image_tag_exists:
             print(
@@ -102,6 +103,7 @@ def push(docker_client: docker, registry: str, repository: str, image: str, tag:
                 "Docker push!".format(docker_image=docker_image, tag=tag)
             )
         else:
+
             print("INFO: Pushing docker image: " + docker_image + ":" + tag)
 
             push_resp_generator = docker_client.images.push(
@@ -147,11 +149,7 @@ def main():
 
     args = arg_parser.parse_args()
 
-    # Login to Remote server
     docker_client = docker.from_env()
-    docker_client.login(
-        username=args.username, password=args.password, registry=args.registry
-    )
 
     if "build" == args.operation:
 
@@ -184,6 +182,8 @@ def main():
         push(
             docker_client=docker_client,
             registry=args.registry,
+            username=args.username,
+            password=args.password,
             repository=args.repository,
             image=args.image,
             tag=args.tag,
