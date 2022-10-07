@@ -1430,7 +1430,10 @@ commands:
           version: 20.10.11
       - run:
           name: Build the Docker image
-          command: bin/docker-build.sh << parameters.path>> << parameters.image_name >>
+          command: bin/docker_operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
+      - run:
+          name: Running Docker image inspect
+          command: docker inspect "<< parameters.image_name >>:${CIRCLE_SHA1}"
       - persist_to_workspace:
           root: .
           paths:
