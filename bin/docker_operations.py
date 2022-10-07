@@ -60,7 +60,7 @@ def build(docker_client: docker, project_path: str, image: str):
     docker_image.tag(repository=image, tag=os.getenv("CIRCLE_SHA1", "circleci_sha1"))
 
     # Save Docker Image
-    docker_image_save_path = f"/tmp/{image}.tar"
+    docker_image_save_path = f"{image}.tar"
     print("INFO: Saving docker image: " + docker_image_save_path)
     f = open(docker_image_save_path, "wb")
     for chunk in docker_image.save(named=True):
