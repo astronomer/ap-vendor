@@ -1347,7 +1347,7 @@ jobs:
           test_requirements: << parameters.test_requirements >>
   scan-trivy:
     docker:
-      - image: docker:20.10.17-git
+      - image: docker:20.10.11-git
     description: "Trivy: Vulnerability scan a Docker image"
     parameters:
       directory:
@@ -1357,7 +1357,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.17
+          version: 20.10.11
           image: aquasec/trivy:latest
       - attach_workspace:
           at: /tmp/workspace
@@ -1392,7 +1392,7 @@ jobs:
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.17
+          version: 20.10.11
       - checkout
       - run:
           name: Validate semver tag
@@ -1433,7 +1433,7 @@ commands:
           pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.17
+          version: 20.10.11
       - run:
           name: Build the Docker image
           command: bin/docker_operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
@@ -1466,7 +1466,7 @@ commands:
           pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.17
+          version: 20.10.11
       - attach_workspace:
           at: /tmp/workspace
       - run:
