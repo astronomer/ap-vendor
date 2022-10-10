@@ -1396,14 +1396,14 @@ jobs:
       - checkout
       - push-docker-image:
           registry: "quay.io"
-          registry_username: "$QUAY_USERNAME"
-          registry_password: "$QUAY_PASSWORD"
+          registry_username: "${QUAY_USERNAME}"
+          registry_password: "${QUAY_PASSWORD}"
           repository: "astronomer"
           image_name: ap-<< parameters.directory >>
       - push-docker-image:
           registry: "docker.io"
-          registry_username: "$DOCKER_USERNAME"
-          registry_password: "$DOCKER_PASSWORD"
+          registry_username: "${DOCKER_USERNAME}"
+          registry_password: "${DOCKER_PASSWORD}"
           repository: "astronomerinc"
           image_name: ap-<< parameters.directory >>
 executors:
