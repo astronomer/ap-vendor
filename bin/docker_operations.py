@@ -27,6 +27,8 @@ def build(docker_client: docker, project_path: str, image: str):
     docker_labels["io.astronomer.build.date"] = today.strftime("%Y-%m-%d")
     docker_labels["io.astronomer.build.unixtime"] = today.strftime("%s")
 
+    image_tag = os.getenv("CIRCLE_SHA1", "circleci_sha1")
+
     if "master" != os.getenv("CIRCLE_BRANCH") or "main" != os.getenv(
         "CIRCLE_BRANCH", "default_branch"
     ):
@@ -39,7 +41,7 @@ def build(docker_client: docker, project_path: str, image: str):
         platform="linux/amd64",
         path=project_path,
         tag=image,
-        # nocache=True,
+        nocache=True,
         dockerfile=(project_directory / project_path / "Dockerfile"),
         buildargs={"BUILD_NUMBER": os.getenv("CIRCLE_BUILD_NUM", "default_build_num")},
         labels=docker_labels,
@@ -57,13 +59,14 @@ def build(docker_client: docker, project_path: str, image: str):
     docker_image = docker_image_resp[0]
 
     # Tagging Docker Image
-    docker_image.tag(repository=image, tag=os.getenv("CIRCLE_SHA1", "circleci_sha1"))
+    is_tagged = docker_image.tag(repository=image, tag=image_tag)
+
+    if is_tagged is False:
+        raise Exception(f"Error Image {image} is not tagged with {image_tag}.")
 
     # Save Docker Image
     docker_image_save_path = f"{image}.tar"
-    docker_image_to_save = docker_client.images.get(
-        image + ":" + os.getenv("CIRCLE_SHA1", "circleci_sha1")
-    )
+    docker_image_to_save = docker_client.images.get(image + ":" + image_tag)
     print("INFO: Saving docker image: " + docker_image_save_path)
     f = open(docker_image_save_path, "wb")
     for chunk in docker_image_to_save.save(named=True):
