@@ -125,6 +125,9 @@ def push(
             print(
                 f"INFO: The docker tag {docker_image_uri}:{tag} already exists. Skipping the Docker push!"
             )
+            raise Exception(
+                f"The docker tag {docker_image_uri}:{tag} already exists. Skipping the Docker push!"
+            )
         else:
 
             image_tag = os.getenv("CIRCLE_SHA1")
