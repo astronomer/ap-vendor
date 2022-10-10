@@ -1500,9 +1500,15 @@ commands:
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
+      release_requirements:
+        type: string
+        default: requirements/build-requirements.txt
     steps:
       - attach_workspace:
           at: /tmp/workspace
+      - python/install-packages:
+          pip-dependency-file: << parameters.release_requirements >>
+          pkg-manager: pip
       - run:
           name: Load archived Docker image
           command: |
