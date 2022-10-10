@@ -125,7 +125,16 @@ def push(
             )
         else:
 
-            print(f"INFO: Pushing docker image: {docker_image} : {tag}")
+            image_tag = os.getenv("CIRCLE_SHA1")
+            docker_image = docker_client.images.get(image + ":" + image_tag)
+            is_tagged = docker_image.tag(repository=image, tag=tag)
+
+            if is_tagged is False:
+                raise Exception(
+                    f"Getting error while tagging Image {image}:{image_tag} --> {image}:{tag}."
+                )
+
+            print(f"INFO: Pushing docker image: {docker_image}:{tag}")
 
             push_resp_generator = docker_client.images.push(
                 repository=docker_image, tag=tag, stream=True, decode=True
@@ -146,7 +155,7 @@ def push(
             if "error" in line:
                 raise Exception(line["errorDetail"]["message"])
             else:
-                print("INFO: Pushed docker image: {docker_image} : {tag}")
+                print("INFO: Pushed docker image: {docker_image}:{tag}")
                 return True
 
     except APIError as dokerAPIError:
