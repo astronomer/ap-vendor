@@ -40,7 +40,7 @@ workflows:
             - scan-trivy-{{ directory }}
           filters:
             branches:
-              only: feature-5079
+              only: main
 {% endfor %}
 jobs:
   run_pre_commit:
@@ -269,4 +269,4 @@ commands:
             docker images | grep << parameters.image_name >>
       - run:
           name: Push Docker image(s) to << parameters.registry >>
-          command: bin/docker-operations.py push --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --tag="feature-5079"
+          command: bin/docker-operations.py push --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>"

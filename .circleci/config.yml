@@ -40,7 +40,7 @@ workflows:
             - scan-trivy-alertmanager
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-auth-sidecar:
           type: approval
@@ -72,7 +72,7 @@ workflows:
             - scan-trivy-auth-sidecar
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-awsesproxy:
           type: approval
@@ -104,7 +104,7 @@ workflows:
             - scan-trivy-awsesproxy
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-blackbox-exporter:
           type: approval
@@ -136,7 +136,7 @@ workflows:
             - scan-trivy-blackbox-exporter
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-configmap-reloader:
           type: approval
@@ -168,7 +168,7 @@ workflows:
             - scan-trivy-configmap-reloader
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-curator:
           type: approval
@@ -200,7 +200,7 @@ workflows:
             - scan-trivy-curator
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-dind-golang:
           type: approval
@@ -232,7 +232,7 @@ workflows:
             - scan-trivy-dind-golang
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-dogstatsd:
           type: approval
@@ -264,7 +264,7 @@ workflows:
             - scan-trivy-dogstatsd
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-elasticsearch:
           type: approval
@@ -296,7 +296,7 @@ workflows:
             - scan-trivy-elasticsearch
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-elasticsearch-exporter:
           type: approval
@@ -328,7 +328,7 @@ workflows:
             - scan-trivy-elasticsearch-exporter
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-fluentd:
           type: approval
@@ -360,7 +360,7 @@ workflows:
             - scan-trivy-fluentd
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-git-daemon:
           type: approval
@@ -392,7 +392,7 @@ workflows:
             - scan-trivy-git-daemon
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-git-sync:
           type: approval
@@ -424,7 +424,7 @@ workflows:
             - scan-trivy-git-sync
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-grafana:
           type: approval
@@ -456,7 +456,7 @@ workflows:
             - scan-trivy-grafana
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-keda:
           type: approval
@@ -488,7 +488,7 @@ workflows:
             - scan-trivy-keda
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-keda-metrics-apiserver:
           type: approval
@@ -520,7 +520,7 @@ workflows:
             - scan-trivy-keda-metrics-apiserver
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-kibana:
           type: approval
@@ -552,7 +552,7 @@ workflows:
             - scan-trivy-kibana
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-kube-state:
           type: approval
@@ -584,7 +584,7 @@ workflows:
             - scan-trivy-kube-state
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-kubed:
           type: approval
@@ -616,7 +616,7 @@ workflows:
             - scan-trivy-kubed
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-nats-exporter:
           type: approval
@@ -648,7 +648,7 @@ workflows:
             - scan-trivy-nats-exporter
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-nats-server:
           type: approval
@@ -680,7 +680,7 @@ workflows:
             - scan-trivy-nats-server
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-nats-streaming:
           type: approval
@@ -712,7 +712,7 @@ workflows:
             - scan-trivy-nats-streaming
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-nginx:
           type: approval
@@ -744,7 +744,7 @@ workflows:
             - scan-trivy-nginx
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-nginx-es:
           type: approval
@@ -776,7 +776,7 @@ workflows:
             - scan-trivy-nginx-es
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-node-exporter:
           type: approval
@@ -808,7 +808,7 @@ workflows:
             - scan-trivy-node-exporter
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-openresty:
           type: approval
@@ -840,7 +840,7 @@ workflows:
             - scan-trivy-openresty
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-pgbouncer:
           type: approval
@@ -872,7 +872,7 @@ workflows:
             - scan-trivy-pgbouncer
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-pgbouncer-exporter:
           type: approval
@@ -904,7 +904,7 @@ workflows:
             - scan-trivy-pgbouncer-exporter
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-pgbouncer-krb:
           type: approval
@@ -936,7 +936,7 @@ workflows:
             - scan-trivy-pgbouncer-krb
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-po-logical-backup:
           type: approval
@@ -968,7 +968,7 @@ workflows:
             - scan-trivy-po-logical-backup
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-po-pgbouncer:
           type: approval
@@ -1000,7 +1000,7 @@ workflows:
             - scan-trivy-po-pgbouncer
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-po-spilo:
           type: approval
@@ -1032,7 +1032,7 @@ workflows:
             - scan-trivy-po-spilo
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-postgres-exporter:
           type: approval
@@ -1064,7 +1064,7 @@ workflows:
             - scan-trivy-postgres-exporter
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-postgres-operator:
           type: approval
@@ -1096,7 +1096,7 @@ workflows:
             - scan-trivy-postgres-operator
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-postgresql:
           type: approval
@@ -1128,7 +1128,7 @@ workflows:
             - scan-trivy-postgresql
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-prometheus:
           type: approval
@@ -1160,7 +1160,7 @@ workflows:
             - scan-trivy-prometheus
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-redis:
           type: approval
@@ -1192,7 +1192,7 @@ workflows:
             - scan-trivy-redis
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-registry:
           type: approval
@@ -1224,7 +1224,7 @@ workflows:
             - scan-trivy-registry
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-statsd-exporter:
           type: approval
@@ -1256,7 +1256,7 @@ workflows:
             - scan-trivy-statsd-exporter
           filters:
             branches:
-              only: feature-5079
+              only: main
 
       - approve-vector:
           type: approval
@@ -1288,7 +1288,7 @@ workflows:
             - scan-trivy-vector
           filters:
             branches:
-              only: feature-5079
+              only: main
 
 jobs:
   run_pre_commit:
@@ -1517,4 +1517,4 @@ commands:
             docker images | grep << parameters.image_name >>
       - run:
           name: Push Docker image(s) to << parameters.registry >>
-          command: bin/docker-operations.py push --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --tag="feature-5079"
+          command: bin/docker-operations.py push --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>"
