@@ -256,11 +256,8 @@ commands:
             docker load -i /tmp/workspace/<< parameters.image_name >>.tar
             docker images | grep << parameters.image_name >>
       - run:
-          name: Login to Quay.io
-          command: echo "$QUAY_PASSWORD" | docker login --username "$QUAY_USERNAME" --password-stdin quay.io
-      - run:
           name: Push Docker image(s)
-          command: bin/docker-push.sh "astronomer" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" quay.io
+          command: bin/docker_operations.py push --registry="quay.io" --username="$QUAY_USERNAME" --username="$QUAY_PASSWORD" --repository="astronomer" --image="<< parameters.image_name >>" --tag="<< parameters.comma_separated_tags >>"
   push-to-docker-hub:
     description: "Push a Docker image to DockerHub"
     parameters:
@@ -277,8 +274,5 @@ commands:
           name: Load archived Docker image
           command: docker load -i /tmp/workspace/<< parameters.image_name >>.tar
       - run:
-          name: Login to DockerHub
-          command: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin docker.io
-      - run:
           name: Push Docker image(s)
-          command: bin/docker-push.sh "astronomerinc" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" docker.io
+          command: bin/docker_operations.py push --registry="docker.io" --username="$DOCKER_USERNAME" --username="$DOCKER_PASSWORD" --repository="astronomerinc" --image="<< parameters.image_name >>" --tag="<< parameters.comma_separated_tags >>"
