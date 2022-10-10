@@ -1,2 +1,2 @@
 docker==6.0.0
-semver==2.13.0
+packaging==21.3
