@@ -1,6 +1,7 @@
 import os
-import subprocess
+from pathlib import Path
 
+import docker
 import pytest
 import testinfra
 import yaml
@@ -10,6 +11,8 @@ ASTRO_IMAGE_TEST_CONFIG_PATH = os.environ["ASTRO_IMAGE_TEST_CONFIG_PATH"]
 
 os.environ["ASTRO_IMAGE_TAG"] = os.environ.get("CIRCLE_SHA1", "latest")
 test_config = {}
+
+project_directory = Path(__file__).parent.parent
 
 # Read the test config
 if os.path.exists(ASTRO_IMAGE_TEST_CONFIG_PATH):
@@ -21,17 +24,62 @@ if os.path.exists(ASTRO_IMAGE_TEST_CONFIG_PATH):
             test_config = config["tests"]
 
 
+def read_docker_compose_config():
+    docker_compose_config_path = project_directory / "docker-compose.yaml"
+    with open(docker_compose_config_path) as docker_compose_file:
+        return yaml.safe_load(docker_compose_file)
+
+
 @pytest.fixture(scope="session")
 def docker_host(request):
-    run_command = ["docker-compose", "run", "-d", ASTRO_IMAGE_NAME]
+    docker_compose_config = read_docker_compose_config()
+    docker_client = docker.from_env()
 
-    # run a container
-    docker_id = subprocess.check_output(run_command).decode().strip()
+    build_context = (
+        project_directory
+        / docker_compose_config["services"][ASTRO_IMAGE_NAME]["build"]["context"]
+    )
+
+    ports = {}
+    if "ports" in docker_compose_config["services"][ASTRO_IMAGE_NAME]:
+        for port_config in docker_compose_config["services"][ASTRO_IMAGE_NAME]["ports"]:
+            ports[port_config.split(":")[0]] = port_config.split(":")[1]
+    else:
+        ports = None
+
+    if "entrypoint" in docker_compose_config["services"][ASTRO_IMAGE_NAME]:
+        entrypoint = docker_compose_config["services"][ASTRO_IMAGE_NAME]["entrypoint"]
+    else:
+        entrypoint = None
+
+    container = docker_client.containers.run(
+        image=ASTRO_IMAGE_NAME,
+        entrypoint=entrypoint,
+        ports=ports,
+        working_dir=str(build_context),
+        detach=True,
+    )
+
+    docker_id = container.id
 
     # return a testinfra connection to the container
     yield testinfra.get_host("docker://" + docker_id)
+
     # cleanup container after test completion
-    subprocess.check_call(["docker", "rm", "-f", docker_id])
+    container.stop()
+
+
+# @pytest.fixture(scope="session")
+# def docker_host(request):
+#     run_command = ["docker-compose", "run", "-d", ASTRO_IMAGE_NAME]
+#
+#     # run a container
+#     docker_id = subprocess.check_output(run_command).decode().strip()
+#
+#     # return a testinfra connection to the container
+#     yield testinfra.get_host("docker://" + docker_id)
+#     # cleanup container after test completion
+#     subprocess.check_call(["docker", "rm", "-f", docker_id])
 
 
 @pytest.mark.skipif(
