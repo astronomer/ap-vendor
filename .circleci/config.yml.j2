@@ -188,7 +188,7 @@ commands:
           version: {{ docker_version }}
       - run:
           name: Build the Docker image
-          command: bin/docker_operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
+          command: bin/docker-operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
       - run:
           name: Running Docker image inspect
           command: docker inspect "<< parameters.image_name >>:${CIRCLE_SHA1}"
@@ -269,49 +269,4 @@ commands:
             docker images | grep << parameters.image_name >>
       - run:
           name: Push Docker image(s) to << parameters.registry >>
-          command: bin/docker_operations.py push --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --tag="feature-5079"
-  push-to-quay-io:
-    description: "Push a Docker image to Quay.io"
-    parameters:
-      comma_separated_tags:
-        type: string
-        default: $CIRCLE_BRANCH
-      image_name:
-        type: string
-        default: $CIRCLE_PROJECT_REPONAME
-    steps:
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          name: Load archived Docker image
-          command: |
-            set -x
-            docker load -i /tmp/workspace/<< parameters.image_name >>.tar
-            docker images | grep << parameters.image_name >>
-      - run:
-          name: Login to Quay.io
-          command: echo "$QUAY_PASSWORD" | docker login --username "$QUAY_USERNAME" --password-stdin quay.io
-      - run:
-          name: Push Docker image(s)
-          command: bin/docker-push.sh "astronomer" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" quay.io
-  push-to-docker-hub:
-    description: "Push a Docker image to DockerHub"
-    parameters:
-      comma_separated_tags:
-        type: string
-        default: $CIRCLE_BRANCH
-      image_name:
-        type: string
-        default: $CIRCLE_PROJECT_REPONAME
-    steps:
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          name: Load archived Docker image
-          command: docker load -i /tmp/workspace/<< parameters.image_name >>.tar
-      - run:
-          name: Login to DockerHub
-          command: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin docker.io
-      - run:
-          name: Push Docker image(s)
-          command: bin/docker-push.sh "astronomerinc" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" docker.io
+          command: bin/docker-operations.py push --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>"
