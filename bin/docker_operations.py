@@ -1,25 +1,41 @@
 #!/usr/bin/env python3
 import argparse
 import os
+import sys
 from datetime import date
 from pathlib import Path
 
 import docker
 from docker.errors import APIError
+from packaging.version import parse as semver
 
-project_directory = Path(__file__).parent.parent
+root_directory = Path(__file__).parent.parent
 
 docker_labels = {
-    "io.astronomer.build.branch": os.getenv("CIRCLE_BRANCH", "default_branch"),
-    "io.astronomer.build.job.id": os.getenv("CIRCLE_BUILD_NUM", "default_build_num"),
-    "io.astronomer.build.job.name": os.getenv("CIRCLE_JOB", "default_job"),
-    "io.astronomer.build.repo": os.getenv("CIRCLE_REPOSITORY_URL", "default_repo_url"),
-    "io.astronomer.build.sha": os.getenv("CIRCLE_SHA1", "default_sha1"),
-    "io.astronomer.build.url": os.getenv("CIRCLE_BUILD_URL", "default_build_url"),
-    "io.astronomer.build.workflow.id": os.getenv(
-        "CIRCLE_WORKFLOW_ID", "default_workflow_id"
-    ),
+    "io.astronomer.build.branch": os.getenv("CIRCLE_BRANCH"),
+    "io.astronomer.build.job.id": os.getenv("CIRCLE_BUILD_NUM"),
+    "io.astronomer.build.job.name": os.getenv("CIRCLE_JOB"),
+    "io.astronomer.build.repo": os.getenv("CIRCLE_REPOSITORY_URL"),
+    "io.astronomer.build.sha": os.getenv("CIRCLE_SHA1"),
+    "io.astronomer.build.url": os.getenv("CIRCLE_BUILD_URL"),
+    "io.astronomer.build.workflow.id": os.getenv("CIRCLE_WORKFLOW_ID"),
 }
+
+
+def get_image_tags(project_path: str):
+    docker_image_path = root_directory / project_path
+
+    try:
+        with open(docker_image_path / "version.txt") as version_file:
+            version = version_file.read().strip()
+            if not semver(version).release:
+                raise Exception(
+                    f"ERROR: No valid semver found in {docker_image_path}/version.txt"
+                )
+
+            return version
+    except FileNotFoundError:
+        raise Exception(f"ERROR: version.txt not found in {docker_image_path}")
 
 
 def build(docker_client: docker, project_path: str, image: str):
@@ -27,7 +43,7 @@ def build(docker_client: docker, project_path: str, image: str):
     docker_labels["io.astronomer.build.date"] = today.strftime("%Y-%m-%d")
     docker_labels["io.astronomer.build.unixtime"] = today.strftime("%s")
 
-    image_tag = os.getenv("CIRCLE_SHA1", "circleci_sha1")
+    image_tag = os.getenv("CIRCLE_SHA1")
 
     if "master" != os.getenv("CIRCLE_BRANCH") or "main" != os.getenv(
         "CIRCLE_BRANCH", "default_branch"
@@ -35,15 +51,15 @@ def build(docker_client: docker, project_path: str, image: str):
         docker_labels["quay.expires-after"] = "8w"
 
     # Build Docker Image
-    print("INFO: Now building docker image: " + str(project_directory / project_path))
+    print("INFO: Now building docker image: " + str(root_directory / project_path))
     docker_image_resp = docker_client.images.build(
         pull=True,
         platform="linux/amd64",
         path=project_path,
         tag=image,
         nocache=True,
-        dockerfile=(project_directory / project_path / "Dockerfile"),
-        buildargs={"BUILD_NUMBER": os.getenv("CIRCLE_BUILD_NUM", "default_build_num")},
+        dockerfile=(root_directory / project_path / "Dockerfile"),
+        buildargs={"BUILD_NUMBER": os.getenv("CIRCLE_BUILD_NUM")},
         labels=docker_labels,
         quiet=False,
     )
@@ -105,12 +121,11 @@ def push(
 
         if docker_image_tag_exists:
             print(
-                "INFO: The docker tag {docker_image}:{tag} already exists. Skipping the "
-                "Docker push!".format(docker_image=docker_image, tag=tag)
+                f"INFO: The docker tag {docker_image}:{tag} already exists. Skipping the Docker push!"
             )
         else:
 
-            print("INFO: Pushing docker image: " + docker_image + ":" + tag)
+            print(f"INFO: Pushing docker image: {docker_image} : {tag}")
 
             push_resp_generator = docker_client.images.push(
                 repository=docker_image, tag=tag, stream=True, decode=True
@@ -131,11 +146,11 @@ def push(
             if "error" in line:
                 raise Exception(line["errorDetail"]["message"])
             else:
-                print("INFO: Pushed docker image: " + docker_image + ":" + tag)
+                print("INFO: Pushed docker image: {docker_image} : {tag}")
                 return True
 
     except APIError as dokerAPIError:
-        print("ERROR: Error pushing docker image")
+        print("ERROR: Error pushing docker image", file=sys.stderr)
         raise dokerAPIError
 
 
@@ -151,7 +166,7 @@ def main():
     arg_parser.add_argument("--password", type=str)
     arg_parser.add_argument("--repository", type=str)
     arg_parser.add_argument("--image", type=str)
-    arg_parser.add_argument("--tag", type=str)
+    arg_parser.add_argument("--tag", type=str, default=None)
 
     args = arg_parser.parse_args()
 
@@ -172,6 +187,8 @@ def main():
 
     elif "push" == args.operation:
 
+        tag = args.tag
+
         if args.registry is None:
             raise Exception("Error: Registry is required.")
         elif args.username is None:
@@ -182,8 +199,8 @@ def main():
             raise Exception("Error: Repository is required.")
         elif args.image is None:
             raise Exception("Error: Image name is required.")
-        elif args.tag is None:
-            raise Exception("Error: Image tag is required.")
+        elif tag is None:
+            tag = get_image_tags(project_path=args.image)
 
         push(
             docker_client=docker_client,
@@ -192,7 +209,7 @@ def main():
             password=args.password,
             repository=args.repository,
             image=args.image,
-            tag=args.tag,
+            tag=tag,
         )
     else:
         raise Exception("Error: No operation match to execute!")

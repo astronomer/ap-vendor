@@ -40,7 +40,7 @@ workflows:
             - scan-trivy-{{ directory }}
           filters:
             branches:
-              only: main
+              only: feature-5079
 {% endfor %}
 jobs:
   run_pre_commit:
