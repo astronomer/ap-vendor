@@ -37,6 +37,8 @@ def docker_host(request):
 
     image = ASTRO_IMAGE_NAME + ":" + ASTRO_IMAGE_TAG
 
+    print(f"Using {image} for test...")
+
     ports = {}
     if "ports" in docker_compose_config["services"][ASTRO_IMAGE_NAME]:
         for port_config in docker_compose_config["services"][ASTRO_IMAGE_NAME]["ports"]:

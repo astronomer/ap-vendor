@@ -129,6 +129,8 @@ def push(
 
             image_tag = os.getenv("CIRCLE_SHA1")
             docker_image = docker_client.images.get(image + ":" + image_tag)
+
+            print(f"Tagging Image {image}:{image_tag} --> {docker_image_uri}:{tag}.")
             is_tagged = docker_image.tag(repository=docker_image_uri, tag=tag)
 
             if is_tagged is False:
