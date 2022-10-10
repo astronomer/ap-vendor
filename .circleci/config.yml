@@ -1395,14 +1395,12 @@ jobs:
           version: 20.10.17
       - checkout
       - push-docker-image:
-          name: push-to-quay-io
           registry: "quay.io"
           registry_username: "$QUAY_USERNAME"
           registry_password: "$QUAY_PASSWORD"
           repository: "astronomer"
           image_name: ap-<< parameters.directory >>
       - push-docker-image:
-          name: push-to-docker-hub
           registry: "docker.io"
           registry_username: "$DOCKER_USERNAME"
           registry_password: "$DOCKER_PASSWORD"
@@ -1488,7 +1486,7 @@ commands:
       - store_test_results:
           path: test-results
   push-docker-image:
-    description: "Pushing a Docker image"
+    description: "Push a Docker image to << parameters.registry >>"
     parameters:
       registry:
         type: string
@@ -1512,7 +1510,7 @@ commands:
             docker load -i /tmp/workspace/<< parameters.image_name >>.tar
             docker images | grep << parameters.image_name >>
       - run:
-          name: Push Docker image(s)
+          name: Push Docker image(s) to << parameters.registry >>
           command: bin/docker_operations.py push --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --username="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --tag="feature-5079"
   push-to-quay-io:
     description: "Push a Docker image to Quay.io"
