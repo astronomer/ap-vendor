@@ -102,7 +102,7 @@ def push(
     tag: str,
 ):
     try:
-        docker_image = registry + "/" + repository + "/" + image
+        docker_image_uri = registry + "/" + repository + "/" + image
 
         print("INFO: Login to: " + registry)
         docker_client.login(username=username, password=password, registry=registry)
@@ -111,33 +111,35 @@ def push(
         docker_image_tag_exists = False
         if tag != "latest":
             try:
-                docker_client.images.get_registry_data(name=(docker_image + ":" + tag))
+                docker_client.images.get_registry_data(
+                    name=(docker_image_uri + ":" + tag)
+                )
                 docker_image_tag_exists = True
             except APIError as dokerAPIError:
-                print("INFO: Image not found on server.")
+                print("INFO: Image not found on server. Preparing to push...")
                 docker_image_tag_exists = False
             except:
                 raise Exception("Error: Unable to read registry...")
 
         if docker_image_tag_exists:
             print(
-                f"INFO: The docker tag {docker_image}:{tag} already exists. Skipping the Docker push!"
+                f"INFO: The docker tag {docker_image_uri}:{tag} already exists. Skipping the Docker push!"
             )
         else:
 
             image_tag = os.getenv("CIRCLE_SHA1")
             docker_image = docker_client.images.get(image + ":" + image_tag)
-            is_tagged = docker_image.tag(repository=image, tag=tag)
+            is_tagged = docker_image.tag(repository=docker_image_uri, tag=tag)
 
             if is_tagged is False:
                 raise Exception(
-                    f"Getting error while tagging Image {image}:{image_tag} --> {image}:{tag}."
+                    f"Getting error while tagging Image {image}:{image_tag} --> {docker_image_uri}:{tag}."
                 )
 
-            print(f"INFO: Pushing docker image: {docker_image}:{tag}")
+            print(f"INFO: Pushing docker image: {docker_image_uri}:{tag}")
 
             push_resp_generator = docker_client.images.push(
-                repository=docker_image, tag=tag, stream=True, decode=True
+                repository=docker_image_uri, tag=tag, stream=True, decode=True
             )
 
             # Printing Push Progress
@@ -155,7 +157,7 @@ def push(
             if "error" in line:
                 raise Exception(line["errorDetail"]["message"])
             else:
-                print("INFO: Pushed docker image: {docker_image}:{tag}")
+                print(f"INFO: Pushed docker image: {docker_image_uri}:{tag}")
                 return True
 
     except APIError as dokerAPIError:
