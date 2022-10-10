@@ -100,6 +100,7 @@ def push(
     repository: str,
     image: str,
     tag: str,
+    override_tag: bool,
 ):
     try:
         docker_image_uri = registry + "/" + repository + "/" + image
@@ -108,27 +109,23 @@ def push(
         docker_client.login(username=username, password=password, registry=registry)
 
         # Check for tag exist already on server
-        docker_image_tag_exists = False
-        if tag != "latest":
+        do_push_image = False
+        if override_tag:
+            do_push_image = True
+            print("INFO: If the tag will already present it will get override.")
+        elif tag == "latest":
+            do_push_image = True
+            print("INFO: The image tag is `latest`. It will override.")
+        else:
             try:
                 docker_client.images.get_registry_data(
                     name=(docker_image_uri + ":" + tag)
                 )
-                docker_image_tag_exists = True
             except APIError as dokerAPIError:
                 print("INFO: Image not found on server. Preparing to push...")
-                docker_image_tag_exists = False
-            except:
-                raise Exception("Error: Unable to read registry...")
+                do_push_image = True
 
-        if docker_image_tag_exists:
-            print(
-                f"INFO: The docker tag {docker_image_uri}:{tag} already exists. Skipping the Docker push!"
-            )
-            raise Exception(
-                f"The docker tag {docker_image_uri}:{tag} already exists. Skipping the Docker push!"
-            )
-        else:
+        if do_push_image:
 
             image_tag = os.getenv("CIRCLE_SHA1")
             docker_image = docker_client.images.get(image + ":" + image_tag)
@@ -165,6 +162,14 @@ def push(
                 print(f"INFO: Pushed docker image: {docker_image_uri}:{tag}")
                 return True
 
+        else:
+            print(
+                f"INFO: The docker tag {docker_image_uri}:{tag} already exists. Skipping the Docker push!"
+            )
+            raise Exception(
+                f"The docker tag {docker_image_uri}:{tag} already exists. Skipping the Docker push!"
+            )
+
     except APIError as dokerAPIError:
         print("ERROR: Error pushing docker image", file=sys.stderr)
         raise dokerAPIError
@@ -183,6 +188,7 @@ def main():
     arg_parser.add_argument("--repository", type=str)
     arg_parser.add_argument("--image", type=str)
     arg_parser.add_argument("--tag", type=str, default=None)
+    arg_parser.add_argument("--override_tag", type=bool, default=False)
 
     args = arg_parser.parse_args()
 
@@ -226,6 +232,7 @@ def main():
             repository=args.repository,
             image=args.image,
             tag=tag,
+            override_tag=args.override_tag,
         )
     else:
         raise Exception("Error: No operation match to execute!")
