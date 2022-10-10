@@ -7,7 +7,7 @@ import testinfra
 import yaml
 
 ASTRO_IMAGE_NAME = os.environ["ASTRO_IMAGE_NAME"]
-ASTRO_IMAGE_TAG = os.environ.get("CIRCLE_SHA1", "latest")
+ASTRO_IMAGE_TAG = os.getenv("CIRCLE_SHA1", "latest")
 ASTRO_IMAGE_TEST_CONFIG_PATH = os.environ["ASTRO_IMAGE_TEST_CONFIG_PATH"]
 
 test_config = {}
