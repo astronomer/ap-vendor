@@ -7,9 +7,9 @@ import testinfra
 import yaml
 
 ASTRO_IMAGE_NAME = os.environ["ASTRO_IMAGE_NAME"]
+ASTRO_IMAGE_TAG = os.environ.get("CIRCLE_SHA1", "latest")
 ASTRO_IMAGE_TEST_CONFIG_PATH = os.environ["ASTRO_IMAGE_TEST_CONFIG_PATH"]
 
-os.environ["ASTRO_IMAGE_TAG"] = os.environ.get("CIRCLE_SHA1", "latest")
 test_config = {}
 
 project_directory = Path(__file__).parent.parent
@@ -35,10 +35,7 @@ def docker_host(request):
     docker_compose_config = read_docker_compose_config()
     docker_client = docker.from_env()
 
-    build_context = (
-        project_directory
-        / docker_compose_config["services"][ASTRO_IMAGE_NAME]["build"]["context"]
-    )
+    image = ASTRO_IMAGE_NAME + ":" + ASTRO_IMAGE_TAG
 
     ports = {}
     if "ports" in docker_compose_config["services"][ASTRO_IMAGE_NAME]:
@@ -53,10 +50,9 @@ def docker_host(request):
         entrypoint = None
 
     container = docker_client.containers.run(
-        image=ASTRO_IMAGE_NAME,
+        image=image,
         entrypoint=entrypoint,
         ports=ports,
-        working_dir=str(build_context),
         detach=True,
     )
 
