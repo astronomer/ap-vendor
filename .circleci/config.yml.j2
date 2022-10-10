@@ -269,7 +269,7 @@ commands:
             docker images | grep << parameters.image_name >>
       - run:
           name: Push Docker image(s) to << parameters.registry >>
-          command: bin/docker_operations.py push --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --username="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --tag="feature-5079"
+          command: bin/docker_operations.py push --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --tag="feature-5079"
   push-to-quay-io:
     description: "Push a Docker image to Quay.io"
     parameters:
