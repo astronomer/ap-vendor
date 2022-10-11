@@ -211,7 +211,9 @@ def main():
 
         tag = args.tag
 
-        if args.registry is None:
+        if args.project_path is None:
+            raise Exception("Error: Project Path is required.")
+        elif args.registry is None:
             raise Exception("Error: Registry is required.")
         elif args.username is None:
             raise Exception("Error: Registry Username is required.")
@@ -221,8 +223,9 @@ def main():
             raise Exception("Error: Repository is required.")
         elif args.image is None:
             raise Exception("Error: Image name is required.")
-        elif tag is None:
-            tag = get_image_tags(project_path=args.image)
+
+        if tag is None:
+            tag = get_image_tags(project_path=args.project_path)
 
         push(
             docker_client=docker_client,
