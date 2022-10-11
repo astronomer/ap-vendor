@@ -22,20 +22,74 @@ docker_labels = {
 }
 
 
+def login_registry(docker_client: docker, registry: str, username: str, password: str):
+    # Login to Registry
+    print("INFO: Login to: " + registry)
+    docker_client.login(username=username, password=password, registry=registry)
+
+    return docker_client
+
+
 def get_image_tags(project_path: str):
     docker_image_path = root_directory / project_path
 
     try:
         with open(docker_image_path / "version.txt") as version_file:
-            version = version_file.read().strip()
-            if not semver(version).release:
-                raise Exception(
-                    f"ERROR: No valid semver found in {docker_image_path}/version.txt"
-                )
+            versions_text = version_file.read().strip()
+            versions = versions_text.split(",")
 
-            return version
+            for version in versions:
+
+                if not semver(version).release:
+                    raise Exception(
+                        f"ERROR: No valid semver found in {docker_image_path}/version.txt"
+                    )
+
+            return versions
+
     except FileNotFoundError:
         raise Exception(f"ERROR: version.txt not found in {docker_image_path}")
+
+
+def validate_tags(
+    docker_client: docker,
+    registry: str,
+    repository: str,
+    image: str,
+    tags: list,
+    override_tags: bool,
+):
+    docker_image_uri = registry + "/" + repository + "/" + image
+
+    if override_tags:
+        print(
+            "INFO: Override is set to True, if the tag will already present it will get override."
+        )
+        return tags
+    else:
+
+        final_tags = []
+        for tag in tags:
+
+            if tag == "latest":
+                print("INFO: The image tag is `latest`. It will override.")
+                final_tags.append(tag)
+            else:
+                try:
+                    docker_client.images.get_registry_data(
+                        name=(docker_image_uri + ":" + tag)
+                    )
+
+                    print(
+                        f"INFO: The docker tag {docker_image_uri}:{tag} already exists. Skipping the Docker push!"
+                    )
+                except APIError as dokerAPIError:
+                    print(
+                        f"INFO: Image tag {docker_image_uri}:{tag} not found on server. It will add to push list."
+                    )
+                    final_tags.append(tag)
+
+        return final_tags
 
 
 def build(docker_client: docker, project_path: str, image: str):
@@ -45,9 +99,7 @@ def build(docker_client: docker, project_path: str, image: str):
 
     image_tag = os.getenv("CIRCLE_SHA1")
 
-    if "master" != os.getenv("CIRCLE_BRANCH") or "main" != os.getenv(
-        "CIRCLE_BRANCH", "default_branch"
-    ):
+    if "master" != os.getenv("CIRCLE_BRANCH") or "main" != os.getenv("CIRCLE_BRANCH"):
         docker_labels["quay.expires-after"] = "8w"
 
     # Build Docker Image
@@ -95,39 +147,16 @@ def build(docker_client: docker, project_path: str, image: str):
 def push(
     docker_client: docker,
     registry: str,
-    username: str,
-    password: str,
     repository: str,
     image: str,
-    tag: str,
-    override_tag: bool,
+    tags: list,
 ):
     try:
         docker_image_uri = registry + "/" + repository + "/" + image
+        image_tag = os.getenv("CIRCLE_SHA1")
 
-        print("INFO: Login to: " + registry)
-        docker_client.login(username=username, password=password, registry=registry)
+        for tag in tags:
 
-        # Check for tag exist already on server
-        do_push_image = False
-        if override_tag:
-            do_push_image = True
-            print("INFO: If the tag will already present it will get override.")
-        elif tag == "latest":
-            do_push_image = True
-            print("INFO: The image tag is `latest`. It will override.")
-        else:
-            try:
-                docker_client.images.get_registry_data(
-                    name=(docker_image_uri + ":" + tag)
-                )
-            except APIError as dokerAPIError:
-                print("INFO: Image not found on server. Preparing to push...")
-                do_push_image = True
-
-        if do_push_image:
-
-            image_tag = os.getenv("CIRCLE_SHA1")
             docker_image = docker_client.images.get(image + ":" + image_tag)
 
             print(f"Tagging Image {image}:{image_tag} --> {docker_image_uri}:{tag}.")
@@ -162,14 +191,6 @@ def push(
                 print(f"INFO: Pushed docker image: {docker_image_uri}:{tag}")
                 return True
 
-        else:
-            print(
-                f"INFO: The docker tag {docker_image_uri}:{tag} already exists. Skipping the Docker push!"
-            )
-            raise Exception(
-                f"The docker tag {docker_image_uri}:{tag} already exists. Skipping the Docker push!"
-            )
-
     except APIError as dokerAPIError:
         print("ERROR: Error pushing docker image", file=sys.stderr)
         raise dokerAPIError
@@ -187,11 +208,12 @@ def main():
     arg_parser.add_argument("--password", type=str)
     arg_parser.add_argument("--repository", type=str)
     arg_parser.add_argument("--image", type=str)
-    arg_parser.add_argument("--tag", type=str, default=None)
-    arg_parser.add_argument("--override_tag", type=bool, default=False)
+    arg_parser.add_argument("--tags", type=str, default=None)
+    arg_parser.add_argument("--override_tags", type=bool, default=False)
 
     args = arg_parser.parse_args()
 
+    # Setting up Docker Client
     docker_client = docker.from_env()
 
     if "build" == args.operation:
@@ -207,9 +229,9 @@ def main():
             image=args.image,
         )
 
-    elif "push" == args.operation:
+    elif "validate_tags" == args.operation:
 
-        tag = args.tag
+        tags = args.tags
 
         if args.project_path is None:
             raise Exception("Error: Project Path is required.")
@@ -224,18 +246,74 @@ def main():
         elif args.image is None:
             raise Exception("Error: Image name is required.")
 
-        if tag is None:
-            tag = get_image_tags(project_path=args.project_path)
+        if tags is None:
+            tags = get_image_tags(project_path=args.project_path)
 
-        push(
+        # Login to registry
+        docker_client = login_registry(
             docker_client=docker_client,
             registry=args.registry,
             username=args.username,
             password=args.password,
+        )
+
+        final_tags = validate_tags(
+            docker_client=docker_client,
+            registry=args.registry,
             repository=args.repository,
             image=args.image,
-            tag=tag,
-            override_tag=args.override_tag,
+            tags=tags,
+            override_tags=args.override_tags,
+        )
+
+        if len(final_tags) == len(tags):
+            print("INFO: All tags are valid.")
+        else:
+            raise Exception(f"ERROR: Looks like some tag(s) already exists!")
+
+    elif "push" == args.operation:
+
+        tags = args.tags
+
+        if args.project_path is None:
+            raise Exception("Error: Project Path is required.")
+        elif args.registry is None:
+            raise Exception("Error: Registry is required.")
+        elif args.username is None:
+            raise Exception("Error: Registry Username is required.")
+        elif args.password is None:
+            raise Exception("Error: Registry Password is required.")
+        elif args.repository is None:
+            raise Exception("Error: Repository is required.")
+        elif args.image is None:
+            raise Exception("Error: Image name is required.")
+
+        if tags is None:
+            tags = get_image_tags(project_path=args.project_path)
+
+        # Login to registry
+        docker_client = login_registry(
+            docker_client=docker_client,
+            registry=args.registry,
+            username=args.username,
+            password=args.password,
+        )
+
+        final_tags = validate_tags(
+            docker_client=docker_client,
+            registry=args.registry,
+            repository=args.repository,
+            image=args.image,
+            tags=tags,
+            override_tags=args.override_tags,
+        )
+
+        push(
+            docker_client=docker_client,
+            registry=args.registry,
+            repository=args.repository,
+            image=args.image,
+            tags=final_tags,
         )
     else:
         raise Exception("Error: No operation match to execute!")

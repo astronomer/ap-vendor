@@ -41,6 +41,17 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-{{ directory }}
+          directory: {{ directory }}
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-{{ directory }}
+          filters:
+            branches:
+              ignore: main
 {% endfor %}
 jobs:
   run_pre_commit:
@@ -139,7 +150,7 @@ jobs:
     executor: docker-executor
     parameters:
       directory:
-        description: "The directory name of the image to be scanned"
+        description: "The directory name of the image to be published"
         type: string
     steps:
       - setup_remote_docker:
@@ -154,6 +165,31 @@ jobs:
           repository: "astronomer"
           image_name: ap-<< parameters.directory >>
       - push-docker-image:
+          project_path: << parameters.directory >>
+          registry: "docker.io"
+          registry_username: "${DOCKER_USERNAME}"
+          registry_password: "${DOCKER_PASSWORD}"
+          repository: "astronomerinc"
+          image_name: ap-<< parameters.directory >>
+  validate-tags:
+    executor: docker-executor
+    parameters:
+      directory:
+        description: "The directory name of the image to be validated"
+        type: string
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: {{ docker_version }}
+      - checkout
+      - validate-docker-image-tags:
+          project_path: << parameters.directory >>
+          registry: "quay.io"
+          registry_username: "${QUAY_USERNAME}"
+          registry_password: "${QUAY_PASSWORD}"
+          repository: "astronomer"
+          image_name: ap-<< parameters.directory >>
+      - validate-docker-image-tags:
           project_path: << parameters.directory >>
           registry: "docker.io"
           registry_username: "${DOCKER_USERNAME}"
@@ -275,3 +311,39 @@ commands:
       - run:
           name: Push Docker image(s) to << parameters.registry >>
           command: bin/docker-operations.py push --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>"
+  validate-docker-image-tags:
+    description: "Validate Docker image tags << parameters.registry >>"
+    parameters:
+      project_path:
+        type: string
+        default: "."
+      registry:
+        type: string
+        default: $CIRCLE_BRANCH
+      registry_username:
+        type: string
+      registry_password:
+        type: string
+      repository:
+        type: string
+      image_name:
+        type: string
+        default: $CIRCLE_PROJECT_REPONAME
+      release_requirements:
+        type: string
+        default: requirements/build-requirements.txt
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - python/install-packages:
+          pip-dependency-file: << parameters.release_requirements >>
+          pkg-manager: pip
+      - run:
+          name: Load archived Docker image
+          command: |
+            set -x
+            docker load -i /tmp/workspace/<< parameters.image_name >>.tar
+            docker images | grep << parameters.image_name >>
+      - run:
+          name: Validating docker image(s)'s tags to << parameters.registry >>
+          command: bin/docker-operations.py validate_tags --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>"
