@@ -2,8 +2,14 @@
 # Please edit .circleci/config.yml.j2, then run bin/generate_circleci_config.py
 ---
 version: 2.1
+
 orbs:
   python: circleci/python@2.0.3
+
+executors:
+  docker-executor:
+    docker:
+      - image: cimg/python:3.9
 
 parameters:
   override_tags:
@@ -1924,22 +1930,51 @@ jobs:
           docker_layer_caching: true
           version: 20.10.17
       - checkout
-      - push-docker-image:
-          project_path: << parameters.directory >>
-          registry: "quay.io"
-          registry_username: "${QUAY_USERNAME}"
-          registry_password: "${QUAY_PASSWORD}"
-          repository: "astronomer"
-          image_name: ap-<< parameters.directory >>
-          override_tags: << parameters.override_tags >>
-      - push-docker-image:
-          project_path: << parameters.directory >>
-          registry: "docker.io"
-          registry_username: "${DOCKER_USERNAME}"
-          registry_password: "${DOCKER_PASSWORD}"
-          repository: "astronomerinc"
-          image_name: ap-<< parameters.directory >>
-          override_tags: << parameters.override_tags >>
+      - when:
+          condition:
+            or:
+              - << parameters.override_tags >>
+          steps:
+            - docker-operations:
+                operations: push
+                project_path: << parameters.directory >>
+                registry: "quay.io"
+                registry_username: "${QUAY_USERNAME}"
+                registry_password: "${QUAY_PASSWORD}"
+                repository: "astronomer"
+                image_name: ap-<< parameters.directory >>
+                override_tags: "--override"
+            - docker-operations:
+                operations: push
+                project_path: << parameters.directory >>
+                registry: "docker.io"
+                registry_username: "${DOCKER_USERNAME}"
+                registry_password: "${DOCKER_PASSWORD}"
+                repository: "astronomerinc"
+                image_name: ap-<< parameters.directory >>
+                override_tags: "--override"
+      - when:
+          condition:
+            or:
+              - equal: [false, << parameters.override_tags >>]
+          steps:
+            - docker-operations:
+                operations: push
+                project_path: << parameters.directory >>
+                registry: "quay.io"
+                registry_username: "${QUAY_USERNAME}"
+                registry_password: "${QUAY_PASSWORD}"
+                repository: "astronomer"
+                image_name: ap-<< parameters.directory >>
+            - docker-operations:
+                operations: push
+                project_path: << parameters.directory >>
+                registry: "docker.io"
+                registry_username: "${DOCKER_USERNAME}"
+                registry_password: "${DOCKER_PASSWORD}"
+                repository: "astronomerinc"
+                image_name: ap-<< parameters.directory >>
+
   validate-tags:
     executor: docker-executor
     parameters:
@@ -1954,24 +1989,51 @@ jobs:
           docker_layer_caching: true
           version: 20.10.17
       - checkout
-      - validate-docker-image-tags:
-          project_path: << parameters.directory >>
-          registry: "quay.io"
-          registry_username: "${QUAY_USERNAME}"
-          registry_password: "${QUAY_PASSWORD}"
-          repository: "astronomer"
-          image_name: ap-<< parameters.directory >>
-      - validate-docker-image-tags:
-          project_path: << parameters.directory >>
-          registry: "docker.io"
-          registry_username: "${DOCKER_USERNAME}"
-          registry_password: "${DOCKER_PASSWORD}"
-          repository: "astronomerinc"
-          image_name: ap-<< parameters.directory >>
-executors:
-  docker-executor:
-    docker:
-      - image: cimg/python:3.9
+      - when:
+          condition:
+            or:
+              - << parameters.override_tags >>
+          steps:
+            - docker-operations:
+                operations: validate_tags
+                project_path: << parameters.directory >>
+                registry: "quay.io"
+                registry_username: "${QUAY_USERNAME}"
+                registry_password: "${QUAY_PASSWORD}"
+                repository: "astronomer"
+                image_name: ap-<< parameters.directory >>
+                override_tags: "--override"
+            - docker-operations:
+                operations: validate_tags
+                project_path: << parameters.directory >>
+                registry: "docker.io"
+                registry_username: "${DOCKER_USERNAME}"
+                registry_password: "${DOCKER_PASSWORD}"
+                repository: "astronomerinc"
+                image_name: ap-<< parameters.directory >>
+                override_tags: "--override"
+      - when:
+          condition:
+            or:
+              - equal: [false, << parameters.override_tags >>]
+          steps:
+            - docker-operations:
+                operations: validate_tags
+                project_path: << parameters.directory >>
+                registry: "quay.io"
+                registry_username: "${QUAY_USERNAME}"
+                registry_password: "${QUAY_PASSWORD}"
+                repository: "astronomer"
+                image_name: ap-<< parameters.directory >>
+            - docker-operations:
+                operations: validate_tags
+                project_path: << parameters.directory >>
+                registry: "docker.io"
+                registry_username: "${DOCKER_USERNAME}"
+                registry_password: "${DOCKER_PASSWORD}"
+                repository: "astronomerinc"
+                image_name: ap-<< parameters.directory >>
+
 commands:
   docker-build:
     description: "Build a Docker image"
@@ -2006,6 +2068,7 @@ commands:
           root: .
           paths:
             - "./*.tar"
+
   docker-test:
     description: "Test a Docker image"
     parameters:
@@ -2047,9 +2110,12 @@ commands:
             pytest -v --junitxml=test-results/junit.xml << parameters.test_script>>
       - store_test_results:
           path: test-results
-  push-docker-image:
-    description: "Push a Docker image to << parameters.registry >>"
+
+  docker-operations:
+    description: "Performing Docker Operation << parameters.operations >> for << parameters.registry >>"
     parameters:
+      operations:
+        type: string
       project_path:
         type: string
         default: "."
@@ -2065,56 +2131,17 @@ commands:
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
-      release_requirements:
+      script_requirements:
         type: string
         default: requirements/build-requirements.txt
       override_tags:
-        type: boolean
-        default: false
+        type: string
+        default: ""
     steps:
       - attach_workspace:
           at: /tmp/workspace
       - python/install-packages:
-          pip-dependency-file: << parameters.release_requirements >>
-          pkg-manager: pip
-      - run:
-          name: Load archived Docker image
-          command: |
-            set -x
-            docker load -i /tmp/workspace/<< parameters.image_name >>.tar
-            docker images | grep << parameters.image_name >>
-      - run:
-          name: Push Docker image(s) to << parameters.registry >>
-          command: bin/docker-operations.py push --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --override_tags=<< parameters.override_tags >>
-  validate-docker-image-tags:
-    description: "Validate Docker image tags for << parameters.registry >>"
-    parameters:
-      project_path:
-        type: string
-        default: "."
-      registry:
-        type: string
-        default: $CIRCLE_BRANCH
-      registry_username:
-        type: string
-      registry_password:
-        type: string
-      repository:
-        type: string
-      image_name:
-        type: string
-        default: $CIRCLE_PROJECT_REPONAME
-      release_requirements:
-        type: string
-        default: requirements/build-requirements.txt
-      override_tags:
-        type: boolean
-        default: false
-    steps:
-      - attach_workspace:
-          at: /tmp/workspace
-      - python/install-packages:
-          pip-dependency-file: << parameters.release_requirements >>
+          pip-dependency-file: << parameters.script_requirements >>
           pkg-manager: pip
       - run:
           name: Load archived Docker image
@@ -2124,4 +2151,4 @@ commands:
             docker images | grep << parameters.image_name >>
       - run:
           name: Validating docker image(s)'s tags to << parameters.registry >>
-          command: bin/docker-operations.py validate_tags --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --override_tags=<< parameters.override_tags >>
+          command: bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" << parameters.override_tags >>
