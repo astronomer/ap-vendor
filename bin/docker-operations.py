@@ -94,7 +94,6 @@ def build(docker_client: docker, project_path: str, image: str):
 
 def push(
     docker_client: docker,
-    project_path: str,
     registry: str,
     username: str,
     password: str,
@@ -230,7 +229,6 @@ def main():
 
         push(
             docker_client=docker_client,
-            project_path=args.project_path,
             registry=args.registry,
             username=args.username,
             password=args.password,
