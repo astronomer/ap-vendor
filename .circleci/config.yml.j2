@@ -54,7 +54,7 @@ workflows:
             - scan-trivy-{{ directory }}
           filters:
             branches:
-              only: main
+              only: feature-5079-1
       - validate-tags:
           name: validate-tags-{{ directory }}
           directory: {{ directory }}
