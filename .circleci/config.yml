@@ -1395,12 +1395,14 @@ jobs:
           version: 20.10.17
       - checkout
       - push-docker-image:
+          project_path: << parameters.directory >>
           registry: "quay.io"
           registry_username: "${QUAY_USERNAME}"
           registry_password: "${QUAY_PASSWORD}"
           repository: "astronomer"
           image_name: ap-<< parameters.directory >>
       - push-docker-image:
+          project_path: << parameters.directory >>
           registry: "docker.io"
           registry_username: "${DOCKER_USERNAME}"
           registry_password: "${DOCKER_PASSWORD}"
@@ -1488,6 +1490,9 @@ commands:
   push-docker-image:
     description: "Push a Docker image to << parameters.registry >>"
     parameters:
+      project_path:
+        type: string
+        default: "."
       registry:
         type: string
         default: $CIRCLE_BRANCH
@@ -1517,4 +1522,4 @@ commands:
             docker images | grep << parameters.image_name >>
       - run:
           name: Push Docker image(s) to << parameters.registry >>
-          command: bin/docker-operations.py push --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>"
+          command: bin/docker-operations.py push --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>"

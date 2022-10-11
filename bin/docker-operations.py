@@ -94,6 +94,7 @@ def build(docker_client: docker, project_path: str, image: str):
 
 def push(
     docker_client: docker,
+    project_path: str,
     registry: str,
     username: str,
     password: str,
@@ -211,7 +212,9 @@ def main():
 
         tag = args.tag
 
-        if args.registry is None:
+        if args.project_path is None:
+            raise Exception("Error: Project Path is required.")
+        elif args.registry is None:
             raise Exception("Error: Registry is required.")
         elif args.username is None:
             raise Exception("Error: Registry Username is required.")
@@ -221,11 +224,13 @@ def main():
             raise Exception("Error: Repository is required.")
         elif args.image is None:
             raise Exception("Error: Image name is required.")
-        elif tag is None:
-            tag = get_image_tags(project_path=args.image)
+
+        if tag is None:
+            tag = get_image_tags(project_path=args.project_path)
 
         push(
             docker_client=docker_client,
+            project_path=args.project_path,
             registry=args.registry,
             username=args.username,
             password=args.password,
