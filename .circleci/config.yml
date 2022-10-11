@@ -1930,50 +1930,24 @@ jobs:
           docker_layer_caching: true
           version: 20.10.17
       - checkout
-      - when:
-          condition:
-            or:
-              - << parameters.override_tags >>
-          steps:
-            - docker-operations:
-                operations: push
-                project_path: << parameters.directory >>
-                registry: "quay.io"
-                registry_username: "${QUAY_USERNAME}"
-                registry_password: "${QUAY_PASSWORD}"
-                repository: "astronomer"
-                image_name: ap-<< parameters.directory >>
-                override_tags: "--override_tags"
-            - docker-operations:
-                operations: push
-                project_path: << parameters.directory >>
-                registry: "docker.io"
-                registry_username: "${DOCKER_USERNAME}"
-                registry_password: "${DOCKER_PASSWORD}"
-                repository: "astronomerinc"
-                image_name: ap-<< parameters.directory >>
-                override_tags: "--override_tags"
-      - when:
-          condition:
-            or:
-              - equal: [false, << parameters.override_tags >>]
-          steps:
-            - docker-operations:
-                operations: push
-                project_path: << parameters.directory >>
-                registry: "quay.io"
-                registry_username: "${QUAY_USERNAME}"
-                registry_password: "${QUAY_PASSWORD}"
-                repository: "astronomer"
-                image_name: ap-<< parameters.directory >>
-            - docker-operations:
-                operations: push
-                project_path: << parameters.directory >>
-                registry: "docker.io"
-                registry_username: "${DOCKER_USERNAME}"
-                registry_password: "${DOCKER_PASSWORD}"
-                repository: "astronomerinc"
-                image_name: ap-<< parameters.directory >>
+      - docker-operations:
+          operations: push
+          project_path: << parameters.directory >>
+          registry: "quay.io"
+          registry_username: "${QUAY_USERNAME}"
+          registry_password: "${QUAY_PASSWORD}"
+          repository: "astronomer"
+          image_name: ap-<< parameters.directory >>
+          override_tags: << parameters.override_tags >>
+      - docker-operations:
+          operations: push
+          project_path: << parameters.directory >>
+          registry: "docker.io"
+          registry_username: "${DOCKER_USERNAME}"
+          registry_password: "${DOCKER_PASSWORD}"
+          repository: "astronomerinc"
+          image_name: ap-<< parameters.directory >>
+          override_tags: << parameters.override_tags >>
 
   validate-tags:
     executor: docker-executor
@@ -1989,50 +1963,24 @@ jobs:
           docker_layer_caching: true
           version: 20.10.17
       - checkout
-      - when:
-          condition:
-            or:
-              - << parameters.override_tags >>
-          steps:
-            - docker-operations:
-                operations: validate_tags
-                project_path: << parameters.directory >>
-                registry: "quay.io"
-                registry_username: "${QUAY_USERNAME}"
-                registry_password: "${QUAY_PASSWORD}"
-                repository: "astronomer"
-                image_name: ap-<< parameters.directory >>
-                override_tags: "--override_tags"
-            - docker-operations:
-                operations: validate_tags
-                project_path: << parameters.directory >>
-                registry: "docker.io"
-                registry_username: "${DOCKER_USERNAME}"
-                registry_password: "${DOCKER_PASSWORD}"
-                repository: "astronomerinc"
-                image_name: ap-<< parameters.directory >>
-                override_tags: "--override_tags"
-      - when:
-          condition:
-            or:
-              - equal: [false, << parameters.override_tags >>]
-          steps:
-            - docker-operations:
-                operations: validate_tags
-                project_path: << parameters.directory >>
-                registry: "quay.io"
-                registry_username: "${QUAY_USERNAME}"
-                registry_password: "${QUAY_PASSWORD}"
-                repository: "astronomer"
-                image_name: ap-<< parameters.directory >>
-            - docker-operations:
-                operations: validate_tags
-                project_path: << parameters.directory >>
-                registry: "docker.io"
-                registry_username: "${DOCKER_USERNAME}"
-                registry_password: "${DOCKER_PASSWORD}"
-                repository: "astronomerinc"
-                image_name: ap-<< parameters.directory >>
+      - docker-operations:
+          operations: validate_tags
+          project_path: << parameters.directory >>
+          registry: "quay.io"
+          registry_username: "${QUAY_USERNAME}"
+          registry_password: "${QUAY_PASSWORD}"
+          repository: "astronomer"
+          image_name: ap-<< parameters.directory >>
+          override_tags: << parameters.override_tags >>
+      - docker-operations:
+          operations: validate_tags
+          project_path: << parameters.directory >>
+          registry: "docker.io"
+          registry_username: "${DOCKER_USERNAME}"
+          registry_password: "${DOCKER_PASSWORD}"
+          repository: "astronomerinc"
+          image_name: ap-<< parameters.directory >>
+          override_tags: << parameters.override_tags >>
 
 commands:
   docker-build:
@@ -2135,8 +2083,8 @@ commands:
         type: string
         default: requirements/build-requirements.txt
       override_tags:
-        type: string
-        default: ""
+        type: boolean
+        default: false
     steps:
       - attach_workspace:
           at: /tmp/workspace
@@ -2151,4 +2099,4 @@ commands:
             docker images | grep << parameters.image_name >>
       - run:
           name: Validating docker image(s)'s tags to << parameters.registry >>
-          command: bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" << parameters.override_tags >>
+          command: bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --override_tags=<< parameters.override_tags >>
