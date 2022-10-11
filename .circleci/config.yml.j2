@@ -188,7 +188,7 @@ jobs:
                 registry_password: "${QUAY_PASSWORD}"
                 repository: "astronomer"
                 image_name: ap-<< parameters.directory >>
-                override_tags: "--override"
+                override_tags: "--override_tags"
             - docker-operations:
                 operations: push
                 project_path: << parameters.directory >>
@@ -197,7 +197,7 @@ jobs:
                 registry_password: "${DOCKER_PASSWORD}"
                 repository: "astronomerinc"
                 image_name: ap-<< parameters.directory >>
-                override_tags: "--override"
+                override_tags: "--override_tags"
       - when:
           condition:
             or:
@@ -247,7 +247,7 @@ jobs:
                 registry_password: "${QUAY_PASSWORD}"
                 repository: "astronomer"
                 image_name: ap-<< parameters.directory >>
-                override_tags: "--override"
+                override_tags: "--override_tags"
             - docker-operations:
                 operations: validate_tags
                 project_path: << parameters.directory >>
@@ -256,7 +256,7 @@ jobs:
                 registry_password: "${DOCKER_PASSWORD}"
                 repository: "astronomerinc"
                 image_name: ap-<< parameters.directory >>
-                override_tags: "--override"
+                override_tags: "--override_tags"
       - when:
           condition:
             or:
