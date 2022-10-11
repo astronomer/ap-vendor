@@ -4,6 +4,13 @@
 version: 2.1
 orbs:
   python: circleci/python@2.0.3
+
+parameters:
+  override_tags:
+    type: boolean
+    default: false
+    description: "Set True if you want to override existing docker image tag."
+
 workflows:
   version: 2.1
   vendor-build:
@@ -33,6 +40,7 @@ workflows:
       - release:
           name: release-alertmanager
           directory: alertmanager
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -42,8 +50,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-alertmanager
+          name: validate-tags-alertmanager
           directory: alertmanager
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -76,6 +85,7 @@ workflows:
       - release:
           name: release-auth-sidecar
           directory: auth-sidecar
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -85,8 +95,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-auth-sidecar
+          name: validate-tags-auth-sidecar
           directory: auth-sidecar
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -119,6 +130,7 @@ workflows:
       - release:
           name: release-awsesproxy
           directory: awsesproxy
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -128,8 +140,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-awsesproxy
+          name: validate-tags-awsesproxy
           directory: awsesproxy
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -162,6 +175,7 @@ workflows:
       - release:
           name: release-blackbox-exporter
           directory: blackbox-exporter
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -171,8 +185,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-blackbox-exporter
+          name: validate-tags-blackbox-exporter
           directory: blackbox-exporter
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -205,6 +220,7 @@ workflows:
       - release:
           name: release-configmap-reloader
           directory: configmap-reloader
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -214,8 +230,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-configmap-reloader
+          name: validate-tags-configmap-reloader
           directory: configmap-reloader
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -248,6 +265,7 @@ workflows:
       - release:
           name: release-curator
           directory: curator
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -257,8 +275,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-curator
+          name: validate-tags-curator
           directory: curator
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -291,6 +310,7 @@ workflows:
       - release:
           name: release-dind-golang
           directory: dind-golang
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -300,8 +320,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-dind-golang
+          name: validate-tags-dind-golang
           directory: dind-golang
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -334,6 +355,7 @@ workflows:
       - release:
           name: release-dogstatsd
           directory: dogstatsd
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -343,8 +365,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-dogstatsd
+          name: validate-tags-dogstatsd
           directory: dogstatsd
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -377,6 +400,7 @@ workflows:
       - release:
           name: release-elasticsearch
           directory: elasticsearch
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -386,8 +410,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-elasticsearch
+          name: validate-tags-elasticsearch
           directory: elasticsearch
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -420,6 +445,7 @@ workflows:
       - release:
           name: release-elasticsearch-exporter
           directory: elasticsearch-exporter
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -429,8 +455,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-elasticsearch-exporter
+          name: validate-tags-elasticsearch-exporter
           directory: elasticsearch-exporter
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -463,6 +490,7 @@ workflows:
       - release:
           name: release-fluentd
           directory: fluentd
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -472,8 +500,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-fluentd
+          name: validate-tags-fluentd
           directory: fluentd
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -506,6 +535,7 @@ workflows:
       - release:
           name: release-git-daemon
           directory: git-daemon
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -515,8 +545,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-git-daemon
+          name: validate-tags-git-daemon
           directory: git-daemon
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -549,6 +580,7 @@ workflows:
       - release:
           name: release-git-sync
           directory: git-sync
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -558,8 +590,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-git-sync
+          name: validate-tags-git-sync
           directory: git-sync
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -592,6 +625,7 @@ workflows:
       - release:
           name: release-grafana
           directory: grafana
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -601,8 +635,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-grafana
+          name: validate-tags-grafana
           directory: grafana
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -635,6 +670,7 @@ workflows:
       - release:
           name: release-keda
           directory: keda
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -644,8 +680,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-keda
+          name: validate-tags-keda
           directory: keda
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -678,6 +715,7 @@ workflows:
       - release:
           name: release-keda-metrics-apiserver
           directory: keda-metrics-apiserver
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -687,8 +725,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-keda-metrics-apiserver
+          name: validate-tags-keda-metrics-apiserver
           directory: keda-metrics-apiserver
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -721,6 +760,7 @@ workflows:
       - release:
           name: release-kibana
           directory: kibana
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -730,8 +770,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-kibana
+          name: validate-tags-kibana
           directory: kibana
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -764,6 +805,7 @@ workflows:
       - release:
           name: release-kube-state
           directory: kube-state
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -773,8 +815,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-kube-state
+          name: validate-tags-kube-state
           directory: kube-state
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -807,6 +850,7 @@ workflows:
       - release:
           name: release-kubed
           directory: kubed
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -816,8 +860,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-kubed
+          name: validate-tags-kubed
           directory: kubed
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -850,6 +895,7 @@ workflows:
       - release:
           name: release-nats-exporter
           directory: nats-exporter
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -859,8 +905,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-nats-exporter
+          name: validate-tags-nats-exporter
           directory: nats-exporter
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -893,6 +940,7 @@ workflows:
       - release:
           name: release-nats-server
           directory: nats-server
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -902,8 +950,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-nats-server
+          name: validate-tags-nats-server
           directory: nats-server
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -936,6 +985,7 @@ workflows:
       - release:
           name: release-nats-streaming
           directory: nats-streaming
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -945,8 +995,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-nats-streaming
+          name: validate-tags-nats-streaming
           directory: nats-streaming
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -979,6 +1030,7 @@ workflows:
       - release:
           name: release-nginx
           directory: nginx
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -988,8 +1040,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-nginx
+          name: validate-tags-nginx
           directory: nginx
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1022,6 +1075,7 @@ workflows:
       - release:
           name: release-nginx-es
           directory: nginx-es
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1031,8 +1085,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-nginx-es
+          name: validate-tags-nginx-es
           directory: nginx-es
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1065,6 +1120,7 @@ workflows:
       - release:
           name: release-node-exporter
           directory: node-exporter
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1074,8 +1130,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-node-exporter
+          name: validate-tags-node-exporter
           directory: node-exporter
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1108,6 +1165,7 @@ workflows:
       - release:
           name: release-openresty
           directory: openresty
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1117,8 +1175,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-openresty
+          name: validate-tags-openresty
           directory: openresty
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1151,6 +1210,7 @@ workflows:
       - release:
           name: release-pgbouncer
           directory: pgbouncer
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1160,8 +1220,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-pgbouncer
+          name: validate-tags-pgbouncer
           directory: pgbouncer
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1194,6 +1255,7 @@ workflows:
       - release:
           name: release-pgbouncer-exporter
           directory: pgbouncer-exporter
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1203,8 +1265,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-pgbouncer-exporter
+          name: validate-tags-pgbouncer-exporter
           directory: pgbouncer-exporter
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1237,6 +1300,7 @@ workflows:
       - release:
           name: release-pgbouncer-krb
           directory: pgbouncer-krb
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1246,8 +1310,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-pgbouncer-krb
+          name: validate-tags-pgbouncer-krb
           directory: pgbouncer-krb
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1280,6 +1345,7 @@ workflows:
       - release:
           name: release-po-logical-backup
           directory: po-logical-backup
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1289,8 +1355,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-po-logical-backup
+          name: validate-tags-po-logical-backup
           directory: po-logical-backup
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1323,6 +1390,7 @@ workflows:
       - release:
           name: release-po-pgbouncer
           directory: po-pgbouncer
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1332,8 +1400,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-po-pgbouncer
+          name: validate-tags-po-pgbouncer
           directory: po-pgbouncer
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1366,6 +1435,7 @@ workflows:
       - release:
           name: release-po-spilo
           directory: po-spilo
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1375,8 +1445,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-po-spilo
+          name: validate-tags-po-spilo
           directory: po-spilo
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1409,6 +1480,7 @@ workflows:
       - release:
           name: release-postgres-exporter
           directory: postgres-exporter
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1418,8 +1490,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-postgres-exporter
+          name: validate-tags-postgres-exporter
           directory: postgres-exporter
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1452,6 +1525,7 @@ workflows:
       - release:
           name: release-postgres-operator
           directory: postgres-operator
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1461,8 +1535,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-postgres-operator
+          name: validate-tags-postgres-operator
           directory: postgres-operator
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1495,6 +1570,7 @@ workflows:
       - release:
           name: release-postgresql
           directory: postgresql
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1504,8 +1580,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-postgresql
+          name: validate-tags-postgresql
           directory: postgresql
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1538,6 +1615,7 @@ workflows:
       - release:
           name: release-prometheus
           directory: prometheus
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1547,8 +1625,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-prometheus
+          name: validate-tags-prometheus
           directory: prometheus
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1581,6 +1660,7 @@ workflows:
       - release:
           name: release-redis
           directory: redis
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1590,8 +1670,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-redis
+          name: validate-tags-redis
           directory: redis
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1624,6 +1705,7 @@ workflows:
       - release:
           name: release-registry
           directory: registry
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1633,8 +1715,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-registry
+          name: validate-tags-registry
           directory: registry
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1667,6 +1750,7 @@ workflows:
       - release:
           name: release-statsd-exporter
           directory: statsd-exporter
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1676,8 +1760,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-statsd-exporter
+          name: validate-tags-statsd-exporter
           directory: statsd-exporter
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1710,6 +1795,7 @@ workflows:
       - release:
           name: release-vector
           directory: vector
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1719,8 +1805,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-vector
+          name: validate-tags-vector
           directory: vector
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -1829,6 +1916,9 @@ jobs:
       directory:
         description: "The directory name of the image to be published"
         type: string
+      override_tags:
+        type: boolean
+        default: false
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
@@ -1841,6 +1931,7 @@ jobs:
           registry_password: "${QUAY_PASSWORD}"
           repository: "astronomer"
           image_name: ap-<< parameters.directory >>
+          override_tags: << parameters.override_tags >>
       - push-docker-image:
           project_path: << parameters.directory >>
           registry: "docker.io"
@@ -1848,12 +1939,16 @@ jobs:
           registry_password: "${DOCKER_PASSWORD}"
           repository: "astronomerinc"
           image_name: ap-<< parameters.directory >>
+          override_tags: << parameters.override_tags >>
   validate-tags:
     executor: docker-executor
     parameters:
       directory:
         description: "The directory name of the image to be validated"
         type: string
+      override_tags:
+        type: boolean
+        default: false
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
@@ -1973,6 +2068,9 @@ commands:
       release_requirements:
         type: string
         default: requirements/build-requirements.txt
+      override_tags:
+        type: boolean
+        default: false
     steps:
       - attach_workspace:
           at: /tmp/workspace
@@ -1987,9 +2085,9 @@ commands:
             docker images | grep << parameters.image_name >>
       - run:
           name: Push Docker image(s) to << parameters.registry >>
-          command: bin/docker-operations.py push --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>"
+          command: bin/docker-operations.py push --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --override_tags=<< parameters.override_tags >>
   validate-docker-image-tags:
-    description: "Validate Docker image tags << parameters.registry >>"
+    description: "Validate Docker image tags for << parameters.registry >>"
     parameters:
       project_path:
         type: string
@@ -2009,6 +2107,9 @@ commands:
       release_requirements:
         type: string
         default: requirements/build-requirements.txt
+      override_tags:
+        type: boolean
+        default: false
     steps:
       - attach_workspace:
           at: /tmp/workspace
@@ -2023,4 +2124,4 @@ commands:
             docker images | grep << parameters.image_name >>
       - run:
           name: Validating docker image(s)'s tags to << parameters.registry >>
-          command: bin/docker-operations.py validate_tags --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>"
+          command: bin/docker-operations.py validate_tags --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --override_tags=<< parameters.override_tags >>

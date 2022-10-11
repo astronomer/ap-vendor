@@ -266,10 +266,13 @@ def main():
             override_tags=args.override_tags,
         )
 
+        print(f"INFO: Input tags list: {tags}")
+        print(f"INFO: Final tags list: {final_tags}")
+
         if len(final_tags) == len(tags):
             print("INFO: All tags are valid.")
         else:
-            raise Exception(f"ERROR: Looks like some tag(s) already exists!")
+            raise Exception(f"ERROR: Looks like one or many tag(s) already exists!")
 
     elif "push" == args.operation:
 

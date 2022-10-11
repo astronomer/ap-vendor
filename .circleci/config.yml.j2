@@ -4,6 +4,13 @@
 version: 2.1
 orbs:
   python: circleci/python@2.0.3
+
+parameters:
+  override_tags:
+    type: boolean
+    default: false
+    description: "Set True if you want to override existing docker image tag."
+
 workflows:
   version: 2.1
   vendor-build:
@@ -33,6 +40,7 @@ workflows:
       - release:
           name: release-{{ directory }}
           directory: {{ directory }}
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -42,8 +50,9 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          name: validate-{{ directory }}
+          name: validate-tags-{{ directory }}
           directory: {{ directory }}
+          override_tags: << pipeline.parameters.override_tags >>
           context:
             - quay.io
             - docker.io
@@ -152,6 +161,9 @@ jobs:
       directory:
         description: "The directory name of the image to be published"
         type: string
+      override_tags:
+        type: boolean
+        default: false
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
@@ -164,6 +176,7 @@ jobs:
           registry_password: "${QUAY_PASSWORD}"
           repository: "astronomer"
           image_name: ap-<< parameters.directory >>
+          override_tags: << parameters.override_tags >>
       - push-docker-image:
           project_path: << parameters.directory >>
           registry: "docker.io"
@@ -171,12 +184,16 @@ jobs:
           registry_password: "${DOCKER_PASSWORD}"
           repository: "astronomerinc"
           image_name: ap-<< parameters.directory >>
+          override_tags: << parameters.override_tags >>
   validate-tags:
     executor: docker-executor
     parameters:
       directory:
         description: "The directory name of the image to be validated"
         type: string
+      override_tags:
+        type: boolean
+        default: false
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
@@ -296,6 +313,9 @@ commands:
       release_requirements:
         type: string
         default: requirements/build-requirements.txt
+      override_tags:
+        type: boolean
+        default: false
     steps:
       - attach_workspace:
           at: /tmp/workspace
@@ -310,9 +330,9 @@ commands:
             docker images | grep << parameters.image_name >>
       - run:
           name: Push Docker image(s) to << parameters.registry >>
-          command: bin/docker-operations.py push --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>"
+          command: bin/docker-operations.py push --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --override_tags=<< parameters.override_tags >>
   validate-docker-image-tags:
-    description: "Validate Docker image tags << parameters.registry >>"
+    description: "Validate Docker image tags for << parameters.registry >>"
     parameters:
       project_path:
         type: string
@@ -332,6 +352,9 @@ commands:
       release_requirements:
         type: string
         default: requirements/build-requirements.txt
+      override_tags:
+        type: boolean
+        default: false
     steps:
       - attach_workspace:
           at: /tmp/workspace
@@ -346,4 +369,4 @@ commands:
             docker images | grep << parameters.image_name >>
       - run:
           name: Validating docker image(s)'s tags to << parameters.registry >>
-          command: bin/docker-operations.py validate_tags --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>"
+          command: bin/docker-operations.py validate_tags --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --override_tags=<< parameters.override_tags >>
