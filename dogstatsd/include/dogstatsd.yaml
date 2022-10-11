@@ -75,7 +75,7 @@ dogstatsd_mapper_profiles:
         name: "airflow.dagrun.dependency_check"
         tags:
           dag_id: "$1"
-      - match: 'airflow\.dag\.(.*)\.([^.]*)\.duration'
+      - match: 'airflow\.dag\.([^\.]+)\.(.+)\.duration'
         match_type: "regex"
         name: "airflow.dag.task.duration"
         tags:
@@ -121,12 +121,14 @@ dogstatsd_mapper_profiles:
         name: "airflow.task.instance_created"
         tags:
           task_class: "$1"
-      - match: "airflow.ti.start.*.*"
+      - match: 'airflow\.ti\.start\.([^\.]+)\.(.+)'
+        match_type: "regex"
         name: "airflow.ti.start"
         tags:
           dag_id: "$1"
           task_id: "$2"
-      - match: "airflow.ti.finish.*.*.*"
+      - match: 'airflow\.ti\.finish\.([^\.]+)\.(.+)\.(.+)'
+        match_type: "regex"
         name: "airflow.ti.finish"
         tags:
           dag_id: "$1"
