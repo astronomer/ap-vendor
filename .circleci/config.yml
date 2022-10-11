@@ -1347,7 +1347,7 @@ jobs:
           test_requirements: << parameters.test_requirements >>
   scan-trivy:
     docker:
-      - image: docker:20.10.11-git
+      - image: docker:20.10.17-git
     description: "Trivy: Vulnerability scan a Docker image"
     parameters:
       directory:
@@ -1357,7 +1357,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.11
+          version: 20.10.17
           image: aquasec/trivy:latest
       - attach_workspace:
           at: /tmp/workspace
@@ -1392,19 +1392,19 @@ jobs:
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.11
+          version: 20.10.17
       - checkout
-      - run:
-          name: Validate semver tag
-          command: |
-            pip install packaging
-            version="$(bin/check_version.py << parameters.directory >>)"
-            echo "export TAG=${version}" >> $BASH_ENV
-      - push-to-quay-io:
-          comma_separated_tags: "$TAG"
+      - push-docker-image:
+          registry: "quay.io"
+          registry_username: "${QUAY_USERNAME}"
+          registry_password: "${QUAY_PASSWORD}"
+          repository: "astronomer"
           image_name: ap-<< parameters.directory >>
-      - push-to-docker-hub:
-          comma_separated_tags: "$TAG"
+      - push-docker-image:
+          registry: "docker.io"
+          registry_username: "${DOCKER_USERNAME}"
+          registry_password: "${DOCKER_PASSWORD}"
+          repository: "astronomerinc"
           image_name: ap-<< parameters.directory >>
 executors:
   docker-executor:
@@ -1423,14 +1423,23 @@ commands:
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
+      build_requirements:
+        type: string
+        default: requirements/build-requirements.txt
     steps:
       - checkout
+      - python/install-packages:
+          pip-dependency-file: << parameters.build_requirements >>
+          pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.11
+          version: 20.10.17
       - run:
           name: Build the Docker image
-          command: bin/docker-build.sh << parameters.path>> << parameters.image_name >>
+          command: bin/docker-operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
+      - run:
+          name: Running Docker image inspect
+          command: docker inspect "<< parameters.image_name >>:${CIRCLE_SHA1}"
       - persist_to_workspace:
           root: .
           paths:
@@ -1457,7 +1466,7 @@ commands:
           pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.11
+          version: 20.10.17
       - attach_workspace:
           at: /tmp/workspace
       - run:
@@ -1476,18 +1485,30 @@ commands:
             pytest -v --junitxml=test-results/junit.xml << parameters.test_script>>
       - store_test_results:
           path: test-results
-  push-to-quay-io:
-    description: "Push a Docker image to Quay.io"
+  push-docker-image:
+    description: "Push a Docker image to << parameters.registry >>"
     parameters:
-      comma_separated_tags:
+      registry:
         type: string
         default: $CIRCLE_BRANCH
+      registry_username:
+        type: string
+      registry_password:
+        type: string
+      repository:
+        type: string
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
+      release_requirements:
+        type: string
+        default: requirements/build-requirements.txt
     steps:
       - attach_workspace:
           at: /tmp/workspace
+      - python/install-packages:
+          pip-dependency-file: << parameters.release_requirements >>
+          pkg-manager: pip
       - run:
           name: Load archived Docker image
           command: |
@@ -1495,29 +1516,5 @@ commands:
             docker load -i /tmp/workspace/<< parameters.image_name >>.tar
             docker images | grep << parameters.image_name >>
       - run:
-          name: Login to Quay.io
-          command: echo "$QUAY_PASSWORD" | docker login --username "$QUAY_USERNAME" --password-stdin quay.io
-      - run:
-          name: Push Docker image(s)
-          command: bin/docker-push.sh "astronomer" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" quay.io
-  push-to-docker-hub:
-    description: "Push a Docker image to DockerHub"
-    parameters:
-      comma_separated_tags:
-        type: string
-        default: $CIRCLE_BRANCH
-      image_name:
-        type: string
-        default: $CIRCLE_PROJECT_REPONAME
-    steps:
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          name: Load archived Docker image
-          command: docker load -i /tmp/workspace/<< parameters.image_name >>.tar
-      - run:
-          name: Login to DockerHub
-          command: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin docker.io
-      - run:
-          name: Push Docker image(s)
-          command: bin/docker-push.sh "astronomerinc" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" docker.io
+          name: Push Docker image(s) to << parameters.registry >>
+          command: bin/docker-operations.py push --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>"
