@@ -57,11 +57,11 @@ def validate_tags(
     repository: str,
     image: str,
     tags: list,
-    override_tags: bool,
+    overwrite_tags: bool,
 ):
     docker_image_uri = registry + "/" + repository + "/" + image
 
-    if override_tags:
+    if overwrite_tags:
         print(
             "INFO: Overwrite is set to True. If the tag already exists it will be overwritten."
         )
@@ -209,7 +209,7 @@ def main():
     arg_parser.add_argument("--repository", type=str)
     arg_parser.add_argument("--image", type=str)
     arg_parser.add_argument("--tags", type=str, default=None)
-    arg_parser.add_argument("--override_tags", type=str, default="false")
+    arg_parser.add_argument("--overwrite_tags", type=str, default="false")
 
     args = arg_parser.parse_args()
 
@@ -232,10 +232,10 @@ def main():
     elif "validate_tags" == args.operation:
 
         tags = args.tags
-        override_tags = False
+        overwrite_tags = False
 
-        if "true" == args.override_tags.lower():
-            override_tags = True
+        if "true" == args.overwrite_tags.lower():
+            overwrite_tags = True
 
         if args.project_path is None:
             raise Exception("Error: Project Path is required.")
@@ -267,7 +267,7 @@ def main():
             repository=args.repository,
             image=args.image,
             tags=tags,
-            override_tags=override_tags,
+            overwrite_tags=overwrite_tags,
         )
 
         print(f"INFO: Input tags list: {tags}")
@@ -281,10 +281,10 @@ def main():
     elif "push" == args.operation:
 
         tags = args.tags
-        override_tags = False
+        overwrite_tags = False
 
-        if "true" == args.override_tags.lower():
-            override_tags = True
+        if "true" == args.overwrite_tags.lower():
+            overwrite_tags = True
 
         if args.project_path is None:
             raise Exception("Error: Project Path is required.")
@@ -316,7 +316,7 @@ def main():
             repository=args.repository,
             image=args.image,
             tags=tags,
-            override_tags=override_tags,
+            overwrite_tags=overwrite_tags,
         )
 
         push(
