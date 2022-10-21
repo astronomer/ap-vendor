@@ -11,7 +11,12 @@ if [ ! -d "$GIT_ROOT" ] ; then
   exit 1
 fi
 
+if [ ! -d "$GIT_ROOT/.git" ] ; then
+  echo "ERROR: $GIT_ROOT/.git is not a directory!"
+  exit 1
+fi
+
 set -xe
 
 touch "$GIT_ROOT/.git/git-daemon-export-ok"
-git daemon --verbose
+git daemon
