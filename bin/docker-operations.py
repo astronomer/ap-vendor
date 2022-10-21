@@ -85,7 +85,7 @@ def validate_tags(
                     )
                 except APIError as dokerAPIError:
                     print(
-                        f"INFO: Image tag {docker_image_uri}:{tag} not found on server. It will add to push list."
+                        f"INFO: Docker tag {docker_image_uri}:{tag} not found on server. It will be added to the push list."
                     )
                     final_tags.append(tag)
 
