@@ -12,7 +12,7 @@ executors:
       - image: cimg/python:3.9
 
 parameters:
-  override_tags:
+  overwrite_tags:
     type: boolean
     default: false
     description: "Set True if you want to override existing docker image tag."
@@ -46,7 +46,7 @@ workflows:
       - release:
           name: release-{{ directory }}
           directory: {{ directory }}
-          override_tags: << pipeline.parameters.override_tags >>
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -58,7 +58,7 @@ workflows:
       - validate-tags:
           name: validate-tags-{{ directory }}
           directory: {{ directory }}
-          override_tags: << pipeline.parameters.override_tags >>
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -167,7 +167,7 @@ jobs:
       directory:
         description: "The directory name of the image to be published"
         type: string
-      override_tags:
+      overwrite_tags:
         type: boolean
         default: false
     steps:
@@ -183,7 +183,7 @@ jobs:
           registry_password: "${QUAY_PASSWORD}"
           repository: "astronomer"
           image_name: ap-<< parameters.directory >>
-          override_tags: << parameters.override_tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
       - docker-operations:
           operations: push
           project_path: << parameters.directory >>
@@ -192,7 +192,7 @@ jobs:
           registry_password: "${DOCKER_PASSWORD}"
           repository: "astronomerinc"
           image_name: ap-<< parameters.directory >>
-          override_tags: << parameters.override_tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
 
   validate-tags:
     executor: docker-executor
@@ -200,7 +200,7 @@ jobs:
       directory:
         description: "The directory name of the image to be validated"
         type: string
-      override_tags:
+      overwrite_tags:
         type: boolean
         default: false
     steps:
@@ -216,7 +216,7 @@ jobs:
           registry_password: "${QUAY_PASSWORD}"
           repository: "astronomer"
           image_name: ap-<< parameters.directory >>
-          override_tags: << parameters.override_tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
       - docker-operations:
           operations: validate_tags
           project_path: << parameters.directory >>
@@ -225,7 +225,7 @@ jobs:
           registry_password: "${DOCKER_PASSWORD}"
           repository: "astronomerinc"
           image_name: ap-<< parameters.directory >>
-          override_tags: << parameters.override_tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
 
 commands:
   docker-build:
@@ -327,7 +327,7 @@ commands:
       script_requirements:
         type: string
         default: requirements/build-requirements.txt
-      override_tags:
+      overwrite_tags:
         type: boolean
         default: false
     steps:
@@ -344,4 +344,4 @@ commands:
             docker images | grep << parameters.image_name >>
       - run:
           name: Validating docker image(s)'s tags to << parameters.registry >>
-          command: bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --override_tags=<< parameters.override_tags >>
+          command: bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --overwrite_tags=<< parameters.overwrite_tags >>
