@@ -63,7 +63,7 @@ def validate_tags(
 
     if override_tags:
         print(
-            "INFO: Override is set to True, if the tag will already present it will get override."
+            "INFO: Overwrite is set to True. If the tag already exists it will be overwritten."
         )
         return tags
     else:
