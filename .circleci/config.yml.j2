@@ -2,8 +2,21 @@
 {%- set docker_version = '20.10.17' -%}
 ---
 version: 2.1
+
 orbs:
   python: circleci/python@2.0.3
+
+executors:
+  docker-executor:
+    docker:
+      - image: cimg/python:3.9
+
+parameters:
+  overwrite_tags:
+    type: boolean
+    default: false
+    description: "Set True if you want to overwrite existing docker image tag."
+
 workflows:
   version: 2.1
   vendor-build:
@@ -33,6 +46,7 @@ workflows:
       - release:
           name: release-{{ directory }}
           directory: {{ directory }}
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -41,6 +55,18 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-{{ directory }}
+          directory: {{ directory }}
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-{{ directory }}
+          filters:
+            branches:
+              ignore: main
 {% endfor %}
 jobs:
   run_pre_commit:
@@ -139,31 +165,68 @@ jobs:
     executor: docker-executor
     parameters:
       directory:
-        description: "The directory name of the image to be scanned"
+        description: "The directory name of the image to be published"
         type: string
+      overwrite_tags:
+        type: boolean
+        default: false
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
           version: {{ docker_version }}
       - checkout
-      - push-docker-image:
+      - docker-operations:
+          operations: push
           project_path: << parameters.directory >>
           registry: "quay.io"
           registry_username: "${QUAY_USERNAME}"
           registry_password: "${QUAY_PASSWORD}"
           repository: "astronomer"
           image_name: ap-<< parameters.directory >>
-      - push-docker-image:
+          overwrite_tags: << parameters.overwrite_tags >>
+      - docker-operations:
+          operations: push
           project_path: << parameters.directory >>
           registry: "docker.io"
           registry_username: "${DOCKER_USERNAME}"
           registry_password: "${DOCKER_PASSWORD}"
           repository: "astronomerinc"
           image_name: ap-<< parameters.directory >>
-executors:
-  docker-executor:
-    docker:
-      - image: cimg/python:3.9
+          overwrite_tags: << parameters.overwrite_tags >>
+
+  validate-tags:
+    executor: docker-executor
+    parameters:
+      directory:
+        description: "The directory name of the image to be validated"
+        type: string
+      overwrite_tags:
+        type: boolean
+        default: false
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: {{ docker_version }}
+      - checkout
+      - docker-operations:
+          operations: validate_tags
+          project_path: << parameters.directory >>
+          registry: "quay.io"
+          registry_username: "${QUAY_USERNAME}"
+          registry_password: "${QUAY_PASSWORD}"
+          repository: "astronomer"
+          image_name: ap-<< parameters.directory >>
+          overwrite_tags: << parameters.overwrite_tags >>
+      - docker-operations:
+          operations: validate_tags
+          project_path: << parameters.directory >>
+          registry: "docker.io"
+          registry_username: "${DOCKER_USERNAME}"
+          registry_password: "${DOCKER_PASSWORD}"
+          repository: "astronomerinc"
+          image_name: ap-<< parameters.directory >>
+          overwrite_tags: << parameters.overwrite_tags >>
+
 commands:
   docker-build:
     description: "Build a Docker image"
@@ -198,6 +261,7 @@ commands:
           root: .
           paths:
             - "./*.tar"
+
   docker-test:
     description: "Test a Docker image"
     parameters:
@@ -239,9 +303,12 @@ commands:
             pytest -v --junitxml=test-results/junit.xml << parameters.test_script>>
       - store_test_results:
           path: test-results
-  push-docker-image:
-    description: "Push a Docker image to << parameters.registry >>"
+
+  docker-operations:
+    description: "Performing Docker Operation << parameters.operations >> for << parameters.registry >>"
     parameters:
+      operations:
+        type: string
       project_path:
         type: string
         default: "."
@@ -257,14 +324,17 @@ commands:
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
-      release_requirements:
+      script_requirements:
         type: string
         default: requirements/build-requirements.txt
+      overwrite_tags:
+        type: boolean
+        default: false
     steps:
       - attach_workspace:
           at: /tmp/workspace
       - python/install-packages:
-          pip-dependency-file: << parameters.release_requirements >>
+          pip-dependency-file: << parameters.script_requirements >>
           pkg-manager: pip
       - run:
           name: Load archived Docker image
@@ -273,5 +343,5 @@ commands:
             docker load -i /tmp/workspace/<< parameters.image_name >>.tar
             docker images | grep << parameters.image_name >>
       - run:
-          name: Push Docker image(s) to << parameters.registry >>
-          command: bin/docker-operations.py push --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>"
+          name: Validating docker image(s)'s tags to << parameters.registry >>
+          command: bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --overwrite_tags=<< parameters.overwrite_tags >>
