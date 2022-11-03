@@ -1,4 +1,7 @@
 # Upstream dind-golang images include several CVEs.
 # We should try to remove these each time we update.
+CVE-2021-38561
+CVE-2021-41092
+CVE-2022-29162
 CVE-2022-27664
 CVE-2022-32149
