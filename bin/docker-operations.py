@@ -99,9 +99,6 @@ def build(docker_client: docker, project_path: str, image: str):
 
     image_tag = os.getenv("CIRCLE_SHA1")
 
-    if "master" != os.getenv("CIRCLE_BRANCH") or "main" != os.getenv("CIRCLE_BRANCH"):
-        docker_labels["quay.expires-after"] = "8w"
-
     # Build Docker Image
     print("INFO: Now building docker image: " + str(root_directory / project_path))
     docker_image_resp = docker_client.images.build(
