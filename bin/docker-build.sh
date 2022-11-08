@@ -21,10 +21,6 @@ labels=(
     "--label=io.astronomer.build.workflow.id=$CIRCLE_WORKFLOW_ID"
 )
 
-if ! [[ "$CIRCLE_BRANCH" =~ ^(master|main)$ ]] ; then
-    labels+=( "--label=quay.expires-after=8w" )
-fi
-
 docker build \
     --pull \
     --platform linux/amd64 \
