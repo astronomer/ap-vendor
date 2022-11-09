@@ -70,6 +70,11 @@ services:
     image: ap-grafana:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: grafana
+  ap-init:
+    image: ap-init:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: init
+    entrypoint: "/bin/sleep 1m"
   ap-keda:
     image: ap-keda:${ASTRO_IMAGE_TAG:-latest}
     build:
