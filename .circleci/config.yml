@@ -653,6 +653,51 @@ workflows:
             branches:
               ignore: main
 
+      - approve-init:
+          type: approval
+      - build:
+          name: build-init
+          directory: init
+          requires:
+            - approve-init
+            - run_pre_commit
+      - test:
+          name: test-init
+          directory: init
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-init
+      - scan-trivy:
+          name: scan-trivy-init
+          directory: init
+          requires:
+            - test-init
+      - release:
+          name: release-init
+          directory: init
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-init
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          name: validate-tags-init
+          directory: init
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-init
+          filters:
+            branches:
+              ignore: main
+
       - approve-keda:
           type: approval
       - build:
