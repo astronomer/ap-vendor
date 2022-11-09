@@ -1,2 +1,4 @@
 # Upstream elastic.co kibana images include several CVEs.
 # We should try to remove these each time we update.
+GHSA-36jr-mh4h-2g58
+CVE-2022-37601
