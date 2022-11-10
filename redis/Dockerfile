@@ -23,12 +23,23 @@ RUN apt-get update && \
     apt-get dist-upgrade -y && \
     rm -rf /var/lib/apt/lists/*
 
+# Make it possible to override the UID/GID/username of the user running
+ARG UID=999
+ARG GID=999
+ARG UNAME=redis
+
+# Change gid of a specific group
+RUN groupmod -g $GID -o $UNAME \
+  && chgrp 1001 /data
+
+RUN usermod -u $UID -o $UNAME
+
 # Adding enough permission for redis to use redis-server service  https://redis.io/docs/manual/persistence/
-RUN chown redis:redis /usr/local/bin/redis*
+RUN chown -R $UID:$GID /usr/local/bin/redis*
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 # Switching user to redis:999
-USER redis
+USER $UNAME
