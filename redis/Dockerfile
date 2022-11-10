@@ -26,13 +26,15 @@ RUN apt-get update && \
 # Make it possible to override the UID/GID/username of the user running
 ARG UID=999
 ARG GID=999
-ARG UNAME=redis
+
+# Since username and group name `redis` already exists in base image
+ENV UNAME=redis
 
 # Change gid of a specific group
-RUN groupmod -g $GID -o $UNAME \
-  && chgrp 1001 /data
+RUN groupmod -g $GID $UNAME \
+  && chgrp $GID /data
 
-RUN usermod -u $UID -o $UNAME
+RUN usermod -u $UID -g $GID $UNAME
 
 # Adding enough permission for redis to use redis-server service  https://redis.io/docs/manual/persistence/
 RUN chown -R $UID:$GID /usr/local/bin/redis*
