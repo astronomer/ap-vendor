@@ -20,16 +20,21 @@ FROM quay.io/astronomer/ap-base:3.16.2-4
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
+# Make it possible to override the UID/GID/username of the user running
+ARG UID=100
+ARG GID=101
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+ENV UNAME=pgexporter
+
 COPY --from=builder /bin/pgbouncer_exporter /bin
 
-RUN addgroup -S pgexporter \
-    && adduser -D -S -s /sbin/nologin -G pgexporter pgexporter
+RUN addgroup -g $GID -S $UNAME \
+    && adduser -D -S -s /sbin/nologin -G $UNAME -u $UID $UNAME
 
-USER pgexporter
+USER $UID
 
 HEALTHCHECK CMD ["pgbouncer_exporter", "health"]
 
