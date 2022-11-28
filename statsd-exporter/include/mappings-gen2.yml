@@ -137,6 +137,10 @@ mappings:
   - match: airflow.collect_db_dags
     name: "airflow_collect_db_dags"
     labels: {}
+    
+  - match: airflow.scheduler.orphaned_tasks.adopted
+    name: "airflow_scheduler_orphaned_tasks_adopted
+    labels: {}
 
   # drop any metric not matched
   - match: "."
