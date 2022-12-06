@@ -26,9 +26,8 @@ RUN apt-get update && \
 # Make it possible to override the UID/GID/username of the user running
 ARG UID=999
 ARG GID=999
-
 # Since username and group name `redis` already exists in base image
-ENV UNAME=redis
+ARG USER=redis
 
 # Change gid of a specific group
 RUN groupmod -g $GID $UNAME \

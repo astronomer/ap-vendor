@@ -22,16 +22,16 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG UID=100
 ARG GID=101
 ARG BUILD_NUMBER=-1
+ARG USER=pgbouncer
 
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 ENV PGBOUNCER_VERSION=1.17.0 \
-    PGBOUNCER_SHA256=657309b7bc5c7a85cbf70a9a441b535f7824123081eabb7ba86d00349a256e23 \
-    UNAME=pgbouncer
+    PGBOUNCER_SHA256=657309b7bc5c7a85cbf70a9a441b535f7824123081eabb7ba86d00349a256e23
 
-RUN addgroup -g $GID -S $UNAME \
-    && adduser -D -S -s /sbin/nologin -G $UNAME -u $GID $UNAME \
+RUN addgroup -g $GID -S $USER \
+    && adduser -D -S -s /sbin/nologin -G $USER -u $GID $USER \
     && apk add --no-cache --virtual .run-deps \
       c-ares \
       entr \

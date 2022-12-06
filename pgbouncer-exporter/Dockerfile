@@ -24,19 +24,11 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG UID=100
 ARG GID=101
 ARG BUILD_NUMBER=-1
+ARG USER=pgexporter
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV UNAME=pgexporter
-
 COPY --from=builder /bin/pgbouncer_exporter /bin
 
-RUN addgroup -g $GID -S $UNAME \
-    && adduser -D -S -s /sbin/nologin -G $UNAME -u $UID $UNAME
-
-USER $UID
-
-HEALTHCHECK CMD ["pgbouncer_exporter", "health"]
-
-ENTRYPOINT ["pgbouncer_exporter"]
-CMD ["server"]
+RUN addgroup -g $GID -S $USER \
+    && adduser -D -S -s /sbin/nologin -G $USER -u $UID
