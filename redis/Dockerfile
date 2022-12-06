@@ -30,10 +30,10 @@ ARG GID=999
 ARG USER=redis
 
 # Change gid of a specific group
-RUN groupmod -g $GID $UNAME \
+RUN groupmod -g $GID $USER \
   && chgrp $GID /data
 
-RUN usermod -u $UID -g $GID $UNAME
+RUN usermod -u $UID -g $GID $USER
 
 # Adding enough permission for redis to use redis-server service  https://redis.io/docs/manual/persistence/
 RUN chown -R $UID:$GID /usr/local/bin/redis*
@@ -43,4 +43,4 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 # Switching user to redis:999
-USER $UNAME
+USER $USER
