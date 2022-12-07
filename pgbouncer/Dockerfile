@@ -31,7 +31,7 @@ ENV PGBOUNCER_VERSION=1.17.0 \
     PGBOUNCER_SHA256=657309b7bc5c7a85cbf70a9a441b535f7824123081eabb7ba86d00349a256e23
 
 RUN addgroup -g $GID -S $USER \
-    && adduser -D -S -s /sbin/nologin -G $USER -u $GID $USER \
+    && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
     && apk add --no-cache --virtual .run-deps \
       c-ares \
       entr \
