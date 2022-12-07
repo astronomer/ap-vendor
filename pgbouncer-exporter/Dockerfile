@@ -21,8 +21,8 @@ FROM quay.io/astronomer/ap-base:3.16.2-4
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 # Make it possible to override the UID/GID/username of the user running
-ARG UID=100
-ARG GID=101
+ARG UID=1000
+ARG GID=1001
 ARG BUILD_NUMBER=-1
 ARG USER=pgexporter
 LABEL io.astronomer.docker=true
