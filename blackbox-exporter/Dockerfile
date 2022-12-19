@@ -35,7 +35,7 @@ RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR 
 
 RUN CGO_ENABLED=0 make build
 
-FROM quay.io/astronomer/ap-base:3.16.2-4
+FROM quay.io/astronomer/ap-base:3.16.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1

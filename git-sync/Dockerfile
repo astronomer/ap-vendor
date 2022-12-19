@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://github.com/kubernetes/git-sync/releases
-FROM k8s.gcr.io/git-sync/git-sync:v3.6.1
+FROM k8s.gcr.io/git-sync/git-sync:v3.6.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
