@@ -24,9 +24,9 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 RUN apk add --no-cache git git-daemon
 COPY entrypoint.sh /
 
-# uid and gid must match git-sync
-RUN addgroup -g 65533 -S git-daemon \
-    && adduser -u 65533 -S git-daemon -G git-daemon
+# UID and GID must match git-sync, which are both 65533. There is
+# already a group 'nogroup' on 65533 so just add git-daemon to that.
+RUN adduser -u 65533 -S git-daemon -G nogroup
 
 USER git-daemon
 
