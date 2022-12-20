@@ -4,7 +4,7 @@ tests:
   default_user: git-daemon
   users_config:
     - name: git-daemon
-      group: git-daemon
+      group: nogroup
       # uid and gid must match git-sync
       gid: 65533
       uid: 65533
