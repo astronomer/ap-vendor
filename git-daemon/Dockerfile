@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://github.com/kubernetes/git-sync/releases
-FROM quay.io/astronomer/ap-base:3.16.2-4
+FROM quay.io/astronomer/ap-base:3.16.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -24,8 +24,8 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 RUN apk add --no-cache git git-daemon
 COPY entrypoint.sh /
 
-RUN addgroup -g 65533 -S git-daemon \
-    && adduser -u 65533 -S git-daemon -G git-daemon
+RUN addgroup -g 65500 -S git-daemon \
+    && adduser -u 65500 -S git-daemon -G git-daemon
 
 USER git-daemon
 
