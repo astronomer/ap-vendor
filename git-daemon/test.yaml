@@ -1,12 +1,12 @@
 ---
 tests:
   root_user_test: True
-  default_user: git-sync
+  default_user: git-daemon
   users_config:
-    - name: git-sync
-      group: git-sync
+    - name: git-daemon
+      group: git-daemon
       # gid,uid must match git-sync
-      gid: 65533
-      uid: 65533
+      gid: 65500
+      uid: 65500
 docker:
   entrypoint: "/bin/sleep 1m"
