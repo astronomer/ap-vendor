@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/astronomer/ap-base:3.16.2-4
+FROM quay.io/astronomer/ap-base:3.16.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -27,27 +27,26 @@ ENV KADMIN_PASSWORD ${KADMIN_PASSWORD:-postgres}
 RUN addgroup -S pgbouncer \
     && adduser -D -S -s /sbin/nologin -G pgbouncer pgbouncer \
     && apk add --no-cache --virtual .run-deps \
+      bash \
       c-ares \
       entr \
-      libevent \
-      libressl \
       krb5 \
       krb5-dev \
       krb5-pkinit \
-      bash
-
+      libevent \
+      libressl
 
 RUN apk add --no-cache --virtual .build-deps \
-      build-base \
       autoconf \
-      wget \
-      git \
+      automake \
+      build-base \
       c-ares-dev \
+      git \
       libevent-dev \
       libressl-dev \
-      openssl-dev \
       libtool \
-      automake \
+      openssl-dev \
+      wget \
     && wget "https://github.com/jgm/pandoc/releases/download/2.18/pandoc-2.18-linux-amd64.tar.gz" \
     && tar xvzf pandoc-2.18-linux-amd64.tar.gz --strip-components 1 -C /usr/local \
     && git clone https://github.com/astronomer/pgbouncer.git --single-branch --branch cory/gss-authentication \

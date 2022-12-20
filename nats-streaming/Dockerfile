@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/astronomer/ap-base:3.16.2-4
+FROM quay.io/astronomer/ap-base:3.16.3
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
@@ -21,7 +21,7 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV NATS_STREAMING_SERVER 0.24.5
+ENV NATS_STREAMING_SERVER 0.24.6
 
 # Create nats-streamming user and group
 RUN addgroup -g 1000 -S nats-streaming \
@@ -29,7 +29,7 @@ RUN addgroup -g 1000 -S nats-streaming \
 
 RUN set -eux ; \
 	url="https://github.com/nats-io/nats-streaming-server/releases/download/v${NATS_STREAMING_SERVER}/nats-streaming-server-v${NATS_STREAMING_SERVER}-linux-amd64.zip" ; \
-	sha256="d8f854b8bb53ddc722725d2cf89eda58030c8bd6fa803238959bf03e80dd5351" ; \
+	sha256="27206199785ea037496758730060f2461c339feb6ed0da42aba17d5104e13594" ; \
 	wget -O nats-streaming-server.zip "${url}" ; \
 	echo "${sha256} *nats-streaming-server.zip" | sha256sum -c - ; \
 	apk add --no-cache ca-certificates ; \

@@ -60,7 +60,7 @@ services:
     image: ap-git-daemon:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: git-daemon
-    entrypoint: "top"
+    entrypoint: "/bin/sleep 1m"
   ap-git-sync:
     image: ap-git-sync:${ASTRO_IMAGE_TAG:-latest}
     build:
