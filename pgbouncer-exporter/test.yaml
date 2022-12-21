@@ -1,11 +1,11 @@
 ---
 tests:
   root_user_test: True
-  default_user: pgexporter
+  default_user: nobody
   users_config:
-    - name: pgexporter
-      group: pgexporter
-      gid: 1001
-      uid: 1000
+    - name: nobody
+      group: nobody
+      gid: 65534
+      uid: 65534
 docker:
   entrypoint: "top"
