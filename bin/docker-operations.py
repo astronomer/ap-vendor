@@ -247,8 +247,14 @@ def main():
         elif args.image is None:
             raise Exception("Error: Image name is required.")
 
-        if tags is None:
-            tags = get_image_tags(project_path=args.project_path)
+        file_tags = get_image_tags(project_path=args.project_path)
+        if tags is not None:
+            if "," in tags:
+                tags = tags.strip().split(",")
+                tags.append(file_tags)
+            else:
+                file_tags.append(tags.strip())
+                tags = file_tags.copy()
 
         # Login to registry
         docker_client = login_registry(
@@ -296,8 +302,14 @@ def main():
         elif args.image is None:
             raise Exception("Error: Image name is required.")
 
-        if tags is None:
-            tags = get_image_tags(project_path=args.project_path)
+        file_tags = get_image_tags(project_path=args.project_path)
+        if tags is not None:
+            if "," in tags:
+                tags = tags.strip().split(",")
+                tags.append(file_tags)
+            else:
+                file_tags.append(tags.strip())
+                tags = file_tags.copy()
 
         # Login to registry
         docker_client = login_registry(
