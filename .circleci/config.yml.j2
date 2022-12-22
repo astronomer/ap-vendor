@@ -59,7 +59,7 @@ workflows:
       - validate-tags:
           name: validate-tags-{{ directory }}
           directory: {{ directory }}
-          tags: "latest,latest1"
+          tags: "latest"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
