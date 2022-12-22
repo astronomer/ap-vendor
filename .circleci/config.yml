@@ -59,7 +59,7 @@ workflows:
       - validate-tags:
           name: validate-tags-alertmanager
           directory: alertmanager
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -106,7 +106,7 @@ workflows:
       - validate-tags:
           name: validate-tags-auth-sidecar
           directory: auth-sidecar
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -153,7 +153,7 @@ workflows:
       - validate-tags:
           name: validate-tags-awsesproxy
           directory: awsesproxy
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -200,7 +200,7 @@ workflows:
       - validate-tags:
           name: validate-tags-blackbox-exporter
           directory: blackbox-exporter
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -247,7 +247,7 @@ workflows:
       - validate-tags:
           name: validate-tags-configmap-reloader
           directory: configmap-reloader
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -294,7 +294,7 @@ workflows:
       - validate-tags:
           name: validate-tags-curator
           directory: curator
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -341,7 +341,7 @@ workflows:
       - validate-tags:
           name: validate-tags-dind-golang
           directory: dind-golang
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -388,7 +388,7 @@ workflows:
       - validate-tags:
           name: validate-tags-dogstatsd
           directory: dogstatsd
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -435,7 +435,7 @@ workflows:
       - validate-tags:
           name: validate-tags-elasticsearch
           directory: elasticsearch
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -482,7 +482,7 @@ workflows:
       - validate-tags:
           name: validate-tags-elasticsearch-exporter
           directory: elasticsearch-exporter
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -529,7 +529,7 @@ workflows:
       - validate-tags:
           name: validate-tags-fluentd
           directory: fluentd
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -576,7 +576,7 @@ workflows:
       - validate-tags:
           name: validate-tags-git-daemon
           directory: git-daemon
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -623,7 +623,7 @@ workflows:
       - validate-tags:
           name: validate-tags-git-sync
           directory: git-sync
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -670,7 +670,7 @@ workflows:
       - validate-tags:
           name: validate-tags-grafana
           directory: grafana
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -717,7 +717,7 @@ workflows:
       - validate-tags:
           name: validate-tags-init
           directory: init
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -764,7 +764,7 @@ workflows:
       - validate-tags:
           name: validate-tags-keda
           directory: keda
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -811,7 +811,7 @@ workflows:
       - validate-tags:
           name: validate-tags-keda-metrics-apiserver
           directory: keda-metrics-apiserver
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -858,7 +858,7 @@ workflows:
       - validate-tags:
           name: validate-tags-kibana
           directory: kibana
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -905,7 +905,7 @@ workflows:
       - validate-tags:
           name: validate-tags-kube-state
           directory: kube-state
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -952,7 +952,7 @@ workflows:
       - validate-tags:
           name: validate-tags-kubed
           directory: kubed
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -999,7 +999,7 @@ workflows:
       - validate-tags:
           name: validate-tags-nats-exporter
           directory: nats-exporter
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1046,7 +1046,7 @@ workflows:
       - validate-tags:
           name: validate-tags-nats-server
           directory: nats-server
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1093,7 +1093,7 @@ workflows:
       - validate-tags:
           name: validate-tags-nats-streaming
           directory: nats-streaming
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1140,7 +1140,7 @@ workflows:
       - validate-tags:
           name: validate-tags-nginx
           directory: nginx
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1187,7 +1187,7 @@ workflows:
       - validate-tags:
           name: validate-tags-nginx-es
           directory: nginx-es
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1234,7 +1234,7 @@ workflows:
       - validate-tags:
           name: validate-tags-node-exporter
           directory: node-exporter
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1281,7 +1281,7 @@ workflows:
       - validate-tags:
           name: validate-tags-openresty
           directory: openresty
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1328,7 +1328,7 @@ workflows:
       - validate-tags:
           name: validate-tags-pgbouncer
           directory: pgbouncer
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1375,7 +1375,7 @@ workflows:
       - validate-tags:
           name: validate-tags-pgbouncer-exporter
           directory: pgbouncer-exporter
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1422,7 +1422,7 @@ workflows:
       - validate-tags:
           name: validate-tags-pgbouncer-krb
           directory: pgbouncer-krb
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1469,7 +1469,7 @@ workflows:
       - validate-tags:
           name: validate-tags-po-logical-backup
           directory: po-logical-backup
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1516,7 +1516,7 @@ workflows:
       - validate-tags:
           name: validate-tags-po-pgbouncer
           directory: po-pgbouncer
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1563,7 +1563,7 @@ workflows:
       - validate-tags:
           name: validate-tags-po-spilo
           directory: po-spilo
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1610,7 +1610,7 @@ workflows:
       - validate-tags:
           name: validate-tags-postgres-exporter
           directory: postgres-exporter
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1657,7 +1657,7 @@ workflows:
       - validate-tags:
           name: validate-tags-postgres-operator
           directory: postgres-operator
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1704,7 +1704,7 @@ workflows:
       - validate-tags:
           name: validate-tags-postgresql
           directory: postgresql
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1751,7 +1751,7 @@ workflows:
       - validate-tags:
           name: validate-tags-prometheus
           directory: prometheus
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1798,7 +1798,7 @@ workflows:
       - validate-tags:
           name: validate-tags-redis
           directory: redis
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1845,7 +1845,7 @@ workflows:
       - validate-tags:
           name: validate-tags-registry
           directory: registry
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1892,7 +1892,7 @@ workflows:
       - validate-tags:
           name: validate-tags-statsd-exporter
           directory: statsd-exporter
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -1939,7 +1939,7 @@ workflows:
       - validate-tags:
           name: validate-tags-vector
           directory: vector
-          tags: "latest"
+          tags: "latest,latest1"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
