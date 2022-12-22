@@ -46,6 +46,7 @@ workflows:
       - release:
           name: release-{{ directory }}
           directory: {{ directory }}
+          tags: "latest"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -58,6 +59,7 @@ workflows:
       - validate-tags:
           name: validate-tags-{{ directory }}
           directory: {{ directory }}
+          tags: "latest"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
@@ -170,6 +172,9 @@ jobs:
       overwrite_tags:
         type: boolean
         default: false
+      tags:
+        description: "Comma separated list of tags."
+        type: string
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
@@ -183,6 +188,7 @@ jobs:
           registry_password: "${QUAY_PASSWORD}"
           repository: "astronomer"
           image_name: ap-<< parameters.directory >>
+          tags: << parameters.tags >>
           overwrite_tags: << parameters.overwrite_tags >>
       - docker-operations:
           operations: push
@@ -192,6 +198,7 @@ jobs:
           registry_password: "${DOCKER_PASSWORD}"
           repository: "astronomerinc"
           image_name: ap-<< parameters.directory >>
+          tags: << parameters.tags >>
           overwrite_tags: << parameters.overwrite_tags >>
 
   validate-tags:
@@ -199,6 +206,9 @@ jobs:
     parameters:
       directory:
         description: "The directory name of the image to be validated"
+        type: string
+      tags:
+        description: "Comma separated list of tags."
         type: string
       overwrite_tags:
         type: boolean
@@ -216,6 +226,7 @@ jobs:
           registry_password: "${QUAY_PASSWORD}"
           repository: "astronomer"
           image_name: ap-<< parameters.directory >>
+          tags: << parameters.tags >>
           overwrite_tags: << parameters.overwrite_tags >>
       - docker-operations:
           operations: validate_tags
@@ -225,6 +236,7 @@ jobs:
           registry_password: "${DOCKER_PASSWORD}"
           repository: "astronomerinc"
           image_name: ap-<< parameters.directory >>
+          tags: << parameters.tags >>
           overwrite_tags: << parameters.overwrite_tags >>
 
 commands:
@@ -327,6 +339,8 @@ commands:
       script_requirements:
         type: string
         default: requirements/build-requirements.txt
+      tags:
+        type: string
       overwrite_tags:
         type: boolean
         default: false
@@ -344,4 +358,4 @@ commands:
             docker images | grep << parameters.image_name >>
       - run:
           name: Validating docker image(s)'s tags to << parameters.registry >>
-          command: bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --overwrite_tags=<< parameters.overwrite_tags >>
+          command: bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --tags=<< parameters.tags >> --overwrite_tags=<< parameters.overwrite_tags >>
