@@ -1,39 +1,61 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "5.0.0-pre1"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "singlestat",
+      "name": "Singlestat",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
         "builtIn": 1,
-        "datasource": {
-          "type": "datasource",
-          "uid": "grafana"
-        },
+        "datasource": "-- Grafana --",
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
-        "target": {
-          "limit": 100,
-          "matchAny": false,
-          "tags": [],
-          "type": "dashboard"
-        },
         "type": "dashboard"
       }
     ]
   },
   "editable": true,
-  "fiscalYearStartMonth": 0,
+  "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1671743192855,
+  "iteration": 1551321394162,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -46,13 +68,11 @@
       "type": "row"
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "#299c46", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "Namespaces that are up and hosting an airflow deployment. This will be 0 in single namespace mode.",
       "format": "none",
       "gauge": {
@@ -69,6 +89,7 @@
         "y": 1
       },
       "id": 32,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -83,6 +104,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -112,7 +134,7 @@
       ],
       "thresholds": "",
       "title": "Active Namespaces",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -124,13 +146,11 @@
       "valueName": "current"
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "#d44a3a", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "decimals": 0,
       "description": "Namespaces that are in terminating state. Most likely because a deployment has been shut down. This will be 0 in single namespace mode.",
       "format": "short",
@@ -148,6 +168,7 @@
         "y": 1
       },
       "id": 34,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -162,6 +183,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -192,7 +214,7 @@
       ],
       "thresholds": "",
       "title": "Terminating Namespaces",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -204,13 +226,11 @@
       "valueName": "current"
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "Revision count for the Scheduler. Generally the amount of times code has been pushed.",
       "format": "none",
       "gauge": {
@@ -227,6 +247,7 @@
         "y": 1
       },
       "id": 60,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -241,6 +262,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -269,7 +291,7 @@
       ],
       "thresholds": "",
       "title": "Scheduler Generations (Deploy Count)",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
         {
@@ -281,13 +303,11 @@
       "valueName": "current"
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#d44a3a", "rgba(237, 129, 40, 0.89)", "#299c46"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "Active Kubernetes Deployments. Most Airflow components are a deployment.",
       "format": "none",
       "gauge": {
@@ -304,6 +324,7 @@
         "y": 1
       },
       "id": 12,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -318,6 +339,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -347,7 +369,7 @@
       ],
       "thresholds": "",
       "title": "Active Deployments",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -359,13 +381,11 @@
       "valueName": "current"
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#d44a3a", "rgba(237, 129, 40, 0.89)", "#299c46"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "Active StatefulSets for an Airflow deployment.",
       "format": "none",
       "gauge": {
@@ -382,6 +402,7 @@
         "y": 1
       },
       "id": 16,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -396,6 +417,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -425,7 +447,7 @@
       ],
       "thresholds": "0, 1",
       "title": "Active Stateful Sets",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -441,21 +463,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "decimals": 0,
       "description": "Total pods that are in the running state.",
       "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 5,
         "w": 8,
         "x": 0,
         "y": 3
       },
-      "hiddenSeries": false,
       "id": 63,
       "legend": {
         "alignAsTable": true,
@@ -471,12 +488,8 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
       "paceLength": 10,
       "percentage": false,
-      "pluginVersion": "8.5.10",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -494,7 +507,9 @@
         }
       ],
       "thresholds": [],
+      "timeFrom": null,
       "timeRegions": [],
+      "timeShift": null,
       "title": "Running Pods",
       "tooltip": {
         "shared": true,
@@ -503,7 +518,9 @@
       },
       "type": "graph",
       "xaxis": {
+        "buckets": null,
         "mode": "time",
+        "name": null,
         "show": false,
         "values": []
       },
@@ -511,27 +528,33 @@
         {
           "decimals": 0,
           "format": "short",
+          "label": null,
           "logBase": 1,
+          "max": null,
+          "min": null,
           "show": true
         },
         {
+          "decimals": null,
           "format": "short",
+          "label": null,
           "logBase": 1,
+          "max": null,
+          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false
+        "align": false,
+        "alignLevel": null
       }
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#d44a3a", "rgba(237, 129, 40, 0.89)", "#299c46"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "Percentage of Pods that have been scheduled and are currently running.",
       "format": "percent",
       "gauge": {
@@ -548,6 +571,7 @@
         "y": 3
       },
       "id": 51,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -562,6 +586,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -590,7 +615,7 @@
       ],
       "thresholds": "80,100",
       "title": "Pods Ready",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
         {
@@ -606,21 +631,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "decimals": 0,
       "description": "Total containers in the Running state.",
       "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 5,
         "w": 8,
         "x": 16,
         "y": 3
       },
-      "hiddenSeries": false,
       "id": 58,
       "legend": {
         "alignAsTable": true,
@@ -637,12 +657,8 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
       "paceLength": 10,
       "percentage": false,
-      "pluginVersion": "8.5.10",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -660,7 +676,9 @@
         }
       ],
       "thresholds": [],
+      "timeFrom": null,
       "timeRegions": [],
+      "timeShift": null,
       "title": "Running Containers",
       "tooltip": {
         "shared": true,
@@ -669,7 +687,9 @@
       },
       "type": "graph",
       "xaxis": {
+        "buckets": null,
         "mode": "time",
+        "name": null,
         "show": false,
         "values": []
       },
@@ -677,25 +697,29 @@
         {
           "decimals": 0,
           "format": "short",
+          "label": null,
           "logBase": 1,
+          "max": null,
+          "min": null,
           "show": true
         },
         {
+          "decimals": null,
           "format": "short",
+          "label": null,
           "logBase": 1,
+          "max": null,
+          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false
+        "align": false,
+        "alignLevel": null
       }
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -708,13 +732,11 @@
       "type": "row"
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "Maximum total CPU requests allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "none",
       "gauge": {
@@ -731,6 +753,7 @@
         "y": 9
       },
       "id": 53,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -745,6 +768,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": " cores",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -773,7 +797,7 @@
       ],
       "thresholds": "",
       "title": "Max CPU Requests",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -785,13 +809,11 @@
       "valueName": "current"
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "Maximum total CPU limits allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "none",
       "gauge": {
@@ -808,6 +830,7 @@
         "y": 9
       },
       "id": 54,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -822,6 +845,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": " cores",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -850,7 +874,7 @@
       ],
       "thresholds": "",
       "title": "Max CPU Limits",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -862,13 +886,11 @@
       "valueName": "current"
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "Maximum total pods allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "none",
       "gauge": {
@@ -885,6 +907,7 @@
         "y": 9
       },
       "id": 61,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -899,6 +922,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": " pods",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -927,7 +951,7 @@
       ],
       "thresholds": "",
       "title": "Max Pods",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -939,13 +963,11 @@
       "valueName": "current"
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "Maximum total memory requests allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "decbytes",
       "gauge": {
@@ -962,6 +984,7 @@
         "y": 9
       },
       "id": 55,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -976,6 +999,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1004,7 +1028,7 @@
       ],
       "thresholds": "",
       "title": "Max Mem Requests",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -1016,13 +1040,11 @@
       "valueName": "current"
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "Maximum total memory limits allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "decbytes",
       "gauge": {
@@ -1039,6 +1061,7 @@
         "y": 9
       },
       "id": 56,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -1053,6 +1076,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1081,7 +1105,7 @@
       ],
       "thresholds": "",
       "title": "Max Mem Limits",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -1093,13 +1117,12 @@
       "valueName": "current"
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
+      "decimals": null,
       "description": "Percentage of total CPU requests in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -1116,6 +1139,7 @@
         "y": 11
       },
       "id": 46,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -1130,6 +1154,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1159,7 +1184,7 @@
       ],
       "thresholds": "51,80",
       "title": "CPU Requests",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
         {
@@ -1171,13 +1196,12 @@
       "valueName": "current"
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
+      "decimals": null,
       "description": "Percentage of total CPU limits in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -1194,6 +1218,7 @@
         "y": 11
       },
       "id": 47,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -1208,6 +1233,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1236,7 +1262,7 @@
       ],
       "thresholds": "51,80",
       "title": "CPU Limits",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
         {
@@ -1248,13 +1274,12 @@
       "valueName": "current"
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
+      "decimals": null,
       "description": "Percentage of total pods in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -1271,6 +1296,7 @@
         "y": 11
       },
       "id": 62,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -1285,6 +1311,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1314,7 +1341,7 @@
       ],
       "thresholds": "51,80",
       "title": "Running Pods",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
         {
@@ -1326,13 +1353,12 @@
       "valueName": "current"
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
+      "decimals": null,
       "description": "Percentage of total memory requests in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -1349,6 +1375,7 @@
         "y": 11
       },
       "id": 48,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -1363,6 +1390,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1391,7 +1419,7 @@
       ],
       "thresholds": "51,80",
       "title": "Memory Requests",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
         {
@@ -1403,13 +1431,12 @@
       "valueName": "current"
     },
     {
+      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
+      "decimals": null,
       "description": "Percentage of total memory limits in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -1426,6 +1453,7 @@
         "y": 11
       },
       "id": 49,
+      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -1440,6 +1468,7 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
+      "nullText": null,
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1468,7 +1497,7 @@
       ],
       "thresholds": "51,80",
       "title": "Memory Limits",
-      "type": "grafana-singlestat-panel",
+      "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
         {
@@ -1481,10 +1510,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1498,10 +1523,7 @@
     },
     {
       "columns": [],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "Status of Airflow deployments. Healthy if everything is up and running, and Unhealthy if there is a problem or during code pushes.",
       "fontSize": "100%",
       "gridPos": {
@@ -1512,15 +1534,16 @@
       },
       "id": 44,
       "links": [],
+      "pageSize": null,
       "scroll": true,
       "showHeader": true,
       "sort": {
+        "col": null,
         "desc": false
       },
       "styles": [
         {
           "alias": "Status",
-          "align": "auto",
           "colorMode": "cell",
           "colors": ["#bf1b00", "#bf1b00", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -1560,7 +1583,7 @@
         },
         {
           "alias": "",
-          "align": "auto",
+          "colorMode": null,
           "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
@@ -1572,7 +1595,7 @@
         },
         {
           "alias": "Release",
-          "align": "auto",
+          "colorMode": null,
           "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
@@ -1586,11 +1609,7 @@
       ],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "expr": "sort(\n  sum by (release) (\n    sum by (release) (\n      kube_pod_container_status_running{release=~\"$deployment\", container!=\"airflow-cleanup-pods\"}\n    ) - \n    count by (release) (\n      kube_pod_container_status_running{release=~\"$deployment\", container!=\"airflow-cleanup-pods\"}\n    )\n  )\n)",
+          "expr": "sort(\n sum by (release) (\n sum by (release) (\n kube_pod_container_status_running{release=~\"$deployment\", container!=\"airflow-cleanup-pods\"}\n ) - \n count by (release) (\n kube_pod_container_status_running{release=~\"$deployment\", container!=\"airflow-cleanup-pods\"}\n )\n )\n)",
           "format": "table",
           "instant": true,
           "intervalFactor": 1,
@@ -1599,14 +1618,11 @@
       ],
       "title": "Deployment Status",
       "transform": "table",
-      "type": "table-old"
+      "type": "table"
     },
     {
       "columns": [],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "Status of containers that make up an airflow deployment. A failing status here will make the deployment above show Unhealthy.",
       "fontSize": "100%",
       "gridPos": {
@@ -1617,6 +1633,7 @@
       },
       "id": 20,
       "links": [],
+      "pageSize": null,
       "scroll": true,
       "showHeader": true,
       "sort": {
@@ -1626,7 +1643,6 @@
       "styles": [
         {
           "alias": "Status",
-          "align": "auto",
           "colorMode": "cell",
           "colors": ["#bf1b00", "rgba(50, 172, 45, 0.97)", "#bf1b00"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -1664,7 +1680,7 @@
         },
         {
           "alias": "",
-          "align": "auto",
+          "colorMode": null,
           "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
@@ -1676,7 +1692,7 @@
         },
         {
           "alias": "Container",
-          "align": "auto",
+          "colorMode": null,
           "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
@@ -1688,7 +1704,7 @@
         },
         {
           "alias": "Pod",
-          "align": "auto",
+          "colorMode": null,
           "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
@@ -1700,7 +1716,7 @@
         },
         {
           "alias": "Reason",
-          "align": "auto",
+          "colorMode": null,
           "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
@@ -1722,11 +1738,11 @@
       ],
       "title": "Container Status",
       "transform": "table",
-      "type": "table-old"
+      "type": "table"
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 36,
+  "schemaVersion": 18,
   "style": "dark",
   "tags": ["airflow"],
   "templating": {
@@ -1734,14 +1750,10 @@
       {
         "allValue": ".*",
         "current": {
-          "selected": true,
-          "text": ["All"],
+          "text": "All",
           "value": ["$__all"]
         },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
+        "datasource": "Prometheus",
         "definition": "",
         "hide": 0,
         "includeAll": true,
@@ -1749,15 +1761,13 @@
         "multi": true,
         "name": "deployment",
         "options": [],
-        "query": {
-          "query": "label_values(kube_pod_info, release)",
-          "refId": "Prometheus-deployment-Variable-Query"
-        },
+        "query": "label_values(kube_pod_info, release)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
+        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -1774,7 +1784,6 @@
   },
   "timezone": "",
   "title": "Airflow State",
-  "uid": "h7dUiVJmz",
-  "version": 5,
-  "weekStart": ""
+  "uid": "h7dUiVJmq",
+  "version": 1
 }
