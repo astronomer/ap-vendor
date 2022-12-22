@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://quay.io/repository/astronomer/ap-base?tab=tags
-FROM quay.io/astronomer/ap-base:3.16.0
+FROM quay.io/astronomer/ap-base:3.16.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -42,6 +42,8 @@ RUN set -x ; apk --no-cache add \
       elasticsearch-curator \
       boto3 \
       requests-aws4auth && \
+    # workaround until https://github.com/elastic/curator/issues/1622 is addressed
+    pip install --upgrade --no-cache-dir urllib3 && \
     apk del \
       py-pip \
       python3-dev

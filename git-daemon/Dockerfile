@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://github.com/kubernetes/git-sync/releases
-FROM quay.io/astronomer/ap-base:3.15.4
+FROM quay.io/astronomer/ap-base:3.16.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -23,4 +23,11 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 RUN apk add --no-cache git git-daemon
 COPY entrypoint.sh /
+
+# UID and GID must match git-sync, which are both 65533. There is
+# already a group 'nogroup' on 65533 so just add git-daemon to that.
+RUN adduser -u 65533 -S git-daemon -G nogroup
+
+USER git-daemon
+
 ENTRYPOINT /entrypoint.sh

@@ -39,6 +39,11 @@ services:
     build:
       context: dind-golang
     entrypoint: "top"
+  ap-dogstatsd:
+    image: ap-dogstatsd:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: dogstatsd
+    entrypoint: "/bin/sleep 1m"
   ap-elasticsearch:
     image: ap-elasticsearch:${ASTRO_IMAGE_TAG:-latest}
     build:
@@ -55,7 +60,7 @@ services:
     image: ap-git-daemon:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: git-daemon
-    entrypoint: "top"
+    entrypoint: "/bin/sleep 1m"
   ap-git-sync:
     image: ap-git-sync:${ASTRO_IMAGE_TAG:-latest}
     build:
@@ -65,6 +70,11 @@ services:
     image: ap-grafana:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: grafana
+  ap-init:
+    image: ap-init:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: init
+    entrypoint: "/bin/sleep 1m"
   ap-keda:
     image: ap-keda:${ASTRO_IMAGE_TAG:-latest}
     build:
@@ -124,6 +134,11 @@ services:
     build:
       context: pgbouncer-exporter
     entrypoint: "top"
+  ap-pgbouncer-krb:
+    image: ap-pgbouncer-krb:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: pgbouncer-krb
+    entrypoint: "top"
   ap-po-logical-backup:
     image: ap-po-logical-backup:${ASTRO_IMAGE_TAG:-latest}
     build:
@@ -141,6 +156,7 @@ services:
     image: ap-postgres-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: postgres-exporter
+    entrypoint: "/bin/sleep 1m"
   ap-postgres-operator:
     image: ap-postgres-operator:${ASTRO_IMAGE_TAG:-latest}
     build:

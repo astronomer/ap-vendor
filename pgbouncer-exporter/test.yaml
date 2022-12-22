@@ -5,7 +5,7 @@ tests:
   users_config:
     - name: pgexporter
       group: pgexporter
-      gid: 102
-      uid: 102
+      gid: 1001
+      uid: 1000
 docker:
   entrypoint: "top"

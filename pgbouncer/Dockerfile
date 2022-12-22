@@ -15,18 +15,23 @@
 
 # https://github.com/CenterForOpenScience/docker-library/blob/master/pgbouncer/Dockerfile
 # https://quay.io/repository/centerforopenscience/pgbouncer
-FROM quay.io/astronomer/ap-base:3.15.4
+FROM quay.io/astronomer/ap-base:3.16.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
+# Make it possible to override the UID/GID/username of the user running
+ARG UID=1000
+ARG GID=1001
 ARG BUILD_NUMBER=-1
+ARG USER=pgbouncer
+
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 ENV PGBOUNCER_VERSION=1.17.0 \
     PGBOUNCER_SHA256=657309b7bc5c7a85cbf70a9a441b535f7824123081eabb7ba86d00349a256e23
 
-RUN addgroup -S pgbouncer \
-    && adduser -D -S -s /sbin/nologin -G pgbouncer pgbouncer \
+RUN addgroup -g $GID -S $USER \
+    && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
     && apk add --no-cache --virtual .run-deps \
       c-ares \
       entr \
@@ -61,6 +66,5 @@ RUN apk add --no-cache --virtual .build-deps \
     && rm pgbouncer-$PGBOUNCER_VERSION.tar.gz \
     && rm -rf pgbouncer-$PGBOUNCER_VERSION \
     && apk del .build-deps
-USER pgbouncer
-CMD ["pgbouncer", "-u", "pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
-
+USER $UID
+CMD ["pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]

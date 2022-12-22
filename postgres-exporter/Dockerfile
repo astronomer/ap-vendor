@@ -16,7 +16,7 @@
 # https://hub.docker.com/r/prometheuscommunity/postgres-exporter
 # https://github.com/prometheus-community/postgres_exporter/blob/v0.10.0/Dockerfile
 
-FROM quay.io/prometheuscommunity/postgres-exporter:v0.10.1
+FROM quay.io/prometheuscommunity/postgres-exporter:v0.11.1
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 LABEL io.astronomer.docker=true

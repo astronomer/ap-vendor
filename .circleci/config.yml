@@ -2,8 +2,21 @@
 # Please edit .circleci/config.yml.j2, then run bin/generate_circleci_config.py
 ---
 version: 2.1
+
 orbs:
   python: circleci/python@2.0.3
+
+executors:
+  docker-executor:
+    docker:
+      - image: cimg/python:3.9
+
+parameters:
+  overwrite_tags:
+    type: boolean
+    default: false
+    description: "Set True if you want to overwrite existing docker image tag."
+
 workflows:
   version: 2.1
   vendor-build:
@@ -33,6 +46,8 @@ workflows:
       - release:
           name: release-alertmanager
           directory: alertmanager
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -41,6 +56,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-alertmanager
+          directory: alertmanager
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-alertmanager
+          filters:
+            branches:
+              ignore: main
 
       - approve-auth-sidecar:
           type: approval
@@ -65,6 +93,8 @@ workflows:
       - release:
           name: release-auth-sidecar
           directory: auth-sidecar
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -73,6 +103,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-auth-sidecar
+          directory: auth-sidecar
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-auth-sidecar
+          filters:
+            branches:
+              ignore: main
 
       - approve-awsesproxy:
           type: approval
@@ -97,6 +140,8 @@ workflows:
       - release:
           name: release-awsesproxy
           directory: awsesproxy
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -105,6 +150,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-awsesproxy
+          directory: awsesproxy
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-awsesproxy
+          filters:
+            branches:
+              ignore: main
 
       - approve-blackbox-exporter:
           type: approval
@@ -129,6 +187,8 @@ workflows:
       - release:
           name: release-blackbox-exporter
           directory: blackbox-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -137,6 +197,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-blackbox-exporter
+          directory: blackbox-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-blackbox-exporter
+          filters:
+            branches:
+              ignore: main
 
       - approve-configmap-reloader:
           type: approval
@@ -161,6 +234,8 @@ workflows:
       - release:
           name: release-configmap-reloader
           directory: configmap-reloader
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -169,6 +244,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-configmap-reloader
+          directory: configmap-reloader
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-configmap-reloader
+          filters:
+            branches:
+              ignore: main
 
       - approve-curator:
           type: approval
@@ -193,6 +281,8 @@ workflows:
       - release:
           name: release-curator
           directory: curator
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -201,6 +291,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-curator
+          directory: curator
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-curator
+          filters:
+            branches:
+              ignore: main
 
       - approve-dind-golang:
           type: approval
@@ -225,6 +328,8 @@ workflows:
       - release:
           name: release-dind-golang
           directory: dind-golang
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -233,6 +338,66 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-dind-golang
+          directory: dind-golang
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-dind-golang
+          filters:
+            branches:
+              ignore: main
+
+      - approve-dogstatsd:
+          type: approval
+      - build:
+          name: build-dogstatsd
+          directory: dogstatsd
+          requires:
+            - approve-dogstatsd
+            - run_pre_commit
+      - test:
+          name: test-dogstatsd
+          directory: dogstatsd
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-dogstatsd
+      - scan-trivy:
+          name: scan-trivy-dogstatsd
+          directory: dogstatsd
+          requires:
+            - test-dogstatsd
+      - release:
+          name: release-dogstatsd
+          directory: dogstatsd
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-dogstatsd
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          name: validate-tags-dogstatsd
+          directory: dogstatsd
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-dogstatsd
+          filters:
+            branches:
+              ignore: main
 
       - approve-elasticsearch:
           type: approval
@@ -257,6 +422,8 @@ workflows:
       - release:
           name: release-elasticsearch
           directory: elasticsearch
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -265,6 +432,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-elasticsearch
+          directory: elasticsearch
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-elasticsearch
+          filters:
+            branches:
+              ignore: main
 
       - approve-elasticsearch-exporter:
           type: approval
@@ -289,6 +469,8 @@ workflows:
       - release:
           name: release-elasticsearch-exporter
           directory: elasticsearch-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -297,6 +479,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-elasticsearch-exporter
+          directory: elasticsearch-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-elasticsearch-exporter
+          filters:
+            branches:
+              ignore: main
 
       - approve-fluentd:
           type: approval
@@ -321,6 +516,8 @@ workflows:
       - release:
           name: release-fluentd
           directory: fluentd
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -329,6 +526,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-fluentd
+          directory: fluentd
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-fluentd
+          filters:
+            branches:
+              ignore: main
 
       - approve-git-daemon:
           type: approval
@@ -353,6 +563,8 @@ workflows:
       - release:
           name: release-git-daemon
           directory: git-daemon
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -361,6 +573,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-git-daemon
+          directory: git-daemon
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-git-daemon
+          filters:
+            branches:
+              ignore: main
 
       - approve-git-sync:
           type: approval
@@ -385,6 +610,8 @@ workflows:
       - release:
           name: release-git-sync
           directory: git-sync
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -393,6 +620,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-git-sync
+          directory: git-sync
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-git-sync
+          filters:
+            branches:
+              ignore: main
 
       - approve-grafana:
           type: approval
@@ -417,6 +657,8 @@ workflows:
       - release:
           name: release-grafana
           directory: grafana
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -425,6 +667,66 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-grafana
+          directory: grafana
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-grafana
+          filters:
+            branches:
+              ignore: main
+
+      - approve-init:
+          type: approval
+      - build:
+          name: build-init
+          directory: init
+          requires:
+            - approve-init
+            - run_pre_commit
+      - test:
+          name: test-init
+          directory: init
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-init
+      - scan-trivy:
+          name: scan-trivy-init
+          directory: init
+          requires:
+            - test-init
+      - release:
+          name: release-init
+          directory: init
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-init
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          name: validate-tags-init
+          directory: init
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-init
+          filters:
+            branches:
+              ignore: main
 
       - approve-keda:
           type: approval
@@ -449,6 +751,8 @@ workflows:
       - release:
           name: release-keda
           directory: keda
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -457,6 +761,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-keda
+          directory: keda
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-keda
+          filters:
+            branches:
+              ignore: main
 
       - approve-keda-metrics-apiserver:
           type: approval
@@ -481,6 +798,8 @@ workflows:
       - release:
           name: release-keda-metrics-apiserver
           directory: keda-metrics-apiserver
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -489,6 +808,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-keda-metrics-apiserver
+          directory: keda-metrics-apiserver
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-keda-metrics-apiserver
+          filters:
+            branches:
+              ignore: main
 
       - approve-kibana:
           type: approval
@@ -513,6 +845,8 @@ workflows:
       - release:
           name: release-kibana
           directory: kibana
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -521,6 +855,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-kibana
+          directory: kibana
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-kibana
+          filters:
+            branches:
+              ignore: main
 
       - approve-kube-state:
           type: approval
@@ -545,6 +892,8 @@ workflows:
       - release:
           name: release-kube-state
           directory: kube-state
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -553,6 +902,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-kube-state
+          directory: kube-state
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-kube-state
+          filters:
+            branches:
+              ignore: main
 
       - approve-kubed:
           type: approval
@@ -577,6 +939,8 @@ workflows:
       - release:
           name: release-kubed
           directory: kubed
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -585,6 +949,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-kubed
+          directory: kubed
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-kubed
+          filters:
+            branches:
+              ignore: main
 
       - approve-nats-exporter:
           type: approval
@@ -609,6 +986,8 @@ workflows:
       - release:
           name: release-nats-exporter
           directory: nats-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -617,6 +996,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-nats-exporter
+          directory: nats-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-nats-exporter
+          filters:
+            branches:
+              ignore: main
 
       - approve-nats-server:
           type: approval
@@ -641,6 +1033,8 @@ workflows:
       - release:
           name: release-nats-server
           directory: nats-server
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -649,6 +1043,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-nats-server
+          directory: nats-server
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-nats-server
+          filters:
+            branches:
+              ignore: main
 
       - approve-nats-streaming:
           type: approval
@@ -673,6 +1080,8 @@ workflows:
       - release:
           name: release-nats-streaming
           directory: nats-streaming
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -681,6 +1090,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-nats-streaming
+          directory: nats-streaming
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-nats-streaming
+          filters:
+            branches:
+              ignore: main
 
       - approve-nginx:
           type: approval
@@ -705,6 +1127,8 @@ workflows:
       - release:
           name: release-nginx
           directory: nginx
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -713,6 +1137,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-nginx
+          directory: nginx
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-nginx
+          filters:
+            branches:
+              ignore: main
 
       - approve-nginx-es:
           type: approval
@@ -737,6 +1174,8 @@ workflows:
       - release:
           name: release-nginx-es
           directory: nginx-es
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -745,6 +1184,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-nginx-es
+          directory: nginx-es
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-nginx-es
+          filters:
+            branches:
+              ignore: main
 
       - approve-node-exporter:
           type: approval
@@ -769,6 +1221,8 @@ workflows:
       - release:
           name: release-node-exporter
           directory: node-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -777,6 +1231,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-node-exporter
+          directory: node-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-node-exporter
+          filters:
+            branches:
+              ignore: main
 
       - approve-openresty:
           type: approval
@@ -801,6 +1268,8 @@ workflows:
       - release:
           name: release-openresty
           directory: openresty
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -809,6 +1278,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-openresty
+          directory: openresty
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-openresty
+          filters:
+            branches:
+              ignore: main
 
       - approve-pgbouncer:
           type: approval
@@ -833,6 +1315,8 @@ workflows:
       - release:
           name: release-pgbouncer
           directory: pgbouncer
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -841,6 +1325,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-pgbouncer
+          directory: pgbouncer
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-pgbouncer
+          filters:
+            branches:
+              ignore: main
 
       - approve-pgbouncer-exporter:
           type: approval
@@ -865,6 +1362,8 @@ workflows:
       - release:
           name: release-pgbouncer-exporter
           directory: pgbouncer-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -873,6 +1372,66 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-pgbouncer-exporter
+          directory: pgbouncer-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-pgbouncer-exporter
+          filters:
+            branches:
+              ignore: main
+
+      - approve-pgbouncer-krb:
+          type: approval
+      - build:
+          name: build-pgbouncer-krb
+          directory: pgbouncer-krb
+          requires:
+            - approve-pgbouncer-krb
+            - run_pre_commit
+      - test:
+          name: test-pgbouncer-krb
+          directory: pgbouncer-krb
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-pgbouncer-krb
+      - scan-trivy:
+          name: scan-trivy-pgbouncer-krb
+          directory: pgbouncer-krb
+          requires:
+            - test-pgbouncer-krb
+      - release:
+          name: release-pgbouncer-krb
+          directory: pgbouncer-krb
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-pgbouncer-krb
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          name: validate-tags-pgbouncer-krb
+          directory: pgbouncer-krb
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-pgbouncer-krb
+          filters:
+            branches:
+              ignore: main
 
       - approve-po-logical-backup:
           type: approval
@@ -897,6 +1456,8 @@ workflows:
       - release:
           name: release-po-logical-backup
           directory: po-logical-backup
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -905,6 +1466,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-po-logical-backup
+          directory: po-logical-backup
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-po-logical-backup
+          filters:
+            branches:
+              ignore: main
 
       - approve-po-pgbouncer:
           type: approval
@@ -929,6 +1503,8 @@ workflows:
       - release:
           name: release-po-pgbouncer
           directory: po-pgbouncer
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -937,6 +1513,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-po-pgbouncer
+          directory: po-pgbouncer
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-po-pgbouncer
+          filters:
+            branches:
+              ignore: main
 
       - approve-po-spilo:
           type: approval
@@ -961,6 +1550,8 @@ workflows:
       - release:
           name: release-po-spilo
           directory: po-spilo
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -969,6 +1560,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-po-spilo
+          directory: po-spilo
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-po-spilo
+          filters:
+            branches:
+              ignore: main
 
       - approve-postgres-exporter:
           type: approval
@@ -993,6 +1597,8 @@ workflows:
       - release:
           name: release-postgres-exporter
           directory: postgres-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -1001,6 +1607,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-postgres-exporter
+          directory: postgres-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-postgres-exporter
+          filters:
+            branches:
+              ignore: main
 
       - approve-postgres-operator:
           type: approval
@@ -1025,6 +1644,8 @@ workflows:
       - release:
           name: release-postgres-operator
           directory: postgres-operator
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -1033,6 +1654,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-postgres-operator
+          directory: postgres-operator
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-postgres-operator
+          filters:
+            branches:
+              ignore: main
 
       - approve-postgresql:
           type: approval
@@ -1057,6 +1691,8 @@ workflows:
       - release:
           name: release-postgresql
           directory: postgresql
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -1065,6 +1701,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-postgresql
+          directory: postgresql
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-postgresql
+          filters:
+            branches:
+              ignore: main
 
       - approve-prometheus:
           type: approval
@@ -1089,6 +1738,8 @@ workflows:
       - release:
           name: release-prometheus
           directory: prometheus
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -1097,6 +1748,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-prometheus
+          directory: prometheus
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-prometheus
+          filters:
+            branches:
+              ignore: main
 
       - approve-redis:
           type: approval
@@ -1121,6 +1785,8 @@ workflows:
       - release:
           name: release-redis
           directory: redis
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -1129,6 +1795,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-redis
+          directory: redis
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-redis
+          filters:
+            branches:
+              ignore: main
 
       - approve-registry:
           type: approval
@@ -1153,6 +1832,8 @@ workflows:
       - release:
           name: release-registry
           directory: registry
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -1161,6 +1842,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-registry
+          directory: registry
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-registry
+          filters:
+            branches:
+              ignore: main
 
       - approve-statsd-exporter:
           type: approval
@@ -1185,6 +1879,8 @@ workflows:
       - release:
           name: release-statsd-exporter
           directory: statsd-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -1193,6 +1889,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-statsd-exporter
+          directory: statsd-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-statsd-exporter
+          filters:
+            branches:
+              ignore: main
 
       - approve-vector:
           type: approval
@@ -1217,6 +1926,8 @@ workflows:
       - release:
           name: release-vector
           directory: vector
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -1225,6 +1936,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-vector
+          directory: vector
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-vector
+          filters:
+            branches:
+              ignore: main
 
 jobs:
   run_pre_commit:
@@ -1283,7 +2007,7 @@ jobs:
           test_requirements: << parameters.test_requirements >>
   scan-trivy:
     docker:
-      - image: docker:20.10.11-git
+      - image: docker:20.10.17-git
     description: "Trivy: Vulnerability scan a Docker image"
     parameters:
       directory:
@@ -1293,7 +2017,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.11
+          version: 20.10.17
           image: aquasec/trivy:latest
       - attach_workspace:
           at: /tmp/workspace
@@ -1323,29 +2047,78 @@ jobs:
     executor: docker-executor
     parameters:
       directory:
-        description: "The directory name of the image to be scanned"
+        description: "The directory name of the image to be published"
+        type: string
+      overwrite_tags:
+        type: boolean
+        default: false
+      tags:
+        description: "Comma separated list of tags."
         type: string
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.11
+          version: 20.10.17
       - checkout
-      - run:
-          name: Validate semver tag
-          command: |
-            pip install packaging
-            version="$(bin/check_version.py << parameters.directory >>)"
-            echo "export TAG=${version}" >> $BASH_ENV
-      - push-to-quay-io:
-          comma_separated_tags: "$TAG"
+      - docker-operations:
+          operations: push
+          project_path: << parameters.directory >>
+          registry: "quay.io"
+          registry_username: "${QUAY_USERNAME}"
+          registry_password: "${QUAY_PASSWORD}"
+          repository: "astronomer"
           image_name: ap-<< parameters.directory >>
-      - push-to-docker-hub:
-          comma_separated_tags: "$TAG"
+          tags: << parameters.tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
+      - docker-operations:
+          operations: push
+          project_path: << parameters.directory >>
+          registry: "docker.io"
+          registry_username: "${DOCKER_USERNAME}"
+          registry_password: "${DOCKER_PASSWORD}"
+          repository: "astronomerinc"
           image_name: ap-<< parameters.directory >>
-executors:
-  docker-executor:
-    docker:
-      - image: cimg/python:3.9
+          tags: << parameters.tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
+
+  validate-tags:
+    executor: docker-executor
+    parameters:
+      directory:
+        description: "The directory name of the image to be validated"
+        type: string
+      tags:
+        description: "Comma separated list of tags."
+        type: string
+      overwrite_tags:
+        type: boolean
+        default: false
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 20.10.17
+      - checkout
+      - docker-operations:
+          operations: validate_tags
+          project_path: << parameters.directory >>
+          registry: "quay.io"
+          registry_username: "${QUAY_USERNAME}"
+          registry_password: "${QUAY_PASSWORD}"
+          repository: "astronomer"
+          image_name: ap-<< parameters.directory >>
+          tags: << parameters.tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
+      - docker-operations:
+          operations: validate_tags
+          project_path: << parameters.directory >>
+          registry: "docker.io"
+          registry_username: "${DOCKER_USERNAME}"
+          registry_password: "${DOCKER_PASSWORD}"
+          repository: "astronomerinc"
+          image_name: ap-<< parameters.directory >>
+          tags: << parameters.tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
+
 commands:
   docker-build:
     description: "Build a Docker image"
@@ -1359,18 +2132,28 @@ commands:
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
+      build_requirements:
+        type: string
+        default: requirements/build-requirements.txt
     steps:
       - checkout
+      - python/install-packages:
+          pip-dependency-file: << parameters.build_requirements >>
+          pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.11
+          version: 20.10.17
       - run:
           name: Build the Docker image
-          command: bin/docker-build.sh << parameters.path>> << parameters.image_name >>
+          command: bin/docker-operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
+      - run:
+          name: Running Docker image inspect
+          command: docker inspect "<< parameters.image_name >>:${CIRCLE_SHA1}"
       - persist_to_workspace:
           root: .
           paths:
             - "./*.tar"
+
   docker-test:
     description: "Test a Docker image"
     parameters:
@@ -1393,7 +2176,7 @@ commands:
           pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.11
+          version: 20.10.17
       - attach_workspace:
           at: /tmp/workspace
       - run:
@@ -1412,18 +2195,41 @@ commands:
             pytest -v --junitxml=test-results/junit.xml << parameters.test_script>>
       - store_test_results:
           path: test-results
-  push-to-quay-io:
-    description: "Push a Docker image to Quay.io"
+
+  docker-operations:
+    description: "Performing Docker Operation << parameters.operations >> for << parameters.registry >>"
     parameters:
-      comma_separated_tags:
+      operations:
+        type: string
+      project_path:
+        type: string
+        default: "."
+      registry:
         type: string
         default: $CIRCLE_BRANCH
+      registry_username:
+        type: string
+      registry_password:
+        type: string
+      repository:
+        type: string
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
+      script_requirements:
+        type: string
+        default: requirements/build-requirements.txt
+      tags:
+        type: string
+      overwrite_tags:
+        type: boolean
+        default: false
     steps:
       - attach_workspace:
           at: /tmp/workspace
+      - python/install-packages:
+          pip-dependency-file: << parameters.script_requirements >>
+          pkg-manager: pip
       - run:
           name: Load archived Docker image
           command: |
@@ -1431,29 +2237,5 @@ commands:
             docker load -i /tmp/workspace/<< parameters.image_name >>.tar
             docker images | grep << parameters.image_name >>
       - run:
-          name: Login to Quay.io
-          command: echo "$QUAY_PASSWORD" | docker login --username "$QUAY_USERNAME" --password-stdin quay.io
-      - run:
-          name: Push Docker image(s)
-          command: bin/docker-push.sh "astronomer" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" quay.io
-  push-to-docker-hub:
-    description: "Push a Docker image to DockerHub"
-    parameters:
-      comma_separated_tags:
-        type: string
-        default: $CIRCLE_BRANCH
-      image_name:
-        type: string
-        default: $CIRCLE_PROJECT_REPONAME
-    steps:
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          name: Load archived Docker image
-          command: docker load -i /tmp/workspace/<< parameters.image_name >>.tar
-      - run:
-          name: Login to DockerHub
-          command: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin docker.io
-      - run:
-          name: Push Docker image(s)
-          command: bin/docker-push.sh "astronomerinc" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" docker.io
+          name: Validating docker image(s)'s tags to << parameters.registry >>
+          command: bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --tags=<< parameters.tags >> --overwrite_tags=<< parameters.overwrite_tags >>

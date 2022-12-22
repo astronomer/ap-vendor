@@ -1,9 +1,22 @@
 {# https://circleci.com/docs/2.0/building-docker-images/#docker-version #}
-{%- set docker_version = '20.10.11' -%}
+{%- set docker_version = '20.10.17' -%}
 ---
 version: 2.1
+
 orbs:
   python: circleci/python@2.0.3
+
+executors:
+  docker-executor:
+    docker:
+      - image: cimg/python:3.9
+
+parameters:
+  overwrite_tags:
+    type: boolean
+    default: false
+    description: "Set True if you want to overwrite existing docker image tag."
+
 workflows:
   version: 2.1
   vendor-build:
@@ -33,6 +46,8 @@ workflows:
       - release:
           name: release-{{ directory }}
           directory: {{ directory }}
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -41,6 +56,19 @@ workflows:
           filters:
             branches:
               only: main
+      - validate-tags:
+          name: validate-tags-{{ directory }}
+          directory: {{ directory }}
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-{{ directory }}
+          filters:
+            branches:
+              ignore: main
 {% endfor %}
 jobs:
   run_pre_commit:
@@ -139,29 +167,78 @@ jobs:
     executor: docker-executor
     parameters:
       directory:
-        description: "The directory name of the image to be scanned"
+        description: "The directory name of the image to be published"
+        type: string
+      overwrite_tags:
+        type: boolean
+        default: false
+      tags:
+        description: "Comma separated list of tags."
         type: string
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
           version: {{ docker_version }}
       - checkout
-      - run:
-          name: Validate semver tag
-          command: |
-            pip install packaging
-            version="$(bin/check_version.py << parameters.directory >>)"
-            echo "export TAG=${version}" >> $BASH_ENV
-      - push-to-quay-io:
-          comma_separated_tags: "$TAG"
+      - docker-operations:
+          operations: push
+          project_path: << parameters.directory >>
+          registry: "quay.io"
+          registry_username: "${QUAY_USERNAME}"
+          registry_password: "${QUAY_PASSWORD}"
+          repository: "astronomer"
           image_name: ap-<< parameters.directory >>
-      - push-to-docker-hub:
-          comma_separated_tags: "$TAG"
+          tags: << parameters.tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
+      - docker-operations:
+          operations: push
+          project_path: << parameters.directory >>
+          registry: "docker.io"
+          registry_username: "${DOCKER_USERNAME}"
+          registry_password: "${DOCKER_PASSWORD}"
+          repository: "astronomerinc"
           image_name: ap-<< parameters.directory >>
-executors:
-  docker-executor:
-    docker:
-      - image: cimg/python:3.9
+          tags: << parameters.tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
+
+  validate-tags:
+    executor: docker-executor
+    parameters:
+      directory:
+        description: "The directory name of the image to be validated"
+        type: string
+      tags:
+        description: "Comma separated list of tags."
+        type: string
+      overwrite_tags:
+        type: boolean
+        default: false
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: {{ docker_version }}
+      - checkout
+      - docker-operations:
+          operations: validate_tags
+          project_path: << parameters.directory >>
+          registry: "quay.io"
+          registry_username: "${QUAY_USERNAME}"
+          registry_password: "${QUAY_PASSWORD}"
+          repository: "astronomer"
+          image_name: ap-<< parameters.directory >>
+          tags: << parameters.tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
+      - docker-operations:
+          operations: validate_tags
+          project_path: << parameters.directory >>
+          registry: "docker.io"
+          registry_username: "${DOCKER_USERNAME}"
+          registry_password: "${DOCKER_PASSWORD}"
+          repository: "astronomerinc"
+          image_name: ap-<< parameters.directory >>
+          tags: << parameters.tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
+
 commands:
   docker-build:
     description: "Build a Docker image"
@@ -175,18 +252,28 @@ commands:
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
+      build_requirements:
+        type: string
+        default: requirements/build-requirements.txt
     steps:
       - checkout
+      - python/install-packages:
+          pip-dependency-file: << parameters.build_requirements >>
+          pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
           version: {{ docker_version }}
       - run:
           name: Build the Docker image
-          command: bin/docker-build.sh << parameters.path>> << parameters.image_name >>
+          command: bin/docker-operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
+      - run:
+          name: Running Docker image inspect
+          command: docker inspect "<< parameters.image_name >>:${CIRCLE_SHA1}"
       - persist_to_workspace:
           root: .
           paths:
             - "./*.tar"
+
   docker-test:
     description: "Test a Docker image"
     parameters:
@@ -228,18 +315,41 @@ commands:
             pytest -v --junitxml=test-results/junit.xml << parameters.test_script>>
       - store_test_results:
           path: test-results
-  push-to-quay-io:
-    description: "Push a Docker image to Quay.io"
+
+  docker-operations:
+    description: "Performing Docker Operation << parameters.operations >> for << parameters.registry >>"
     parameters:
-      comma_separated_tags:
+      operations:
+        type: string
+      project_path:
+        type: string
+        default: "."
+      registry:
         type: string
         default: $CIRCLE_BRANCH
+      registry_username:
+        type: string
+      registry_password:
+        type: string
+      repository:
+        type: string
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
+      script_requirements:
+        type: string
+        default: requirements/build-requirements.txt
+      tags:
+        type: string
+      overwrite_tags:
+        type: boolean
+        default: false
     steps:
       - attach_workspace:
           at: /tmp/workspace
+      - python/install-packages:
+          pip-dependency-file: << parameters.script_requirements >>
+          pkg-manager: pip
       - run:
           name: Load archived Docker image
           command: |
@@ -247,29 +357,5 @@ commands:
             docker load -i /tmp/workspace/<< parameters.image_name >>.tar
             docker images | grep << parameters.image_name >>
       - run:
-          name: Login to Quay.io
-          command: echo "$QUAY_PASSWORD" | docker login --username "$QUAY_USERNAME" --password-stdin quay.io
-      - run:
-          name: Push Docker image(s)
-          command: bin/docker-push.sh "astronomer" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" quay.io
-  push-to-docker-hub:
-    description: "Push a Docker image to DockerHub"
-    parameters:
-      comma_separated_tags:
-        type: string
-        default: $CIRCLE_BRANCH
-      image_name:
-        type: string
-        default: $CIRCLE_PROJECT_REPONAME
-    steps:
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          name: Load archived Docker image
-          command: docker load -i /tmp/workspace/<< parameters.image_name >>.tar
-      - run:
-          name: Login to DockerHub
-          command: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin docker.io
-      - run:
-          name: Push Docker image(s)
-          command: bin/docker-push.sh "astronomerinc" "<< parameters.image_name >>" "<< parameters.comma_separated_tags >>" docker.io
+          name: Validating docker image(s)'s tags to << parameters.registry >>
+          command: bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --tags=<< parameters.tags >> --overwrite_tags=<< parameters.overwrite_tags >>
