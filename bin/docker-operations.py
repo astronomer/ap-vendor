@@ -186,7 +186,8 @@ def push(
                 raise Exception(line["errorDetail"]["message"])
             else:
                 print(f"INFO: Pushed docker image: {docker_image_uri}:{tag}")
-                return True
+
+        return True
 
     except APIError as dokerAPIError:
         print("ERROR: Error pushing docker image", file=sys.stderr)
@@ -323,6 +324,9 @@ def main():
             tags=tags,
             overwrite_tags=overwrite_tags,
         )
+
+        print(f"INFO: Input tags list: {tags}")
+        print(f"INFO: Final tags list: {final_tags}")
 
         push(
             docker_client=docker_client,
