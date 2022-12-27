@@ -1,5 +1,4 @@
 # content of test_module.py
-import socket
 import subprocess
 from time import sleep
 
@@ -10,9 +9,10 @@ from statsd import StatsClient
 
 
 def _increment_metric(statsd_metric):
-    """
-    Send messages to statsd, this is similar to:
-    echo "airflow.operator_successes_PythonOperator:1|c" | nc -u -w0 127.0.0.1 8125
+    """Send messages to statsd, this is similar to:
+
+    echo "airflow.operator_successes_PythonOperator:1|c" | nc -u -w0
+    127.0.0.1 8125
     """
     statsd = StatsClient(host="127.0.0.1", port=8125, prefix="airflow")
     statsd.incr(statsd_metric)
@@ -23,9 +23,10 @@ def _increment_metric(statsd_metric):
 
 
 def _gauge_metric(statsd_metric, value):
-    """
-    Send messages to statsd, this is similar to:
-    echo "airflow.operator_successes_PythonOperator:1|c" | nc -u -w0 127.0.0.1 8125
+    """Send messages to statsd, this is similar to:
+
+    echo "airflow.operator_successes_PythonOperator:1|c" | nc -u -w0
+    127.0.0.1 8125
     """
     statsd = StatsClient(host="127.0.0.1", port=8125, prefix="airflow")
     statsd.gauge(statsd_metric, value)

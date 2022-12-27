@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Verify that a given ap-vendor component directory has a valid semver in its version.txt file, and print it out."""
+"""Verify that a given ap-vendor component directory has a valid semver in its
+version.txt file, and print it out."""
 import sys
 from pathlib import Path
 
