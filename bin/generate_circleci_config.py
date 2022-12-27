@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""
-This script is used to create the circle config file so that we can stay DRY.
-"""
+"""This script is used to create the circle config file so that we can stay
+DRY."""
 from pathlib import Path
 
 from jinja2 import Template
@@ -29,7 +28,7 @@ def list_docker_dirs(path):
 
 
 def main():
-    """Render the Jinja2 template file"""
+    """Render the Jinja2 template file."""
     circle_directory = Path(__file__).parent.parent / ".circleci"
     config_template_path = circle_directory / "config.yml.j2"
     config_path = circle_directory / "config.yml"
