@@ -15,7 +15,7 @@
 
 # https://hub.docker.com/r/bitnami/postgresql/tags/
 
-FROM bitnami/postgresql:11.17.0-debian-11-r42
+FROM bitnami/postgresql:11.18.0-debian-11-r16
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
