@@ -12,7 +12,8 @@ cleanup() {
 # but we would like to catch such signal and replace with SIGINT (Safe shutdown.)
 trap "cleanup" TERM
 
-exec "$@" &
+# Run the real command in background so we can still respond to signals.
+"$@" &
 main_proc=$!
 echo "Waiting for it to complete"
 wait
