@@ -1,4 +1,6 @@
 #!/bin/sh
+# Catch SIGTERM (immediate shutdown) and replace it with INT (safe shutdown)
+# so pgbouncer can signal postgres clients that it is shutting down.
 set -ex
 
 cleanup() {
