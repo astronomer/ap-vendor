@@ -13,7 +13,7 @@ cleanup() {
   wait "$main_proc"
   echo exited with "$?"
 }
-trap "cleanup" EXIT HUP INT QUIT PIPE TERM
+trap "cleanup" INT TERM
 
 # Run the real command in background so we can still respond to signals.
 "$@" &
