@@ -8,7 +8,7 @@ cleanup() {
   wait "$main_proc"
   echo exited with "$?"
 }
-# SIGTERM - Immediate shutdown. Same as issuing SHUTDOWN on the console.
+# SIGTERM - Immediate shutdown for pgbouncer process,
 # but we would like to catch such signal and replace with SIGINT (Safe shutdown.)
 trap "cleanup" TERM
 
