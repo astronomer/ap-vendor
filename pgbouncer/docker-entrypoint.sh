@@ -17,5 +17,5 @@ trap "cleanup" TERM INT
 # Run the real command in background so we can still respond to signals.
 "$@" &
 main_proc=$!
-echo "Waiting for it to complete"
+echo "Watching pid $main_proc: $*"
 wait
