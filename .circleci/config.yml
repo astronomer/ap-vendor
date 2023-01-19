@@ -1856,6 +1856,53 @@ workflows:
             branches:
               ignore: main
 
+      - approve-static-fire:
+          type: approval
+      - build:
+          name: build-static-fire
+          directory: static-fire
+          requires:
+            - approve-static-fire
+            - run_pre_commit
+      - test:
+          name: test-static-fire
+          directory: static-fire
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build-static-fire
+      - scan-trivy:
+          name: scan-trivy-static-fire
+          directory: static-fire
+          requires:
+            - test-static-fire
+      - release:
+          name: release-static-fire
+          directory: static-fire
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-static-fire
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          name: validate-tags-static-fire
+          directory: static-fire
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy-static-fire
+          filters:
+            branches:
+              ignore: main
+
       - approve-statsd-exporter:
           type: approval
       - build:

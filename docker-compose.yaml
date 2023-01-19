@@ -181,6 +181,10 @@ services:
     image: ap-registry:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: registry
+  ap-static-fire:
+    image: ap-static-fire:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: static-fire
   ap-statsd-exporter:
     image: ap-statsd-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
