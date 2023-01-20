@@ -27,47 +27,47 @@ workflows:
           base-revision: main
           config-path: .circleci/continue-config.yml
           mapping: |
-            alertmanager/.* vendor-build alertmanager << pipeline.parameters.overwrite_tags >>
-            auth-sidecar/.* vendor-build auth-sidecar << pipeline.parameters.overwrite_tags >>
-            awsesproxy/.* vendor-build awsesproxy << pipeline.parameters.overwrite_tags >>
-            blackbox-exporter/.* vendor-build blackbox-exporter << pipeline.parameters.overwrite_tags >>
-            configmap-reloader/.* vendor-build configmap-reloader << pipeline.parameters.overwrite_tags >>
-            curator/.* vendor-build curator << pipeline.parameters.overwrite_tags >>
-            dind-golang/.* vendor-build dind-golang << pipeline.parameters.overwrite_tags >>
-            dogstatsd/.* vendor-build dogstatsd << pipeline.parameters.overwrite_tags >>
-            elasticsearch/.* vendor-build elasticsearch << pipeline.parameters.overwrite_tags >>
-            elasticsearch-exporter/.* vendor-build elasticsearch-exporter << pipeline.parameters.overwrite_tags >>
-            fluentd/.* vendor-build fluentd << pipeline.parameters.overwrite_tags >>
-            git-daemon/.* vendor-build git-daemon << pipeline.parameters.overwrite_tags >>
-            git-sync/.* vendor-build git-sync << pipeline.parameters.overwrite_tags >>
-            grafana/.* vendor-build grafana << pipeline.parameters.overwrite_tags >>
-            init/.* vendor-build init << pipeline.parameters.overwrite_tags >>
-            keda/.* vendor-build keda << pipeline.parameters.overwrite_tags >>
-            keda-metrics-apiserver/.* vendor-build keda-metrics-apiserver << pipeline.parameters.overwrite_tags >>
-            kibana/.* vendor-build kibana << pipeline.parameters.overwrite_tags >>
-            kube-state/.* vendor-build kube-state << pipeline.parameters.overwrite_tags >>
-            kubed/.* vendor-build kubed << pipeline.parameters.overwrite_tags >>
-            nats-exporter/.* vendor-build nats-exporter << pipeline.parameters.overwrite_tags >>
-            nats-server/.* vendor-build nats-server << pipeline.parameters.overwrite_tags >>
-            nats-streaming/.* vendor-build nats-streaming << pipeline.parameters.overwrite_tags >>
-            nginx/.* vendor-build nginx << pipeline.parameters.overwrite_tags >>
-            nginx-es/.* vendor-build nginx-es << pipeline.parameters.overwrite_tags >>
-            node-exporter/.* vendor-build node-exporter << pipeline.parameters.overwrite_tags >>
-            openresty/.* vendor-build openresty << pipeline.parameters.overwrite_tags >>
-            pgbouncer/.* vendor-build pgbouncer << pipeline.parameters.overwrite_tags >>
-            pgbouncer-exporter/.* vendor-build pgbouncer-exporter << pipeline.parameters.overwrite_tags >>
-            pgbouncer-krb/.* vendor-build pgbouncer-krb << pipeline.parameters.overwrite_tags >>
-            po-logical-backup/.* vendor-build po-logical-backup << pipeline.parameters.overwrite_tags >>
-            po-pgbouncer/.* vendor-build po-pgbouncer << pipeline.parameters.overwrite_tags >>
-            po-spilo/.* vendor-build po-spilo << pipeline.parameters.overwrite_tags >>
-            postgres-exporter/.* vendor-build postgres-exporter << pipeline.parameters.overwrite_tags >>
-            postgres-operator/.* vendor-build postgres-operator << pipeline.parameters.overwrite_tags >>
-            postgresql/.* vendor-build postgresql << pipeline.parameters.overwrite_tags >>
-            prometheus/.* vendor-build prometheus << pipeline.parameters.overwrite_tags >>
-            redis/.* vendor-build redis << pipeline.parameters.overwrite_tags >>
-            registry/.* vendor-build registry << pipeline.parameters.overwrite_tags >>
-            statsd-exporter/.* vendor-build statsd-exporter << pipeline.parameters.overwrite_tags >>
-            vector/.* vendor-build vector << pipeline.parameters.overwrite_tags >>
+            alertmanager/.* image alertmanager overwrite_tags << pipeline.parameters.overwrite_tags >>
+            auth-sidecar/.* image auth-sidecar overwrite_tags << pipeline.parameters.overwrite_tags >>
+            awsesproxy/.* image awsesproxy overwrite_tags << pipeline.parameters.overwrite_tags >>
+            blackbox-exporter/.* image blackbox-exporter overwrite_tags << pipeline.parameters.overwrite_tags >>
+            configmap-reloader/.* image configmap-reloader overwrite_tags << pipeline.parameters.overwrite_tags >>
+            curator/.* image curator overwrite_tags << pipeline.parameters.overwrite_tags >>
+            dind-golang/.* image dind-golang overwrite_tags << pipeline.parameters.overwrite_tags >>
+            dogstatsd/.* image dogstatsd overwrite_tags << pipeline.parameters.overwrite_tags >>
+            elasticsearch/.* image elasticsearch overwrite_tags << pipeline.parameters.overwrite_tags >>
+            elasticsearch-exporter/.* image elasticsearch-exporter overwrite_tags << pipeline.parameters.overwrite_tags >>
+            fluentd/.* image fluentd overwrite_tags << pipeline.parameters.overwrite_tags >>
+            git-daemon/.* image git-daemon overwrite_tags << pipeline.parameters.overwrite_tags >>
+            git-sync/.* image git-sync overwrite_tags << pipeline.parameters.overwrite_tags >>
+            grafana/.* image grafana overwrite_tags << pipeline.parameters.overwrite_tags >>
+            init/.* image init overwrite_tags << pipeline.parameters.overwrite_tags >>
+            keda/.* image keda overwrite_tags << pipeline.parameters.overwrite_tags >>
+            keda-metrics-apiserver/.* image keda-metrics-apiserver overwrite_tags << pipeline.parameters.overwrite_tags >>
+            kibana/.* image kibana overwrite_tags << pipeline.parameters.overwrite_tags >>
+            kube-state/.* image kube-state overwrite_tags << pipeline.parameters.overwrite_tags >>
+            kubed/.* image kubed overwrite_tags << pipeline.parameters.overwrite_tags >>
+            nats-exporter/.* image nats-exporter overwrite_tags << pipeline.parameters.overwrite_tags >>
+            nats-server/.* image nats-server overwrite_tags << pipeline.parameters.overwrite_tags >>
+            nats-streaming/.* image nats-streaming overwrite_tags << pipeline.parameters.overwrite_tags >>
+            nginx/.* image nginx overwrite_tags << pipeline.parameters.overwrite_tags >>
+            nginx-es/.* image nginx-es overwrite_tags << pipeline.parameters.overwrite_tags >>
+            node-exporter/.* image node-exporter overwrite_tags << pipeline.parameters.overwrite_tags >>
+            openresty/.* image openresty overwrite_tags << pipeline.parameters.overwrite_tags >>
+            pgbouncer/.* image pgbouncer overwrite_tags << pipeline.parameters.overwrite_tags >>
+            pgbouncer-exporter/.* image pgbouncer-exporter overwrite_tags << pipeline.parameters.overwrite_tags >>
+            pgbouncer-krb/.* image pgbouncer-krb overwrite_tags << pipeline.parameters.overwrite_tags >>
+            po-logical-backup/.* image po-logical-backup overwrite_tags << pipeline.parameters.overwrite_tags >>
+            po-pgbouncer/.* image po-pgbouncer overwrite_tags << pipeline.parameters.overwrite_tags >>
+            po-spilo/.* image po-spilo overwrite_tags << pipeline.parameters.overwrite_tags >>
+            postgres-exporter/.* image postgres-exporter overwrite_tags << pipeline.parameters.overwrite_tags >>
+            postgres-operator/.* image postgres-operator overwrite_tags << pipeline.parameters.overwrite_tags >>
+            postgresql/.* image postgresql overwrite_tags << pipeline.parameters.overwrite_tags >>
+            prometheus/.* image prometheus overwrite_tags << pipeline.parameters.overwrite_tags >>
+            redis/.* image redis overwrite_tags << pipeline.parameters.overwrite_tags >>
+            registry/.* image registry overwrite_tags << pipeline.parameters.overwrite_tags >>
+            statsd-exporter/.* image statsd-exporter overwrite_tags << pipeline.parameters.overwrite_tags >>
+            vector/.* image vector overwrite_tags << pipeline.parameters.overwrite_tags >>
 
 jobs:
   run_pre_commit:

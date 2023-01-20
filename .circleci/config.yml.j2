@@ -28,7 +28,7 @@ workflows:
           config-path: .circleci/continue-config.yml
           mapping: |
 {%- for directory in directories %}
-            {{ directory }}/.* vendor-build {{ directory }} << pipeline.parameters.overwrite_tags >>
+            {{ directory }}/.* image {{ directory }} overwrite_tags << pipeline.parameters.overwrite_tags >>
 {%- endfor %}
 
 jobs:
