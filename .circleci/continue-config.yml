@@ -1,0 +1,2116 @@
+# Warning: automatically generated file
+# Please edit .circleci/continue_config.yml.j2, then run bin/generate_circleci_config.py
+
+---
+version: 2.1
+
+orbs:
+  python: circleci/python@2.0.3
+
+executors:
+  docker-executor:
+    docker:
+      - image: cimg/python:3.9
+
+parameters:
+  alertmanager:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image alertmanager."
+  auth-sidecar:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image auth-sidecar."
+  awsesproxy:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image awsesproxy."
+  blackbox-exporter:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image blackbox-exporter."
+  configmap-reloader:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image configmap-reloader."
+  curator:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image curator."
+  dind-golang:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image dind-golang."
+  dogstatsd:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image dogstatsd."
+  elasticsearch:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image elasticsearch."
+  elasticsearch-exporter:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image elasticsearch-exporter."
+  fluentd:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image fluentd."
+  git-daemon:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image git-daemon."
+  git-sync:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image git-sync."
+  grafana:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image grafana."
+  init:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image init."
+  keda:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image keda."
+  keda-metrics-apiserver:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image keda-metrics-apiserver."
+  kibana:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image kibana."
+  kube-state:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image kube-state."
+  kubed:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image kubed."
+  nats-exporter:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image nats-exporter."
+  nats-server:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image nats-server."
+  nats-streaming:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image nats-streaming."
+  nginx:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image nginx."
+  nginx-es:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image nginx-es."
+  node-exporter:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image node-exporter."
+  openresty:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image openresty."
+  pgbouncer:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image pgbouncer."
+  pgbouncer-exporter:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image pgbouncer-exporter."
+  pgbouncer-krb:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image pgbouncer-krb."
+  po-logical-backup:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image po-logical-backup."
+  po-pgbouncer:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image po-pgbouncer."
+  po-spilo:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image po-spilo."
+  postgres-exporter:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image postgres-exporter."
+  postgres-operator:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image postgres-operator."
+  postgresql:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image postgresql."
+  prometheus:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image prometheus."
+  redis:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image redis."
+  registry:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image registry."
+  statsd-exporter:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image statsd-exporter."
+  vector:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image vector."
+  overwrite_tags:
+    type: boolean
+    default: false
+    description: "Set True if you want to overwrite existing docker image tag."
+
+workflows:
+  version: 2.1
+  alertmanager-build:
+    when: << pipeline.parameters.alertmanager >>
+    jobs:
+      - build:
+          name: build
+          directory: alertmanager
+      - test:
+          directory: alertmanager
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: alertmanager
+          requires:
+            - test
+      - release:
+          directory: alertmanager
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: alertmanager
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  auth-sidecar-build:
+    when: << pipeline.parameters.auth-sidecar >>
+    jobs:
+      - build:
+          name: build
+          directory: auth-sidecar
+      - test:
+          directory: auth-sidecar
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: auth-sidecar
+          requires:
+            - test
+      - release:
+          directory: auth-sidecar
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: auth-sidecar
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  awsesproxy-build:
+    when: << pipeline.parameters.awsesproxy >>
+    jobs:
+      - build:
+          name: build
+          directory: awsesproxy
+      - test:
+          directory: awsesproxy
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: awsesproxy
+          requires:
+            - test
+      - release:
+          directory: awsesproxy
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: awsesproxy
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  blackbox-exporter-build:
+    when: << pipeline.parameters.blackbox-exporter >>
+    jobs:
+      - build:
+          name: build
+          directory: blackbox-exporter
+      - test:
+          directory: blackbox-exporter
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: blackbox-exporter
+          requires:
+            - test
+      - release:
+          directory: blackbox-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: blackbox-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  configmap-reloader-build:
+    when: << pipeline.parameters.configmap-reloader >>
+    jobs:
+      - build:
+          name: build
+          directory: configmap-reloader
+      - test:
+          directory: configmap-reloader
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: configmap-reloader
+          requires:
+            - test
+      - release:
+          directory: configmap-reloader
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: configmap-reloader
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  curator-build:
+    when: << pipeline.parameters.curator >>
+    jobs:
+      - build:
+          name: build
+          directory: curator
+      - test:
+          directory: curator
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: curator
+          requires:
+            - test
+      - release:
+          directory: curator
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: curator
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  dind-golang-build:
+    when: << pipeline.parameters.dind-golang >>
+    jobs:
+      - build:
+          name: build
+          directory: dind-golang
+      - test:
+          directory: dind-golang
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: dind-golang
+          requires:
+            - test
+      - release:
+          directory: dind-golang
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: dind-golang
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  dogstatsd-build:
+    when: << pipeline.parameters.dogstatsd >>
+    jobs:
+      - build:
+          name: build
+          directory: dogstatsd
+      - test:
+          directory: dogstatsd
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: dogstatsd
+          requires:
+            - test
+      - release:
+          directory: dogstatsd
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: dogstatsd
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  elasticsearch-build:
+    when: << pipeline.parameters.elasticsearch >>
+    jobs:
+      - build:
+          name: build
+          directory: elasticsearch
+      - test:
+          directory: elasticsearch
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: elasticsearch
+          requires:
+            - test
+      - release:
+          directory: elasticsearch
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: elasticsearch
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  elasticsearch-exporter-build:
+    when: << pipeline.parameters.elasticsearch-exporter >>
+    jobs:
+      - build:
+          name: build
+          directory: elasticsearch-exporter
+      - test:
+          directory: elasticsearch-exporter
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: elasticsearch-exporter
+          requires:
+            - test
+      - release:
+          directory: elasticsearch-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: elasticsearch-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  fluentd-build:
+    when: << pipeline.parameters.fluentd >>
+    jobs:
+      - build:
+          name: build
+          directory: fluentd
+      - test:
+          directory: fluentd
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: fluentd
+          requires:
+            - test
+      - release:
+          directory: fluentd
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: fluentd
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  git-daemon-build:
+    when: << pipeline.parameters.git-daemon >>
+    jobs:
+      - build:
+          name: build
+          directory: git-daemon
+      - test:
+          directory: git-daemon
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: git-daemon
+          requires:
+            - test
+      - release:
+          directory: git-daemon
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: git-daemon
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  git-sync-build:
+    when: << pipeline.parameters.git-sync >>
+    jobs:
+      - build:
+          name: build
+          directory: git-sync
+      - test:
+          directory: git-sync
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: git-sync
+          requires:
+            - test
+      - release:
+          directory: git-sync
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: git-sync
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  grafana-build:
+    when: << pipeline.parameters.grafana >>
+    jobs:
+      - build:
+          name: build
+          directory: grafana
+      - test:
+          directory: grafana
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: grafana
+          requires:
+            - test
+      - release:
+          directory: grafana
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: grafana
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  init-build:
+    when: << pipeline.parameters.init >>
+    jobs:
+      - build:
+          name: build
+          directory: init
+      - test:
+          directory: init
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: init
+          requires:
+            - test
+      - release:
+          directory: init
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: init
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  keda-build:
+    when: << pipeline.parameters.keda >>
+    jobs:
+      - build:
+          name: build
+          directory: keda
+      - test:
+          directory: keda
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: keda
+          requires:
+            - test
+      - release:
+          directory: keda
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: keda
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  keda-metrics-apiserver-build:
+    when: << pipeline.parameters.keda-metrics-apiserver >>
+    jobs:
+      - build:
+          name: build
+          directory: keda-metrics-apiserver
+      - test:
+          directory: keda-metrics-apiserver
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: keda-metrics-apiserver
+          requires:
+            - test
+      - release:
+          directory: keda-metrics-apiserver
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: keda-metrics-apiserver
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  kibana-build:
+    when: << pipeline.parameters.kibana >>
+    jobs:
+      - build:
+          name: build
+          directory: kibana
+      - test:
+          directory: kibana
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: kibana
+          requires:
+            - test
+      - release:
+          directory: kibana
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: kibana
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  kube-state-build:
+    when: << pipeline.parameters.kube-state >>
+    jobs:
+      - build:
+          name: build
+          directory: kube-state
+      - test:
+          directory: kube-state
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: kube-state
+          requires:
+            - test
+      - release:
+          directory: kube-state
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: kube-state
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  kubed-build:
+    when: << pipeline.parameters.kubed >>
+    jobs:
+      - build:
+          name: build
+          directory: kubed
+      - test:
+          directory: kubed
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: kubed
+          requires:
+            - test
+      - release:
+          directory: kubed
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: kubed
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  nats-exporter-build:
+    when: << pipeline.parameters.nats-exporter >>
+    jobs:
+      - build:
+          name: build
+          directory: nats-exporter
+      - test:
+          directory: nats-exporter
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: nats-exporter
+          requires:
+            - test
+      - release:
+          directory: nats-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: nats-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  nats-server-build:
+    when: << pipeline.parameters.nats-server >>
+    jobs:
+      - build:
+          name: build
+          directory: nats-server
+      - test:
+          directory: nats-server
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: nats-server
+          requires:
+            - test
+      - release:
+          directory: nats-server
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: nats-server
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  nats-streaming-build:
+    when: << pipeline.parameters.nats-streaming >>
+    jobs:
+      - build:
+          name: build
+          directory: nats-streaming
+      - test:
+          directory: nats-streaming
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: nats-streaming
+          requires:
+            - test
+      - release:
+          directory: nats-streaming
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: nats-streaming
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  nginx-build:
+    when: << pipeline.parameters.nginx >>
+    jobs:
+      - build:
+          name: build
+          directory: nginx
+      - test:
+          directory: nginx
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: nginx
+          requires:
+            - test
+      - release:
+          directory: nginx
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: nginx
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  nginx-es-build:
+    when: << pipeline.parameters.nginx-es >>
+    jobs:
+      - build:
+          name: build
+          directory: nginx-es
+      - test:
+          directory: nginx-es
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: nginx-es
+          requires:
+            - test
+      - release:
+          directory: nginx-es
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: nginx-es
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  node-exporter-build:
+    when: << pipeline.parameters.node-exporter >>
+    jobs:
+      - build:
+          name: build
+          directory: node-exporter
+      - test:
+          directory: node-exporter
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: node-exporter
+          requires:
+            - test
+      - release:
+          directory: node-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: node-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  openresty-build:
+    when: << pipeline.parameters.openresty >>
+    jobs:
+      - build:
+          name: build
+          directory: openresty
+      - test:
+          directory: openresty
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: openresty
+          requires:
+            - test
+      - release:
+          directory: openresty
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: openresty
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  pgbouncer-build:
+    when: << pipeline.parameters.pgbouncer >>
+    jobs:
+      - build:
+          name: build
+          directory: pgbouncer
+      - test:
+          directory: pgbouncer
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: pgbouncer
+          requires:
+            - test
+      - release:
+          directory: pgbouncer
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: pgbouncer
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  pgbouncer-exporter-build:
+    when: << pipeline.parameters.pgbouncer-exporter >>
+    jobs:
+      - build:
+          name: build
+          directory: pgbouncer-exporter
+      - test:
+          directory: pgbouncer-exporter
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: pgbouncer-exporter
+          requires:
+            - test
+      - release:
+          directory: pgbouncer-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: pgbouncer-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  pgbouncer-krb-build:
+    when: << pipeline.parameters.pgbouncer-krb >>
+    jobs:
+      - build:
+          name: build
+          directory: pgbouncer-krb
+      - test:
+          directory: pgbouncer-krb
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: pgbouncer-krb
+          requires:
+            - test
+      - release:
+          directory: pgbouncer-krb
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: pgbouncer-krb
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  po-logical-backup-build:
+    when: << pipeline.parameters.po-logical-backup >>
+    jobs:
+      - build:
+          name: build
+          directory: po-logical-backup
+      - test:
+          directory: po-logical-backup
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: po-logical-backup
+          requires:
+            - test
+      - release:
+          directory: po-logical-backup
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: po-logical-backup
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  po-pgbouncer-build:
+    when: << pipeline.parameters.po-pgbouncer >>
+    jobs:
+      - build:
+          name: build
+          directory: po-pgbouncer
+      - test:
+          directory: po-pgbouncer
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: po-pgbouncer
+          requires:
+            - test
+      - release:
+          directory: po-pgbouncer
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: po-pgbouncer
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  po-spilo-build:
+    when: << pipeline.parameters.po-spilo >>
+    jobs:
+      - build:
+          name: build
+          directory: po-spilo
+      - test:
+          directory: po-spilo
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: po-spilo
+          requires:
+            - test
+      - release:
+          directory: po-spilo
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: po-spilo
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  postgres-exporter-build:
+    when: << pipeline.parameters.postgres-exporter >>
+    jobs:
+      - build:
+          name: build
+          directory: postgres-exporter
+      - test:
+          directory: postgres-exporter
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: postgres-exporter
+          requires:
+            - test
+      - release:
+          directory: postgres-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: postgres-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  postgres-operator-build:
+    when: << pipeline.parameters.postgres-operator >>
+    jobs:
+      - build:
+          name: build
+          directory: postgres-operator
+      - test:
+          directory: postgres-operator
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: postgres-operator
+          requires:
+            - test
+      - release:
+          directory: postgres-operator
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: postgres-operator
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  postgresql-build:
+    when: << pipeline.parameters.postgresql >>
+    jobs:
+      - build:
+          name: build
+          directory: postgresql
+      - test:
+          directory: postgresql
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: postgresql
+          requires:
+            - test
+      - release:
+          directory: postgresql
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: postgresql
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  prometheus-build:
+    when: << pipeline.parameters.prometheus >>
+    jobs:
+      - build:
+          name: build
+          directory: prometheus
+      - test:
+          directory: prometheus
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: prometheus
+          requires:
+            - test
+      - release:
+          directory: prometheus
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: prometheus
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  redis-build:
+    when: << pipeline.parameters.redis >>
+    jobs:
+      - build:
+          name: build
+          directory: redis
+      - test:
+          directory: redis
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: redis
+          requires:
+            - test
+      - release:
+          directory: redis
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: redis
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  registry-build:
+    when: << pipeline.parameters.registry >>
+    jobs:
+      - build:
+          name: build
+          directory: registry
+      - test:
+          directory: registry
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: registry
+          requires:
+            - test
+      - release:
+          directory: registry
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: registry
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  statsd-exporter-build:
+    when: << pipeline.parameters.statsd-exporter >>
+    jobs:
+      - build:
+          name: build
+          directory: statsd-exporter
+      - test:
+          directory: statsd-exporter
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: statsd-exporter
+          requires:
+            - test
+      - release:
+          directory: statsd-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: statsd-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  vector-build:
+    when: << pipeline.parameters.vector >>
+    jobs:
+      - build:
+          name: build
+          directory: vector
+      - test:
+          directory: vector
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: vector
+          requires:
+            - test
+      - release:
+          directory: vector
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only: main
+      - validate-tags:
+          directory: vector
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+
+jobs:
+  run_pre_commit:
+    docker:
+      - image: quay.io/astronomer/ci-pre-commit:2022-01
+    steps:
+      - checkout
+      - run:
+          name: Create pre-commit-cache-key.txt
+          command: |
+            cp .pre-commit-config.yaml /tmp/pre-commit-cache-key.txt
+            python --version --version | sed 's/^/# /' >> /tmp/pre-commit-cache-key.txt
+      - restore_cache:
+          keys:
+            - pre-commit-cache-{{ checksum "/tmp/pre-commit-cache-key.txt" }}
+      - run:
+          name: Install pre-commit hooks
+          command: pre-commit install-hooks
+      - save_cache:
+          key: pre-commit-cache-{{ checksum "/tmp/pre-commit-cache-key.txt" }}
+          paths:
+            - ~/.cache/pre-commit
+      - run:
+          name: Run pre-commit
+          command: pre-commit run --all-files --show-diff-on-failure
+  build:
+    executor: docker-executor
+    description: Build an image
+    parameters:
+      directory:
+        description: "The directory of the image to build"
+        type: string
+    steps:
+      - docker-build:
+          image_name: ap-<< parameters.directory >>
+          dockerfile: Dockerfile
+          path: << parameters.directory >>
+  test:
+    executor: docker-executor
+    description: "Test the docker image"
+    parameters:
+      directory:
+        description: "The directory of the image to build"
+        type: string
+      test_script:
+        description: "The pytest test script"
+        type: string
+      test_requirements:
+        description: "The python requirement file."
+        type: string
+    steps:
+      - docker-test:
+          image_name: ap-<< parameters.directory >>
+          path: << parameters.directory >>
+          test_script: << parameters.test_script >>
+          test_requirements: << parameters.test_requirements >>
+  scan-trivy:
+    docker:
+      - image: docker:20.10.17-git
+    description: "Trivy: Vulnerability scan a Docker image"
+    parameters:
+      directory:
+        description: "The directory name of the image to be scanned"
+        type: string
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 20.10.17
+          image: aquasec/trivy:latest
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load archived Docker image
+          command: |
+            set -x
+            docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
+            docker images | grep ap-<< parameters.directory >>
+      - run:
+          name: Install trivy
+          command: |
+            apk add --update-cache --upgrade curl rpm bash
+            curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sh -s -- -b /usr/local/bin
+            date +%F > date
+      - restore_cache:
+          keys:
+            - trivy-cache-{{ checksum "date" }}
+      - run:
+          name: Scan the local image with trivy
+          command: bin/trivy-scan.sh "<< parameters.directory >>"
+      - save_cache:
+          key: trivy-cache-{{ checksum "date" }}
+          paths:
+            - /tmp/workspace/trivy-cache
+  release:
+    executor: docker-executor
+    parameters:
+      directory:
+        description: "The directory name of the image to be published"
+        type: string
+      overwrite_tags:
+        type: boolean
+        default: false
+      tags:
+        description: "Comma separated list of tags."
+        type: string
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 20.10.17
+      - checkout
+      - docker-operations:
+          operations: push
+          project_path: << parameters.directory >>
+          registry: "quay.io"
+          registry_username: "${QUAY_USERNAME}"
+          registry_password: "${QUAY_PASSWORD}"
+          repository: "astronomer"
+          image_name: ap-<< parameters.directory >>
+          tags: << parameters.tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
+      - docker-operations:
+          operations: push
+          project_path: << parameters.directory >>
+          registry: "docker.io"
+          registry_username: "${DOCKER_USERNAME}"
+          registry_password: "${DOCKER_PASSWORD}"
+          repository: "astronomerinc"
+          image_name: ap-<< parameters.directory >>
+          tags: << parameters.tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
+
+  validate-tags:
+    executor: docker-executor
+    parameters:
+      directory:
+        description: "The directory name of the image to be validated"
+        type: string
+      tags:
+        description: "Comma separated list of tags."
+        type: string
+      overwrite_tags:
+        type: boolean
+        default: false
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 20.10.17
+      - checkout
+      - docker-operations:
+          operations: validate_tags
+          project_path: << parameters.directory >>
+          registry: "quay.io"
+          registry_username: "${QUAY_USERNAME}"
+          registry_password: "${QUAY_PASSWORD}"
+          repository: "astronomer"
+          image_name: ap-<< parameters.directory >>
+          tags: << parameters.tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
+      - docker-operations:
+          operations: validate_tags
+          project_path: << parameters.directory >>
+          registry: "docker.io"
+          registry_username: "${DOCKER_USERNAME}"
+          registry_password: "${DOCKER_PASSWORD}"
+          repository: "astronomerinc"
+          image_name: ap-<< parameters.directory >>
+          tags: << parameters.tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
+
+commands:
+  docker-build:
+    description: "Build a Docker image"
+    parameters:
+      dockerfile:
+        type: string
+        default: Dockerfile
+      path:
+        type: string
+        default: "."
+      image_name:
+        type: string
+        default: $CIRCLE_PROJECT_REPONAME
+      build_requirements:
+        type: string
+        default: requirements/build-requirements.txt
+    steps:
+      - checkout
+      - python/install-packages:
+          pip-dependency-file: << parameters.build_requirements >>
+          pkg-manager: pip
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 20.10.17
+      - run:
+          name: Build the Docker image
+          command: bin/docker-operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
+      - run:
+          name: Running Docker image inspect
+          command: docker inspect "<< parameters.image_name >>:${CIRCLE_SHA1}"
+      - persist_to_workspace:
+          root: .
+          paths:
+            - "./*.tar"
+
+  docker-test:
+    description: "Test a Docker image"
+    parameters:
+      path:
+        type: string
+        default: "."
+      image_name:
+        type: string
+        default: $CIRCLE_PROJECT_REPONAME
+      test_script:
+        type: string
+        default: bin/test.py
+      test_requirements:
+        type: string
+        default: requirements/test-requirements.txt
+    steps:
+      - checkout
+      - python/install-packages:
+          pip-dependency-file: << parameters.test_requirements >>
+          pkg-manager: pip
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 20.10.17
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load archived Docker image
+          command: |
+            set -x
+            docker load -i /tmp/workspace/<< parameters.image_name >>.tar
+            docker images | grep << parameters.image_name >>
+      - run:
+          name: Run Docker image test
+          environment:
+            ASTRO_IMAGE_NAME: << parameters.image_name >>
+            ASTRO_IMAGE_TEST_CONFIG_PATH: << parameters.path >>/test.yaml
+          command: |
+            mkdir test-results
+            pytest -v --junitxml=test-results/junit.xml << parameters.test_script>>
+      - store_test_results:
+          path: test-results
+
+  docker-operations:
+    description: "Performing Docker Operation << parameters.operations >> for << parameters.registry >>"
+    parameters:
+      operations:
+        type: string
+      project_path:
+        type: string
+        default: "."
+      registry:
+        type: string
+        default: $CIRCLE_BRANCH
+      registry_username:
+        type: string
+      registry_password:
+        type: string
+      repository:
+        type: string
+      image_name:
+        type: string
+        default: $CIRCLE_PROJECT_REPONAME
+      script_requirements:
+        type: string
+        default: requirements/build-requirements.txt
+      tags:
+        type: string
+      overwrite_tags:
+        type: boolean
+        default: false
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - python/install-packages:
+          pip-dependency-file: << parameters.script_requirements >>
+          pkg-manager: pip
+      - run:
+          name: Load archived Docker image
+          command: |
+            set -x
+            docker load -i /tmp/workspace/<< parameters.image_name >>.tar
+            docker images | grep << parameters.image_name >>
+      - run:
+          name: Validating docker image(s)'s tags to << parameters.registry >>
+          command: bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --tags=<< parameters.tags >> --overwrite_tags=<< parameters.overwrite_tags >>
