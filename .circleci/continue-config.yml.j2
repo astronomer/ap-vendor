@@ -1,5 +1,4 @@
-# Warning: automatically generated file
-# Please edit .circleci/config.yml.j2, then run bin/generate_circleci_config.py
+{# https://circleci.com/docs/2.0/building-docker-images/#docker-version #}
 ---
 version: 2.1
 
@@ -12,10 +11,12 @@ executors:
       - image: cimg/python:3.9
 
 parameters:
-  image:
-    type: string
-    default: ""
-    description: "Name of the image directory to build."
+{%- for directory in directories %}
+  {{ directory }}:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image {{ directory }}."
+{%- endfor %}
   overwrite_tags:
     type: boolean
     default: false
@@ -23,22 +24,25 @@ parameters:
 
 workflows:
   version: 2.1
-  vendor-build:
+{%- for directory in workflow_directories %}
+  {{ directory }}-build:
+    when: << pipeline.parameters.{{ directory }} >>
     jobs:
       - build:
-          directory: << pipeline.parameters.image >>
+          name: build
+          directory: {{ directory }}
       - test:
-          directory: << pipeline.parameters.image >>
+          directory: {{ directory }}
           test_script: bin/test.py
           test_requirements: requirements/test-requirements.txt
           requires:
             - build
       - scan-trivy:
-          directory: << pipeline.parameters.image >>
+          directory: {{ directory }}
           requires:
             - test
       - release:
-          directory: << pipeline.parameters.image >>
+          directory: {{ directory }}
           tags: "latest"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
@@ -50,7 +54,7 @@ workflows:
             branches:
               only: main
       - validate-tags:
-          directory: << pipeline.parameters.image >>
+          directory: {{ directory }}
           tags: "latest"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
@@ -61,6 +65,7 @@ workflows:
           filters:
             branches:
               ignore: main
+{%- endfor %}
 
 jobs:
   run_pre_commit:
@@ -75,12 +80,12 @@ jobs:
             python --version --version | sed 's/^/# /' >> /tmp/pre-commit-cache-key.txt
       - restore_cache:
           keys:
-            - pre-commit-cache-{{ checksum "/tmp/pre-commit-cache-key.txt" }}
+            - pre-commit-cache-{{ '{{' }} checksum "/tmp/pre-commit-cache-key.txt" }}
       - run:
           name: Install pre-commit hooks
           command: pre-commit install-hooks
       - save_cache:
-          key: pre-commit-cache-{{ checksum "/tmp/pre-commit-cache-key.txt" }}
+          key: pre-commit-cache-{{ '{{' }} checksum "/tmp/pre-commit-cache-key.txt" }}
           paths:
             - ~/.cache/pre-commit
       - run:
@@ -119,7 +124,7 @@ jobs:
           test_requirements: << parameters.test_requirements >>
   scan-trivy:
     docker:
-      - image: docker:20.10.17-git
+      - image: docker:{{ docker_version }}-git
     description: "Trivy: Vulnerability scan a Docker image"
     parameters:
       directory:
@@ -129,7 +134,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.17
+          version: {{ docker_version }}
           image: aquasec/trivy:latest
       - attach_workspace:
           at: /tmp/workspace
@@ -147,12 +152,12 @@ jobs:
             date +%F > date
       - restore_cache:
           keys:
-            - trivy-cache-{{ checksum "date" }}
+            {% raw %}- trivy-cache-{{ checksum "date" }}{% endraw %}
       - run:
           name: Scan the local image with trivy
           command: bin/trivy-scan.sh "<< parameters.directory >>"
       - save_cache:
-          key: trivy-cache-{{ checksum "date" }}
+          {% raw %}key: trivy-cache-{{ checksum "date" }}{% endraw %}
           paths:
             - /tmp/workspace/trivy-cache
   release:
@@ -170,7 +175,7 @@ jobs:
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.17
+          version: {{ docker_version }}
       - checkout
       - docker-operations:
           operations: push
@@ -208,7 +213,7 @@ jobs:
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.17
+          version: {{ docker_version }}
       - checkout
       - docker-operations:
           operations: validate_tags
@@ -254,7 +259,7 @@ commands:
           pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.17
+          version: {{ docker_version }}
       - run:
           name: Build the Docker image
           command: bin/docker-operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
@@ -288,7 +293,7 @@ commands:
           pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.17
+          version: {{ docker_version }}
       - attach_workspace:
           at: /tmp/workspace
       - run:

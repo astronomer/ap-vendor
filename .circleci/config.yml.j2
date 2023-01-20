@@ -1,5 +1,4 @@
 {# https://circleci.com/docs/2.0/building-docker-images/#docker-version #}
-{%- set docker_version = '20.10.17' -%}
 ---
 version: 2.1
 
@@ -30,7 +29,7 @@ workflows:
           config-path: .circleci/continue-config.yml
           mapping: |
 {%- for directory in directories %}
-            {{ directory }}/.* image {{ directory }}
+            {{ directory }}/.* {{ directory }} true
 {%- endfor %}
 
 jobs:

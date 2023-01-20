@@ -1,5 +1,6 @@
 # Warning: automatically generated file
 # Please edit .circleci/config.yml.j2, then run bin/generate_circleci_config.py
+
 ---
 version: 2.1
 
@@ -29,47 +30,47 @@ workflows:
           base-revision: main
           config-path: .circleci/continue-config.yml
           mapping: |
-            alertmanager/.* image alertmanager
-            auth-sidecar/.* image auth-sidecar
-            awsesproxy/.* image awsesproxy
-            blackbox-exporter/.* image blackbox-exporter
-            configmap-reloader/.* image configmap-reloader
-            curator/.* image curator
-            dind-golang/.* image dind-golang
-            dogstatsd/.* image dogstatsd
-            elasticsearch/.* image elasticsearch
-            elasticsearch-exporter/.* image elasticsearch-exporter
-            fluentd/.* image fluentd
-            git-daemon/.* image git-daemon
-            git-sync/.* image git-sync
-            grafana/.* image grafana
-            init/.* image init
-            keda/.* image keda
-            keda-metrics-apiserver/.* image keda-metrics-apiserver
-            kibana/.* image kibana
-            kube-state/.* image kube-state
-            kubed/.* image kubed
-            nats-exporter/.* image nats-exporter
-            nats-server/.* image nats-server
-            nats-streaming/.* image nats-streaming
-            nginx/.* image nginx
-            nginx-es/.* image nginx-es
-            node-exporter/.* image node-exporter
-            openresty/.* image openresty
-            pgbouncer/.* image pgbouncer
-            pgbouncer-exporter/.* image pgbouncer-exporter
-            pgbouncer-krb/.* image pgbouncer-krb
-            po-logical-backup/.* image po-logical-backup
-            po-pgbouncer/.* image po-pgbouncer
-            po-spilo/.* image po-spilo
-            postgres-exporter/.* image postgres-exporter
-            postgres-operator/.* image postgres-operator
-            postgresql/.* image postgresql
-            prometheus/.* image prometheus
-            redis/.* image redis
-            registry/.* image registry
-            statsd-exporter/.* image statsd-exporter
-            vector/.* image vector
+            alertmanager/.* alertmanager true
+            auth-sidecar/.* auth-sidecar true
+            awsesproxy/.* awsesproxy true
+            blackbox-exporter/.* blackbox-exporter true
+            configmap-reloader/.* configmap-reloader true
+            curator/.* curator true
+            dind-golang/.* dind-golang true
+            dogstatsd/.* dogstatsd true
+            elasticsearch/.* elasticsearch true
+            elasticsearch-exporter/.* elasticsearch-exporter true
+            fluentd/.* fluentd true
+            git-daemon/.* git-daemon true
+            git-sync/.* git-sync true
+            grafana/.* grafana true
+            init/.* init true
+            keda/.* keda true
+            keda-metrics-apiserver/.* keda-metrics-apiserver true
+            kibana/.* kibana true
+            kube-state/.* kube-state true
+            kubed/.* kubed true
+            nats-exporter/.* nats-exporter true
+            nats-server/.* nats-server true
+            nats-streaming/.* nats-streaming true
+            nginx/.* nginx true
+            nginx-es/.* nginx-es true
+            node-exporter/.* node-exporter true
+            openresty/.* openresty true
+            pgbouncer/.* pgbouncer true
+            pgbouncer-exporter/.* pgbouncer-exporter true
+            pgbouncer-krb/.* pgbouncer-krb true
+            po-logical-backup/.* po-logical-backup true
+            po-pgbouncer/.* po-pgbouncer true
+            po-spilo/.* po-spilo true
+            postgres-exporter/.* postgres-exporter true
+            postgres-operator/.* postgres-operator true
+            postgresql/.* postgresql true
+            prometheus/.* prometheus true
+            redis/.* redis true
+            registry/.* registry true
+            statsd-exporter/.* statsd-exporter true
+            vector/.* vector true
 
 jobs:
   run_pre_commit:
