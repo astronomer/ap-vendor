@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/curlimages/curl/tags
-FROM curlimages/curl:7.86.0 as downloader
+FROM curlimages/curl:latest as downloader
 
 # https://github.com/vectordotdev/vector/releases/
 ENV VECTOR_VERSION 0.26.0
@@ -22,7 +22,7 @@ RUN curl -fsSL https://github.com/vectordotdev/vector/releases/download/v${VECTO
     | tar --directory=/tmp --strip-components=3 -xzf - ./vector-x86_64-unknown-linux-gnu/bin/vector
 
 # https://hub.docker.com/_/python?tab=tags&name=slim
-FROM python:3.10.8-slim
+FROM python:3.10-slim
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
