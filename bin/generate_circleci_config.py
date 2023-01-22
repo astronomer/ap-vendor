@@ -40,6 +40,7 @@ def main():
     template = Template(templated_file_content)
     config = template.render(
         directories=list_docker_dirs(circle_directory.parent),
+        overwrite_directories=list_docker_dirs(circle_directory.parent),
         docker_version=docker_version,
     )
     warning_header = (

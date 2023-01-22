@@ -24,6 +24,9 @@ parameters:
 workflows:
   version: 2.1
   generate-config:
+    when:
+     and:
+      - not: << pipeline.parameters.overwrite_tags >>
     jobs:
       - run_pre_commit
       - path-filtering/filter:
@@ -71,6 +74,55 @@ workflows:
             registry/.* registry true
             statsd-exporter/.* statsd-exporter true
             vector/.* vector true
+  generate-config-overwrite:
+    when: << pipeline.parameters.overwrite_tags >>
+    jobs:
+      - run_pre_commit
+      - path-filtering/filter:
+          base-revision: main
+          config-path: .circleci/continue-config.yml
+          mapping: |
+            alertmanager/.* alertmanager-overwrite true
+            auth-sidecar/.* auth-sidecar-overwrite true
+            awsesproxy/.* awsesproxy-overwrite true
+            blackbox-exporter/.* blackbox-exporter-overwrite true
+            configmap-reloader/.* configmap-reloader-overwrite true
+            curator/.* curator-overwrite true
+            dind-golang/.* dind-golang-overwrite true
+            dogstatsd/.* dogstatsd-overwrite true
+            elasticsearch/.* elasticsearch-overwrite true
+            elasticsearch-exporter/.* elasticsearch-exporter-overwrite true
+            fluentd/.* fluentd-overwrite true
+            git-daemon/.* git-daemon-overwrite true
+            git-sync/.* git-sync-overwrite true
+            grafana/.* grafana-overwrite true
+            init/.* init-overwrite true
+            keda/.* keda-overwrite true
+            keda-metrics-apiserver/.* keda-metrics-apiserver-overwrite true
+            kibana/.* kibana-overwrite true
+            kube-state/.* kube-state-overwrite true
+            kubed/.* kubed-overwrite true
+            nats-exporter/.* nats-exporter-overwrite true
+            nats-server/.* nats-server-overwrite true
+            nats-streaming/.* nats-streaming-overwrite true
+            nginx/.* nginx-overwrite true
+            nginx-es/.* nginx-es-overwrite true
+            node-exporter/.* node-exporter-overwrite true
+            openresty/.* openresty-overwrite true
+            pgbouncer/.* pgbouncer-overwrite true
+            pgbouncer-exporter/.* pgbouncer-exporter-overwrite true
+            pgbouncer-krb/.* pgbouncer-krb-overwrite true
+            po-logical-backup/.* po-logical-backup-overwrite true
+            po-pgbouncer/.* po-pgbouncer-overwrite true
+            po-spilo/.* po-spilo-overwrite true
+            postgres-exporter/.* postgres-exporter-overwrite true
+            postgres-operator/.* postgres-operator-overwrite true
+            postgresql/.* postgresql-overwrite true
+            prometheus/.* prometheus-overwrite true
+            redis/.* redis-overwrite true
+            registry/.* registry-overwrite true
+            statsd-exporter/.* statsd-exporter-overwrite true
+            vector/.* vector-overwrite true
 
 jobs:
   run_pre_commit:
