@@ -21,6 +21,10 @@ parameters:
     default: false
     description: "Set True if you want to run build for image {{ directory }} with tag overwrite."
 {%- endfor %}
+  overwrite_tags:
+    type: boolean
+    default: false
+    description: "Set True if you want to overwrite existing docker image tag."
 
 workflows:
   version: 2.1

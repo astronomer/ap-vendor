@@ -341,6 +341,10 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image vector with tag overwrite."
+  overwrite_tags:
+    type: boolean
+    default: false
+    description: "Set True if you want to overwrite existing docker image tag."
 
 workflows:
   version: 2.1
