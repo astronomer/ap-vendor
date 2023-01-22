@@ -26,6 +26,9 @@ workflows:
   version: 2.1
 {%- for directory in workflow_directories %}
   {{ directory }}-build:
+    when:
+      and:
+        - << pipeline.parameters.{{ directory }}
     jobs:
       - build:
           name: build

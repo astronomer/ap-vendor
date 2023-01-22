@@ -185,6 +185,9 @@ parameters:
 workflows:
   version: 2.1
   alertmanager-build:
+    when:
+      and:
+        - << pipeline.parameters.alertmanager
     jobs:
       - build:
           name: build
@@ -224,6 +227,9 @@ workflows:
             branches:
               ignore: main
   auth-sidecar-build:
+    when:
+      and:
+        - << pipeline.parameters.auth-sidecar
     jobs:
       - build:
           name: build
@@ -263,6 +269,9 @@ workflows:
             branches:
               ignore: main
   awsesproxy-build:
+    when:
+      and:
+        - << pipeline.parameters.awsesproxy
     jobs:
       - build:
           name: build
@@ -302,6 +311,9 @@ workflows:
             branches:
               ignore: main
   blackbox-exporter-build:
+    when:
+      and:
+        - << pipeline.parameters.blackbox-exporter
     jobs:
       - build:
           name: build
@@ -341,6 +353,9 @@ workflows:
             branches:
               ignore: main
   configmap-reloader-build:
+    when:
+      and:
+        - << pipeline.parameters.configmap-reloader
     jobs:
       - build:
           name: build
@@ -380,6 +395,9 @@ workflows:
             branches:
               ignore: main
   curator-build:
+    when:
+      and:
+        - << pipeline.parameters.curator
     jobs:
       - build:
           name: build
@@ -419,6 +437,9 @@ workflows:
             branches:
               ignore: main
   dind-golang-build:
+    when:
+      and:
+        - << pipeline.parameters.dind-golang
     jobs:
       - build:
           name: build
@@ -458,6 +479,9 @@ workflows:
             branches:
               ignore: main
   dogstatsd-build:
+    when:
+      and:
+        - << pipeline.parameters.dogstatsd
     jobs:
       - build:
           name: build
@@ -497,6 +521,9 @@ workflows:
             branches:
               ignore: main
   elasticsearch-build:
+    when:
+      and:
+        - << pipeline.parameters.elasticsearch
     jobs:
       - build:
           name: build
@@ -536,6 +563,9 @@ workflows:
             branches:
               ignore: main
   elasticsearch-exporter-build:
+    when:
+      and:
+        - << pipeline.parameters.elasticsearch-exporter
     jobs:
       - build:
           name: build
@@ -575,6 +605,9 @@ workflows:
             branches:
               ignore: main
   fluentd-build:
+    when:
+      and:
+        - << pipeline.parameters.fluentd
     jobs:
       - build:
           name: build
@@ -614,6 +647,9 @@ workflows:
             branches:
               ignore: main
   git-daemon-build:
+    when:
+      and:
+        - << pipeline.parameters.git-daemon
     jobs:
       - build:
           name: build
@@ -653,6 +689,9 @@ workflows:
             branches:
               ignore: main
   git-sync-build:
+    when:
+      and:
+        - << pipeline.parameters.git-sync
     jobs:
       - build:
           name: build
@@ -692,6 +731,9 @@ workflows:
             branches:
               ignore: main
   grafana-build:
+    when:
+      and:
+        - << pipeline.parameters.grafana
     jobs:
       - build:
           name: build
@@ -731,6 +773,9 @@ workflows:
             branches:
               ignore: main
   init-build:
+    when:
+      and:
+        - << pipeline.parameters.init
     jobs:
       - build:
           name: build
@@ -770,6 +815,9 @@ workflows:
             branches:
               ignore: main
   keda-build:
+    when:
+      and:
+        - << pipeline.parameters.keda
     jobs:
       - build:
           name: build
@@ -809,6 +857,9 @@ workflows:
             branches:
               ignore: main
   keda-metrics-apiserver-build:
+    when:
+      and:
+        - << pipeline.parameters.keda-metrics-apiserver
     jobs:
       - build:
           name: build
@@ -848,6 +899,9 @@ workflows:
             branches:
               ignore: main
   kibana-build:
+    when:
+      and:
+        - << pipeline.parameters.kibana
     jobs:
       - build:
           name: build
@@ -887,6 +941,9 @@ workflows:
             branches:
               ignore: main
   kube-state-build:
+    when:
+      and:
+        - << pipeline.parameters.kube-state
     jobs:
       - build:
           name: build
@@ -926,6 +983,9 @@ workflows:
             branches:
               ignore: main
   kubed-build:
+    when:
+      and:
+        - << pipeline.parameters.kubed
     jobs:
       - build:
           name: build
@@ -965,6 +1025,9 @@ workflows:
             branches:
               ignore: main
   nats-exporter-build:
+    when:
+      and:
+        - << pipeline.parameters.nats-exporter
     jobs:
       - build:
           name: build
@@ -1004,6 +1067,9 @@ workflows:
             branches:
               ignore: main
   nats-server-build:
+    when:
+      and:
+        - << pipeline.parameters.nats-server
     jobs:
       - build:
           name: build
@@ -1043,6 +1109,9 @@ workflows:
             branches:
               ignore: main
   nats-streaming-build:
+    when:
+      and:
+        - << pipeline.parameters.nats-streaming
     jobs:
       - build:
           name: build
@@ -1082,6 +1151,9 @@ workflows:
             branches:
               ignore: main
   nginx-build:
+    when:
+      and:
+        - << pipeline.parameters.nginx
     jobs:
       - build:
           name: build
@@ -1121,6 +1193,9 @@ workflows:
             branches:
               ignore: main
   nginx-es-build:
+    when:
+      and:
+        - << pipeline.parameters.nginx-es
     jobs:
       - build:
           name: build
@@ -1160,6 +1235,9 @@ workflows:
             branches:
               ignore: main
   node-exporter-build:
+    when:
+      and:
+        - << pipeline.parameters.node-exporter
     jobs:
       - build:
           name: build
@@ -1199,6 +1277,9 @@ workflows:
             branches:
               ignore: main
   openresty-build:
+    when:
+      and:
+        - << pipeline.parameters.openresty
     jobs:
       - build:
           name: build
@@ -1238,6 +1319,9 @@ workflows:
             branches:
               ignore: main
   pgbouncer-build:
+    when:
+      and:
+        - << pipeline.parameters.pgbouncer
     jobs:
       - build:
           name: build
@@ -1277,6 +1361,9 @@ workflows:
             branches:
               ignore: main
   pgbouncer-exporter-build:
+    when:
+      and:
+        - << pipeline.parameters.pgbouncer-exporter
     jobs:
       - build:
           name: build
@@ -1316,6 +1403,9 @@ workflows:
             branches:
               ignore: main
   pgbouncer-krb-build:
+    when:
+      and:
+        - << pipeline.parameters.pgbouncer-krb
     jobs:
       - build:
           name: build
@@ -1355,6 +1445,9 @@ workflows:
             branches:
               ignore: main
   po-logical-backup-build:
+    when:
+      and:
+        - << pipeline.parameters.po-logical-backup
     jobs:
       - build:
           name: build
@@ -1394,6 +1487,9 @@ workflows:
             branches:
               ignore: main
   po-pgbouncer-build:
+    when:
+      and:
+        - << pipeline.parameters.po-pgbouncer
     jobs:
       - build:
           name: build
@@ -1433,6 +1529,9 @@ workflows:
             branches:
               ignore: main
   po-spilo-build:
+    when:
+      and:
+        - << pipeline.parameters.po-spilo
     jobs:
       - build:
           name: build
@@ -1472,6 +1571,9 @@ workflows:
             branches:
               ignore: main
   postgres-exporter-build:
+    when:
+      and:
+        - << pipeline.parameters.postgres-exporter
     jobs:
       - build:
           name: build
@@ -1511,6 +1613,9 @@ workflows:
             branches:
               ignore: main
   postgres-operator-build:
+    when:
+      and:
+        - << pipeline.parameters.postgres-operator
     jobs:
       - build:
           name: build
@@ -1550,6 +1655,9 @@ workflows:
             branches:
               ignore: main
   postgresql-build:
+    when:
+      and:
+        - << pipeline.parameters.postgresql
     jobs:
       - build:
           name: build
@@ -1589,6 +1697,9 @@ workflows:
             branches:
               ignore: main
   prometheus-build:
+    when:
+      and:
+        - << pipeline.parameters.prometheus
     jobs:
       - build:
           name: build
@@ -1628,6 +1739,9 @@ workflows:
             branches:
               ignore: main
   redis-build:
+    when:
+      and:
+        - << pipeline.parameters.redis
     jobs:
       - build:
           name: build
@@ -1667,6 +1781,9 @@ workflows:
             branches:
               ignore: main
   registry-build:
+    when:
+      and:
+        - << pipeline.parameters.registry
     jobs:
       - build:
           name: build
@@ -1706,6 +1823,9 @@ workflows:
             branches:
               ignore: main
   statsd-exporter-build:
+    when:
+      and:
+        - << pipeline.parameters.statsd-exporter
     jobs:
       - build:
           name: build
@@ -1745,6 +1865,9 @@ workflows:
             branches:
               ignore: main
   vector-build:
+    when:
+      and:
+        - << pipeline.parameters.vector
     jobs:
       - build:
           name: build
