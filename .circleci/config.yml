@@ -23,11 +23,9 @@ parameters:
 
 workflows:
   version: 2.1
-  pre_commit:
-    jobs:
-      - run_pre_commit
   generate-config:
     jobs:
+      - run_pre_commit
       - path-filtering/filter:
           base-revision: main
           config-path: .circleci/continue-config.yml
