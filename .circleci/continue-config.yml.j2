@@ -50,7 +50,7 @@ workflows:
       - release:
           directory: {{ directory }}
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.{{ directory }}-overwrite >>
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
@@ -62,7 +62,7 @@ workflows:
       - validate-tags:
           directory: {{ directory }}
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.{{ directory }}-overwrite >>
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
             - docker.io
