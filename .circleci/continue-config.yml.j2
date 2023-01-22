@@ -21,18 +21,14 @@ parameters:
     default: false
     description: "Set True if you want to run build for image {{ directory }} with tag overwrite."
 {%- endfor %}
-  overwrite_tags:
-    type: boolean
-    default: false
-    description: "Set True if you want to overwrite existing docker image tag."
 
 workflows:
   version: 2.1
 {%- for directory in workflow_directories %}
   {{ directory }}-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.{{ directory }}-overwrite >>, << pipeline.parameters.{{ directory }} >> ]
+      and:
+        - or: [<< pipeline.parameters.{{ directory }}-overwrite >>, << pipeline.parameters.{{ directory }} >>]
     jobs:
       - build:
           name: build
@@ -50,7 +46,7 @@ workflows:
       - release:
           directory: {{ directory }}
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.{{ directory }}-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -62,7 +58,7 @@ workflows:
       - validate-tags:
           directory: {{ directory }}
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.{{ directory }}-overwrite >>
           context:
             - quay.io
             - docker.io

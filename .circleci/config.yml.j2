@@ -23,8 +23,8 @@ workflows:
   version: 2.1
   generate-config:
     when:
-     and:
-      - not: << pipeline.parameters.overwrite_tags >>
+      and:
+        - not: << pipeline.parameters.overwrite_tags >>
     jobs:
       - run_pre_commit
       - path-filtering/filter:

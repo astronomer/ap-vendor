@@ -341,17 +341,13 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image vector with tag overwrite."
-  overwrite_tags:
-    type: boolean
-    default: false
-    description: "Set True if you want to overwrite existing docker image tag."
 
 workflows:
   version: 2.1
   alertmanager-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.alertmanager-overwrite >>, << pipeline.parameters.alertmanager >> ]
+      and:
+        - or: [<< pipeline.parameters.alertmanager-overwrite >>, << pipeline.parameters.alertmanager >>]
     jobs:
       - build:
           name: build
@@ -369,7 +365,7 @@ workflows:
       - release:
           directory: alertmanager
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.alertmanager-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -381,7 +377,7 @@ workflows:
       - validate-tags:
           directory: alertmanager
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.alertmanager-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -392,8 +388,8 @@ workflows:
               ignore: main
   auth-sidecar-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.auth-sidecar-overwrite >>, << pipeline.parameters.auth-sidecar >> ]
+      and:
+        - or: [<< pipeline.parameters.auth-sidecar-overwrite >>, << pipeline.parameters.auth-sidecar >>]
     jobs:
       - build:
           name: build
@@ -411,7 +407,7 @@ workflows:
       - release:
           directory: auth-sidecar
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.auth-sidecar-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -423,7 +419,7 @@ workflows:
       - validate-tags:
           directory: auth-sidecar
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.auth-sidecar-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -434,8 +430,8 @@ workflows:
               ignore: main
   awsesproxy-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.awsesproxy-overwrite >>, << pipeline.parameters.awsesproxy >> ]
+      and:
+        - or: [<< pipeline.parameters.awsesproxy-overwrite >>, << pipeline.parameters.awsesproxy >>]
     jobs:
       - build:
           name: build
@@ -453,7 +449,7 @@ workflows:
       - release:
           directory: awsesproxy
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.awsesproxy-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -465,7 +461,7 @@ workflows:
       - validate-tags:
           directory: awsesproxy
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.awsesproxy-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -476,8 +472,8 @@ workflows:
               ignore: main
   blackbox-exporter-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.blackbox-exporter-overwrite >>, << pipeline.parameters.blackbox-exporter >> ]
+      and:
+        - or: [<< pipeline.parameters.blackbox-exporter-overwrite >>, << pipeline.parameters.blackbox-exporter >>]
     jobs:
       - build:
           name: build
@@ -495,7 +491,7 @@ workflows:
       - release:
           directory: blackbox-exporter
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.blackbox-exporter-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -507,7 +503,7 @@ workflows:
       - validate-tags:
           directory: blackbox-exporter
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.blackbox-exporter-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -518,8 +514,8 @@ workflows:
               ignore: main
   configmap-reloader-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.configmap-reloader-overwrite >>, << pipeline.parameters.configmap-reloader >> ]
+      and:
+        - or: [<< pipeline.parameters.configmap-reloader-overwrite >>, << pipeline.parameters.configmap-reloader >>]
     jobs:
       - build:
           name: build
@@ -537,7 +533,7 @@ workflows:
       - release:
           directory: configmap-reloader
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.configmap-reloader-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -549,7 +545,7 @@ workflows:
       - validate-tags:
           directory: configmap-reloader
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.configmap-reloader-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -560,8 +556,8 @@ workflows:
               ignore: main
   curator-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.curator-overwrite >>, << pipeline.parameters.curator >> ]
+      and:
+        - or: [<< pipeline.parameters.curator-overwrite >>, << pipeline.parameters.curator >>]
     jobs:
       - build:
           name: build
@@ -579,7 +575,7 @@ workflows:
       - release:
           directory: curator
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.curator-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -591,7 +587,7 @@ workflows:
       - validate-tags:
           directory: curator
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.curator-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -602,8 +598,8 @@ workflows:
               ignore: main
   dind-golang-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.dind-golang-overwrite >>, << pipeline.parameters.dind-golang >> ]
+      and:
+        - or: [<< pipeline.parameters.dind-golang-overwrite >>, << pipeline.parameters.dind-golang >>]
     jobs:
       - build:
           name: build
@@ -621,7 +617,7 @@ workflows:
       - release:
           directory: dind-golang
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.dind-golang-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -633,7 +629,7 @@ workflows:
       - validate-tags:
           directory: dind-golang
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.dind-golang-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -644,8 +640,8 @@ workflows:
               ignore: main
   dogstatsd-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.dogstatsd-overwrite >>, << pipeline.parameters.dogstatsd >> ]
+      and:
+        - or: [<< pipeline.parameters.dogstatsd-overwrite >>, << pipeline.parameters.dogstatsd >>]
     jobs:
       - build:
           name: build
@@ -663,7 +659,7 @@ workflows:
       - release:
           directory: dogstatsd
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.dogstatsd-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -675,7 +671,7 @@ workflows:
       - validate-tags:
           directory: dogstatsd
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.dogstatsd-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -686,8 +682,8 @@ workflows:
               ignore: main
   elasticsearch-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.elasticsearch-overwrite >>, << pipeline.parameters.elasticsearch >> ]
+      and:
+        - or: [<< pipeline.parameters.elasticsearch-overwrite >>, << pipeline.parameters.elasticsearch >>]
     jobs:
       - build:
           name: build
@@ -705,7 +701,7 @@ workflows:
       - release:
           directory: elasticsearch
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.elasticsearch-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -717,7 +713,7 @@ workflows:
       - validate-tags:
           directory: elasticsearch
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.elasticsearch-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -728,8 +724,8 @@ workflows:
               ignore: main
   elasticsearch-exporter-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.elasticsearch-exporter-overwrite >>, << pipeline.parameters.elasticsearch-exporter >> ]
+      and:
+        - or: [<< pipeline.parameters.elasticsearch-exporter-overwrite >>, << pipeline.parameters.elasticsearch-exporter >>]
     jobs:
       - build:
           name: build
@@ -747,7 +743,7 @@ workflows:
       - release:
           directory: elasticsearch-exporter
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.elasticsearch-exporter-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -759,7 +755,7 @@ workflows:
       - validate-tags:
           directory: elasticsearch-exporter
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.elasticsearch-exporter-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -770,8 +766,8 @@ workflows:
               ignore: main
   fluentd-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.fluentd-overwrite >>, << pipeline.parameters.fluentd >> ]
+      and:
+        - or: [<< pipeline.parameters.fluentd-overwrite >>, << pipeline.parameters.fluentd >>]
     jobs:
       - build:
           name: build
@@ -789,7 +785,7 @@ workflows:
       - release:
           directory: fluentd
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.fluentd-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -801,7 +797,7 @@ workflows:
       - validate-tags:
           directory: fluentd
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.fluentd-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -812,8 +808,8 @@ workflows:
               ignore: main
   git-daemon-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.git-daemon-overwrite >>, << pipeline.parameters.git-daemon >> ]
+      and:
+        - or: [<< pipeline.parameters.git-daemon-overwrite >>, << pipeline.parameters.git-daemon >>]
     jobs:
       - build:
           name: build
@@ -831,7 +827,7 @@ workflows:
       - release:
           directory: git-daemon
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.git-daemon-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -843,7 +839,7 @@ workflows:
       - validate-tags:
           directory: git-daemon
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.git-daemon-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -854,8 +850,8 @@ workflows:
               ignore: main
   git-sync-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.git-sync-overwrite >>, << pipeline.parameters.git-sync >> ]
+      and:
+        - or: [<< pipeline.parameters.git-sync-overwrite >>, << pipeline.parameters.git-sync >>]
     jobs:
       - build:
           name: build
@@ -873,7 +869,7 @@ workflows:
       - release:
           directory: git-sync
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.git-sync-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -885,7 +881,7 @@ workflows:
       - validate-tags:
           directory: git-sync
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.git-sync-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -896,8 +892,8 @@ workflows:
               ignore: main
   grafana-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.grafana-overwrite >>, << pipeline.parameters.grafana >> ]
+      and:
+        - or: [<< pipeline.parameters.grafana-overwrite >>, << pipeline.parameters.grafana >>]
     jobs:
       - build:
           name: build
@@ -915,7 +911,7 @@ workflows:
       - release:
           directory: grafana
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.grafana-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -927,7 +923,7 @@ workflows:
       - validate-tags:
           directory: grafana
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.grafana-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -938,8 +934,8 @@ workflows:
               ignore: main
   init-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.init-overwrite >>, << pipeline.parameters.init >> ]
+      and:
+        - or: [<< pipeline.parameters.init-overwrite >>, << pipeline.parameters.init >>]
     jobs:
       - build:
           name: build
@@ -957,7 +953,7 @@ workflows:
       - release:
           directory: init
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.init-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -969,7 +965,7 @@ workflows:
       - validate-tags:
           directory: init
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.init-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -980,8 +976,8 @@ workflows:
               ignore: main
   keda-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.keda-overwrite >>, << pipeline.parameters.keda >> ]
+      and:
+        - or: [<< pipeline.parameters.keda-overwrite >>, << pipeline.parameters.keda >>]
     jobs:
       - build:
           name: build
@@ -999,7 +995,7 @@ workflows:
       - release:
           directory: keda
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.keda-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1011,7 +1007,7 @@ workflows:
       - validate-tags:
           directory: keda
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.keda-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1022,8 +1018,8 @@ workflows:
               ignore: main
   keda-metrics-apiserver-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.keda-metrics-apiserver-overwrite >>, << pipeline.parameters.keda-metrics-apiserver >> ]
+      and:
+        - or: [<< pipeline.parameters.keda-metrics-apiserver-overwrite >>, << pipeline.parameters.keda-metrics-apiserver >>]
     jobs:
       - build:
           name: build
@@ -1041,7 +1037,7 @@ workflows:
       - release:
           directory: keda-metrics-apiserver
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.keda-metrics-apiserver-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1053,7 +1049,7 @@ workflows:
       - validate-tags:
           directory: keda-metrics-apiserver
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.keda-metrics-apiserver-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1064,8 +1060,8 @@ workflows:
               ignore: main
   kibana-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.kibana-overwrite >>, << pipeline.parameters.kibana >> ]
+      and:
+        - or: [<< pipeline.parameters.kibana-overwrite >>, << pipeline.parameters.kibana >>]
     jobs:
       - build:
           name: build
@@ -1083,7 +1079,7 @@ workflows:
       - release:
           directory: kibana
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.kibana-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1095,7 +1091,7 @@ workflows:
       - validate-tags:
           directory: kibana
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.kibana-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1106,8 +1102,8 @@ workflows:
               ignore: main
   kube-state-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.kube-state-overwrite >>, << pipeline.parameters.kube-state >> ]
+      and:
+        - or: [<< pipeline.parameters.kube-state-overwrite >>, << pipeline.parameters.kube-state >>]
     jobs:
       - build:
           name: build
@@ -1125,7 +1121,7 @@ workflows:
       - release:
           directory: kube-state
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.kube-state-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1137,7 +1133,7 @@ workflows:
       - validate-tags:
           directory: kube-state
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.kube-state-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1148,8 +1144,8 @@ workflows:
               ignore: main
   kubed-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.kubed-overwrite >>, << pipeline.parameters.kubed >> ]
+      and:
+        - or: [<< pipeline.parameters.kubed-overwrite >>, << pipeline.parameters.kubed >>]
     jobs:
       - build:
           name: build
@@ -1167,7 +1163,7 @@ workflows:
       - release:
           directory: kubed
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.kubed-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1179,7 +1175,7 @@ workflows:
       - validate-tags:
           directory: kubed
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.kubed-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1190,8 +1186,8 @@ workflows:
               ignore: main
   nats-exporter-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.nats-exporter-overwrite >>, << pipeline.parameters.nats-exporter >> ]
+      and:
+        - or: [<< pipeline.parameters.nats-exporter-overwrite >>, << pipeline.parameters.nats-exporter >>]
     jobs:
       - build:
           name: build
@@ -1209,7 +1205,7 @@ workflows:
       - release:
           directory: nats-exporter
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.nats-exporter-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1221,7 +1217,7 @@ workflows:
       - validate-tags:
           directory: nats-exporter
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.nats-exporter-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1232,8 +1228,8 @@ workflows:
               ignore: main
   nats-server-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.nats-server-overwrite >>, << pipeline.parameters.nats-server >> ]
+      and:
+        - or: [<< pipeline.parameters.nats-server-overwrite >>, << pipeline.parameters.nats-server >>]
     jobs:
       - build:
           name: build
@@ -1251,7 +1247,7 @@ workflows:
       - release:
           directory: nats-server
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.nats-server-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1263,7 +1259,7 @@ workflows:
       - validate-tags:
           directory: nats-server
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.nats-server-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1274,8 +1270,8 @@ workflows:
               ignore: main
   nats-streaming-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.nats-streaming-overwrite >>, << pipeline.parameters.nats-streaming >> ]
+      and:
+        - or: [<< pipeline.parameters.nats-streaming-overwrite >>, << pipeline.parameters.nats-streaming >>]
     jobs:
       - build:
           name: build
@@ -1293,7 +1289,7 @@ workflows:
       - release:
           directory: nats-streaming
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.nats-streaming-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1305,7 +1301,7 @@ workflows:
       - validate-tags:
           directory: nats-streaming
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.nats-streaming-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1316,8 +1312,8 @@ workflows:
               ignore: main
   nginx-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.nginx-overwrite >>, << pipeline.parameters.nginx >> ]
+      and:
+        - or: [<< pipeline.parameters.nginx-overwrite >>, << pipeline.parameters.nginx >>]
     jobs:
       - build:
           name: build
@@ -1335,7 +1331,7 @@ workflows:
       - release:
           directory: nginx
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.nginx-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1347,7 +1343,7 @@ workflows:
       - validate-tags:
           directory: nginx
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.nginx-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1358,8 +1354,8 @@ workflows:
               ignore: main
   nginx-es-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.nginx-es-overwrite >>, << pipeline.parameters.nginx-es >> ]
+      and:
+        - or: [<< pipeline.parameters.nginx-es-overwrite >>, << pipeline.parameters.nginx-es >>]
     jobs:
       - build:
           name: build
@@ -1377,7 +1373,7 @@ workflows:
       - release:
           directory: nginx-es
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.nginx-es-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1389,7 +1385,7 @@ workflows:
       - validate-tags:
           directory: nginx-es
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.nginx-es-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1400,8 +1396,8 @@ workflows:
               ignore: main
   node-exporter-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.node-exporter-overwrite >>, << pipeline.parameters.node-exporter >> ]
+      and:
+        - or: [<< pipeline.parameters.node-exporter-overwrite >>, << pipeline.parameters.node-exporter >>]
     jobs:
       - build:
           name: build
@@ -1419,7 +1415,7 @@ workflows:
       - release:
           directory: node-exporter
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.node-exporter-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1431,7 +1427,7 @@ workflows:
       - validate-tags:
           directory: node-exporter
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.node-exporter-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1442,8 +1438,8 @@ workflows:
               ignore: main
   openresty-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.openresty-overwrite >>, << pipeline.parameters.openresty >> ]
+      and:
+        - or: [<< pipeline.parameters.openresty-overwrite >>, << pipeline.parameters.openresty >>]
     jobs:
       - build:
           name: build
@@ -1461,7 +1457,7 @@ workflows:
       - release:
           directory: openresty
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.openresty-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1473,7 +1469,7 @@ workflows:
       - validate-tags:
           directory: openresty
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.openresty-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1484,8 +1480,8 @@ workflows:
               ignore: main
   pgbouncer-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.pgbouncer-overwrite >>, << pipeline.parameters.pgbouncer >> ]
+      and:
+        - or: [<< pipeline.parameters.pgbouncer-overwrite >>, << pipeline.parameters.pgbouncer >>]
     jobs:
       - build:
           name: build
@@ -1503,7 +1499,7 @@ workflows:
       - release:
           directory: pgbouncer
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.pgbouncer-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1515,7 +1511,7 @@ workflows:
       - validate-tags:
           directory: pgbouncer
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.pgbouncer-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1526,8 +1522,8 @@ workflows:
               ignore: main
   pgbouncer-exporter-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.pgbouncer-exporter-overwrite >>, << pipeline.parameters.pgbouncer-exporter >> ]
+      and:
+        - or: [<< pipeline.parameters.pgbouncer-exporter-overwrite >>, << pipeline.parameters.pgbouncer-exporter >>]
     jobs:
       - build:
           name: build
@@ -1545,7 +1541,7 @@ workflows:
       - release:
           directory: pgbouncer-exporter
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.pgbouncer-exporter-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1557,7 +1553,7 @@ workflows:
       - validate-tags:
           directory: pgbouncer-exporter
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.pgbouncer-exporter-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1568,8 +1564,8 @@ workflows:
               ignore: main
   pgbouncer-krb-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.pgbouncer-krb-overwrite >>, << pipeline.parameters.pgbouncer-krb >> ]
+      and:
+        - or: [<< pipeline.parameters.pgbouncer-krb-overwrite >>, << pipeline.parameters.pgbouncer-krb >>]
     jobs:
       - build:
           name: build
@@ -1587,7 +1583,7 @@ workflows:
       - release:
           directory: pgbouncer-krb
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.pgbouncer-krb-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1599,7 +1595,7 @@ workflows:
       - validate-tags:
           directory: pgbouncer-krb
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.pgbouncer-krb-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1610,8 +1606,8 @@ workflows:
               ignore: main
   po-logical-backup-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.po-logical-backup-overwrite >>, << pipeline.parameters.po-logical-backup >> ]
+      and:
+        - or: [<< pipeline.parameters.po-logical-backup-overwrite >>, << pipeline.parameters.po-logical-backup >>]
     jobs:
       - build:
           name: build
@@ -1629,7 +1625,7 @@ workflows:
       - release:
           directory: po-logical-backup
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.po-logical-backup-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1641,7 +1637,7 @@ workflows:
       - validate-tags:
           directory: po-logical-backup
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.po-logical-backup-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1652,8 +1648,8 @@ workflows:
               ignore: main
   po-pgbouncer-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.po-pgbouncer-overwrite >>, << pipeline.parameters.po-pgbouncer >> ]
+      and:
+        - or: [<< pipeline.parameters.po-pgbouncer-overwrite >>, << pipeline.parameters.po-pgbouncer >>]
     jobs:
       - build:
           name: build
@@ -1671,7 +1667,7 @@ workflows:
       - release:
           directory: po-pgbouncer
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.po-pgbouncer-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1683,7 +1679,7 @@ workflows:
       - validate-tags:
           directory: po-pgbouncer
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.po-pgbouncer-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1694,8 +1690,8 @@ workflows:
               ignore: main
   po-spilo-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.po-spilo-overwrite >>, << pipeline.parameters.po-spilo >> ]
+      and:
+        - or: [<< pipeline.parameters.po-spilo-overwrite >>, << pipeline.parameters.po-spilo >>]
     jobs:
       - build:
           name: build
@@ -1713,7 +1709,7 @@ workflows:
       - release:
           directory: po-spilo
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.po-spilo-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1725,7 +1721,7 @@ workflows:
       - validate-tags:
           directory: po-spilo
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.po-spilo-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1736,8 +1732,8 @@ workflows:
               ignore: main
   postgres-exporter-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.postgres-exporter-overwrite >>, << pipeline.parameters.postgres-exporter >> ]
+      and:
+        - or: [<< pipeline.parameters.postgres-exporter-overwrite >>, << pipeline.parameters.postgres-exporter >>]
     jobs:
       - build:
           name: build
@@ -1755,7 +1751,7 @@ workflows:
       - release:
           directory: postgres-exporter
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.postgres-exporter-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1767,7 +1763,7 @@ workflows:
       - validate-tags:
           directory: postgres-exporter
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.postgres-exporter-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1778,8 +1774,8 @@ workflows:
               ignore: main
   postgres-operator-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.postgres-operator-overwrite >>, << pipeline.parameters.postgres-operator >> ]
+      and:
+        - or: [<< pipeline.parameters.postgres-operator-overwrite >>, << pipeline.parameters.postgres-operator >>]
     jobs:
       - build:
           name: build
@@ -1797,7 +1793,7 @@ workflows:
       - release:
           directory: postgres-operator
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.postgres-operator-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1809,7 +1805,7 @@ workflows:
       - validate-tags:
           directory: postgres-operator
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.postgres-operator-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1820,8 +1816,8 @@ workflows:
               ignore: main
   postgresql-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.postgresql-overwrite >>, << pipeline.parameters.postgresql >> ]
+      and:
+        - or: [<< pipeline.parameters.postgresql-overwrite >>, << pipeline.parameters.postgresql >>]
     jobs:
       - build:
           name: build
@@ -1839,7 +1835,7 @@ workflows:
       - release:
           directory: postgresql
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.postgresql-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1851,7 +1847,7 @@ workflows:
       - validate-tags:
           directory: postgresql
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.postgresql-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1862,8 +1858,8 @@ workflows:
               ignore: main
   prometheus-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.prometheus-overwrite >>, << pipeline.parameters.prometheus >> ]
+      and:
+        - or: [<< pipeline.parameters.prometheus-overwrite >>, << pipeline.parameters.prometheus >>]
     jobs:
       - build:
           name: build
@@ -1881,7 +1877,7 @@ workflows:
       - release:
           directory: prometheus
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.prometheus-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1893,7 +1889,7 @@ workflows:
       - validate-tags:
           directory: prometheus
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.prometheus-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1904,8 +1900,8 @@ workflows:
               ignore: main
   redis-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.redis-overwrite >>, << pipeline.parameters.redis >> ]
+      and:
+        - or: [<< pipeline.parameters.redis-overwrite >>, << pipeline.parameters.redis >>]
     jobs:
       - build:
           name: build
@@ -1923,7 +1919,7 @@ workflows:
       - release:
           directory: redis
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.redis-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1935,7 +1931,7 @@ workflows:
       - validate-tags:
           directory: redis
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.redis-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1946,8 +1942,8 @@ workflows:
               ignore: main
   registry-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.registry-overwrite >>, << pipeline.parameters.registry >> ]
+      and:
+        - or: [<< pipeline.parameters.registry-overwrite >>, << pipeline.parameters.registry >>]
     jobs:
       - build:
           name: build
@@ -1965,7 +1961,7 @@ workflows:
       - release:
           directory: registry
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.registry-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1977,7 +1973,7 @@ workflows:
       - validate-tags:
           directory: registry
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.registry-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -1988,8 +1984,8 @@ workflows:
               ignore: main
   statsd-exporter-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.statsd-exporter-overwrite >>, << pipeline.parameters.statsd-exporter >> ]
+      and:
+        - or: [<< pipeline.parameters.statsd-exporter-overwrite >>, << pipeline.parameters.statsd-exporter >>]
     jobs:
       - build:
           name: build
@@ -2007,7 +2003,7 @@ workflows:
       - release:
           directory: statsd-exporter
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.statsd-exporter-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -2019,7 +2015,7 @@ workflows:
       - validate-tags:
           directory: statsd-exporter
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.statsd-exporter-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -2030,8 +2026,8 @@ workflows:
               ignore: main
   vector-build:
     when:
-     and:
-      - or: [ << pipeline.parameters.vector-overwrite >>, << pipeline.parameters.vector >> ]
+      and:
+        - or: [<< pipeline.parameters.vector-overwrite >>, << pipeline.parameters.vector >>]
     jobs:
       - build:
           name: build
@@ -2049,7 +2045,7 @@ workflows:
       - release:
           directory: vector
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.vector-overwrite >>
           context:
             - quay.io
             - docker.io
@@ -2061,7 +2057,7 @@ workflows:
       - validate-tags:
           directory: vector
           tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          overwrite_tags: << pipeline.parameters.vector-overwrite >>
           context:
             - quay.io
             - docker.io
