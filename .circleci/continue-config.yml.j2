@@ -28,7 +28,7 @@ workflows:
   {{ directory }}-build:
     when:
       and:
-        - << pipeline.parameters.{{ directory }}
+        - << pipeline.parameters.{{ directory }} >>
     jobs:
       - build:
           name: build
