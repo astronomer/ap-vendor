@@ -28,6 +28,8 @@ workflows:
     jobs:
       - run_pre_commit
       - path-filtering/filter:
+          requires:
+            - run_pre_commit
           base-revision: main
           config-path: .circleci/continue-config.yml
           mapping: |
