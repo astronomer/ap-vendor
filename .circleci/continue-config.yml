@@ -17,330 +17,166 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image alertmanager."
-  alertmanager-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image alertmanager with tag overwrite."
   auth-sidecar:
     type: boolean
     default: false
     description: "Set True if you want to run build for image auth-sidecar."
-  auth-sidecar-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image auth-sidecar with tag overwrite."
   awsesproxy:
     type: boolean
     default: false
     description: "Set True if you want to run build for image awsesproxy."
-  awsesproxy-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image awsesproxy with tag overwrite."
   blackbox-exporter:
     type: boolean
     default: false
     description: "Set True if you want to run build for image blackbox-exporter."
-  blackbox-exporter-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image blackbox-exporter with tag overwrite."
   configmap-reloader:
     type: boolean
     default: false
     description: "Set True if you want to run build for image configmap-reloader."
-  configmap-reloader-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image configmap-reloader with tag overwrite."
   curator:
     type: boolean
     default: false
     description: "Set True if you want to run build for image curator."
-  curator-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image curator with tag overwrite."
   dind-golang:
     type: boolean
     default: false
     description: "Set True if you want to run build for image dind-golang."
-  dind-golang-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image dind-golang with tag overwrite."
   dogstatsd:
     type: boolean
     default: false
     description: "Set True if you want to run build for image dogstatsd."
-  dogstatsd-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image dogstatsd with tag overwrite."
   elasticsearch:
     type: boolean
     default: false
     description: "Set True if you want to run build for image elasticsearch."
-  elasticsearch-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image elasticsearch with tag overwrite."
   elasticsearch-exporter:
     type: boolean
     default: false
     description: "Set True if you want to run build for image elasticsearch-exporter."
-  elasticsearch-exporter-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image elasticsearch-exporter with tag overwrite."
   fluentd:
     type: boolean
     default: false
     description: "Set True if you want to run build for image fluentd."
-  fluentd-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image fluentd with tag overwrite."
   git-daemon:
     type: boolean
     default: false
     description: "Set True if you want to run build for image git-daemon."
-  git-daemon-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image git-daemon with tag overwrite."
   git-sync:
     type: boolean
     default: false
     description: "Set True if you want to run build for image git-sync."
-  git-sync-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image git-sync with tag overwrite."
   grafana:
     type: boolean
     default: false
     description: "Set True if you want to run build for image grafana."
-  grafana-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image grafana with tag overwrite."
   init:
     type: boolean
     default: false
     description: "Set True if you want to run build for image init."
-  init-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image init with tag overwrite."
   keda:
     type: boolean
     default: false
     description: "Set True if you want to run build for image keda."
-  keda-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image keda with tag overwrite."
   keda-metrics-apiserver:
     type: boolean
     default: false
     description: "Set True if you want to run build for image keda-metrics-apiserver."
-  keda-metrics-apiserver-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image keda-metrics-apiserver with tag overwrite."
   kibana:
     type: boolean
     default: false
     description: "Set True if you want to run build for image kibana."
-  kibana-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image kibana with tag overwrite."
   kube-state:
     type: boolean
     default: false
     description: "Set True if you want to run build for image kube-state."
-  kube-state-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image kube-state with tag overwrite."
   kubed:
     type: boolean
     default: false
     description: "Set True if you want to run build for image kubed."
-  kubed-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image kubed with tag overwrite."
   nats-exporter:
     type: boolean
     default: false
     description: "Set True if you want to run build for image nats-exporter."
-  nats-exporter-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image nats-exporter with tag overwrite."
   nats-server:
     type: boolean
     default: false
     description: "Set True if you want to run build for image nats-server."
-  nats-server-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image nats-server with tag overwrite."
   nats-streaming:
     type: boolean
     default: false
     description: "Set True if you want to run build for image nats-streaming."
-  nats-streaming-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image nats-streaming with tag overwrite."
   nginx:
     type: boolean
     default: false
     description: "Set True if you want to run build for image nginx."
-  nginx-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image nginx with tag overwrite."
   nginx-es:
     type: boolean
     default: false
     description: "Set True if you want to run build for image nginx-es."
-  nginx-es-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image nginx-es with tag overwrite."
   node-exporter:
     type: boolean
     default: false
     description: "Set True if you want to run build for image node-exporter."
-  node-exporter-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image node-exporter with tag overwrite."
   openresty:
     type: boolean
     default: false
     description: "Set True if you want to run build for image openresty."
-  openresty-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image openresty with tag overwrite."
   pgbouncer:
     type: boolean
     default: false
     description: "Set True if you want to run build for image pgbouncer."
-  pgbouncer-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image pgbouncer with tag overwrite."
   pgbouncer-exporter:
     type: boolean
     default: false
     description: "Set True if you want to run build for image pgbouncer-exporter."
-  pgbouncer-exporter-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image pgbouncer-exporter with tag overwrite."
   pgbouncer-krb:
     type: boolean
     default: false
     description: "Set True if you want to run build for image pgbouncer-krb."
-  pgbouncer-krb-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image pgbouncer-krb with tag overwrite."
   po-logical-backup:
     type: boolean
     default: false
     description: "Set True if you want to run build for image po-logical-backup."
-  po-logical-backup-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image po-logical-backup with tag overwrite."
   po-pgbouncer:
     type: boolean
     default: false
     description: "Set True if you want to run build for image po-pgbouncer."
-  po-pgbouncer-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image po-pgbouncer with tag overwrite."
   po-spilo:
     type: boolean
     default: false
     description: "Set True if you want to run build for image po-spilo."
-  po-spilo-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image po-spilo with tag overwrite."
   postgres-exporter:
     type: boolean
     default: false
     description: "Set True if you want to run build for image postgres-exporter."
-  postgres-exporter-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image postgres-exporter with tag overwrite."
   postgres-operator:
     type: boolean
     default: false
     description: "Set True if you want to run build for image postgres-operator."
-  postgres-operator-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image postgres-operator with tag overwrite."
   postgresql:
     type: boolean
     default: false
     description: "Set True if you want to run build for image postgresql."
-  postgresql-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image postgresql with tag overwrite."
   prometheus:
     type: boolean
     default: false
     description: "Set True if you want to run build for image prometheus."
-  prometheus-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image prometheus with tag overwrite."
   redis:
     type: boolean
     default: false
     description: "Set True if you want to run build for image redis."
-  redis-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image redis with tag overwrite."
   registry:
     type: boolean
     default: false
     description: "Set True if you want to run build for image registry."
-  registry-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image registry with tag overwrite."
   statsd-exporter:
     type: boolean
     default: false
     description: "Set True if you want to run build for image statsd-exporter."
-  statsd-exporter-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image statsd-exporter with tag overwrite."
   vector:
     type: boolean
     default: false
     description: "Set True if you want to run build for image vector."
-  vector-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image vector with tag overwrite."
   overwrite_tags:
     type: boolean
     default: false
@@ -349,9 +185,6 @@ parameters:
 workflows:
   version: 2.1
   alertmanager-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.alertmanager-overwrite >>, << pipeline.parameters.alertmanager >>]
     jobs:
       - build:
           name: build
@@ -391,9 +224,6 @@ workflows:
             branches:
               ignore: main
   auth-sidecar-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.auth-sidecar-overwrite >>, << pipeline.parameters.auth-sidecar >>]
     jobs:
       - build:
           name: build
@@ -433,9 +263,6 @@ workflows:
             branches:
               ignore: main
   awsesproxy-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.awsesproxy-overwrite >>, << pipeline.parameters.awsesproxy >>]
     jobs:
       - build:
           name: build
@@ -475,9 +302,6 @@ workflows:
             branches:
               ignore: main
   blackbox-exporter-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.blackbox-exporter-overwrite >>, << pipeline.parameters.blackbox-exporter >>]
     jobs:
       - build:
           name: build
@@ -517,9 +341,6 @@ workflows:
             branches:
               ignore: main
   configmap-reloader-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.configmap-reloader-overwrite >>, << pipeline.parameters.configmap-reloader >>]
     jobs:
       - build:
           name: build
@@ -559,9 +380,6 @@ workflows:
             branches:
               ignore: main
   curator-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.curator-overwrite >>, << pipeline.parameters.curator >>]
     jobs:
       - build:
           name: build
@@ -601,9 +419,6 @@ workflows:
             branches:
               ignore: main
   dind-golang-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.dind-golang-overwrite >>, << pipeline.parameters.dind-golang >>]
     jobs:
       - build:
           name: build
@@ -643,9 +458,6 @@ workflows:
             branches:
               ignore: main
   dogstatsd-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.dogstatsd-overwrite >>, << pipeline.parameters.dogstatsd >>]
     jobs:
       - build:
           name: build
@@ -685,9 +497,6 @@ workflows:
             branches:
               ignore: main
   elasticsearch-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.elasticsearch-overwrite >>, << pipeline.parameters.elasticsearch >>]
     jobs:
       - build:
           name: build
@@ -727,9 +536,6 @@ workflows:
             branches:
               ignore: main
   elasticsearch-exporter-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.elasticsearch-exporter-overwrite >>, << pipeline.parameters.elasticsearch-exporter >>]
     jobs:
       - build:
           name: build
@@ -769,9 +575,6 @@ workflows:
             branches:
               ignore: main
   fluentd-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.fluentd-overwrite >>, << pipeline.parameters.fluentd >>]
     jobs:
       - build:
           name: build
@@ -811,9 +614,6 @@ workflows:
             branches:
               ignore: main
   git-daemon-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.git-daemon-overwrite >>, << pipeline.parameters.git-daemon >>]
     jobs:
       - build:
           name: build
@@ -853,9 +653,6 @@ workflows:
             branches:
               ignore: main
   git-sync-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.git-sync-overwrite >>, << pipeline.parameters.git-sync >>]
     jobs:
       - build:
           name: build
@@ -895,9 +692,6 @@ workflows:
             branches:
               ignore: main
   grafana-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.grafana-overwrite >>, << pipeline.parameters.grafana >>]
     jobs:
       - build:
           name: build
@@ -937,9 +731,6 @@ workflows:
             branches:
               ignore: main
   init-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.init-overwrite >>, << pipeline.parameters.init >>]
     jobs:
       - build:
           name: build
@@ -979,9 +770,6 @@ workflows:
             branches:
               ignore: main
   keda-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.keda-overwrite >>, << pipeline.parameters.keda >>]
     jobs:
       - build:
           name: build
@@ -1021,9 +809,6 @@ workflows:
             branches:
               ignore: main
   keda-metrics-apiserver-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.keda-metrics-apiserver-overwrite >>, << pipeline.parameters.keda-metrics-apiserver >>]
     jobs:
       - build:
           name: build
@@ -1063,9 +848,6 @@ workflows:
             branches:
               ignore: main
   kibana-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.kibana-overwrite >>, << pipeline.parameters.kibana >>]
     jobs:
       - build:
           name: build
@@ -1105,9 +887,6 @@ workflows:
             branches:
               ignore: main
   kube-state-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.kube-state-overwrite >>, << pipeline.parameters.kube-state >>]
     jobs:
       - build:
           name: build
@@ -1147,9 +926,6 @@ workflows:
             branches:
               ignore: main
   kubed-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.kubed-overwrite >>, << pipeline.parameters.kubed >>]
     jobs:
       - build:
           name: build
@@ -1189,9 +965,6 @@ workflows:
             branches:
               ignore: main
   nats-exporter-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.nats-exporter-overwrite >>, << pipeline.parameters.nats-exporter >>]
     jobs:
       - build:
           name: build
@@ -1231,9 +1004,6 @@ workflows:
             branches:
               ignore: main
   nats-server-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.nats-server-overwrite >>, << pipeline.parameters.nats-server >>]
     jobs:
       - build:
           name: build
@@ -1273,9 +1043,6 @@ workflows:
             branches:
               ignore: main
   nats-streaming-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.nats-streaming-overwrite >>, << pipeline.parameters.nats-streaming >>]
     jobs:
       - build:
           name: build
@@ -1315,9 +1082,6 @@ workflows:
             branches:
               ignore: main
   nginx-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.nginx-overwrite >>, << pipeline.parameters.nginx >>]
     jobs:
       - build:
           name: build
@@ -1357,9 +1121,6 @@ workflows:
             branches:
               ignore: main
   nginx-es-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.nginx-es-overwrite >>, << pipeline.parameters.nginx-es >>]
     jobs:
       - build:
           name: build
@@ -1399,9 +1160,6 @@ workflows:
             branches:
               ignore: main
   node-exporter-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.node-exporter-overwrite >>, << pipeline.parameters.node-exporter >>]
     jobs:
       - build:
           name: build
@@ -1441,9 +1199,6 @@ workflows:
             branches:
               ignore: main
   openresty-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.openresty-overwrite >>, << pipeline.parameters.openresty >>]
     jobs:
       - build:
           name: build
@@ -1483,9 +1238,6 @@ workflows:
             branches:
               ignore: main
   pgbouncer-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.pgbouncer-overwrite >>, << pipeline.parameters.pgbouncer >>]
     jobs:
       - build:
           name: build
@@ -1525,9 +1277,6 @@ workflows:
             branches:
               ignore: main
   pgbouncer-exporter-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.pgbouncer-exporter-overwrite >>, << pipeline.parameters.pgbouncer-exporter >>]
     jobs:
       - build:
           name: build
@@ -1567,9 +1316,6 @@ workflows:
             branches:
               ignore: main
   pgbouncer-krb-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.pgbouncer-krb-overwrite >>, << pipeline.parameters.pgbouncer-krb >>]
     jobs:
       - build:
           name: build
@@ -1609,9 +1355,6 @@ workflows:
             branches:
               ignore: main
   po-logical-backup-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.po-logical-backup-overwrite >>, << pipeline.parameters.po-logical-backup >>]
     jobs:
       - build:
           name: build
@@ -1651,9 +1394,6 @@ workflows:
             branches:
               ignore: main
   po-pgbouncer-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.po-pgbouncer-overwrite >>, << pipeline.parameters.po-pgbouncer >>]
     jobs:
       - build:
           name: build
@@ -1693,9 +1433,6 @@ workflows:
             branches:
               ignore: main
   po-spilo-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.po-spilo-overwrite >>, << pipeline.parameters.po-spilo >>]
     jobs:
       - build:
           name: build
@@ -1735,9 +1472,6 @@ workflows:
             branches:
               ignore: main
   postgres-exporter-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.postgres-exporter-overwrite >>, << pipeline.parameters.postgres-exporter >>]
     jobs:
       - build:
           name: build
@@ -1777,9 +1511,6 @@ workflows:
             branches:
               ignore: main
   postgres-operator-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.postgres-operator-overwrite >>, << pipeline.parameters.postgres-operator >>]
     jobs:
       - build:
           name: build
@@ -1819,9 +1550,6 @@ workflows:
             branches:
               ignore: main
   postgresql-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.postgresql-overwrite >>, << pipeline.parameters.postgresql >>]
     jobs:
       - build:
           name: build
@@ -1861,9 +1589,6 @@ workflows:
             branches:
               ignore: main
   prometheus-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.prometheus-overwrite >>, << pipeline.parameters.prometheus >>]
     jobs:
       - build:
           name: build
@@ -1903,9 +1628,6 @@ workflows:
             branches:
               ignore: main
   redis-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.redis-overwrite >>, << pipeline.parameters.redis >>]
     jobs:
       - build:
           name: build
@@ -1945,9 +1667,6 @@ workflows:
             branches:
               ignore: main
   registry-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.registry-overwrite >>, << pipeline.parameters.registry >>]
     jobs:
       - build:
           name: build
@@ -1987,9 +1706,6 @@ workflows:
             branches:
               ignore: main
   statsd-exporter-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.statsd-exporter-overwrite >>, << pipeline.parameters.statsd-exporter >>]
     jobs:
       - build:
           name: build
@@ -2029,9 +1745,6 @@ workflows:
             branches:
               ignore: main
   vector-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.vector-overwrite >>, << pipeline.parameters.vector >>]
     jobs:
       - build:
           name: build

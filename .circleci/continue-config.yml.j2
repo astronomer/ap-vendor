@@ -16,10 +16,6 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image {{ directory }}."
-  {{ directory }}-overwrite:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image {{ directory }} with tag overwrite."
 {%- endfor %}
   overwrite_tags:
     type: boolean
@@ -30,9 +26,6 @@ workflows:
   version: 2.1
 {%- for directory in workflow_directories %}
   {{ directory }}-build:
-    when:
-      and:
-        - or: [<< pipeline.parameters.{{ directory }}-overwrite >>, << pipeline.parameters.{{ directory }} >>]
     jobs:
       - build:
           name: build
