@@ -8,7 +8,9 @@ from jinja2 import Template
 dirs_to_skip = ["bin", "requirements"]
 required_files = ["Dockerfile", "version.txt"]
 
-docker_version = "20.10.17"
+docker_version = (
+    "20.10.18"  # https://circleci.com/docs/2.0/building-docker-images/#docker-version
+)
 
 
 def list_docker_dirs(path):
