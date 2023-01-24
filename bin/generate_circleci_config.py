@@ -40,10 +40,7 @@ def main():
     with config_template_path.open() as circle_ci_config_template:
         templated_file_content = circle_ci_config_template.read()
     template = Template(templated_file_content)
-    config = template.render(
-        directories=list_docker_dirs(circle_directory.parent),
-        docker_version=docker_version,
-    )
+    config = template.render(directories=list_docker_dirs(circle_directory.parent))
     warning_header = (
         "# Warning: automatically generated file\n"
         + "# Please edit .circleci/config.yml.j2, then run bin/generate_circleci_config.py\n"
