@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""
-This script is used to create the docker-compose file so that we can stay DRY.
-"""
+"""This script is used to create the docker-compose file so that we can stay
+DRY."""
 import os
 from pathlib import Path
 
@@ -46,7 +45,7 @@ def read_test_config(project_directory, docker_image_dirs):
 
 
 def main():
-    """Render the Jinja2 template file"""
+    """Render the Jinja2 template file."""
     project_directory = Path(__file__).parent.parent
     docker_compose_template_path = project_directory / "docker-compose.yaml.j2"
     docker_compose_path = project_directory / "docker-compose.yaml"

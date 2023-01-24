@@ -1609,7 +1609,7 @@
       ],
       "targets": [
         {
-          "expr": "sort(\n  sum by (release) (\n    sum by (release) (\n      kube_pod_container_status_running{release=~\"$deployment\"}\n    ) - \n    count by (release) (\n      kube_pod_container_status_running{release=~\"$deployment\"}\n    )\n  )\n)",
+          "expr": "sort(\n sum by (release) (\n sum by (release) (\n kube_pod_container_status_running{release=~\"$deployment\", container!=\"airflow-cleanup-pods\"}\n ) - \n count by (release) (\n kube_pod_container_status_running{release=~\"$deployment\", container!=\"airflow-cleanup-pods\"}\n )\n )\n)",
           "format": "table",
           "instant": true,
           "intervalFactor": 1,
@@ -1785,5 +1785,5 @@
   "timezone": "",
   "title": "Airflow State",
   "uid": "h7dUiVJmz",
-  "version": 1
+  "version": 2
 }

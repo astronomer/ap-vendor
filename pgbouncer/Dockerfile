@@ -66,5 +66,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && rm pgbouncer-$PGBOUNCER_VERSION.tar.gz \
     && rm -rf pgbouncer-$PGBOUNCER_VERSION \
     && apk del .build-deps
+COPY ./docker-entrypoint.sh docker-entrypoint.sh
 USER $UID
+ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]

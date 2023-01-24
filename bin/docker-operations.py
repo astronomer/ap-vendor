@@ -24,7 +24,7 @@ docker_labels = {
 
 def login_registry(docker_client: docker, registry: str, username: str, password: str):
     # Login to Registry
-    print("INFO: Login to: " + registry)
+    print(f"INFO: Login to: {registry}")
     docker_client.login(username=username, password=password, registry=registry)
 
     return docker_client
@@ -59,7 +59,7 @@ def validate_tags(
     tags: list,
     overwrite_tags: bool,
 ):
-    docker_image_uri = registry + "/" + repository + "/" + image
+    docker_image_uri = f"{registry}/{repository}/{image}"
 
     if overwrite_tags:
         print(
@@ -77,7 +77,7 @@ def validate_tags(
             else:
                 try:
                     docker_client.images.get_registry_data(
-                        name=(docker_image_uri + ":" + tag)
+                        name=f"{docker_image_uri}:{tag}"
                     )
 
                     print(
@@ -100,7 +100,7 @@ def build(docker_client: docker, project_path: str, image: str):
     image_tag = os.getenv("CIRCLE_SHA1")
 
     # Build Docker Image
-    print("INFO: Now building docker image: " + str(root_directory / project_path))
+    print(f"INFO: Now building docker image: {str(root_directory / project_path)}")
     docker_image_resp = docker_client.images.build(
         pull=True,
         platform="linux/amd64",
@@ -117,8 +117,7 @@ def build(docker_client: docker, project_path: str, image: str):
     for line in docker_image_resp[1]:
         for key, value in line.items():
             if key == "stream":
-                text = value.strip()
-                if text:
+                if text := value.strip():
                     print(text)
 
     docker_image = docker_image_resp[0]
@@ -131,12 +130,11 @@ def build(docker_client: docker, project_path: str, image: str):
 
     # Save Docker Image
     docker_image_save_path = f"{image}.tar"
-    docker_image_to_save = docker_client.images.get(image + ":" + image_tag)
-    print("INFO: Saving docker image: " + docker_image_save_path)
-    f = open(docker_image_save_path, "wb")
-    for chunk in docker_image_to_save.save(named=True):
-        f.write(chunk)
-    f.close()
+    docker_image_to_save = docker_client.images.get(f"{image}:{image_tag}")
+    print(f"INFO: Saving docker image: {docker_image_save_path}")
+    with open(docker_image_save_path, "wb") as f:
+        for chunk in docker_image_to_save.save(named=True):
+            f.write(chunk)
 
     return docker_image
 
@@ -149,12 +147,12 @@ def push(
     tags: list,
 ):
     try:
-        docker_image_uri = registry + "/" + repository + "/" + image
+        docker_image_uri = f"{registry}/{repository}/{image}"
         image_tag = os.getenv("CIRCLE_SHA1")
 
         for tag in tags:
 
-            docker_image = docker_client.images.get(image + ":" + image_tag)
+            docker_image = docker_client.images.get(f"{image}:{image_tag}")
 
             print(f"Tagging Image {image}:{image_tag} --> {docker_image_uri}:{tag}.")
             is_tagged = docker_image.tag(repository=docker_image_uri, tag=tag)
@@ -172,21 +170,21 @@ def push(
 
             # Printing Push Progress
             for line in push_resp_generator:
-                if "status" in line and "progress" in line and "id" in line:
-                    text = line["id"] + ": " + line["status"] + " " + line["progress"]
-                    print(text)
-                elif "status" in line and "id" in line:
-                    text = line["id"] + ": " + line["status"]
-                    print(text)
-                elif "status" in line:
-                    text = line["status"]
+                if "status" in line:
+                    if "progress" in line and "id" in line:
+                        text = f'{line["id"]}: {line["status"]} {line["progress"]}'
+                    elif "id" in line:
+                        text = f'{line["id"]}: {line["status"]}'
+                    else:
+                        text = line["status"]
                     print(text)
 
             if "error" in line:
                 raise Exception(line["errorDetail"]["message"])
             else:
                 print(f"INFO: Pushed docker image: {docker_image_uri}:{tag}")
-                return True
+
+        return True
 
     except APIError as dokerAPIError:
         print("ERROR: Error pushing docker image", file=sys.stderr)
@@ -247,8 +245,12 @@ def main():
         elif args.image is None:
             raise Exception("Error: Image name is required.")
 
-        if tags is None:
-            tags = get_image_tags(project_path=args.project_path)
+        file_tags = get_image_tags(project_path=args.project_path)
+        if tags is not None:
+            if "," in tags:
+                tags = tags.strip().split(",") + file_tags
+            else:
+                tags = [tags.strip()] + file_tags
 
         # Login to registry
         docker_client = login_registry(
@@ -296,8 +298,12 @@ def main():
         elif args.image is None:
             raise Exception("Error: Image name is required.")
 
-        if tags is None:
-            tags = get_image_tags(project_path=args.project_path)
+        file_tags = get_image_tags(project_path=args.project_path)
+        if tags is not None:
+            if "," in tags:
+                tags = tags.strip().split(",") + file_tags
+            else:
+                tags = [tags.strip()] + file_tags
 
         # Login to registry
         docker_client = login_registry(
@@ -315,6 +321,9 @@ def main():
             tags=tags,
             overwrite_tags=overwrite_tags,
         )
+
+        print(f"INFO: Input tags list: {tags}")
+        print(f"INFO: Final tags list: {final_tags}")
 
         push(
             docker_client=docker_client,

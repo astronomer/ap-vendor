@@ -98,7 +98,7 @@ def test_no_root_user(docker_host):
 )
 def test_default_user(docker_host):
     if "default_user" in test_config:
-        """Ensure default user"""
+        """Ensure default user."""
         user = docker_host.check_output("whoami")
         assert (
             user == test_config["default_user"]
@@ -134,7 +134,7 @@ def test_http_service_running(docker_host):
     if "http_services_running" in test_config:
 
         for service_config in test_config["http_services_running"]:
-            """Ensure user is 'nobody'"""
+            """Ensure user is 'nobody'."""
             output = docker_host.check_output(
                 "wget --spider -S http://0.0.0.0:"
                 + str(service_config["port"])
