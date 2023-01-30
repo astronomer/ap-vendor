@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (6.1.7.1)
+    activesupport (6.1.7.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -10,11 +10,11 @@ GEM
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
     aws-eventstream (1.2.0)
-    aws-partitions (1.697.0)
+    aws-partitions (1.701.0)
     aws-sdk-cloudwatchlogs (1.62.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-core (3.169.0)
+    aws-sdk-core (3.170.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
@@ -22,7 +22,7 @@ GEM
     aws-sdk-kms (1.62.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.118.0)
+    aws-sdk-s3 (1.119.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
@@ -31,8 +31,10 @@ GEM
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
-    concurrent-ruby (1.1.10)
+    concurrent-ruby (1.2.0)
     cool.io (1.7.1)
+    digest-crc (0.6.4)
+      rake (>= 12.0.0, < 14.0.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     elasticsearch (7.13.3)
@@ -45,7 +47,7 @@ GEM
       multi_json
     elasticsearch-xpack (7.13.3)
       elasticsearch-api (>= 6)
-    excon (0.97.2)
+    excon (0.98.0)
     faraday (1.10.3)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
@@ -86,6 +88,10 @@ GEM
       elasticsearch
       excon
       fluentd (>= 0.14.22)
+    fluent-plugin-kafka (0.18.1)
+      fluentd (>= 0.10.58, < 2)
+      ltsv
+      ruby-kafka (>= 1.4.0, < 2)
     fluent-plugin-kubernetes_metadata_filter (2.13.0)
       fluentd (>= 0.14.0, < 1.16)
       kubeclient (>= 4.0.0, < 5.0.0)
@@ -144,13 +150,14 @@ GEM
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
     lru_redux (1.1.0)
+    ltsv (0.1.2)
     mime-types (3.4.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2022.0105)
     minitest (5.17.0)
     msgpack (1.6.0)
     multi_json (1.15.0)
-    multipart-post (2.2.3)
+    multipart-post (2.3.0)
     netrc (0.11.0)
     oj (3.13.23)
     prometheus-client (4.0.0)
@@ -162,6 +169,8 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    ruby-kafka (1.5.0)
+      digest-crc
     ruby2_keywords (0.0.5)
     serverengine (2.3.1)
       sigdump (~> 0.2.2)
@@ -169,7 +178,7 @@ GEM
     strptime (0.2.5)
     systemd-journal (1.4.2)
       ffi (~> 1.9)
-    tzinfo (2.0.5)
+    tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2022.7)
       tzinfo (>= 1.0.0)
@@ -192,6 +201,7 @@ DEPENDENCIES
   fluent-plugin-concat (~> 2.5)
   fluent-plugin-detect-exceptions (~> 0.0)
   fluent-plugin-elasticsearch (~> 4.3)
+  fluent-plugin-kafka
   fluent-plugin-kubernetes_metadata_filter (~> 2.9, >= 2.9.5)
   fluent-plugin-multi-format-parser (~> 1.0)
   fluent-plugin-newrelic (~> 1.2)
@@ -205,4 +215,4 @@ DEPENDENCIES
   rake (~> 13.0)
 
 BUNDLED WITH
-   2.4.1
+   2.3.7
