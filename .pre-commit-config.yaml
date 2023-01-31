@@ -20,7 +20,7 @@ repos:
         additional_dependencies: ["jinja2", "PyYaml"]
         always_run: True
   - repo: https://github.com/PyCQA/docformatter
-    rev: v1.5.1
+    rev: v1.6.0.rc1
     hooks:
       - id: docformatter
   - repo: https://github.com/codespell-project/codespell
@@ -34,7 +34,7 @@ repos:
       - id: prettier
         args: ["--print-width=135"]
   - repo: https://github.com/pycqa/isort
-    rev: 5.11.4
+    rev: 5.12.0
     hooks:
       - id: isort
   - repo: https://github.com/asottile/pyupgrade
