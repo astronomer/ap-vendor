@@ -42,6 +42,6 @@ ADD sidecar_server.py terminate_server.py /usr/local/bin/
 
 COPY vector.toml /etc/vector/vector.toml
 
-USER 65534:65534
+USER 65534
 
 ENTRYPOINT ["/usr/local/bin/sidecar_server.py"]

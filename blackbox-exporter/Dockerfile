@@ -51,7 +51,7 @@ RUN set -ex \
 
 COPY --from=build --chown=1000:1000 /go/src/github.com/prometheus/blackbox_exporter/blackbox_exporter /usr/local/bin
 COPY --from=build --chown=1000:1000 /go/src/github.com/prometheus/blackbox_exporter/blackbox.yml /etc/blackbox_exporter/blackbox.yml
-USER blackbox-exporter
+USER 1000
 
 EXPOSE      9115
 

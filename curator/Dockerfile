@@ -46,7 +46,7 @@ RUN set -x ; apk --no-cache add \
       py-pip \
       python3-dev
 
-USER nobody:nobody
+USER 65534
 
 ENTRYPOINT ["/usr/bin/curator"]
 

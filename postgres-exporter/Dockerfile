@@ -23,5 +23,5 @@ LABEL io.astronomer.docker=true
 
 COPY include/entrypoint /entrypoint
 COPY include/healthcheck /healthcheck
-
+USER 65534
 ENTRYPOINT [ "/entrypoint" ]
