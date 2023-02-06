@@ -14,7 +14,7 @@
 # limitations under the License.
 
 #https://github.com/zalando/postgres-operator/tags
-FROM registry.opensource.zalan.do/acid/postgres-operator:v1.8.1
+FROM registry.opensource.zalan.do/acid/postgres-operator:v1.8.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
