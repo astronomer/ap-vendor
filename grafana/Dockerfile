@@ -32,7 +32,7 @@ RUN apk add --no-cache shadow && \
     usermod -g grafana grafana && \
     apk del shadow && \
     chown -R grafana:grafana /usr/share/grafana
-USER grafana
+USER 472
 
 # Install singlestat panel plugin
 RUN grafana-cli plugins install grafana-singlestat-panel

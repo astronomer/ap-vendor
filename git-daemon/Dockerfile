@@ -28,6 +28,6 @@ COPY entrypoint.sh /
 # already a group 'nogroup' on 65533 so just add git-daemon to that.
 RUN adduser -u 65533 -S git-daemon -G nogroup
 
-USER git-daemon
+USER 65533
 
 ENTRYPOINT /entrypoint.sh

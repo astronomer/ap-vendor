@@ -2,9 +2,9 @@
 #---
 #tests:
 #  root_user_test: True
-#  default_user: kibana
+#  default_user: nobody
 #  users_config:
-#    - name: kibana
-#      group: kibana
-#      gid: 1000
-#      uid: 1000
+#    - name: nobody
+#      group: nobody
+#      gid: 65534
+#      uid: 65534

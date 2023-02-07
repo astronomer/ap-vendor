@@ -43,6 +43,6 @@ RUN set -eux ; \
 
 COPY --chown=1000:1000 docker-entrypoint.sh /usr/local/bin
 EXPOSE 4222 8222
-USER nats-streaming
+USER 1000
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["nats-streaming-server", "-m", "8222"]

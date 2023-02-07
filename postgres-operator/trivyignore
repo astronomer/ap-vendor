@@ -1,4 +1,8 @@
 # Upstream postgres-operator images include several CVEs.
 # We should try to remove these each time we update.
+CVE-2022-37434
 CVE-2022-27191
+CVE-2021-44716
+CVE-2022-27664
 CVE-2021-38561
+CVE-2022-32149
