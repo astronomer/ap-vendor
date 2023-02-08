@@ -17,7 +17,7 @@
 FROM k8s.gcr.io/git-sync/git-sync:v3.6.4
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 USER root
-RUN apt update && apt upgrade -y apt install bash -y && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt upgrade -y && apt install bash -y && rm -rf /var/lib/apt/lists/*
 USER 65533:65533
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
