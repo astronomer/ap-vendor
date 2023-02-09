@@ -22,3 +22,4 @@ USER 65533:65533
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+RUN git config --global --add safe.directory /git
