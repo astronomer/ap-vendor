@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://github.com/kubernetes/git-sync/releases
-FROM quay.io/astronomer/ap-base:3.16.3
+FROM quay.io/astronomer/ap-base:3.16.3-2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -28,6 +28,6 @@ COPY entrypoint.sh /
 # already a group 'nogroup' on 65533 so just add git-daemon to that.
 RUN adduser -u 65533 -S git-daemon -G nogroup
 
-USER 65533
+USER 65533:65533
 
 ENTRYPOINT /entrypoint.sh
