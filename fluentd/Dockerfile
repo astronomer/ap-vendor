@@ -36,7 +36,7 @@ RUN set -o xtrace && \
                      $BUILD_DEPS \
                      ca-certificates \
                      libjemalloc2 \
-                     ruby \
+                     ruby libssl3 \
     && echo 'gem: --no-document' >> /etc/gemrc \
     && gem install bundler \
     && gem install --file Gemfile \
