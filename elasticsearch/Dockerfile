@@ -22,6 +22,9 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER 0
+RUN apt-get update && \
+    apt-get install libssl1.1 openssl -y && \
+    rm -rf /var/lib/apt/lists/*
 RUN gpasswd -d elasticsearch root
 USER 1000
 
