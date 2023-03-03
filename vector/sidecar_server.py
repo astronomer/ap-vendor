@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """Launch vector in a subprocess and handle web signaling for the sidecar."""
 import os
-import signal
+import subprocess
 from http import server
 
 ppid = os.getppid()
 
-import subprocess
 
 # The below process would be a call to vector, but it is a date loop just for demonstration
 proc = subprocess.Popen("/usr/local/bin/vector", shell=True)

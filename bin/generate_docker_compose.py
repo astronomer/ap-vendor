@@ -13,6 +13,7 @@ dirs_to_skip = [
     ".github",
     ".idea",
     ".pytest_cache",
+    ".ruff_cache",
     "bin",
     "requirements",
 ]

@@ -81,7 +81,7 @@ def docker_host(request):
 
 
 @pytest.mark.skipif(
-    "root_user_test" not in test_config or test_config["root_user_test"] == False,
+    "root_user_test" not in test_config or test_config["root_user_test"] is False,
     reason="Config `root_user_test` is not set in `test.yaml`.",
 )
 def test_no_root_user(docker_host):
@@ -111,9 +111,7 @@ def test_default_user(docker_host):
 )
 def test_user_config(docker_host):
     if "users_config" in test_config:
-
         for user_config in test_config["users_config"]:
-
             user_info = docker_host.user(user_config["name"])
 
             if "group" in user_config:
@@ -132,7 +130,6 @@ def test_user_config(docker_host):
 )
 def test_http_service_running(docker_host):
     if "http_services_running" in test_config:
-
         for service_config in test_config["http_services_running"]:
             """Ensure user is 'nobody'."""
             output = docker_host.check_output(
