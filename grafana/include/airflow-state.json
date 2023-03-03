@@ -1729,7 +1729,7 @@
       ],
       "targets": [
         {
-          "expr": "sort_desc(max by (container, pod, reason) (\n  max by (container, pod) (\n    sort_desc(kube_pod_container_status_waiting{release=~\"$deployment\", container!=\"airflow-cleanup-pods\"})\n  ) or\n  max by (container, reason) (\n    sort_desc(kube_pod_container_status_waiting_reason{release=~\"$deployment\"}==1)\n  ) or\n  max by (container, reason) (\n    sort_desc(kube_pod_container_status_terminated_reason{release=~\"$deployment\", container!=\"airflow-cleanup-pods\"}==1)\n  )\n))\n",
+          "expr": "sort_desc(max by (container, pod, reason) (\n  max by (container, pod) (\n    sort_desc(kube_pod_container_status_waiting{release=~\"$deployment\"})\n  ) or\n  max by (container, reason) (\n    sort_desc(kube_pod_container_status_waiting_reason{release=~\"$deployment\"}==1)\n  ) or\n  max by (container, reason) (\n    sort_desc(kube_pod_container_status_terminated_reason{release=~\"$deployment\", container!=\"airflow-cleanup-pods\"}==1)\n  )\n))\n",
           "format": "table",
           "instant": true,
           "intervalFactor": 1,
