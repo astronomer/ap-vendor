@@ -37,7 +37,7 @@ def _gauge_metric(statsd_metric, value):
 
 
 def _get_metrics():
-    response = requests.get(f"http://localhost:9102/metrics")
+    response = requests.get("http://localhost:9102/metrics")
     print(response.text)
     for family in text_string_to_metric_families(response.text):
         for sample in family.samples:
