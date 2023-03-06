@@ -39,7 +39,6 @@ def get_image_tags(project_path: str):
             versions = versions_text.split(",")
 
             for version in versions:
-
                 if not semver(version).release:
                     raise Exception(
                         f"ERROR: No valid semver found in {docker_image_path}/version.txt"
@@ -67,10 +66,8 @@ def validate_tags(
         )
         return tags
     else:
-
         final_tags = []
         for tag in tags:
-
             if tag == "latest":
                 print("INFO: The image tag is `latest`. It will override.")
                 final_tags.append(tag)
@@ -83,7 +80,7 @@ def validate_tags(
                     print(
                         f"INFO: The docker tag {docker_image_uri}:{tag} already exists. Skipping the Docker push!"
                     )
-                except APIError as dokerAPIError:
+                except APIError:
                     print(
                         f"INFO: Docker tag {docker_image_uri}:{tag} not found on server. It will be added to the push list."
                     )
@@ -151,7 +148,6 @@ def push(
         image_tag = os.getenv("CIRCLE_SHA1")
 
         for tag in tags:
-
             docker_image = docker_client.images.get(f"{image}:{image_tag}")
 
             print(f"Tagging Image {image}:{image_tag} --> {docker_image_uri}:{tag}.")
@@ -212,7 +208,6 @@ def main():
     docker_client = docker.from_env()
 
     if "build" == args.operation:
-
         if args.project_path is None:
             raise Exception("Error: Project Path is required.")
         elif args.image is None:
@@ -225,7 +220,6 @@ def main():
         )
 
     elif "validate_tags" == args.operation:
-
         tags = args.tags
         overwrite_tags = False
 
@@ -275,10 +269,9 @@ def main():
         if len(final_tags) == len(tags):
             print("INFO: All tags are valid.")
         else:
-            raise Exception(f"ERROR: Looks like one or many tag(s) already exists!")
+            raise Exception("ERROR: Looks like one or many tag(s) already exist!")
 
     elif "push" == args.operation:
-
         tags = args.tags
         overwrite_tags = False
 

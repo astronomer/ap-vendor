@@ -10,6 +10,7 @@
 .DS_Store
 .idea
 .python-version
+.ruff_cache
 .vscode/*
 __pycache__
 docs/_build
