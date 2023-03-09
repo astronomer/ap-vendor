@@ -6,8 +6,6 @@ from http import server
 
 ppid = os.getppid()
 
-
-# The below process would be a call to vector, but it is a date loop just for demonstration
 proc = subprocess.Popen("/usr/local/bin/vector", shell=True)
 
 
