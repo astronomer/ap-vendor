@@ -18,11 +18,10 @@ FROM curlimages/curl:latest as downloader
 # https://github.com/vectordotdev/vector/releases/
 ENV VECTOR_VERSION 0.26.0
 
-RUN curl -fsSL https://github.com/vectordotdev/vector/releases/download/v${VECTOR_VERSION}/vector-${VECTOR_VERSION}-x86_64-unknown-linux-gnu.tar.gz \
-    | tar --directory=/tmp --strip-components=3 -xzf - ./vector-x86_64-unknown-linux-gnu/bin/vector
+RUN curl -fsSL https://github.com/vectordotdev/vector/releases/download/v${VECTOR_VERSION}/vector-${VECTOR_VERSION}-x86_64-unknown-linux-musl.tar.gz \
+    | tar --directory=/tmp --strip-components=3 -xzf - ./vector-x86_64-unknown-linux-musl/bin/vector
 
-# https://hub.docker.com/_/python?tab=tags&name=slim
-FROM python:3.11-slim
+FROM quay.io/astronomer/ap-base:3.16.3-2
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
@@ -31,10 +30,7 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 # Update packages to solve security vulnerabilities
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk add python3
 
 COPY --from=downloader /tmp/vector /usr/local/bin/vector
 
