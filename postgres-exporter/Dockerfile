@@ -16,12 +16,20 @@
 # https://hub.docker.com/r/prometheuscommunity/postgres-exporter
 # https://github.com/prometheus-community/postgres_exporter/blob/v0.10.0/Dockerfile
 
-FROM quay.io/prometheuscommunity/postgres-exporter:v0.11.1
+FROM quay.io/prometheuscommunity/postgres-exporter:v0.11.1 AS upstream
 
-LABEL maintainer="Astronomer <humans@astronomer.io>"
+FROM quay.io/astronomer/ap-base:3.16.3-2
+
+ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
+LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+LABEL maintainer="Astronomer <humans@astronomer.io>"
 
+COPY --from=upstream  /bin/postgres_exporter /bin/postgres_exporter
 COPY include/entrypoint /entrypoint
 COPY include/healthcheck /healthcheck
+
 USER 65534
 ENTRYPOINT [ "/entrypoint" ]
+
+
