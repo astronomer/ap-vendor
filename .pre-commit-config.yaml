@@ -24,7 +24,7 @@ repos:
     hooks:
       - id: docformatter
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.2
+    rev: v2.2.4
     hooks:
       - id: codespell
         args: ["-L", "AKS,aks"]
@@ -34,7 +34,7 @@ repos:
       - id: prettier
         args: ["--print-width=135"]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.0.253"
+    rev: "v0.0.257"
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --ignore, E501]
@@ -49,7 +49,7 @@ repos:
         args: ["--print-width=135"]
         exclude: "^statsd-exporter/test/statsd-test-config.js$"
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.2
+    rev: v2.2.4
     hooks:
       - id: codespell
   - repo: https://github.com/shellcheck-py/shellcheck-py
