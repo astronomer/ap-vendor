@@ -99,11 +99,15 @@ def test_commands(docker_host, command, expected_result):
             assert (
                 expected_result["in"] in output
             ), f"Command {command} did not have expected_result in it!\n{output=}\n{expected_result['in']=}"
+        elif expected_result.get("equals"):
+            assert (
+                output == expected_result["equals"]
+            ), f"Command {command} did not equal expected_result!\n{output=}\n{expected_result['equals']=}"
         elif expected_result.get("startswith"):
             assert output.startswith(
                 expected_result["startswith"]
             ), f"Command {command} did not start with expected_result!\n{output=}\n{expected_result['startswith']=}"
-        elif expected_result.get("endsiwth"):
+        elif expected_result.get("endswith"):
             assert output.endswith(
                 expected_result["endswith"]
             ), f"Command {command} did not end with expected_result!\n{output=}\n{expected_result['endswith']=}"

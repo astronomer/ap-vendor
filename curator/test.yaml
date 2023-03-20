@@ -11,12 +11,11 @@ tests:
     - command: curator --help
       expected_result:
         in: "Do not perform any changes."
-    - command: curator --help
-      expected_result:
+        startswith: "Usage: curator [OPTIONS] ACTION_FILE\n\n"
         endswith: "Show this message and exit."
-    - command: curator --help
+    - command: which curator
       expected_result:
-        endswith: "Usage: curator [OPTIONS] ACTION_FILE\n\n"
+        equals: "/usr/bin/curator"
 
 docker:
   entrypoint: "/bin/sleep 1m"
