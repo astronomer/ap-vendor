@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """This script is used to create the docker-compose file so that we can stay
 DRY."""
-from pathlib import Path, PosixPath
+from pathlib import Path
 
 import yaml
 from jinja2 import Template
@@ -19,7 +19,7 @@ dirs_to_skip = [
 ]
 
 
-def list_docker_dirs(path) -> list[PosixPath]:
+def list_docker_dirs(path) -> list[str]:
     """Return a list of docker image directories."""
     return sorted(
         [
