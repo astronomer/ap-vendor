@@ -7,5 +7,16 @@ tests:
       group: nobody
       gid: 65534
       uid: 65534
+  test_commands:
+    - command: curator --help
+      expected_result:
+        in: "Do not perform any changes."
+    - command: curator --help
+      expected_result:
+        endswith: "Show this message and exit."
+    - command: curator --help
+      expected_result:
+        endswith: "Usage: curator [OPTIONS] ACTION_FILE\n\n"
+
 docker:
   entrypoint: "/bin/sleep 1m"

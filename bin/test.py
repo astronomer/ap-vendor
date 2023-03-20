@@ -1,3 +1,5 @@
+# This is a pytest file. Run it via pytest bin/test.py with the proper env vars
+
 import os
 from pathlib import Path
 
@@ -6,36 +8,35 @@ import pytest
 import testinfra
 import yaml
 
-ASTRO_IMAGE_NAME = os.environ["ASTRO_IMAGE_NAME"]
+ASTRO_IMAGE_NAME = os.environ["ASTRO_IMAGE_NAME"]  # example: ap-curator
 ASTRO_IMAGE_TAG = os.getenv("CIRCLE_SHA1", "latest")
 ASTRO_IMAGE_TEST_CONFIG_PATH = os.environ["ASTRO_IMAGE_TEST_CONFIG_PATH"]
 
 test_config = {}
 
-project_directory = Path(__file__).parent.parent
+git_root = Path(__file__).parent.parent
 
 # Read the test config
 if os.path.exists(ASTRO_IMAGE_TEST_CONFIG_PATH):
     with open(ASTRO_IMAGE_TEST_CONFIG_PATH) as file:
         config = yaml.safe_load(file)
 
-        # Reading test config
         if config is not None and "tests" in config:
             test_config = config["tests"]
 
 
 def read_docker_compose_config():
-    docker_compose_config_path = project_directory / "docker-compose.yaml"
+    docker_compose_config_path = git_root / "docker-compose.yaml"
     with open(docker_compose_config_path) as docker_compose_file:
         return yaml.safe_load(docker_compose_file)
 
 
 @pytest.fixture(scope="session")
-def docker_host(request):
+def docker_host():
     docker_compose_config = read_docker_compose_config()
     docker_client = docker.from_env()
 
-    image = ASTRO_IMAGE_NAME + ":" + ASTRO_IMAGE_TAG
+    image = f"{ASTRO_IMAGE_NAME}:{ASTRO_IMAGE_TAG}"
 
     print(f"Using {image} for test...")
 
@@ -61,23 +62,10 @@ def docker_host(request):
     docker_id = container.id
 
     # return a testinfra connection to the container
-    yield testinfra.get_host("docker://" + docker_id)
+    yield testinfra.get_host(f"docker://{docker_id}")
 
     # cleanup container after test completion
     container.stop()
-
-
-# @pytest.fixture(scope="session")
-# def docker_host(request):
-#     run_command = ["docker-compose", "run", "-d", ASTRO_IMAGE_NAME]
-#
-#     # run a container
-#     docker_id = subprocess.check_output(run_command).decode().strip()
-#
-#     # return a testinfra connection to the container
-#     yield testinfra.get_host("docker://" + docker_id)
-#     # cleanup container after test completion
-#     subprocess.check_call(["docker", "rm", "-f", docker_id])
 
 
 @pytest.mark.skipif(
@@ -90,6 +78,35 @@ def test_no_root_user(docker_host):
     assert user_info.group != "root"
     assert user_info.gid != 0
     assert user_info.uid != 0
+
+
+@pytest.mark.skipif(
+    "test_commands" not in test_config,
+    reason="Config `test_commands` is not set in `test.yaml`.",
+)
+@pytest.mark.parametrize(
+    "command, expected_result",
+    [
+        [x["command"], x["expected_result"]]
+        for x in test_config.get("test_commands", [])
+    ],
+)
+def test_commands(docker_host, command, expected_result):
+    if "test_commands" in test_config:
+        """Run commands and validate their output."""
+        output = docker_host.check_output(command)
+        if expected_result.get("in"):
+            assert (
+                expected_result["in"] in output
+            ), f"Command {command} did not have expected_result in it!\n{output=}\n{expected_result['in']=}"
+        elif expected_result.get("startswith"):
+            assert output.startswith(
+                expected_result["startswith"]
+            ), f"Command {command} did not start with expected_result!\n{output=}\n{expected_result['startswith']=}"
+        elif expected_result.get("endsiwth"):
+            assert output.endswith(
+                expected_result["endswith"]
+            ), f"Command {command} did not end with expected_result!\n{output=}\n{expected_result['endswith']=}"
 
 
 @pytest.mark.skipif(
