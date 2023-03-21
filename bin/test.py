@@ -90,6 +90,7 @@ def test_no_root_user(docker_host):
         [x["command"], x["expected_result"]]
         for x in test_config.get("test_commands", [])
     ],
+    ids=[x["command"] for x in test_config["test_commands"]],
 )
 def test_commands(docker_host, command, expected_result):
     if "test_commands" in test_config:
