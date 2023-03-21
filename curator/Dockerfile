@@ -39,7 +39,7 @@ RUN set -x ; apk --no-cache add \
       setuptools \
       wheel \
       elasticsearch \
-      elasticsearch-curator \
+      elasticsearch-curator==7.0.0 \
       boto3 \
       requests-aws4auth && \
     apk del \

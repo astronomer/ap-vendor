@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """This script is used to create the docker-compose file so that we can stay
 DRY."""
-import os
 from pathlib import Path
 
 import yaml
@@ -16,20 +15,26 @@ dirs_to_skip = [
     ".ruff_cache",
     "bin",
     "requirements",
+    "venv",
 ]
 
 
-def list_docker_dirs(path):
-    all_dirs = set(next(os.walk(path))[1])
-    docker_image_dirs = all_dirs.difference(dirs_to_skip)
-    return sorted(docker_image_dirs)
+def list_docker_dirs(path) -> list[str]:
+    """Return a list of docker image directories."""
+    return sorted(
+        [
+            x.stem
+            for x in Path(path).glob("*")
+            if x.is_dir() and x.name not in dirs_to_skip
+        ]
+    )
 
 
-def read_test_config(project_directory, docker_image_dirs):
+def read_test_config(git_root, docker_image_dirs) -> dict:
     docker_image_config = {}
 
     for docker_image_dir in docker_image_dirs:
-        test_config_path = project_directory / docker_image_dir / "test.yaml"
+        test_config_path = git_root / docker_image_dir / "test.yaml"
 
         # Reading yaml file
         with open(test_config_path) as file:
@@ -47,17 +52,16 @@ def read_test_config(project_directory, docker_image_dirs):
 
 def main():
     """Render the Jinja2 template file."""
-    project_directory = Path(__file__).parent.parent
-    docker_compose_template_path = project_directory / "docker-compose.yaml.j2"
-    docker_compose_path = project_directory / "docker-compose.yaml"
+    git_root = Path(__file__).parent.parent
+    docker_compose_template_path = git_root / "docker-compose.yaml.j2"
+    docker_compose_path = git_root / "docker-compose.yaml"
 
-    with docker_compose_template_path.open() as docker_compose_config_template:
-        templated_file_content = docker_compose_config_template.read()
+    template_file_content = docker_compose_template_path.read_text()
 
-    docker_image_dirs = list_docker_dirs(project_directory)
-    docker_configs = read_test_config(project_directory, docker_image_dirs)
+    docker_image_dirs = list_docker_dirs(git_root)
+    docker_configs = read_test_config(git_root, docker_image_dirs)
 
-    template = Template(templated_file_content)
+    template = Template(template_file_content)
     config = template.render(docker_images=docker_configs)
     warning_header = (
         "# Warning: automatically generated file\n"
