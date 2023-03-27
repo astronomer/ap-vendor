@@ -1,61 +1,38 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "5.0.0-pre1"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "singlestat",
-      "name": "Singlestat",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
         "type": "dashboard"
       }
     ]
   },
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1576089749041,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -64,15 +41,26 @@
       },
       "id": 69,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "At a Glance",
       "type": "row"
     },
     {
-      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": true,
       "colors": ["#d44a3a", "#299c46", "#299c46"],
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Indication of whether all deployment containers are running.",
       "format": "none",
       "gauge": {
@@ -89,7 +77,6 @@
         "y": 1
       },
       "id": 64,
-      "interval": null,
       "links": [],
       "mappingType": 2,
       "mappingTypes": [
@@ -104,8 +91,6 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -141,6 +126,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum by (release) (\n  kube_pod_container_status_running{release=~\"$deployment\", container=~\".*(scheduler|scheduler-gc|webserver|worker|statsd|pgbouncer|metrics-exporter|redis|flower)\"} and on(pod,namespace) kube_pod_labels{label_dag_id=\"\"}\n) -\ncount by (release) (\n  kube_pod_container_status_running{release=~\"$deployment\", container=~\".*(scheduler|scheduler-gc|webserver|worker|statsd|pgbouncer|metrics-exporter|redis|flower)\"} and on(pod,namespace) kube_pod_labels{label_dag_id=\"\"}\n)",
           "format": "time_series",
           "instant": true,
@@ -150,7 +139,7 @@
       ],
       "thresholds": "0,1",
       "title": "Deployment Status",
-      "type": "singlestat",
+      "type": "grafana-singlestat-panel",
       "valueFontSize": "80%",
       "valueMaps": [
         {
@@ -167,11 +156,13 @@
       "valueName": "current"
     },
     {
-      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": true,
       "colors": ["#d44a3a", "#299c46", "#299c46"],
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Indication of whether the scheduler is up and running its loop. An value of \"Unknown\" means that the airflow image is running an older version.",
       "format": "none",
       "gauge": {
@@ -188,7 +179,6 @@
         "y": 1
       },
       "id": 65,
-      "interval": null,
       "links": [],
       "mappingType": 2,
       "mappingTypes": [
@@ -203,8 +193,6 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -230,6 +218,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "rate(airflow_scheduler_heartbeat{deployment=~\"$deployment\", type=\"counter\"}[1m])",
           "format": "time_series",
           "instant": true,
@@ -239,7 +231,7 @@
       ],
       "thresholds": "0.00001,999999",
       "title": "Scheduler Heartbeat",
-      "type": "singlestat",
+      "type": "grafana-singlestat-panel",
       "valueFontSize": "80%",
       "valueMaps": [
         {
@@ -252,6 +244,10 @@
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -260,15 +256,26 @@
       },
       "id": 32,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Quotas",
       "type": "row"
     },
     {
-      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Maximum total pods allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "none",
       "gauge": {
@@ -285,7 +292,6 @@
         "y": 5
       },
       "id": 42,
-      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -300,8 +306,6 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
       "postfix": " pods",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -322,13 +326,17 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum(kube_resourcequota{resource=\"pods\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})",
           "refId": "B"
         }
       ],
       "thresholds": "",
       "title": "Max Pods",
-      "type": "singlestat",
+      "type": "grafana-singlestat-panel",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -340,11 +348,13 @@
       "valueName": "current"
     },
     {
-      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Maximum total CPU limits allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "none",
       "gauge": {
@@ -361,7 +371,6 @@
         "y": 5
       },
       "id": 40,
-      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -376,8 +385,6 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
       "postfix": " cores",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -398,6 +405,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum(kube_resourcequota{resource=\"limits.cpu\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -406,7 +417,7 @@
       ],
       "thresholds": "",
       "title": "Max CPU",
-      "type": "singlestat",
+      "type": "grafana-singlestat-panel",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -418,11 +429,13 @@
       "valueName": "current"
     },
     {
-      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Maximum total memory limits allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "decbytes",
       "gauge": {
@@ -439,7 +452,6 @@
         "y": 5
       },
       "id": 46,
-      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -454,8 +466,6 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -476,6 +486,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum(kube_resourcequota{resource=\"limits.memory\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -484,7 +498,7 @@
       ],
       "thresholds": "",
       "title": "Max Memory",
-      "type": "singlestat",
+      "type": "grafana-singlestat-panel",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -496,12 +510,13 @@
       "valueName": "current"
     },
     {
-      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": "Prometheus",
-      "decimals": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Percentage of total pods in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -518,7 +533,6 @@
         "y": 7
       },
       "id": 52,
-      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -533,8 +547,6 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -555,6 +567,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum(kube_resourcequota{resource=\"pods\", type=\"used\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})\n/\nsum(kube_resourcequota{resource=\"pods\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})*100",
           "format": "time_series",
           "intervalFactor": 1,
@@ -564,7 +580,7 @@
       ],
       "thresholds": "51,80",
       "title": "Running Pods",
-      "type": "singlestat",
+      "type": "grafana-singlestat-panel",
       "valueFontSize": "80%",
       "valueMaps": [
         {
@@ -576,12 +592,13 @@
       "valueName": "current"
     },
     {
-      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": "Prometheus",
-      "decimals": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Percentage of total CPU limits in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -598,7 +615,6 @@
         "y": 7
       },
       "id": 50,
-      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -613,8 +629,6 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -635,6 +649,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum(kube_resourcequota{resource=\"limits.cpu\", type=\"used\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})\n/\nsum(kube_resourcequota{resource=\"limits.cpu\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})*100",
           "format": "time_series",
           "intervalFactor": 1,
@@ -643,7 +661,7 @@
       ],
       "thresholds": "51,80",
       "title": "Reserved CPU",
-      "type": "singlestat",
+      "type": "grafana-singlestat-panel",
       "valueFontSize": "80%",
       "valueMaps": [
         {
@@ -655,12 +673,13 @@
       "valueName": "current"
     },
     {
-      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": "Prometheus",
-      "decimals": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Percentage of total memory limits in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -677,7 +696,6 @@
         "y": 7
       },
       "id": 56,
-      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -692,8 +710,6 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -714,6 +730,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum(kube_resourcequota{resource=\"limits.memory\", type=\"used\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})\n/\nsum(kube_resourcequota{resource=\"limits.memory\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})*100",
           "format": "time_series",
           "intervalFactor": 1,
@@ -722,7 +742,7 @@
       ],
       "thresholds": "51,80",
       "title": "Reserved Memory",
-      "type": "singlestat",
+      "type": "grafana-singlestat-panel",
       "valueFontSize": "80%",
       "valueMaps": [
         {
@@ -735,6 +755,10 @@
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -743,19 +767,29 @@
       },
       "id": 20,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Scheduler",
       "type": "row"
     },
     {
-      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Total successful tasks.",
       "format": "none",
       "gauge": {
-        "maxValue": null,
         "minValue": 0,
         "show": false,
         "thresholdLabels": false,
@@ -768,7 +802,6 @@
         "y": 13
       },
       "id": 4,
-      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -783,8 +816,6 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -805,6 +836,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum(airflow_ti_successes{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 2,
@@ -813,7 +848,7 @@
       ],
       "thresholds": "",
       "title": "Successful Tasks",
-      "type": "singlestat",
+      "type": "grafana-singlestat-panel",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -825,11 +860,13 @@
       "valueName": "current"
     },
     {
-      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Total failed tasks.",
       "format": "none",
       "gauge": {
@@ -846,7 +883,6 @@
         "y": 13
       },
       "id": 14,
-      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -861,8 +897,6 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -883,6 +917,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum(airflow_ti_failures{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 2,
@@ -891,7 +929,7 @@
       ],
       "thresholds": "",
       "title": "Failed Tasks",
-      "type": "singlestat",
+      "type": "grafana-singlestat-panel",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -903,11 +941,13 @@
       "valueName": "current"
     },
     {
-      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Amount of DAGs the scheduler is processing.",
       "format": "none",
       "gauge": {
@@ -924,7 +964,6 @@
         "y": 13
       },
       "id": 6,
-      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -939,8 +978,6 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -961,6 +998,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum(airflow_dagbag_size{deployment=~\"$deployment\"})",
           "format": "time_series",
           "instant": false,
@@ -970,7 +1011,7 @@
       ],
       "thresholds": "",
       "title": "Dagbag Size",
-      "type": "singlestat",
+      "type": "grafana-singlestat-panel",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -982,11 +1023,13 @@
       "valueName": "current"
     },
     {
-      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Tasks that have not sent a heartbeat in a while.",
       "format": "none",
       "gauge": {
@@ -1003,7 +1046,6 @@
         "y": 13
       },
       "id": 18,
-      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -1018,8 +1060,6 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1040,6 +1080,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum(airflow_zombies_killed{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1048,7 +1092,7 @@
       ],
       "thresholds": "",
       "title": "Zombies Killed",
-      "type": "singlestat",
+      "type": "grafana-singlestat-panel",
       "valueFontSize": "70%",
       "valueMaps": [
         {
@@ -1060,14 +1104,66 @@
       "valueName": "current"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Rate of task successes.",
-      "fill": 1,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 6,
         "w": 12,
@@ -1075,33 +1171,26 @@
         "y": 15
       },
       "id": 12,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null as zero",
       "options": {
-        "dataLinks": []
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "rate(airflow_operator_successes{deployment=~\"$deployment\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1109,57 +1198,70 @@
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
       "title": "Task Success Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "decimals": null,
-          "format": "ops",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Rate of task failures.",
-      "fill": 1,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 6,
         "w": 12,
@@ -1167,34 +1269,26 @@
         "y": 15
       },
       "id": 13,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "hideZero": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null as zero",
       "options": {
-        "dataLinks": []
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "rate(airflow_operator_failures{deployment=~\"$deployment\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1202,56 +1296,70 @@
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
       "title": "Task Failure Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ops",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "TimeSeries Graph showing rate of Scheduler Heartbeart Rate per min. 0 indicate Scheduler outage",
-      "fill": 1,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "opm"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 7,
         "w": 24,
@@ -1260,33 +1368,26 @@
       },
       "id": 76,
       "interval": "",
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "rate(airflow_scheduler_heartbeat{deployment=~\"$deployment\", type=\"counter\"}[1m])*60",
           "format": "time_series",
           "instant": false,
@@ -1296,49 +1397,15 @@
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
       "title": "Scheduler Heartbeat Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "opm",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
+      "type": "timeseries"
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1347,15 +1414,26 @@
       },
       "id": 71,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Database Connections",
       "type": "row"
     },
     {
-      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Total connections to the backend database.",
       "format": "none",
       "gauge": {
@@ -1372,7 +1450,6 @@
         "y": 29
       },
       "id": 73,
-      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -1387,8 +1464,6 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1409,6 +1484,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum(pgbouncer_exporter_database_current_connections{name!=\"pgbouncer\", deployment=~\"$deployment\"})",
           "format": "time_series",
           "instant": false,
@@ -1418,7 +1497,7 @@
       ],
       "thresholds": "70,90",
       "title": "Total Database Connections",
-      "type": "singlestat",
+      "type": "grafana-singlestat-panel",
       "valueFontSize": "80%",
       "valueMaps": [
         {
@@ -1430,11 +1509,13 @@
       "valueName": "current"
     },
     {
-      "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Number of airflow clients waiting for a connection to the backend database.",
       "format": "none",
       "gauge": {
@@ -1451,7 +1532,6 @@
         "y": 29
       },
       "id": 75,
-      "interval": null,
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -1466,8 +1546,6 @@
       ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1488,6 +1566,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum(pgbouncer_exporter_pools_waiting_clients{database!=\"pgbouncer\", deployment=~\"$deployment\"})",
           "format": "time_series",
           "instant": false,
@@ -1497,7 +1579,7 @@
       ],
       "thresholds": "25,40",
       "title": "Total Waiting Clients",
-      "type": "singlestat",
+      "type": "grafana-singlestat-panel",
       "valueFontSize": "80%",
       "valueMaps": [
         {
@@ -1510,6 +1592,10 @@
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1518,18 +1604,78 @@
       },
       "id": 22,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Resource Utilization",
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Actual CPU utilization across deployment containers.",
-      "fill": 1,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 6,
         "w": 12,
@@ -1538,35 +1684,26 @@
       },
       "id": 24,
       "interval": "",
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "label_replace(  sum(rate(container_cpu_usage_seconds_total{deployment=~\"$deployment\", component_name != \"POD\",image!=\"\", container_name!=\"istio-proxy\"}[3m])) by (pod_name, container_name, component_name, namespace, short_name)/  sum(container_spec_cpu_quota{deployment=~\"$deployment\",  component_name != \"POD\",image!=\"\", container_name!=\"istio-proxy\"}/container_spec_cpu_period{deployment=~\"$deployment\",  component_name != \"POD\",image!=\"\", container_name!=\"istio-proxy\"}) by (pod_name, container_name, component_name, namespace, short_name)*100,  \"short_name\",  \"$1\",  \"pod_name\",  \"^[[deployment]]-(.*)$\")",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1574,56 +1711,69 @@
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
       "title": "CPU Usage",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "percent",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Actual memory utilization across deployment containers.",
-      "fill": 1,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 6,
         "w": 12,
@@ -1631,33 +1781,26 @@
         "y": 33
       },
       "id": 26,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "container_memory_working_set_bytes{deployment=~\"$deployment\", component_name != \"POD\",image!=\"\", container_name!=\"istio-proxy\"} * 100 / container_spec_memory_limit_bytes{deployment=~\"$deployment\", component_name != \"POD\",image!=\"\", container_name!=\"istio-proxy\"}",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1665,56 +1808,69 @@
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
       "title": "Memory Usage",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "percent",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Received data across deployment containers.",
-      "fill": 1,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 6,
         "w": 12,
@@ -1722,33 +1878,26 @@
         "y": 39
       },
       "id": 28,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "rate(container_network_receive_bytes_total{component_name=~\".*(scheduler|webserver|worker|flower|redis|pgbouncer|statsd)\", deployment=~\"$deployment\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1756,56 +1905,69 @@
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
       "title": "Network Rx",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "Bps",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Transmitted data across deployment containers.",
-      "fill": 1,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 6,
         "w": 12,
@@ -1813,33 +1975,26 @@
         "y": 39
       },
       "id": 30,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "rate(container_network_transmit_bytes_total{component_name=~\".*(scheduler|webserver|worker|flower|redis|pgbouncer|statsd)\", deployment=~\"$deployment\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1847,49 +2002,15 @@
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
       "title": "Network Tx",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "Bps",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
+      "type": "timeseries"
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1898,12 +2019,24 @@
       },
       "id": 62,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Container Status",
       "type": "row"
     },
     {
       "columns": [],
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Status of containers that make up an airflow deployment. A failing status here will make the deployment above show Unhealthy.",
       "fontSize": "100%",
       "gridPos": {
@@ -1914,8 +2047,6 @@
       },
       "id": 60,
       "links": [],
-      "options": {},
-      "pageSize": null,
       "scroll": true,
       "showHeader": true,
       "sort": {
@@ -1925,6 +2056,7 @@
       "styles": [
         {
           "alias": "Status",
+          "align": "auto",
           "colorMode": "cell",
           "colors": ["#bf1b00", "rgba(50, 172, 45, 0.97)", "#bf1b00"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -1962,7 +2094,7 @@
         },
         {
           "alias": "",
-          "colorMode": null,
+          "align": "auto",
           "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
@@ -1974,7 +2106,7 @@
         },
         {
           "alias": "Container",
-          "colorMode": null,
+          "align": "auto",
           "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
@@ -1986,7 +2118,7 @@
         },
         {
           "alias": "Pod",
-          "colorMode": null,
+          "align": "auto",
           "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
@@ -1998,7 +2130,7 @@
         },
         {
           "alias": "Reason",
-          "colorMode": null,
+          "align": "auto",
           "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
@@ -2011,6 +2143,10 @@
       ],
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sort_desc(max by (container, pod, reason) (  \nmax by (container, pod) ( \nsort_desc(kube_pod_container_status_waiting{release=~\"$deployment\", container=~\".*(scheduler|scheduler-gc|webserver|worker|statsd|pgbouncer|metrics-exporter|redis|flower)\"} \nand on(pod,namespace) kube_pod_labels{label_dag_id=\"\"})  )   \nor  max by (container, reason) (      sort_desc(kube_pod_container_status_waiting_reason{release=~\"$deployment\", container=~\".*(scheduler|scheduler-gc|webserver|worker|statsd|pgbouncer|metrics-exporter|redis|flower)\"}==1 and on(pod,namespace) kube_pod_labels{label_dag_id=\"\"}) )   \nor  max by (container, reason) (    sort_desc(kube_pod_container_status_terminated_reason{release=~\"$deployment\", container=~\".*(scheduler|scheduler-gc|webserver|worker|statsd|pgbouncer|metrics-exporter|redis|flower)\"}==1 and on(pod,namespace) kube_pod_labels{label_dag_id=\"\"}) )))",
           "format": "table",
           "instant": true,
@@ -2020,11 +2156,14 @@
       ],
       "title": "Core Container Status",
       "transform": "table",
-      "type": "table"
+      "type": "table-old"
     },
     {
       "columns": [],
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "Kubernetes executor pods only",
       "fontSize": "100%",
       "gridPos": {
@@ -2035,8 +2174,6 @@
       },
       "id": 70,
       "links": [],
-      "options": {},
-      "pageSize": null,
       "scroll": true,
       "showHeader": true,
       "sort": {
@@ -2046,6 +2183,7 @@
       "styles": [
         {
           "alias": "Status",
+          "align": "auto",
           "colorMode": "cell",
           "colors": ["#bf1b00", "rgba(50, 172, 45, 0.97)", "#bf1b00"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -2083,7 +2221,7 @@
         },
         {
           "alias": "",
-          "colorMode": null,
+          "align": "auto",
           "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
@@ -2095,7 +2233,7 @@
         },
         {
           "alias": "Container",
-          "colorMode": null,
+          "align": "auto",
           "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
@@ -2107,7 +2245,7 @@
         },
         {
           "alias": "Pod",
-          "colorMode": null,
+          "align": "auto",
           "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
@@ -2119,7 +2257,7 @@
         },
         {
           "alias": "Reason",
-          "colorMode": null,
+          "align": "auto",
           "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
@@ -2132,6 +2270,10 @@
       ],
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sort_desc(max by (container, pod, reason) (\n  max by (container, pod) (    \n  sort_desc(kube_pod_container_status_waiting{release=~\"$deployment\"} and on(pod,namespace) kube_pod_labels{label_dag_id!=\"\"})  ) \n  or  max by (container, reason) (    \n  sort_desc(kube_pod_container_status_waiting_reason{release=~\"$deployment\"}==1 and on(pod,namespace) kube_pod_labels{label_dag_id!=\"\"}) ) \n  or  max by (container, reason) (    sort_desc(kube_pod_container_status_terminated_reason{release=~\"$deployment\"}==1 and on(pod,namespace) kube_pod_labels{label_dag_id!=\"\"}) )))",
           "format": "table",
           "instant": true,
@@ -2141,19 +2283,26 @@
       ],
       "title": "Task Container Status",
       "transform": "table",
-      "type": "table"
+      "type": "table-old"
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 19,
+  "revision": 1,
+  "schemaVersion": 38,
   "style": "dark",
   "tags": ["airflow"],
   "templating": {
     "list": [
       {
-        "allValue": null,
-        "current": {},
-        "datasource": "Prometheus",
+        "current": {
+          "selected": false,
+          "text": "accurate-spectrum-5919",
+          "value": "accurate-spectrum-5919"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
         "definition": "",
         "hide": 0,
         "includeAll": false,
@@ -2161,13 +2310,15 @@
         "multi": false,
         "name": "deployment",
         "options": [],
-        "query": "label_values(kube_pod_info, release)",
+        "query": {
+          "query": "label_values(kube_pod_info, release)",
+          "refId": "Prometheus-deployment-Variable-Query"
+        },
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 5,
         "tagValuesQuery": "",
-        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -2179,11 +2330,12 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": ["5s", "10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"],
+    "refresh_intervals": ["30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"],
     "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "timezone": "",
   "title": "Airflow Deployment Overview",
   "uid": "E5LsXoamz",
-  "version": 1
+  "version": 1,
+  "weekStart": ""
 }
