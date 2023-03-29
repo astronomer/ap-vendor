@@ -10,7 +10,9 @@ import yaml
 
 ASTRO_IMAGE_NAME = os.environ["ASTRO_IMAGE_NAME"]  # example: ap-curator
 ASTRO_IMAGE_TAG = os.getenv("CIRCLE_SHA1", "latest")
-ASTRO_IMAGE_TEST_CONFIG_PATH = os.environ["ASTRO_IMAGE_TEST_CONFIG_PATH"]
+ASTRO_IMAGE_TEST_CONFIG_PATH = os.getenv(
+    "ASTRO_IMAGE_TEST_CONFIG_PATH", f'{ASTRO_IMAGE_NAME.removeprefix("ap-")}/test.yaml'
+)
 
 test_config = {}
 
@@ -90,7 +92,7 @@ def test_no_root_user(docker_host):
         [x["command"], x["expected_result"]]
         for x in test_config.get("test_commands", [])
     ],
-    ids=[x["command"] for x in test_config["test_commands"]],
+    ids=[x["command"] for x in test_config.get("test_commands", [])],
 )
 def test_commands(docker_host, command, expected_result):
     if "test_commands" in test_config:

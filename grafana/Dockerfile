@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/grafana/grafana/tags
-FROM grafana/grafana:8.5.16
+FROM grafana/grafana:8.5.22
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -38,19 +38,6 @@ USER 472
 RUN grafana-cli plugins install grafana-singlestat-panel
 
 # Copy default dashboards and datasource configuration
+COPY include/*.json /var/lib/grafana/dashboards/
 COPY include/dashboard.yaml /etc/grafana/provisioning/dashboards/dashboard.yaml
-COPY include/nginx-ingress.json /var/lib/grafana/dashboards/nginx-ingress.json
-COPY include/airflow-overview.json /var/lib/grafana/dashboards/airflow-overview.json
-COPY include/airflow-scheduler.json /var/lib/grafana/dashboards/airflow-scheduler.json
-COPY include/airflow-containers.json /var/lib/grafana/dashboards/airflow-containers.json
-COPY include/airflow-state.json /var/lib/grafana/dashboards/airflow-state.json
-COPY include/airflow-database-activity.json /var/lib/grafana/dashboards/airflow-database-activity.json
-COPY include/fluentd.json /var/lib/grafana/dashboards/fluentd.json
-COPY include/elasticsearch.json /var/lib/grafana/dashboards/elasticsearch.json
-COPY include/prometheus.json /var/lib/grafana/dashboards/prometheus.json
-COPY include/docker-registry.json /var/lib/grafana/dashboards/docker-registry.json
-COPY include/platform-overview.json /var/lib/grafana/dashboards/platform-overview.json
-COPY include/kubernetes-pods-metrics.json /var/lib/grafana/dashboards/kubernetes-pods-metrics.json
-COPY include/nats-dash.json /var/lib/grafana/dashboards/nats-dash.json
-COPY include/stan-dash.json /var/lib/grafana/dashboards/stan-dash.json
 COPY include/wait-for-db.sh /wait-for-db.sh
