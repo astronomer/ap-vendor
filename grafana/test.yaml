@@ -8,6 +8,6 @@ tests:
       gid: 472
       uid: 472
   test_commands:
-    - command: "find grafana/include/ -name '*.json' | wc -l"
+    - command: "find /var/lib/grafana/dashboards/ -iname '*.json' | wc -l"
       expected_result:
-        endswith: " 18"
+        equals: "18"
