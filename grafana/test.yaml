@@ -7,3 +7,7 @@ tests:
       group: grafana
       gid: 472
       uid: 472
+  test_commands:
+    - command: "find grafana/include/ -name '*.json' | wc -l"
+      expected_result:
+        endswith: " 18"
