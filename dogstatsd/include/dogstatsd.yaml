@@ -134,7 +134,7 @@ dogstatsd_mapper_profiles:
           dag_id: "$1"
           task_id: "$2"
           state: "$3"
-      - match: 'airflow.local_task_job.task_exit.*.*.*.*'
+      - match: "airflow.local_task_job.task_exit.*.*.*.*"
         name: "airflow.local_task_job.task_exit"
         tags:
           dag_id: "$2"
