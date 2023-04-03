@@ -140,4 +140,3 @@ dogstatsd_mapper_profiles:
           dag_id: "$2"
           task_id: "$3"
           exit_code: "$4"
-
