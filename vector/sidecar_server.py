@@ -10,7 +10,7 @@ import socket
 
 ppid = os.getppid()
 
-proc = subprocess.Popen("ping 127.0.0.1", shell=True)
+proc = subprocess.Popen("/usr/local/bin/vector", shell=True)
 
 
 def quit_proc():
