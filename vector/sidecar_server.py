@@ -61,10 +61,7 @@ class AirflowLiveness:
         if self.is_socket_bound():
             self.last_seen = time.time()
 
-        if time.time() - self.last_seen > self.max_last_seen:
-            return False
-
-        return True
+        return time.time() - self.last_seen <= self.max_last_seen
 
     def is_airflow_alive(self):
         return self.alive_handler()
