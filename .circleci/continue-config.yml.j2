@@ -43,18 +43,6 @@ workflows:
           directory: {{ directory }}
           requires:
             - test
-      - release:
-          directory: {{ directory }}
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - scan-trivy
-          filters:
-            branches:
-              only: main
       - validate-tags:
           directory: {{ directory }}
           tags: "latest"
@@ -67,6 +55,18 @@ workflows:
           filters:
             branches:
               ignore: main
+      - release:
+          directory: {{ directory }}
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - validate-tags
+          filters:
+            branches:
+              only: main
 {%- endfor %}
 
 jobs:
