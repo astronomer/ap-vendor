@@ -13,6 +13,7 @@ dirs_to_skip = [
     ".idea",
     ".pytest_cache",
     ".ruff_cache",
+    ".vscode",
     "bin",
     "requirements",
     "venv",
