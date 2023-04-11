@@ -43,6 +43,7 @@ class MessageHandler(server.BaseHTTPRequestHandler):
 class MessageServer(server.HTTPServer):
     heartbeat_file = Path("/var/log/sidecar-log-consumer/heartbeat")
     heartbeat_max_age = 180  # seconds
+    last_timestamp = None
 
     def service_actions(self):
         proc.poll()
@@ -50,7 +51,11 @@ class MessageServer(server.HTTPServer):
             raise SystemExit(proc.returncode)
 
         if self.heartbeat_file.exists():
-            age = time.time() - float(self.heartbeat_file.read_text())
+            # Sometimes the file contents are empty due to a race condition, so we only update
+            # last_timestamp if the file contents can be converted to a float.
+            if last_timestamp := float(self.heartbeat_file.read_text()):
+                self.last_timestamp = last_timestamp
+            age = time.time() - self.last_timestamp
             if age > self.heartbeat_max_age / 2:
                 print(
                     f"WARNING: Heartbeat has not been sent for {age:0.1f} seconds",
