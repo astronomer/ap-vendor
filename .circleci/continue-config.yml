@@ -202,6 +202,20 @@ workflows:
           directory: alertmanager
           requires:
             - test
+      - release:
+          directory: alertmanager
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: alertmanager
           tags: "latest"
@@ -211,20 +225,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: alertmanager
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   auth-sidecar-build:
     when:
       and:
@@ -243,6 +246,20 @@ workflows:
           directory: auth-sidecar
           requires:
             - test
+      - release:
+          directory: auth-sidecar
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: auth-sidecar
           tags: "latest"
@@ -252,20 +269,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: auth-sidecar
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   awsesproxy-build:
     when:
       and:
@@ -284,6 +290,20 @@ workflows:
           directory: awsesproxy
           requires:
             - test
+      - release:
+          directory: awsesproxy
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: awsesproxy
           tags: "latest"
@@ -293,20 +313,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: awsesproxy
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   blackbox-exporter-build:
     when:
       and:
@@ -325,6 +334,20 @@ workflows:
           directory: blackbox-exporter
           requires:
             - test
+      - release:
+          directory: blackbox-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: blackbox-exporter
           tags: "latest"
@@ -334,20 +357,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: blackbox-exporter
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   configmap-reloader-build:
     when:
       and:
@@ -366,6 +378,20 @@ workflows:
           directory: configmap-reloader
           requires:
             - test
+      - release:
+          directory: configmap-reloader
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: configmap-reloader
           tags: "latest"
@@ -375,20 +401,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: configmap-reloader
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   curator-build:
     when:
       and:
@@ -407,6 +422,20 @@ workflows:
           directory: curator
           requires:
             - test
+      - release:
+          directory: curator
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: curator
           tags: "latest"
@@ -416,20 +445,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: curator
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   dind-golang-build:
     when:
       and:
@@ -448,6 +466,20 @@ workflows:
           directory: dind-golang
           requires:
             - test
+      - release:
+          directory: dind-golang
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: dind-golang
           tags: "latest"
@@ -457,20 +489,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: dind-golang
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   dogstatsd-build:
     when:
       and:
@@ -489,6 +510,20 @@ workflows:
           directory: dogstatsd
           requires:
             - test
+      - release:
+          directory: dogstatsd
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: dogstatsd
           tags: "latest"
@@ -498,20 +533,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: dogstatsd
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   elasticsearch-build:
     when:
       and:
@@ -530,6 +554,20 @@ workflows:
           directory: elasticsearch
           requires:
             - test
+      - release:
+          directory: elasticsearch
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: elasticsearch
           tags: "latest"
@@ -539,20 +577,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: elasticsearch
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   elasticsearch-exporter-build:
     when:
       and:
@@ -571,6 +598,20 @@ workflows:
           directory: elasticsearch-exporter
           requires:
             - test
+      - release:
+          directory: elasticsearch-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: elasticsearch-exporter
           tags: "latest"
@@ -580,20 +621,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: elasticsearch-exporter
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   fluentd-build:
     when:
       and:
@@ -612,6 +642,20 @@ workflows:
           directory: fluentd
           requires:
             - test
+      - release:
+          directory: fluentd
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: fluentd
           tags: "latest"
@@ -621,20 +665,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: fluentd
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   git-daemon-build:
     when:
       and:
@@ -653,6 +686,20 @@ workflows:
           directory: git-daemon
           requires:
             - test
+      - release:
+          directory: git-daemon
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: git-daemon
           tags: "latest"
@@ -662,20 +709,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: git-daemon
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   git-sync-build:
     when:
       and:
@@ -694,6 +730,20 @@ workflows:
           directory: git-sync
           requires:
             - test
+      - release:
+          directory: git-sync
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: git-sync
           tags: "latest"
@@ -703,20 +753,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: git-sync
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   grafana-build:
     when:
       and:
@@ -735,6 +774,20 @@ workflows:
           directory: grafana
           requires:
             - test
+      - release:
+          directory: grafana
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: grafana
           tags: "latest"
@@ -744,20 +797,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: grafana
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   init-build:
     when:
       and:
@@ -776,6 +818,20 @@ workflows:
           directory: init
           requires:
             - test
+      - release:
+          directory: init
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: init
           tags: "latest"
@@ -785,20 +841,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: init
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   keda-build:
     when:
       and:
@@ -817,6 +862,20 @@ workflows:
           directory: keda
           requires:
             - test
+      - release:
+          directory: keda
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: keda
           tags: "latest"
@@ -826,20 +885,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: keda
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   keda-metrics-apiserver-build:
     when:
       and:
@@ -858,6 +906,20 @@ workflows:
           directory: keda-metrics-apiserver
           requires:
             - test
+      - release:
+          directory: keda-metrics-apiserver
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: keda-metrics-apiserver
           tags: "latest"
@@ -867,20 +929,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: keda-metrics-apiserver
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   kibana-build:
     when:
       and:
@@ -899,6 +950,20 @@ workflows:
           directory: kibana
           requires:
             - test
+      - release:
+          directory: kibana
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: kibana
           tags: "latest"
@@ -908,20 +973,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: kibana
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   kube-state-build:
     when:
       and:
@@ -940,6 +994,20 @@ workflows:
           directory: kube-state
           requires:
             - test
+      - release:
+          directory: kube-state
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: kube-state
           tags: "latest"
@@ -949,20 +1017,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: kube-state
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   kubed-build:
     when:
       and:
@@ -981,6 +1038,20 @@ workflows:
           directory: kubed
           requires:
             - test
+      - release:
+          directory: kubed
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: kubed
           tags: "latest"
@@ -990,20 +1061,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: kubed
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   nats-exporter-build:
     when:
       and:
@@ -1022,6 +1082,20 @@ workflows:
           directory: nats-exporter
           requires:
             - test
+      - release:
+          directory: nats-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: nats-exporter
           tags: "latest"
@@ -1031,20 +1105,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: nats-exporter
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   nats-server-build:
     when:
       and:
@@ -1063,6 +1126,20 @@ workflows:
           directory: nats-server
           requires:
             - test
+      - release:
+          directory: nats-server
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: nats-server
           tags: "latest"
@@ -1072,20 +1149,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: nats-server
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   nats-streaming-build:
     when:
       and:
@@ -1104,6 +1170,20 @@ workflows:
           directory: nats-streaming
           requires:
             - test
+      - release:
+          directory: nats-streaming
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: nats-streaming
           tags: "latest"
@@ -1113,20 +1193,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: nats-streaming
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   nginx-build:
     when:
       and:
@@ -1145,6 +1214,20 @@ workflows:
           directory: nginx
           requires:
             - test
+      - release:
+          directory: nginx
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: nginx
           tags: "latest"
@@ -1154,20 +1237,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: nginx
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   nginx-es-build:
     when:
       and:
@@ -1186,6 +1258,20 @@ workflows:
           directory: nginx-es
           requires:
             - test
+      - release:
+          directory: nginx-es
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: nginx-es
           tags: "latest"
@@ -1195,20 +1281,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: nginx-es
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   node-exporter-build:
     when:
       and:
@@ -1227,6 +1302,20 @@ workflows:
           directory: node-exporter
           requires:
             - test
+      - release:
+          directory: node-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: node-exporter
           tags: "latest"
@@ -1236,20 +1325,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: node-exporter
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   openresty-build:
     when:
       and:
@@ -1268,6 +1346,20 @@ workflows:
           directory: openresty
           requires:
             - test
+      - release:
+          directory: openresty
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: openresty
           tags: "latest"
@@ -1277,20 +1369,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: openresty
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   pgbouncer-build:
     when:
       and:
@@ -1309,6 +1390,20 @@ workflows:
           directory: pgbouncer
           requires:
             - test
+      - release:
+          directory: pgbouncer
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: pgbouncer
           tags: "latest"
@@ -1318,20 +1413,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: pgbouncer
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   pgbouncer-exporter-build:
     when:
       and:
@@ -1350,6 +1434,20 @@ workflows:
           directory: pgbouncer-exporter
           requires:
             - test
+      - release:
+          directory: pgbouncer-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: pgbouncer-exporter
           tags: "latest"
@@ -1359,20 +1457,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: pgbouncer-exporter
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   pgbouncer-krb-build:
     when:
       and:
@@ -1391,6 +1478,20 @@ workflows:
           directory: pgbouncer-krb
           requires:
             - test
+      - release:
+          directory: pgbouncer-krb
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: pgbouncer-krb
           tags: "latest"
@@ -1400,20 +1501,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: pgbouncer-krb
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   po-logical-backup-build:
     when:
       and:
@@ -1432,6 +1522,20 @@ workflows:
           directory: po-logical-backup
           requires:
             - test
+      - release:
+          directory: po-logical-backup
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: po-logical-backup
           tags: "latest"
@@ -1441,20 +1545,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: po-logical-backup
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   po-pgbouncer-build:
     when:
       and:
@@ -1473,6 +1566,20 @@ workflows:
           directory: po-pgbouncer
           requires:
             - test
+      - release:
+          directory: po-pgbouncer
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: po-pgbouncer
           tags: "latest"
@@ -1482,20 +1589,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: po-pgbouncer
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   po-spilo-build:
     when:
       and:
@@ -1514,6 +1610,20 @@ workflows:
           directory: po-spilo
           requires:
             - test
+      - release:
+          directory: po-spilo
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: po-spilo
           tags: "latest"
@@ -1523,20 +1633,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: po-spilo
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   postgres-exporter-build:
     when:
       and:
@@ -1555,6 +1654,20 @@ workflows:
           directory: postgres-exporter
           requires:
             - test
+      - release:
+          directory: postgres-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: postgres-exporter
           tags: "latest"
@@ -1564,20 +1677,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: postgres-exporter
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   postgres-operator-build:
     when:
       and:
@@ -1596,6 +1698,20 @@ workflows:
           directory: postgres-operator
           requires:
             - test
+      - release:
+          directory: postgres-operator
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: postgres-operator
           tags: "latest"
@@ -1605,20 +1721,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: postgres-operator
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   postgresql-build:
     when:
       and:
@@ -1637,6 +1742,20 @@ workflows:
           directory: postgresql
           requires:
             - test
+      - release:
+          directory: postgresql
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: postgresql
           tags: "latest"
@@ -1646,20 +1765,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: postgresql
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   prometheus-build:
     when:
       and:
@@ -1678,6 +1786,20 @@ workflows:
           directory: prometheus
           requires:
             - test
+      - release:
+          directory: prometheus
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: prometheus
           tags: "latest"
@@ -1687,20 +1809,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: prometheus
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   redis-build:
     when:
       and:
@@ -1719,6 +1830,20 @@ workflows:
           directory: redis
           requires:
             - test
+      - release:
+          directory: redis
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: redis
           tags: "latest"
@@ -1728,20 +1853,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: redis
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   registry-build:
     when:
       and:
@@ -1760,6 +1874,20 @@ workflows:
           directory: registry
           requires:
             - test
+      - release:
+          directory: registry
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: registry
           tags: "latest"
@@ -1769,20 +1897,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: registry
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   statsd-exporter-build:
     when:
       and:
@@ -1801,6 +1918,20 @@ workflows:
           directory: statsd-exporter
           requires:
             - test
+      - release:
+          directory: statsd-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: statsd-exporter
           tags: "latest"
@@ -1810,20 +1941,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: statsd-exporter
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
   vector-build:
     when:
       and:
@@ -1842,6 +1962,20 @@ workflows:
           directory: vector
           requires:
             - test
+      - release:
+          directory: vector
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+                - 5469-rework-vector
       - validate-tags:
           directory: vector
           tags: "latest"
@@ -1851,20 +1985,9 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
-      - release:
-          directory: vector
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-          requires:
-            - validate-tags
           filters:
             branches:
-              only:
-                - main
-                - 5469-rework-vector
+              ignore: main
 
 jobs:
   build:
