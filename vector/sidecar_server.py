@@ -62,7 +62,7 @@ class MessageServer(server.HTTPServer):
                     flush=True,
                 )
             if age > self.heartbeat_max_age:
-                raise SystemExit("ERROR: Heartbeat is gone. Exiting.", flush=True)
+                raise SystemExit("ERROR: Heartbeat is gone. Exiting.")
 
 
 print(f"{ppid=}", flush=True)
