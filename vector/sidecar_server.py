@@ -16,11 +16,11 @@ proc = subprocess.Popen("/usr/local/bin/vector", shell=True)
 
 def quit_proc():
     try:
-        print("Terminating.")
+        print("Terminating.", flush=True)
         proc.terminate()
         proc.wait(timeout=60)
     except subprocess.TimeoutExpired:
-        print("Termination timed out. Killing.")
+        print("Termination timed out. Killing.", flush=True)
         proc.kill()
 
 
@@ -52,12 +52,15 @@ class MessageServer(server.HTTPServer):
         if self.heartbeat_file.exists():
             age = time.time() - float(self.heartbeat_file.read_text())
             if age > self.heartbeat_max_age / 2:
-                print(f"WARNING: Heartbeat has not been sent for {age:0.1f} seconds")
+                print(
+                    f"WARNING: Heartbeat has not been sent for {age:0.1f} seconds",
+                    flush=True,
+                )
             if age > self.heartbeat_max_age:
-                raise SystemExit("ERROR: Heartbeat is gone. Exiting.")
+                raise SystemExit("ERROR: Heartbeat is gone. Exiting.", flush=True)
 
 
-print(f"{ppid=}")
+print(f"{ppid=}", flush=True)
 
 address = ("127.0.0.1", 8000)
 server = MessageServer(address, MessageHandler)
