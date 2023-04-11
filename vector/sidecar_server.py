@@ -51,6 +51,8 @@ class MessageServer(server.HTTPServer):
 
         if self.heartbeat_file.exists():
             age = time.time() - float(self.heartbeat_file.read_text())
+            if age > self.heartbeat_max_age / 2:
+                print(f"WARNING: Heartbeat has not been sent for {age:0.1f} seconds")
             if age > self.heartbeat_max_age:
                 raise SystemExit("ERROR: Heartbeat is gone. Exiting.")
 
