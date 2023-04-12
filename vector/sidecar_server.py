@@ -1,7 +1,18 @@
 #!/usr/bin/env python3
-"""Launch vector in a subprocess and listen for POST /quitquitquit. Also keep an eye on
-/var/log/sidecar-log-consumer/heartbeat, which may exist and will have a unix timestamp
-representing the last heartbeat from the airflow container.
+"""Launch vector in a subprocess and watch for signals from airflow.
+
+There are two signals from airflow that are handled:
+* /var/log/sidecar-log-consumer/heartbeat is an optional file that shows a unix timestamp of the last heartbeat.
+* /var/log/sidecar-log-consumer/finished signals that airflow is done and this script should also finish up.
+
+Other behaviors of this script:
+* If the "heartbeat" file doesn't exist, this script waits for it to show up.
+* If the "heartbeat" file never shows up, this script will only exit when the "finished" file shows up or when
+  it receives a process signal to exit.
+* If the "heartbeat" file disappears or becomes empty, the last known heartbeat is used.
+* If the "finished" file is seen, the script will ask vector to quit and then exit.
+* If the script is killed, vector is terminated.
+
 """
 import time
 import os
