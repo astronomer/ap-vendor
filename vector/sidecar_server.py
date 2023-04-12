@@ -28,7 +28,7 @@ class VectorHandler:
     airflow_heartbeat_file = Path("/var/log/sidecar-log-consumer/heartbeat")
     airflow_heartbeat_max_age = 120  # seconds
     airflow_heartbeat_timestamp = None
-    vector = subprocess.Popen("ping -c 999 google.com", shell=True)
+    vector = subprocess.Popen("/usr/local/bin/vector", shell=True)
 
     def quit_proc(self):
         """Ask vector to quit nicely, and kill it after 60 if it does not quit."""
