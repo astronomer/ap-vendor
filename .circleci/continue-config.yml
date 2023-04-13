@@ -217,7 +217,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: alertmanager
           tags: "latest"
@@ -259,7 +261,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: auth-sidecar
           tags: "latest"
@@ -301,7 +305,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: awsesproxy
           tags: "latest"
@@ -343,7 +349,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: blackbox-exporter
           tags: "latest"
@@ -385,7 +393,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: configmap-reloader
           tags: "latest"
@@ -427,7 +437,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: curator
           tags: "latest"
@@ -469,7 +481,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: dind-golang
           tags: "latest"
@@ -511,7 +525,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: dogstatsd
           tags: "latest"
@@ -553,7 +569,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: elasticsearch
           tags: "latest"
@@ -595,7 +613,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: elasticsearch-exporter
           tags: "latest"
@@ -637,7 +657,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: fluentd
           tags: "latest"
@@ -679,7 +701,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: git-daemon
           tags: "latest"
@@ -721,7 +745,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: git-sync
           tags: "latest"
@@ -763,7 +789,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: git-sync-relay
           tags: "latest"
@@ -805,7 +833,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: grafana
           tags: "latest"
@@ -847,7 +877,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: init
           tags: "latest"
@@ -889,7 +921,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: keda
           tags: "latest"
@@ -931,7 +965,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: keda-metrics-apiserver
           tags: "latest"
@@ -973,7 +1009,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: kibana
           tags: "latest"
@@ -1015,7 +1053,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: kube-state
           tags: "latest"
@@ -1057,7 +1097,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: kubed
           tags: "latest"
@@ -1099,7 +1141,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: nats-exporter
           tags: "latest"
@@ -1141,7 +1185,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: nats-server
           tags: "latest"
@@ -1183,7 +1229,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: nats-streaming
           tags: "latest"
@@ -1225,7 +1273,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: nginx
           tags: "latest"
@@ -1267,7 +1317,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: nginx-es
           tags: "latest"
@@ -1309,7 +1361,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: node-exporter
           tags: "latest"
@@ -1351,7 +1405,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: openresty
           tags: "latest"
@@ -1393,7 +1449,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: pgbouncer
           tags: "latest"
@@ -1435,7 +1493,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: pgbouncer-exporter
           tags: "latest"
@@ -1477,7 +1537,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: pgbouncer-krb
           tags: "latest"
@@ -1519,7 +1581,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: po-logical-backup
           tags: "latest"
@@ -1561,7 +1625,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: po-pgbouncer
           tags: "latest"
@@ -1603,7 +1669,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: po-spilo
           tags: "latest"
@@ -1645,7 +1713,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: postgres-exporter
           tags: "latest"
@@ -1687,7 +1757,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: postgres-operator
           tags: "latest"
@@ -1729,7 +1801,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: postgresql
           tags: "latest"
@@ -1771,7 +1845,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: prometheus
           tags: "latest"
@@ -1813,7 +1889,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: redis
           tags: "latest"
@@ -1855,7 +1933,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: registry
           tags: "latest"
@@ -1897,7 +1977,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: statsd-exporter
           tags: "latest"
@@ -1939,7 +2021,9 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - feature-5539
       - validate-tags:
           directory: vector
           tags: "latest"
