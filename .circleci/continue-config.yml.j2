@@ -54,7 +54,8 @@ workflows:
             - scan-trivy
           filters:
             branches:
-              only: main
+              only:
+                - main
       - validate-tags:
           directory: {{ directory }}
           tags: "latest"

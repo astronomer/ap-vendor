@@ -19,10 +19,12 @@ repos:
         entry: bin/generate_docker_compose.py
         additional_dependencies: ["jinja2", "PyYaml"]
         always_run: True
-  - repo: https://github.com/PyCQA/docformatter
-    rev: v1.5.1
-    hooks:
-      - id: docformatter
+      - id: validate-versions
+        name: Validate that version.txt files have valid semvers
+        language: python
+        entry: bin/validate-semver.py
+        files: '.*\/version.txt'
+        additional_dependencies: ["packaging"]
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.4
     hooks:
