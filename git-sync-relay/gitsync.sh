@@ -5,7 +5,7 @@ set -e
 GIT_SSH_COMMAND="ssh"
 
 if [ ! -d "$GIT_SYNC_ROOT" ]; then
-  echo "Error: GIT_SYNC_ROOT ${GIT_SYNC_ROOT} is not exists!"
+  echo "Error: GIT_SYNC_ROOT ${GIT_SYNC_ROOT} does not exist!"
   exit 1
 fi
 
