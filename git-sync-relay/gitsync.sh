@@ -2,7 +2,7 @@
 
 set -e
 
-GIT_SSH_COMMAND="ssh"
+GIT_SSH_COMMAND="ssh -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no -o KbdInteractiveDevices=no"
 
 if [ ! -d "$GIT_SYNC_ROOT" ]; then
   echo "Error: GIT_SYNC_ROOT ${GIT_SYNC_ROOT} does not exist!"
