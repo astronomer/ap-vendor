@@ -65,6 +65,10 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image git-sync."
+  git-sync-relay:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image git-sync-relay."
   grafana:
     type: boolean
     default: false
@@ -733,6 +737,49 @@ workflows:
                 - main
       - validate-tags:
           directory: git-sync
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  git-sync-relay-build:
+    when:
+      and:
+        - << pipeline.parameters.git-sync-relay >>
+    jobs:
+      - build:
+          name: build
+          directory: git-sync-relay
+      - test:
+          directory: git-sync-relay
+          test_script: bin/test.py
+          test_requirements: requirements/test-requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: git-sync-relay
+          requires:
+            - test
+      - release:
+          directory: git-sync-relay
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+      - validate-tags:
+          directory: git-sync-relay
           tags: "latest"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
