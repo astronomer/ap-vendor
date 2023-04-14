@@ -10,7 +10,7 @@ if [ ! -d "$GIT_SYNC_ROOT" ]; then
 fi
 
 if [ -n "$(ls -A "$GIT_SYNC_ROOT")" ]; then
-  echo "Error: GIT_SYNC_ROOT ${GIT_SYNC_ROOT} is not Empty."
+  echo "Error: GIT_SYNC_ROOT ${GIT_SYNC_ROOT} is not empty."
   exit 1
 fi
 
