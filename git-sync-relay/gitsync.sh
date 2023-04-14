@@ -23,7 +23,7 @@ if [ -n "$GIT_SYNC_SSH" ] && [ "true" = "$GIT_SYNC_SSH" ]; then
     GIT_SSH_COMMAND="$GIT_SSH_COMMAND -o StrictHostKeyChecking=yes -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no -o KbdInteractiveDevices=no"
   fi
 
-  export GIT_SSH_COMMAND="$GIT_SSH_COMMAND"
+  export GIT_SSH_COMMAND
 fi
 
 cd "$GIT_SYNC_ROOT"
