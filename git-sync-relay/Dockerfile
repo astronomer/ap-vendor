@@ -22,7 +22,7 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-RUN apk add --no-cache git git-daemon
+RUN apk add --no-cache git git-daemon openssh-client
 COPY gitsync.sh /gitsync.sh
 RUN mkdir -p /git
 

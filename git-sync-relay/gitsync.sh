@@ -12,6 +12,14 @@ if [ -n "$(ls -A "$GIT_SYNC_ROOT")" ]; then
   exit 1
 fi
 
+if [ -n "$GIT_SYNC_SSH" ] && [ "true" = "$GIT_SYNC_SSH" ]; then
+  cp "$GIT_SSH_KEY_FILE" "$HOME/.ssh/$GIT_SSH_KEY_FILE"
+fi
+
+if [ -n "$GIT_KNOWN_HOSTS" ] && [ "true" = "$GIT_KNOWN_HOSTS" ]; then
+  cp "$GIT_SSH_KNOWN_HOSTS_FILE" "$HOME/.ssh/$GIT_SSH_KNOWN_HOSTS_FILE"
+fi
+
 cd "$GIT_SYNC_ROOT"
 
 # Clone the repo for the first time
