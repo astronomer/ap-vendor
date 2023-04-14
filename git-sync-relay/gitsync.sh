@@ -18,7 +18,7 @@ if [ -n "$GIT_SYNC_SSH" ] && [ "true" = "$GIT_SYNC_SSH" ]; then
   GIT_SSH_COMMAND="$GIT_SSH_COMMAND -i $GIT_SSH_KEY_FILE"
 
   if [ -n "$GIT_KNOWN_HOSTS" ] && [ "true" = "$GIT_KNOWN_HOSTS" ]; then
-    GIT_SSH_COMMAND="$GIT_SSH_COMMAND -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$GIT_SSH_KNOWN_HOSTS_FILE"
+    GIT_SSH_COMMAND="$GIT_SSH_COMMAND -o StrictHostKeyChecking=yes -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no -o KbdInteractiveDevices=no -o UserKnownHostsFile=$GIT_SSH_KNOWN_HOSTS_FILE"
   else
     GIT_SSH_COMMAND="$GIT_SSH_COMMAND -o StrictHostKeyChecking=yes"
   fi
