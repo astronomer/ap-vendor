@@ -2,6 +2,8 @@
 
 set -e
 
+GIT_SSH_COMMAND="ssh"
+
 if [ ! -d "$GIT_SYNC_ROOT" ]; then
   echo "Error: GIT_SYNC_ROOT ${GIT_SYNC_ROOT} is not exists!"
   exit 1
@@ -13,11 +15,15 @@ if [ -n "$(ls -A "$GIT_SYNC_ROOT")" ]; then
 fi
 
 if [ -n "$GIT_SYNC_SSH" ] && [ "true" = "$GIT_SYNC_SSH" ]; then
-  cp "$GIT_SSH_KEY_FILE" "$HOME/.ssh/$GIT_SSH_KEY_FILE"
-fi
+  GIT_SSH_COMMAND="$GIT_SSH_COMMAND -i $GIT_SSH_KEY_FILE"
 
-if [ -n "$GIT_KNOWN_HOSTS" ] && [ "true" = "$GIT_KNOWN_HOSTS" ]; then
-  cp "$GIT_SSH_KNOWN_HOSTS_FILE" "$HOME/.ssh/$GIT_SSH_KNOWN_HOSTS_FILE"
+  if [ -n "$GIT_KNOWN_HOSTS" ] && [ "true" = "$GIT_KNOWN_HOSTS" ]; then
+    GIT_SSH_COMMAND="$GIT_SSH_COMMAND -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$GIT_SSH_KNOWN_HOSTS_FILE"
+  else
+    GIT_SSH_COMMAND="$GIT_SSH_COMMAND -o StrictHostKeyChecking=yes"
+  fi
+
+  export GIT_SSH_COMMAND="$GIT_SSH_COMMAND"
 fi
 
 cd "$GIT_SYNC_ROOT"
