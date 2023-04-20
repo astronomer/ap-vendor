@@ -66,6 +66,11 @@ services:
     build:
       context: git-sync
     entrypoint: "/bin/sleep 1m"
+  ap-git-sync-relay:
+    image: ap-git-sync-relay:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: git-sync-relay
+    entrypoint: "/bin/sleep 1m"
   ap-grafana:
     image: ap-grafana:${ASTRO_IMAGE_TAG:-latest}
     build:

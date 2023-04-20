@@ -19,12 +19,14 @@ repos:
         entry: bin/generate_docker_compose.py
         additional_dependencies: ["jinja2", "PyYaml"]
         always_run: True
-  - repo: https://github.com/PyCQA/docformatter
-    rev: v1.5.1
-    hooks:
-      - id: docformatter
+      - id: validate-versions
+        name: Validate that version.txt files have valid semvers
+        language: python
+        entry: bin/validate-semver.py
+        files: '.*\/version.txt'
+        additional_dependencies: ["packaging"]
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.2
+    rev: v2.2.4
     hooks:
       - id: codespell
         args: ["-L", "AKS,aks"]
@@ -34,7 +36,7 @@ repos:
       - id: prettier
         args: ["--print-width=135"]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.0.253"
+    rev: "v0.0.257"
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --ignore, E501]
@@ -49,22 +51,9 @@ repos:
         args: ["--print-width=135"]
         exclude: "^statsd-exporter/test/statsd-test-config.js$"
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.2
+    rev: v2.2.4
     hooks:
       - id: codespell
-  - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.9.0
-    hooks:
-      - id: reorder-python-imports
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
-    hooks:
-      - id: pyupgrade
-        args: ["--py38-plus"]
-  - repo: https://github.com/psf/black
-    rev: 23.1.0
-    hooks:
-      - id: black
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.9.0.2
     hooks:

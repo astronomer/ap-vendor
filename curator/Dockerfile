@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://quay.io/repository/astronomer/ap-base?tab=tags
-FROM quay.io/astronomer/ap-base:3.16.3-2
+FROM quay.io/astronomer/ap-base:3.16.5
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -39,7 +39,7 @@ RUN set -x ; apk --no-cache add \
       setuptools \
       wheel \
       elasticsearch \
-      elasticsearch-curator \
+      elasticsearch-curator==7.0.0 \
       boto3 \
       requests-aws4auth && \
     apk del \

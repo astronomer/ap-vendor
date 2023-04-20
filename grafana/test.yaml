@@ -7,3 +7,7 @@ tests:
       group: grafana
       gid: 472
       uid: 472
+  test_commands:
+    - command: "find /var/lib/grafana/dashboards/ -iname '*.json' | wc -l"
+      expected_result:
+        equals: "18"
