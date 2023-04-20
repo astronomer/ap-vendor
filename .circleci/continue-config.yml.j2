@@ -3,7 +3,7 @@
 version: 2.1
 
 orbs:
-  python: circleci/python@2.0.3
+  python: circleci/python@2.1.1
 
 executors:
   docker-executor:
@@ -157,6 +157,15 @@ jobs:
           docker_layer_caching: true
           version: {{ docker_version }}
       - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - python_install_packages-operations
+      - run:
+          name: Load archived Docker image
+          command: |
+            set -x
+            docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
+            docker images | grep ap-<< parameters.directory >>
       - docker-operations:
           operations: push
           project_path: << parameters.directory >>
@@ -195,6 +204,15 @@ jobs:
           docker_layer_caching: true
           version: {{ docker_version }}
       - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - python_install_packages-operations
+      - run:
+          name: Load archived Docker image
+          command: |
+            set -x
+            docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
+            docker images | grep ap-<< parameters.directory >>
       - docker-operations:
           operations: validate_tags
           project_path: << parameters.directory >>
@@ -313,26 +331,23 @@ commands:
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
-      script_requirements:
-        type: string
-        default: requirements/build-requirements.txt
       tags:
         type: string
       overwrite_tags:
         type: boolean
         default: false
     steps:
-      - attach_workspace:
-          at: /tmp/workspace
-      - python/install-packages:
-          pip-dependency-file: << parameters.script_requirements >>
-          pkg-manager: pip
-      - run:
-          name: Load archived Docker image
-          command: |
-            set -x
-            docker load -i /tmp/workspace/<< parameters.image_name >>.tar
-            docker images | grep << parameters.image_name >>
       - run:
           name: Validating docker image(s)'s tags to << parameters.registry >>
           command: bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --tags=<< parameters.tags >> --overwrite_tags=<< parameters.overwrite_tags >>
+
+  python_install_packages-operations:
+    description: "Installing Python dependencies."
+    parameters:
+      script_requirements:
+        type: string
+        default: requirements/build-requirements.txt
+    steps:
+      - python/install-packages:
+          pip-dependency-file: << parameters.script_requirements >>
+          pkg-manager: pip
