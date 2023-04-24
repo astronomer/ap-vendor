@@ -36,4 +36,4 @@ RUN mkdir -p /usr/local/openresty/nginx/client_body_temp \
 # upgrade apk packages
 RUN apk upgrade --no-cache
 
-USER nobody
+USER 65534
