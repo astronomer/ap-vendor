@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM k8s.gcr.io/kube-state-metrics/kube-state-metrics:v2.7.0
+FROM k8s.gcr.io/kube-state-metrics/kube-state-metrics:v2.8.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
