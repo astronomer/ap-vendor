@@ -27,45 +27,45 @@ ARG USER=pgbouncer
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV PGBOUNCER_VERSION=1.18.0 \
-    PGBOUNCER_SHA256=9349c9e59f6f88156354f4f6af27cdb014a235b00ae184cbaa37688bd0df544c
+ENV PGBOUNCER_VERSION=1.17.0 \
+  PGBOUNCER_SHA256=657309b7bc5c7a85cbf70a9a441b535f7824123081eabb7ba86d00349a256e23
 
 RUN addgroup -g $GID -S $USER \
-    && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
-    && apk add --no-cache --virtual .run-deps \
-      c-ares \
-      entr \
-      libevent \
-      libressl
+  && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
+  && apk add --no-cache --virtual .run-deps \
+  c-ares \
+  entr \
+  libevent \
+  libressl
 
 RUN apk add --no-cache --virtual .build-deps \
-      build-base \
-      autoconf \
-      wget \
-      c-ares-dev \
-      libevent-dev \
-      libressl-dev \
-      openssl-dev \
-    && wget https://www.pgbouncer.org/downloads/files/$PGBOUNCER_VERSION/pgbouncer-$PGBOUNCER_VERSION.tar.gz \
-    && echo "$PGBOUNCER_SHA256  /pgbouncer-$PGBOUNCER_VERSION.tar.gz" | sha256sum -c - \
-    && tar -xzvf pgbouncer-$PGBOUNCER_VERSION.tar.gz \
-    && cd pgbouncer-$PGBOUNCER_VERSION \
-    && ./configure --prefix=/usr --disable-debug \
-    && make \
-    && make install \
-    && mkdir /etc/pgbouncer \
-    && cp ./etc/pgbouncer.ini /etc/pgbouncer/ \
-    && touch /etc/pgbouncer/userlist.txt \
-    && sed -i \
-      -e "s|logfile = |#logfile = |" \
-      -e "s|pidfile = |#pidfile = |" \
-      -e "s|listen_addr = .*|listen_addr = 0.0.0.0|" \
-      -e "s|auth_type = .*|auth_type = md5|" \
-      /etc/pgbouncer/pgbouncer.ini \
-    && cd .. \
-    && rm pgbouncer-$PGBOUNCER_VERSION.tar.gz \
-    && rm -rf pgbouncer-$PGBOUNCER_VERSION \
-    && apk del .build-deps
+  build-base \
+  autoconf \
+  wget \
+  c-ares-dev \
+  libevent-dev \
+  libressl-dev \
+  openssl-dev \
+  && wget https://www.pgbouncer.org/downloads/files/$PGBOUNCER_VERSION/pgbouncer-$PGBOUNCER_VERSION.tar.gz \
+  && echo "$PGBOUNCER_SHA256  /pgbouncer-$PGBOUNCER_VERSION.tar.gz" | sha256sum -c - \
+  && tar -xzvf pgbouncer-$PGBOUNCER_VERSION.tar.gz \
+  && cd pgbouncer-$PGBOUNCER_VERSION \
+  && ./configure --prefix=/usr --disable-debug \
+  && make \
+  && make install \
+  && mkdir /etc/pgbouncer \
+  && cp ./etc/pgbouncer.ini /etc/pgbouncer/ \
+  && touch /etc/pgbouncer/userlist.txt \
+  && sed -i \
+  -e "s|logfile = |#logfile = |" \
+  -e "s|pidfile = |#pidfile = |" \
+  -e "s|listen_addr = .*|listen_addr = 0.0.0.0|" \
+  -e "s|auth_type = .*|auth_type = md5|" \
+  /etc/pgbouncer/pgbouncer.ini \
+  && cd .. \
+  && rm pgbouncer-$PGBOUNCER_VERSION.tar.gz \
+  && rm -rf pgbouncer-$PGBOUNCER_VERSION \
+  && apk del .build-deps
 COPY ./docker-entrypoint.sh docker-entrypoint.sh
 USER $UID
 ENTRYPOINT ["./docker-entrypoint.sh"]
