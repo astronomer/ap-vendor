@@ -137,27 +137,27 @@ mappings:
   - match: airflow.collect_db_dags
     name: "airflow_collect_db_dags"
     labels: {}
-    
+
   - match: airflow.triggers.succeeded
-    name: "airflow_triggers_succeeded
+    name: "airflow_triggers_succeeded"
     labels: {}
-    
+
   - match: airflow.triggers.failed
     name: "airflow_triggers_failed"
     labels: {}
-    
+
   - match: airflow.triggers.running
     name: "airflow_triggers_running"
     labels: {}
-    
+
   - match: airflow.dataset.triggered_dagruns
     name: "airflow_dataset_triggered_dagruns"
     labels: {}
-    
+
   - match: airflow.dataset.updates
     name: "airflow_dataset_updates"
     labels: {}
-    
+
   - match: airflow.dataset.orphaned
     name: "airflow_dataset_orphaned"
     labels: {}
