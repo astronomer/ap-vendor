@@ -28,6 +28,6 @@ USER root
 RUN apt-get update && apt-get -y upgrade
 RUN addgroup postgres --gid 1001 && useradd -s /sbin/nologin --gid 1001 --uid 1001 postgres
 
-RUN chown -R 1001:1001 /opt/bitnami
+RUN chown -R 1001:1001 /opt/bitnami /bitnami/postgresql
 
 USER 1001
