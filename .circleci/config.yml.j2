@@ -11,7 +11,7 @@ orbs:
 executors:
   docker-executor:
     docker:
-      - image: cimg/python:3.9
+      - image: cimg/python:3.10
 
 parameters:
   overwrite_tags:
@@ -35,7 +35,7 @@ workflows:
 jobs:
   run_pre_commit:
     docker:
-      - image: quay.io/astronomer/ci-pre-commit:2023-02
+      - image: quay.io/astronomer/ci-pre-commit:2023-06
     steps:
       - checkout
       - run:
