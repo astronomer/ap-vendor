@@ -199,7 +199,7 @@ workflows:
       - test:
           directory: alertmanager
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -242,7 +242,7 @@ workflows:
       - test:
           directory: auth-sidecar
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -285,7 +285,7 @@ workflows:
       - test:
           directory: awsesproxy
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -328,7 +328,7 @@ workflows:
       - test:
           directory: blackbox-exporter
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -371,7 +371,7 @@ workflows:
       - test:
           directory: configmap-reloader
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -414,7 +414,7 @@ workflows:
       - test:
           directory: curator
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -457,7 +457,7 @@ workflows:
       - test:
           directory: dind-golang
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -500,7 +500,7 @@ workflows:
       - test:
           directory: dogstatsd
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -543,7 +543,7 @@ workflows:
       - test:
           directory: elasticsearch
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -586,7 +586,7 @@ workflows:
       - test:
           directory: elasticsearch-exporter
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -629,7 +629,7 @@ workflows:
       - test:
           directory: fluentd
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -672,7 +672,7 @@ workflows:
       - test:
           directory: git-daemon
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -715,7 +715,7 @@ workflows:
       - test:
           directory: git-sync
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -758,7 +758,7 @@ workflows:
       - test:
           directory: git-sync-relay
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -801,7 +801,7 @@ workflows:
       - test:
           directory: grafana
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -844,7 +844,7 @@ workflows:
       - test:
           directory: init
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -887,7 +887,7 @@ workflows:
       - test:
           directory: keda
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -930,7 +930,7 @@ workflows:
       - test:
           directory: keda-metrics-apiserver
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -973,7 +973,7 @@ workflows:
       - test:
           directory: kibana
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1016,7 +1016,7 @@ workflows:
       - test:
           directory: kube-state
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1059,7 +1059,7 @@ workflows:
       - test:
           directory: kubed
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1102,7 +1102,7 @@ workflows:
       - test:
           directory: nats-exporter
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1145,7 +1145,7 @@ workflows:
       - test:
           directory: nats-server
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1188,7 +1188,7 @@ workflows:
       - test:
           directory: nats-streaming
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1231,7 +1231,7 @@ workflows:
       - test:
           directory: nginx
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1274,7 +1274,7 @@ workflows:
       - test:
           directory: nginx-es
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1317,7 +1317,7 @@ workflows:
       - test:
           directory: node-exporter
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1360,7 +1360,7 @@ workflows:
       - test:
           directory: openresty
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1403,7 +1403,7 @@ workflows:
       - test:
           directory: pgbouncer
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1446,7 +1446,7 @@ workflows:
       - test:
           directory: pgbouncer-exporter
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1489,7 +1489,7 @@ workflows:
       - test:
           directory: pgbouncer-krb
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1532,7 +1532,7 @@ workflows:
       - test:
           directory: po-logical-backup
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1575,7 +1575,7 @@ workflows:
       - test:
           directory: po-pgbouncer
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1618,7 +1618,7 @@ workflows:
       - test:
           directory: po-spilo
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1661,7 +1661,7 @@ workflows:
       - test:
           directory: postgres-exporter
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1704,7 +1704,7 @@ workflows:
       - test:
           directory: postgres-operator
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1747,7 +1747,7 @@ workflows:
       - test:
           directory: postgresql
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1790,7 +1790,7 @@ workflows:
       - test:
           directory: prometheus
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1833,7 +1833,7 @@ workflows:
       - test:
           directory: redis
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1876,7 +1876,7 @@ workflows:
       - test:
           directory: registry
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1919,7 +1919,7 @@ workflows:
       - test:
           directory: statsd-exporter
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1962,7 +1962,7 @@ workflows:
       - test:
           directory: vector
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -2174,7 +2174,7 @@ commands:
         default: $CIRCLE_PROJECT_REPONAME
       build_requirements:
         type: string
-        default: requirements/build-requirements.txt
+        default: requirements/requirements.txt
     steps:
       - checkout
       - python/install-packages:
@@ -2208,7 +2208,7 @@ commands:
         default: bin/test.py
       test_requirements:
         type: string
-        default: requirements/test-requirements.txt
+        default: requirements/requirements.txt
     steps:
       - checkout
       - python/install-packages:
@@ -2271,7 +2271,7 @@ commands:
     parameters:
       script_requirements:
         type: string
-        default: requirements/build-requirements.txt
+        default: requirements/requirements.txt
     steps:
       - python/install-packages:
           pip-dependency-file: << parameters.script_requirements >>

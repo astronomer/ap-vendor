@@ -71,7 +71,7 @@ repos:
       - id: mixed-line-ending
         args: ["--fix=lf"]
       - id: requirements-txt-fixer
-        args: ["requirements/test-requirements.in", "requirements/test-requirements.txt"]
+        args: ["requirements/requirements.in", "requirements/requirements.txt"]
       - id: trailing-whitespace
   - repo: https://github.com/astronomer/pre-commit-hooks
     rev: bd325c947efcba13c03b4f4c93d882f2f83ed6ff

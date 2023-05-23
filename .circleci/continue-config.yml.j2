@@ -36,7 +36,7 @@ workflows:
       - test:
           directory: {{ directory }}
           test_script: bin/test.py
-          test_requirements: requirements/test-requirements.txt
+          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -249,7 +249,7 @@ commands:
         default: $CIRCLE_PROJECT_REPONAME
       build_requirements:
         type: string
-        default: requirements/build-requirements.txt
+        default: requirements/requirements.txt
     steps:
       - checkout
       - python/install-packages:
@@ -283,7 +283,7 @@ commands:
         default: bin/test.py
       test_requirements:
         type: string
-        default: requirements/test-requirements.txt
+        default: requirements/requirements.txt
     steps:
       - checkout
       - python/install-packages:
@@ -346,7 +346,7 @@ commands:
     parameters:
       script_requirements:
         type: string
-        default: requirements/build-requirements.txt
+        default: requirements/requirements.txt
     steps:
       - python/install-packages:
           pip-dependency-file: << parameters.script_requirements >>
