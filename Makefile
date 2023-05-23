@@ -31,14 +31,22 @@ update-requirements: ## Update all requirements.txt files
 	-pre-commit run requirements-txt-fixer --all-files --show-diff-on-failure
 
 .PHONY: build
-build: ## Build the docker image with docker-compose. Ex: `make build image_name=alertmanager`
-	docker-compose build ap-$(image_name)
+build: venv ## Build the docker image with docker-compose. Ex: `make build image_name=alertmanager`
+	venv/bin/docker-compose build ap-$(image_name)
 
 .PHONY: test
 test: export ASTRO_IMAGE_NAME = ap-$(image_name)
 test: export ASTRO_IMAGE_TAG = $(image_tag)
 test: export ASTRO_IMAGE_TEST_CONFIG_PATH = $(image_test_config)
 
-test: ## Test the docker image. Ex: `make test image_name=alertmanager`
+test: venv ## Test the docker image. Ex: `make test image_name=alertmanager`
 	env | grep ASTRO
-	pytest -v -s bin/test.py
+	venv/bin/pytest -v -s bin/test.py
+
+venv: ## Create the needed virtualenv
+	python3 -m venv venv
+	venv/bin/pip install -r requirements/requirements.in
+
+.PHONY: clean
+clean: ## Delete build artifacts
+	rm -rf venv

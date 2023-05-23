@@ -5,6 +5,7 @@
 *.pyc
 *.req
 *.srl
+*.tar
 *cache*
 *ipynb*
 .DS_Store
