@@ -3,4 +3,5 @@ docker-compose
 packaging
 pytest
 pytest-testinfra
+python-on-whales
 PyYAML

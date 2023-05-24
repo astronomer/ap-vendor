@@ -31,8 +31,8 @@ update-requirements: ## Update all requirements.txt files
 	-pre-commit run requirements-txt-fixer --all-files --show-diff-on-failure
 
 .PHONY: build
-build: venv ## Build the docker image with docker-compose. Ex: `make build image_name=alertmanager`
-	venv/bin/docker-compose build ap-$(image_name)
+build: venv ## Build the docker image. Ex: `make build image_name=alertmanager`
+	venv/bin/python ./bin/docker-operations.py build --project_path=$(image_name) --image=ap-$(image_name)
 
 .PHONY: test
 test: export ASTRO_IMAGE_NAME = ap-$(image_name)
