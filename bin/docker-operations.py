@@ -89,51 +89,38 @@ def validate_tags(
         return final_tags
 
 
-def build(docker_client: docker, project_path: str, image: str):
+def build(project_path: str, image: str) -> None:
+    from python_on_whales import docker
+
     today = date.today()
     docker_labels["io.astronomer.build.date"] = today.strftime("%Y-%m-%d")
     docker_labels["io.astronomer.build.unixtime"] = today.strftime("%s")
 
     image_tag = os.getenv("CIRCLE_SHA1")
+    full_image = f"{image}:{image_tag}"
 
     # Build Docker Image
     print(f"INFO: Now building docker image: {str(root_directory / project_path)}")
-    docker_image_resp = docker_client.images.build(
+    logs_iter = docker.build(
         pull=True,
-        platform="linux/amd64",
-        path=project_path,
-        tag=image,
-        nocache=True,
-        dockerfile=(root_directory / project_path / "Dockerfile"),
-        buildargs={"BUILD_NUMBER": os.getenv("CIRCLE_BUILD_NUM")},
+        platforms=["linux/amd64"],
+        context_path=project_path,
+        tags=[image, full_image],
+        cache=False,
+        build_args={"BUILD_NUMBER": os.getenv("CIRCLE_BUILD_NUM")},
         labels=docker_labels,
-        quiet=False,
+        stream_logs=True,
     )
 
     # Printing Docker Image Build Progress
-    for line in docker_image_resp[1]:
-        for key, value in line.items():
-            if key == "stream":
-                if text := value.strip():
-                    print(text)
-
-    docker_image = docker_image_resp[0]
-
-    # Tagging Docker Image
-    is_tagged = docker_image.tag(repository=image, tag=image_tag)
-
-    if is_tagged is False:
-        raise Exception(f"Error Image {image} is not tagged with {image_tag}.")
+    for line in logs_iter:
+        if text := line.strip():
+            print(text)
 
     # Save Docker Image
     docker_image_save_path = f"{image}.tar"
-    docker_image_to_save = docker_client.images.get(f"{image}:{image_tag}")
     print(f"INFO: Saving docker image: {docker_image_save_path}")
-    with open(docker_image_save_path, "wb") as f:
-        for chunk in docker_image_to_save.save(named=True):
-            f.write(chunk)
-
-    return docker_image
+    docker.image.save(full_image, docker_image_save_path)
 
 
 def push(
@@ -214,7 +201,6 @@ def main():
             raise Exception("Error: Image name is required.")
 
         build(
-            docker_client=docker_client,
             project_path=args.project_path,
             image=args.image,
         )
