@@ -7,6 +7,11 @@ tests:
       group: postgres
       gid: 1001
       uid: 1001
+  test_commands:
+    - command: mkdir /bitnami/postgresql/data
+      expected_result:
+        # Expect 0 exit code (implicit in test) and no output
+        equals: ""
 docker:
   entrypoint: "/bin/sleep 1m"
   environment:
