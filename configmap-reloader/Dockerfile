@@ -15,10 +15,10 @@
 
 # https://github.com/jimmidyson/configmap-reload
 # https://hub.docker.com/r/jimmidyson/configmap-reload/tags
-FROM jimmidyson/configmap-reload:v0.8.0 as base
+FROM ghcr.io/jimmidyson/configmap-reload:v0.11.0 as base
 
 # https://hub.docker.com/_/busybox?tab=tags
-FROM busybox:1.35.0
+FROM busybox:1.36.1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
