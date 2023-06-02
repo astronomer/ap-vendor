@@ -1,5 +1,4 @@
 docker
-docker-compose
 packaging
 pytest
 pytest-testinfra
