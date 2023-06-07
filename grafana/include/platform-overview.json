@@ -2518,8 +2518,8 @@
     "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "timezone": "",
-  "title": "Platform Overview (danielh-2023-06-07)",
-  "uid": "danielh-qfG4Q31mz",
+  "title": "Platform Overview",
+  "uid": "qfG4Q31mz",
   "version": 4,
   "weekStart": ""
 }
