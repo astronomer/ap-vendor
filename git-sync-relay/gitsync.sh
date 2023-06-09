@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -ex
 
 GIT_SSH_COMMAND="ssh -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no -o KbdInteractiveDevices=no"
 
@@ -11,9 +11,15 @@ fi
 
 if [ -n "$(ls -A "$GIT_SYNC_ROOT")" ]; then
   echo "Error: GIT_SYNC_ROOT ${GIT_SYNC_ROOT} is not empty."
-  echo "cleaning the directory..."
-  rm -rf "$GIT_SYNC_ROOT"
+
+  if grep -qF "$GIT_SYNC_REPO" "$GIT_SYNC_ROOT/.git/config"; then
+    echo "repo is in .git/config, continue"
+  else
+    echo "repo is not in .git/config, cleaning the directory..."
+    rm -rf "$GIT_SYNC_ROOT"
+  fi
 fi
+
 
 if [ -n "$GIT_SYNC_SSH" ] && [ "true" = "$GIT_SYNC_SSH" ]; then
   GIT_SSH_COMMAND="$GIT_SSH_COMMAND -i $GIT_SSH_KEY_FILE"
@@ -30,10 +36,14 @@ fi
 cd "$GIT_SYNC_ROOT"
 
 # Clone the repo for the first time
-if [ "$GIT_SYNC_DEPTH" -gt 0 ]; then
-  git clone --depth "$GIT_SYNC_DEPTH" --branch "$GIT_SYNC_BRANCH" "$GIT_SYNC_REPO" .
+if grep -qF "$GIT_SYNC_REPO" "$GIT_SYNC_ROOT/.git/config"; then
+  echo "REPO already exists. Skipping clone"
 else
-  git clone --branch "$GIT_SYNC_BRANCH" "$GIT_SYNC_REPO" .
+  if [ "$GIT_SYNC_DEPTH" -gt 0 ]; then
+    git clone --depth "$GIT_SYNC_DEPTH" --branch "$GIT_SYNC_BRANCH" "$GIT_SYNC_REPO" .
+  else
+    git clone --branch "$GIT_SYNC_BRANCH" "$GIT_SYNC_REPO" .
+  fi
 fi
 
 while true; do
