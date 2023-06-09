@@ -11,7 +11,8 @@ fi
 
 if [ -n "$(ls -A "$GIT_SYNC_ROOT")" ]; then
   echo "Error: GIT_SYNC_ROOT ${GIT_SYNC_ROOT} is not empty."
-  exit 1
+  echo "cleaning the directory..."
+  rm -rf "$GIT_SYNC_ROOT"
 fi
 
 if [ -n "$GIT_SYNC_SSH" ] && [ "true" = "$GIT_SYNC_SSH" ]; then
