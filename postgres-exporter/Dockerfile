@@ -18,7 +18,7 @@
 
 FROM quay.io/prometheuscommunity/postgres-exporter:v0.12.0 AS upstream
 
-FROM quay.io/astronomer/ap-base:3.16.5
+FROM quay.io/astronomer/ap-base:3.16.5-2
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
