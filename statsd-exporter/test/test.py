@@ -158,20 +158,20 @@ class TestGen2:
 @pytest.fixture(scope="class")
 def statsd_docker_compose():
     subprocess.run(
-        "docker-compose up --always-recreate-deps --force-recreate --build -d",
+        "docker compose up --always-recreate-deps --force-recreate --build -d",
         shell=True,
     )
     sleep(1)
     yield
-    subprocess.run("docker-compose down", shell=True)
+    subprocess.run("docker compose down", shell=True)
 
 
 @pytest.fixture(scope="class")
 def statsd_docker_compose_gen2():
     subprocess.run(
-        "docker-compose -f docker-compose-gen2.yaml up --always-recreate-deps --force-recreate --build -d",
+        "docker compose -f docker-compose-gen2.yaml up --always-recreate-deps --force-recreate --build -d",
         shell=True,
     )
     sleep(1)
     yield
-    subprocess.run("docker-compose -f docker-compose-gen2.yaml down", shell=True)
+    subprocess.run("docker compose -f docker-compose-gen2.yaml down", shell=True)

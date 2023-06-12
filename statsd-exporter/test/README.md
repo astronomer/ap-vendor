@@ -7,7 +7,7 @@ This test scaffolding will bring up statsd-exporter and statsd with docker compo
 In this directory, you can run
 
 ```
-docker-compose up
+docker compose up
 ```
 
 Then, you can view the available metrics http://localhost:9102
