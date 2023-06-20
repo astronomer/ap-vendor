@@ -21,6 +21,9 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+# https://github.com/elastic/curator/releases
+ENV CURATOR_VERSION 8.0.4
+
 RUN set -x ; apk --no-cache add \
       libffi \
       libssl1.1 \
@@ -39,7 +42,7 @@ RUN set -x ; apk --no-cache add \
       setuptools \
       wheel \
       elasticsearch \
-      elasticsearch-curator==7.0.0 \
+      elasticsearch-curator==$CURATOR_VERSION   \
       boto3 \
       requests-aws4auth && \
     apk del \
