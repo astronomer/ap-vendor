@@ -9,8 +9,9 @@ tests:
       uid: 1000
   test_commands:
     - command: "pgbouncer_exporter --help"
-      in: "Address on which to expose metrics and web interface."
-      startswith: "NAME:"
-      endswith: "print the version (default: false)"
+      expected_result:
+        in: "Address on which to expose metrics and web interface."
+        startswith: "NAME:"
+        endswith: "print the version (default: false)"
 docker:
   entrypoint: "top"
