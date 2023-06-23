@@ -7,5 +7,10 @@ tests:
       group: pgexporter
       gid: 1001
       uid: 1000
+  test_commands:
+    - command: "pgbouncer_exporter --help"
+      in: "Address on which to expose metrics and web interface."
+      startswith: "NAME:"
+      endswith: "print the version (default: false)"
 docker:
   entrypoint: "top"
