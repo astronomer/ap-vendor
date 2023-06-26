@@ -1,7 +1,4 @@
 # Upstream elasticsearch images include several CVEs.
 # We should try to remove these each time we update.
-CVE-2021-37136
-CVE-2021-37137
 CVE-2021-40690
 CVE-2023-1370
-CVE-2022-1471
