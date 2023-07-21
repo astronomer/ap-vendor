@@ -2,7 +2,3 @@
 # We should try to remove these each time we update.
 
 # The following are all within grafana-server, grafana-cli
-CVE-2022-27664
-CVE-2022-41721
-CVE-2022-41723
-CVE-2022-32149

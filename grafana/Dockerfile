@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/grafana/grafana/tags
-FROM grafana/grafana:10.0.1
+FROM grafana/grafana:10.0.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -35,7 +35,7 @@ RUN apk add --no-cache shadow && \
 USER 472
 
 # Install singlestat panel plugin
-RUN grafana-cli plugins install grafana-singlestat-panel
+RUN grafana cli plugins install grafana-singlestat-panel
 
 # Copy default dashboards and datasource configuration
 COPY include/*.json /var/lib/grafana/dashboards/
