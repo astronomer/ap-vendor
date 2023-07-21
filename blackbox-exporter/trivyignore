@@ -1,3 +1,2 @@
 # Upstream blackbox exporter service images include several CVEs.
 # We should try to remove these each time we update.
-CVE-2022-41723
