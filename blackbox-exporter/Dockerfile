@@ -31,11 +31,11 @@ RUN set -ex \
 
 WORKDIR $DISTRIBUTION_DIR
 
-RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR && git checkout v0.23.0
+RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR && git checkout v0.24.0
 
 RUN CGO_ENABLED=0 make build
 
-FROM quay.io/astronomer/ap-base:3.16.5-2
+FROM quay.io/astronomer/ap-base:3.18.0-1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
