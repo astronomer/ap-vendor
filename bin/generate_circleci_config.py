@@ -9,7 +9,7 @@ dirs_to_skip = ["bin", "requirements", "venv"]
 required_files = ["Dockerfile", "version.txt"]
 
 docker_version = (
-    "20.10.18"  # https://circleci.com/docs/2.0/building-docker-images/#docker-version
+    "20.10.24"  # https://circleci.com/docs/2.0/building-docker-images/#docker-version
 )
 
 

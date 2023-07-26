@@ -2029,7 +2029,7 @@ jobs:
           test_requirements: << parameters.test_requirements >>
   scan-trivy:
     docker:
-      - image: docker:20.10.18-git
+      - image: docker:20.10.24-git
     description: "Trivy: Vulnerability scan a Docker image"
     parameters:
       directory:
@@ -2039,7 +2039,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.18
+          version: 20.10.24
           image: aquasec/trivy:latest
       - attach_workspace:
           at: /tmp/workspace
@@ -2080,7 +2080,7 @@ jobs:
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.18
+          version: 20.10.24
       - checkout
       - attach_workspace:
           at: /tmp/workspace
@@ -2127,7 +2127,7 @@ jobs:
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.18
+          version: 20.10.24
       - checkout
       - attach_workspace:
           at: /tmp/workspace
@@ -2182,7 +2182,7 @@ commands:
           pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.18
+          version: 20.10.24
       - run:
           name: Build the Docker image
           command: bin/docker-operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
@@ -2216,7 +2216,7 @@ commands:
           pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.18
+          version: 20.10.24
       - attach_workspace:
           at: /tmp/workspace
       - run:
