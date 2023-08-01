@@ -5,3 +5,4 @@ pytest
 pytest-testinfra
 python-on-whales
 PyYAML
+tomli # indirect, needed to satisfy hash requirement
