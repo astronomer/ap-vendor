@@ -3,10 +3,6 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": {
-          "type": "datasource",
-          "uid": "grafana"
-        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -29,10 +25,6 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -43,10 +35,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -57,10 +45,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Total Elasticsearch Pods. Masters, Clients, Data.",
       "editable": true,
       "error": false,
@@ -113,10 +97,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(elasticsearch_cluster_health_number_of_nodes)/count(elasticsearch_cluster_health_number_of_nodes)",
           "format": "time_series",
           "interval": "",
@@ -144,10 +124,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Total memory limits of all Elasticsearch pods.",
       "editable": true,
       "error": false,
@@ -201,10 +177,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(container_spec_memory_limit_bytes{container_name=~\"(es-master|es-data|es-client)\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -228,10 +200,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Total memory free on all Elasticsearch pods.",
       "editable": true,
       "error": false,
@@ -285,10 +253,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(container_spec_memory_limit_bytes{container_name=~\"(es-master|es-data|es-client)\"})\n-\nsum(container_memory_working_set_bytes{container_name=~\"(es-master|es-data|es-client)\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -309,10 +273,6 @@
       "valueName": "current"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "CPU usage of all Elasticsearch pods.",
       "fieldConfig": {
         "defaults": {
@@ -390,10 +350,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "rate(container_cpu_usage_seconds_total{container_name=~\"(es-master|es-data|es-client)\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -406,10 +362,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -420,10 +372,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -431,10 +379,6 @@
       "type": "row"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Total documents indexed.",
       "fieldConfig": {
         "defaults": {
@@ -512,10 +456,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(elasticsearch_indices_docs)",
           "format": "time_series",
           "intervalFactor": 2,
@@ -528,10 +468,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Total size of Elasticsearch index.",
       "fieldConfig": {
         "defaults": {
@@ -609,10 +545,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(elasticsearch_indices_store_size_bytes)",
           "format": "time_series",
           "intervalFactor": 2,
@@ -625,10 +557,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Data volume usage across all Elasticsearch pods.",
       "fieldConfig": {
         "defaults": {
@@ -707,10 +635,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "kubelet_volume_stats_used_bytes{persistentvolumeclaim=~\"data-.*-elasticsearch-.*\"}",
           "format": "time_series",
           "hide": false,
@@ -723,10 +647,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Data volume space available across all Elasticsearch pods.",
       "fieldConfig": {
         "defaults": {
@@ -805,10 +725,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "kubelet_volume_stats_available_bytes{persistentvolumeclaim=~\"data-.*-elasticsearch-.*\"}",
           "format": "time_series",
           "hide": false,
@@ -822,10 +738,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -836,10 +748,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -847,10 +755,6 @@
       "type": "row"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -927,10 +831,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(elasticsearch_thread_pool_active_count{type!=\"management\"}) by (type)",
           "format": "time_series",
           "interval": "",
@@ -944,10 +844,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1026,10 +922,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "avg_over_time(elasticsearch_jvm_memory_used_bytes{area=\"heap\"}[15m]) / elasticsearch_jvm_memory_max_bytes{area=\"heap\"}",
           "format": "time_series",
           "interval": "",
@@ -1043,10 +935,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1123,10 +1011,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(rate(elasticsearch_transport_rx_size_bytes_total[5m]))",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1135,10 +1019,6 @@
           "step": 240
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(rate(elasticsearch_transport_tx_size_bytes_total[5m])) * -1",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1151,10 +1031,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1231,10 +1107,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "irate(elasticsearch_jvm_gc_collection_seconds_sum[1m])",
           "format": "time_series",
           "interval": "",
@@ -1248,10 +1120,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1328,10 +1196,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(elasticsearch_thread_pool_queue_count{type!=\"management\"}) by (type)",
           "format": "time_series",
           "interval": "",
@@ -1345,10 +1209,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1425,10 +1285,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "rate(elasticsearch_thread_pool_rejected_count{type!=\"management\"}[5m])",
           "format": "time_series",
           "interval": "",

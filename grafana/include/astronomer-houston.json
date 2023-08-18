@@ -3,10 +3,6 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": {
-          "type": "datasource",
-          "uid": "grafana"
-        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -48,10 +44,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -91,10 +83,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "irate(houston_process_cpu_user_seconds_total{instance=~\"$instance\"}[2m]) * 100",
           "format": "time_series",
@@ -104,10 +92,6 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "irate(houston_process_cpu_system_seconds_total{job=~\"$job\", instance=~\"$instance\"}[1m]) * 100",
           "format": "time_series",
@@ -117,10 +101,6 @@
           "refId": "B"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "irate(houston_process_cpu_seconds_total{job=~\"$job\", instance=~\"$instance\"}[1m]) * 100",
           "hide": false,
@@ -160,10 +140,6 @@
       }
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -237,10 +213,6 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "rate(houston_process_cpu_seconds_total{job=~\"$job\", instance=~\"$instance\"}[$interval])",
           "legendFormat": "__auto",
@@ -252,10 +224,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -332,10 +300,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "houston_process_resident_memory_bytes{instance=~\"$instance\"}",
           "format": "time_series",
@@ -345,10 +309,6 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "houston_nodejs_heap_size_total_bytes{instance=~\"$instance\"}",
           "format": "time_series",
@@ -358,10 +318,6 @@
           "refId": "B"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "houston_nodejs_heap_size_used_bytes{instance=~\"$instance\"}",
           "format": "time_series",
@@ -371,10 +327,6 @@
           "refId": "C"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "houston_nodejs_external_memory_bytes{instance=~\"$instance\"}",
           "format": "time_series",
@@ -392,10 +344,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -435,10 +383,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "houston_nodejs_eventloop_lag_seconds{instance=~\"$instance\"}",
           "format": "time_series",
@@ -479,10 +423,6 @@
       }
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "$datasource"
-      },
       "description": "The version of Node.js.",
       "fieldConfig": {
         "defaults": {
@@ -541,9 +481,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "uid": "$datasource"
-          },
           "editorMode": "code",
           "expr": "houston_nodejs_version_info",
           "format": "table",
@@ -556,10 +493,6 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -618,10 +551,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "sum(changes(houston_process_start_time_seconds{instance=~\"$instance\"}[1m]))",
           "format": "time_series",
@@ -639,10 +568,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -682,10 +607,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "houston_nodejs_active_handles_total{instance=~\"$instance\"}",
           "format": "time_series",
@@ -695,10 +616,6 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "houston_nodejs_active_requests_total{instance=~\"$instance\"}",
           "format": "time_series",
@@ -743,10 +660,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -787,10 +700,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "houston_nodejs_heap_space_size_total_bytes{instance=~\"$instance\"}",
           "format": "time_series",
@@ -835,10 +744,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -879,10 +784,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "houston_nodejs_heap_space_size_used_bytes{instance=~\"$instance\"}",
           "format": "time_series",
@@ -927,10 +828,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -971,10 +868,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "houston_nodejs_heap_space_size_available_bytes{instance=~\"$instance\"}",
           "format": "time_series",
@@ -1030,10 +923,6 @@
       "type": "row"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1107,10 +996,6 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "sum(increase(houston_http_request_duration_seconds_count[$window])) by (method, status_code,path)",
           "legendFormat": "__auto",
@@ -1122,10 +1007,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1199,10 +1080,6 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "average http request duration by method, status_code",
           "hide": true,
@@ -1211,10 +1088,6 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "sum(increase(houston_http_request_duration_seconds_sum[$window])) by (method, status_code,path) / sum(increase(houston_http_request_duration_seconds_count[$window])) by (method, status_code,path)",
           "hide": false,
@@ -1227,10 +1100,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1304,10 +1173,6 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "histogram_quantile(0.99, sum by (le, instance, status_code,path) (rate(houston_http_request_duration_seconds_bucket[$window])))",
           "legendFormat": "__auto",
@@ -1331,10 +1196,6 @@
           "selected": false,
           "text": "All",
           "value": "$__all"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(houston_nodejs_version_info, instance)",
         "hide": 0,
@@ -1361,10 +1222,6 @@
           "selected": false,
           "text": "houston-api",
           "value": "houston-api"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(houston_nodejs_eventloop_lag_seconds, job)",
         "description": "",

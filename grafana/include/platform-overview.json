@@ -3,10 +3,6 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": {
-          "type": "datasource",
-          "uid": "grafana"
-        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -29,10 +25,6 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -43,10 +35,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -55,10 +43,6 @@
     },
     {
       "columns": [],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fontSize": "100%",
       "gridPos": {
         "h": 9,
@@ -159,10 +143,6 @@
       ],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "ALERTS",
           "format": "table",
           "instant": true,
@@ -176,10 +156,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -190,10 +166,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -204,10 +176,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "format": "decbytes",
       "gauge": {
         "maxValue": 100,
@@ -257,10 +225,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~\"data-.*-prometheus-.*\"})",
           "format": "time_series",
           "instant": true,
@@ -285,10 +249,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "format": "decbytes",
       "gauge": {
         "maxValue": 100,
@@ -338,10 +298,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~\"data-.*-registry-.*\"})",
           "format": "time_series",
           "instant": true,
@@ -366,10 +322,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "format": "decbytes",
       "gauge": {
         "maxValue": 100,
@@ -419,10 +371,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~\"data-.*elasticsearch-data-.*\"})",
           "format": "time_series",
           "instant": true,
@@ -445,10 +393,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -459,10 +403,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -473,10 +413,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#d44a3a", "rgba(237, 129, 40, 0.89)", "#299c46"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -526,10 +462,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "sum(kubelet_volume_stats_available_bytes{persistentvolumeclaim=~\"data-.*-prometheus-.*\"}) / sum(kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~\"data-.*-prometheus-.*\"}) * 100",
           "format": "time_series",
@@ -555,10 +487,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#d44a3a", "rgba(237, 129, 40, 0.89)", "#299c46"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -608,10 +536,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kubelet_volume_stats_available_bytes{persistentvolumeclaim=~\"data-.*-registry-.*\"}) / sum(kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~\"data-.*-registry-.*\"}) * 100",
           "format": "time_series",
           "instant": true,
@@ -636,10 +560,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#d44a3a", "rgba(237, 129, 40, 0.89)", "#299c46"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -689,10 +609,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kubelet_volume_stats_available_bytes{persistentvolumeclaim=~\"data-.*-elasticsearch-data-.*\"}) / sum(kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~\"data-.*-elasticsearch-data-.*\"}) * 100",
           "format": "time_series",
           "instant": true,
@@ -715,10 +631,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -729,10 +641,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -750,10 +658,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Percent of HTTP responses not 5xx, as a moving average over the last 24 hours. 503 from webserver is ignored because it's expected when the airflow webserver is coming up.",
       "fieldConfig": {
         "defaults": {
@@ -799,20 +703,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "(sum(increase(nginx_ingress_controller_requests{status!~\"5.*\"}[1d])) + sum(increase(nginx_ingress_controller_requests{service=~\".*webserver\",status=\"503\"}[1d])) ) / sum(increase(nginx_ingress_controller_requests[1d]))",
           "hide": false,
           "legendFormat": "Availability",
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": ".999",
           "hide": false,
           "legendFormat": "SLO",
@@ -856,10 +752,6 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "The percent of responses with code 5xx as a percent of total requests , categorized by response code, measured every five minutes. 503 from webserver is ignored because it's expected when the airflow webserver is coming up.",
       "fieldConfig": {
         "defaults": {
@@ -905,10 +797,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum((increase(nginx_ingress_controller_requests{status=~\"5.[^3]\"}[5m]) or increase(nginx_ingress_controller_requests{service!~\".*webserver\", status=\"503\"}[5m]))) by (status) / ignoring(status) group_left sum(increase(nginx_ingress_controller_requests{}[5m])) > 0",
           "hide": false,
           "legendFormat": "{{ status }}",
@@ -951,10 +839,6 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "The percent of total requests that error with 4xx, categorized by response code, measured every five minutes",
       "fieldConfig": {
         "defaults": {
@@ -1000,10 +884,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(increase(nginx_ingress_controller_requests{status=~\"4.*\"}[5m])) by (status) / ignoring(status) group_left sum(increase(nginx_ingress_controller_requests{}[5m]))",
           "hide": false,
           "legendFormat": "{{ status }}",
@@ -1050,10 +930,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "The 99th percentile of response times should be less than 1 second. The line shows the average over the past 24 hours.",
       "fieldConfig": {
         "defaults": {
@@ -1100,10 +976,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "histogram_quantile(0.99, sum by (le) (rate(nginx_ingress_controller_request_duration_seconds_bucket{host=~\".*houston.*|.*app.*\", status!=\"101\"}[1d])))",
           "format": "time_series",
           "hide": false,
@@ -1113,10 +985,6 @@
           "refId": "C"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "1",
           "format": "time_series",
           "hide": false,
@@ -1161,10 +1029,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Where are the 99th percentile of latency requests coming from?",
       "fieldConfig": {
         "defaults": {
@@ -1208,10 +1072,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "histogram_quantile(0.99, rate(nginx_ingress_controller_request_duration_seconds_bucket{host=~\".*houston.*|.*app.*\", status!=\"101\"}[5m]))",
           "instant": false,
           "legendFormat": "{{ host }} {{ method }} {{ status }}",
@@ -1258,10 +1118,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "How many requests are being handled per second, averaged over one minute.",
       "fieldConfig": {
         "defaults": {
@@ -1307,10 +1163,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(increase(nginx_ingress_controller_requests{}[1m])) / 60",
           "hide": false,
           "legendFormat": "1 hour",
@@ -1357,10 +1209,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "How many requests have been handled in the past 24 hours. This is useful to monitor platform growth.",
       "fieldConfig": {
         "defaults": {
@@ -1406,10 +1254,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(increase(nginx_ingress_controller_requests{}[1d]))",
           "hide": false,
           "legendFormat": "1 hour",
@@ -1448,10 +1292,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1462,10 +1302,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -1477,10 +1313,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "The average task success rate, categorized by percentile. For example, p50 means the success rate of the healthier half of the deployments, sorted by success rate. p100 means just the healthiest deployment. p0 means the average of all deployments.",
       "fill": 1,
       "fillGradient": 0,
@@ -1516,50 +1348,30 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "avg(topk(1, (airflow_ti_successes) / (airflow_ti_failures + airflow_ti_successes)))",
           "hide": false,
           "legendFormat": "p100",
           "refId": "B"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "avg(topk(scalar(count(airflow_ti_successes) or on() vector(0)) / 4, (airflow_ti_successes) / (airflow_ti_failures + airflow_ti_successes)))",
           "hide": false,
           "legendFormat": "p75",
           "refId": "C"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "avg(topk(scalar(count(airflow_ti_successes) or on() vector(0)) / 2, (airflow_ti_successes) / (airflow_ti_failures + airflow_ti_successes)))",
           "hide": false,
           "legendFormat": "p50",
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "avg(topk(scalar(count(airflow_ti_successes) or on() vector(0)) / 1.333, (airflow_ti_successes) / (airflow_ti_failures + airflow_ti_successes)))",
           "hide": false,
           "legendFormat": "p25",
           "refId": "E"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "avg((airflow_ti_successes) / (airflow_ti_failures + airflow_ti_successes))",
           "hide": false,
           "legendFormat": "p0",
@@ -1603,10 +1415,6 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "The number of tasks that have run in the past 24 hours, categorized by success and failure. This does not account for the size or duration of tasks, but is still kind of useful for monitoring growth.",
       "fill": 1,
       "fillGradient": 0,
@@ -1642,20 +1450,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(increase(airflow_ti_successes[1d]))",
           "hide": false,
           "legendFormat": "successful",
           "refId": "B"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(increase(airflow_ti_failures[1d]))",
           "hide": false,
           "legendFormat": "failed",
@@ -1698,10 +1498,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "The percent of Airflow schedulers that have received a heartbeat in the past 1 minute",
       "fill": 1,
       "fillGradient": 0,
@@ -1737,10 +1533,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "(count(rate(airflow_scheduler_heartbeat{}[1m]) > 0) / count(rate(airflow_scheduler_heartbeat{}[1m])))",
           "legendFormat": "healthy",
           "refId": "A"
@@ -1781,10 +1573,6 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "decimals": 0,
       "description": "The deployments which do not have healthy schedulers.",
       "fill": 1,
@@ -1821,10 +1609,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "clamp_min(rate(airflow_scheduler_heartbeat{}[1m]) <= 0, 1)",
           "legendFormat": "{{ deployment }}",
           "refId": "A"
@@ -1865,10 +1649,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "The average time to parse a DAG, categorized by percentile. For example, p50 means the bottom half of the deployments, sorted by parsing duration. p100 means just the deployment with the fastest average DAG parsing time. p0 means the average of all DAG parsing times. It is normalized across deployments, so each deployment has the same impact on the average, regardless of the number of DAGs a deployment has.",
       "fill": 1,
       "fillGradient": 0,
@@ -1904,40 +1684,24 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "avg(bottomk(1, (airflow_dag_processing_total_parse_time / airflow_dagbag_size) > 0 < +Inf))",
           "hide": false,
           "legendFormat": "p100",
           "refId": "B"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "avg(bottomk(scalar(count(airflow_dagbag_size > 0) or vector(0)) / 4, (airflow_dag_processing_total_parse_time / airflow_dagbag_size) > 0 < +Inf))",
           "hide": false,
           "legendFormat": "p75",
           "refId": "C"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "avg(bottomk(scalar(count(airflow_dagbag_size > 0) or vector(0)) / 2, (airflow_dag_processing_total_parse_time / airflow_dagbag_size) > 0 < +Inf))",
           "hide": false,
           "legendFormat": "p50",
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "avg((airflow_dag_processing_total_parse_time / airflow_dagbag_size) > 0 < +Inf)",
           "hide": false,
           "legendFormat": "p0",
@@ -1979,10 +1743,6 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "decimals": 0,
       "description": "The number of Airflow webservers that have restarted in the past five minutes, categorized by namespace",
       "fill": 1,
@@ -2019,10 +1779,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "round(sum by (namespace) (increase(kube_pod_container_status_restarts_total{pod=~\".*webserver.*\"}[5m]))) > 0",
           "legendFormat": "{{ namespace }}",
           "refId": "A"
@@ -2063,10 +1819,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "The number of DAG parsing timeouts in the past 5 minutes",
       "fill": 1,
       "fillGradient": 0,
@@ -2102,10 +1854,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "increase(airflow_dag_processing_processor_timeouts[5m])",
           "legendFormat": "{{ deployment }}",
           "refId": "A"
@@ -2146,10 +1894,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "At any given time, list the 5 deployments with the slowest average DAG parsing time",
       "fill": 1,
       "fillGradient": 0,
@@ -2185,10 +1929,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "topk(5, (airflow_dag_processing_total_parse_time / airflow_dagbag_size) > 0 < +Inf)",
           "hide": false,
           "legendFormat": "{{ deployment }}",
@@ -2227,10 +1967,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2241,10 +1977,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -2256,10 +1988,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "The number of currently active connections to the database",
       "fill": 1,
       "fillGradient": 0,
@@ -2295,10 +2023,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum (pgbouncer_exporter_database_current_connections)",
           "legendFormat": "connections",
           "refId": "A"
@@ -2339,10 +2063,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "The number of active clients, by deployment",
       "fill": 1,
       "fillGradient": 0,
@@ -2378,10 +2098,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum by (deployment) (pgbouncer_exporter_pools_active_clients)",
           "legendFormat": "{{ deployment }}",
           "refId": "A"
@@ -2422,10 +2138,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "The number of waiting clients, by deployment",
       "fill": 1,
       "fillGradient": 0,
@@ -2461,10 +2173,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum by (deployment) (pgbouncer_exporter_pools_waiting_clients)",
           "legendFormat": "{{ deployment }}",
           "refId": "A"
