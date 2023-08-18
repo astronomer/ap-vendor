@@ -3,10 +3,6 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": {
-          "type": "datasource",
-          "uid": "grafana"
-        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -30,10 +26,6 @@
   "liveNow": false,
   "panels": [
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "editable": true,
       "error": false,
       "height": "1px",
@@ -55,10 +47,6 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -69,10 +57,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -122,10 +106,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "scalar(kube_pod_status_phase{pod=\"$pod\", phase=\"Failed\"}*1) + scalar(kube_pod_status_phase{pod=\"$pod\", phase=\"Pending\"}*2) + scalar(kube_pod_status_phase{pod=\"$pod\", phase=\"Running\"}*3) + scalar(kube_pod_status_phase{pod=\"$pod\", phase=\"Succeeded\"}*4) + scalar(kube_pod_status_phase{pod=\"$pod\", phase=\"Unknown\"}*5)",
           "refId": "A"
         }
@@ -169,10 +149,6 @@
       "valueName": "avg"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "editable": true,
       "error": false,
       "gridPos": {
@@ -196,10 +172,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -210,10 +182,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "editable": true,
       "error": false,
       "format": "none",
@@ -266,10 +234,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "kube_pod_container_status_restarts_total{pod=~\"$pod.*$\", container=~\"$container.*$\"}",
           "intervalFactor": 2,
           "refId": "A",
@@ -293,10 +257,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["rgba(50, 172, 45, 0.97)", "rgba(237, 129, 40, 0.89)", "rgba(245, 54, 54, 0.9)"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "decimals": 2,
       "editable": true,
       "error": false,
@@ -351,10 +311,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum (container_memory_working_set_bytes{namespace=~\"$namespace\", pod_name=~\"^$pod$\"})",
           "interval": "10s",
           "intervalFactor": 1,
@@ -376,10 +332,6 @@
       "valueName": "current"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -457,10 +409,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum by(container_name) (container_memory_working_set_bytes{pod_name=\"$pod\", container_name=~\"$container\", container_name!=\"POD\"})",
           "interval": "10s",
           "intervalFactor": 1,
@@ -470,10 +418,6 @@
           "step": 15
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "kube_pod_container_resource_requests_memory_bytes{pod=\"$pod\", container=~\"$container\"}",
           "interval": "10s",
           "intervalFactor": 2,
@@ -483,10 +427,6 @@
           "step": 20
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "kube_pod_container_resource_limits_memory_bytes{pod=\"$pod\", container=~\"$container\"}",
           "interval": "10s",
           "intervalFactor": 2,
@@ -500,10 +440,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -581,10 +517,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum by (container_name)(rate(container_cpu_usage_seconds_total{image!=\"\",container_name!=\"POD\",pod_name=\"$pod\"}[1m]))",
           "intervalFactor": 2,
           "legendFormat": "{{ container_name }}",
@@ -592,10 +524,6 @@
           "step": 30
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "kube_pod_container_resource_requests_cpu_cores{pod=\"$pod\", container=~\"$container\"}",
           "interval": "10s",
           "intervalFactor": 2,
@@ -605,10 +533,6 @@
           "step": 20
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "kube_pod_container_resource_limits_cpu_cores{pod=\"$pod\", container=~\"$container\"}",
           "interval": "10s",
           "intervalFactor": 2,
@@ -622,10 +546,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -703,10 +623,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sort_desc(sum by (pod_name) (rate(container_network_receive_bytes_total{pod_name=\"$pod\"}[1m])))",
           "intervalFactor": 2,
           "legendFormat": "{{ pod_name }}",
@@ -714,10 +630,6 @@
           "step": 30
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "- sort_desc(sum by (pod_name) (rate(container_network_transmit_bytes_total{pod_name=\"$pod\"}[1m])))",
           "legendFormat": "{{ pod_name }}",
           "refId": "B"
@@ -740,10 +652,6 @@
           "selected": false,
           "text": "All",
           "value": "$__all"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(kube_pod_info, namespace)",
         "hide": 0,
@@ -770,10 +678,6 @@
           "selected": false,
           "text": "astronomermonitoringdaghello-67f9965252724655b0c9d3e0b6cd086a",
           "value": "astronomermonitoringdaghello-67f9965252724655b0c9d3e0b6cd086a"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(kube_pod_info{namespace=~\"$namespace\"}, pod)",
         "hide": 0,
@@ -802,10 +706,6 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
         "definition": "label_values(kube_pod_container_info{namespace=\"$namespace\", pod=\"$pod\"}, container)",
         "hide": 0,
         "includeAll": true,
@@ -831,10 +731,6 @@
           "selected": false,
           "text": "10.32.39.208",
           "value": "10.32.39.208"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(kube_pod_info{namespace=~\"$namespace\", pod=\"$pod\"}, pod_ip)",
         "hide": 2,

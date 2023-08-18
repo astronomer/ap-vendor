@@ -3,6 +3,11 @@ exclude: '^(venv|\.vscode)' # regex
 repos:
   - repo: local
     hooks:
+      - id: grafana_dashboard_data_source
+        name: Ensure no grafana dashboards reference problematic datasources
+        entry: "PBFA97CFB590B2093"
+        language: pygrep
+        types: [json]
       - id: circle-config-yaml
         name: Check for consistency between config.yml and config.yml.j2
         language: python

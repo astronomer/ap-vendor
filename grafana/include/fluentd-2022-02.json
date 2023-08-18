@@ -3,7 +3,6 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -21,7 +20,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 103,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -95,10 +93,6 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "exemplar": true,
           "expr": "100 * (count by (job) (up{job=\"fluentd\"}  == 0) / count by (job) (up{job=\"fluentd\"}))",
           "interval": "",
@@ -183,10 +177,6 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "exemplar": true,
           "expr": "rate(fluentd_output_status_emit_count{type=~\"(elasticsearch|elasticsearch_dynamic)\"}[3m])",
           "format": "time_series",

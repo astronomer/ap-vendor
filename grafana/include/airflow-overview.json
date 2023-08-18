@@ -3,10 +3,6 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": {
-          "type": "datasource",
-          "uid": "grafana"
-        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -29,10 +25,6 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -43,10 +35,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -57,10 +45,6 @@
       "colorBackground": false,
       "colorValue": true,
       "colors": ["#d44a3a", "#299c46", "#299c46"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Indication of whether all deployment containers are running.",
       "format": "none",
       "gauge": {
@@ -126,10 +110,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum by (release) (\n  kube_pod_container_status_running{release=~\"$deployment\", container=~\".*(scheduler|scheduler-gc|webserver|worker|statsd|pgbouncer|metrics-exporter|redis|flower)\"} and on(pod,namespace) kube_pod_labels{label_dag_id=\"\"}\n) -\ncount by (release) (\n  kube_pod_container_status_running{release=~\"$deployment\", container=~\".*(scheduler|scheduler-gc|webserver|worker|statsd|pgbouncer|metrics-exporter|redis|flower)\"} and on(pod,namespace) kube_pod_labels{label_dag_id=\"\"}\n)",
           "format": "time_series",
           "instant": true,
@@ -159,10 +139,6 @@
       "colorBackground": false,
       "colorValue": true,
       "colors": ["#d44a3a", "#299c46", "#299c46"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Indication of whether the scheduler is up and running its loop. An value of \"Unknown\" means that the airflow image is running an older version.",
       "format": "none",
       "gauge": {
@@ -218,10 +194,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "rate(airflow_scheduler_heartbeat{deployment=~\"$deployment\", type=\"counter\"}[1m])",
           "format": "time_series",
           "instant": true,
@@ -244,10 +216,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -258,10 +226,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -272,10 +236,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Maximum total pods allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "none",
       "gauge": {
@@ -326,10 +286,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"pods\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})",
           "refId": "B"
         }
@@ -351,10 +307,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Maximum total CPU limits allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "none",
       "gauge": {
@@ -405,10 +357,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"limits.cpu\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -432,10 +380,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Maximum total memory limits allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "decbytes",
       "gauge": {
@@ -486,10 +430,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"limits.memory\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -513,10 +453,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Percentage of total pods in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -567,10 +503,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"pods\", type=\"used\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})\n/\nsum(kube_resourcequota{resource=\"pods\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})*100",
           "format": "time_series",
           "intervalFactor": 1,
@@ -595,10 +527,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Percentage of total CPU limits in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -649,10 +577,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"limits.cpu\", type=\"used\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})\n/\nsum(kube_resourcequota{resource=\"limits.cpu\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})*100",
           "format": "time_series",
           "intervalFactor": 1,
@@ -676,10 +600,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Percentage of total memory limits in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -730,10 +650,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"limits.memory\", type=\"used\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})\n/\nsum(kube_resourcequota{resource=\"limits.memory\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})*100",
           "format": "time_series",
           "intervalFactor": 1,
@@ -755,10 +671,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -769,10 +681,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -783,10 +691,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Total successful tasks.",
       "format": "none",
       "gauge": {
@@ -836,10 +740,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(airflow_ti_successes{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 2,
@@ -863,10 +763,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Total failed tasks.",
       "format": "none",
       "gauge": {
@@ -917,10 +813,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(airflow_ti_failures{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 2,
@@ -944,10 +836,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Amount of DAGs the scheduler is processing.",
       "format": "none",
       "gauge": {
@@ -998,10 +886,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(airflow_dagbag_size{deployment=~\"$deployment\"})",
           "format": "time_series",
           "instant": false,
@@ -1026,10 +910,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Tasks that have not sent a heartbeat in a while.",
       "format": "none",
       "gauge": {
@@ -1080,10 +960,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(airflow_zombies_killed{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1104,10 +980,6 @@
       "valueName": "current"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Rate of task successes.",
       "fieldConfig": {
         "defaults": {
@@ -1187,10 +1059,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "rate(airflow_operator_successes{deployment=~\"$deployment\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1202,10 +1070,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Rate of task failures.",
       "fieldConfig": {
         "defaults": {
@@ -1285,10 +1149,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "rate(airflow_operator_failures{deployment=~\"$deployment\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1300,10 +1160,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "TimeSeries Graph showing rate of Scheduler Heartbeart Rate per min. 0 indicate Scheduler outage",
       "fieldConfig": {
         "defaults": {
@@ -1384,10 +1240,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "rate(airflow_scheduler_heartbeat{deployment=~\"$deployment\", type=\"counter\"}[1m])*60",
           "format": "time_series",
           "instant": false,
@@ -1402,10 +1254,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1416,10 +1264,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -1430,10 +1274,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Total connections to the backend database.",
       "format": "none",
       "gauge": {
@@ -1484,10 +1324,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(pgbouncer_exporter_database_current_connections{name!=\"pgbouncer\", deployment=~\"$deployment\"})",
           "format": "time_series",
           "instant": false,
@@ -1512,10 +1348,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Number of airflow clients waiting for a connection to the backend database.",
       "format": "none",
       "gauge": {
@@ -1566,10 +1398,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(pgbouncer_exporter_pools_waiting_clients{database!=\"pgbouncer\", deployment=~\"$deployment\"})",
           "format": "time_series",
           "instant": false,
@@ -1592,10 +1420,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1606,10 +1430,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -1617,10 +1437,6 @@
       "type": "row"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Actual CPU utilization across deployment containers.",
       "fieldConfig": {
         "defaults": {
@@ -1700,10 +1516,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "label_replace(  sum(rate(container_cpu_usage_seconds_total{deployment=~\"$deployment\", component_name != \"POD\",image!=\"\", container_name!=\"istio-proxy\"}[3m])) by (pod_name, container_name, component_name, namespace, short_name)/  sum(container_spec_cpu_quota{deployment=~\"$deployment\",  component_name != \"POD\",image!=\"\", container_name!=\"istio-proxy\"}/container_spec_cpu_period{deployment=~\"$deployment\",  component_name != \"POD\",image!=\"\", container_name!=\"istio-proxy\"}) by (pod_name, container_name, component_name, namespace, short_name)*100,  \"short_name\",  \"$1\",  \"pod_name\",  \"^[[deployment]]-(.*)$\")",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1715,10 +1527,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Actual memory utilization across deployment containers.",
       "fieldConfig": {
         "defaults": {
@@ -1797,10 +1605,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "container_memory_working_set_bytes{deployment=~\"$deployment\", component_name != \"POD\",image!=\"\", container_name!=\"istio-proxy\"} * 100 / container_spec_memory_limit_bytes{deployment=~\"$deployment\", component_name != \"POD\",image!=\"\", container_name!=\"istio-proxy\"}",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1812,10 +1616,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Received data across deployment containers.",
       "fieldConfig": {
         "defaults": {
@@ -1894,10 +1694,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "rate(container_network_receive_bytes_total{component_name=~\".*(scheduler|webserver|worker|flower|redis|pgbouncer|statsd)\", deployment=~\"$deployment\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1909,10 +1705,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Transmitted data across deployment containers.",
       "fieldConfig": {
         "defaults": {
@@ -1991,10 +1783,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "rate(container_network_transmit_bytes_total{component_name=~\".*(scheduler|webserver|worker|flower|redis|pgbouncer|statsd)\", deployment=~\"$deployment\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -2007,10 +1795,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2021,10 +1805,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -2033,10 +1813,6 @@
     },
     {
       "columns": [],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Status of containers that make up an airflow deployment. A failing status here will make the deployment above show Unhealthy.",
       "fontSize": "100%",
       "gridPos": {
@@ -2143,10 +1919,6 @@
       ],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sort_desc(max by (container, pod, reason) (  \nmax by (container, pod) ( \nsort_desc(kube_pod_container_status_waiting{release=~\"$deployment\", container=~\".*(scheduler|scheduler-gc|webserver|worker|statsd|pgbouncer|metrics-exporter|redis|flower)\"} \nand on(pod,namespace) kube_pod_labels{label_dag_id=\"\"})  )   \nor  max by (container, reason) (      sort_desc(kube_pod_container_status_waiting_reason{release=~\"$deployment\", container=~\".*(scheduler|scheduler-gc|webserver|worker|statsd|pgbouncer|metrics-exporter|redis|flower)\"}==1 and on(pod,namespace) kube_pod_labels{label_dag_id=\"\"}) )   \nor  max by (container, reason) (    sort_desc(kube_pod_container_status_terminated_reason{release=~\"$deployment\", container=~\".*(scheduler|scheduler-gc|webserver|worker|statsd|pgbouncer|metrics-exporter|redis|flower)\"}==1 and on(pod,namespace) kube_pod_labels{label_dag_id=\"\"}) )))",
           "format": "table",
           "instant": true,
@@ -2160,10 +1932,6 @@
     },
     {
       "columns": [],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Kubernetes executor pods only",
       "fontSize": "100%",
       "gridPos": {
@@ -2270,10 +2038,6 @@
       ],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sort_desc(max by (container, pod, reason) (\n  max by (container, pod) (    \n  sort_desc(kube_pod_container_status_waiting{release=~\"$deployment\"} and on(pod,namespace) kube_pod_labels{label_dag_id!=\"\"})  ) \n  or  max by (container, reason) (    \n  sort_desc(kube_pod_container_status_waiting_reason{release=~\"$deployment\"}==1 and on(pod,namespace) kube_pod_labels{label_dag_id!=\"\"}) ) \n  or  max by (container, reason) (    sort_desc(kube_pod_container_status_terminated_reason{release=~\"$deployment\"}==1 and on(pod,namespace) kube_pod_labels{label_dag_id!=\"\"}) )))",
           "format": "table",
           "instant": true,
@@ -2298,10 +2062,6 @@
           "selected": false,
           "text": "accurate-spectrum-5919",
           "value": "accurate-spectrum-5919"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
         },
         "definition": "",
         "hide": 0,

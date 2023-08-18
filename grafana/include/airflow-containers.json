@@ -3,10 +3,6 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": {
-          "type": "datasource",
-          "uid": "grafana"
-        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -28,10 +24,6 @@
   "liveNow": false,
   "panels": [
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "CPU as per container expressed as percentage of given CPU limit.",
       "fieldConfig": {
         "defaults": {
@@ -112,10 +104,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "label_replace(\n  sum(rate(container_cpu_usage_seconds_total{deployment=~\"$deployment\", pod_name!~\".*-worker-.*\",component_name != \"POD\",image!=\"\"}[3m])) by (pod_name, container_name, component_name, namespace, short_name)/\n  sum(container_spec_cpu_quota{deployment=~\"$deployment\", pod_name!~\".*-worker-.*\", component_name != \"POD\",image!=\"\"}/container_spec_cpu_period{deployment=~\"$deployment\", pod_name!~\".*-worker-.*\", component_name != \"POD\",image!=\"\"}) by (pod_name, container_name, component_name, namespace, short_name)*100,\n  \"short_name\",\n  \"$1\",\n  \"pod_name\",\n  \"^[[deployment]]-(.*)$\"\n)",
           "hide": false,
           "legendFormat": "{{pod_name}} ({{container_name}})",
@@ -126,10 +114,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -208,10 +192,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(rate(container_cpu_usage_seconds_total{deployment=~\"$deployment\", pod_name=~\".*-worker-.*\",component_name != \"POD\",image!=\"\", container_name != \"istio-proxy\"}[3m]))\n  by (pod_name, container_name, short_name, namespace)\n/\nsum(container_spec_cpu_quota{deployment=~\"$deployment\", pod_name=~\".*-worker-.*\", component_name != \"POD\",image!=\"\", container_name != \"istio-proxy\"} / container_spec_cpu_period{deployment=~\"$deployment\", pod_name=~\".*-worker-.*\", component_name != \"POD\",image!=\"\", container_name != \"istio-proxy\" }) by (pod_name, container_name, short_name, namespace) * 100",
           "legendFormat": "{{pod_name}}",
           "refId": "B"
@@ -221,10 +201,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Memory as per container expressed as percentage of given Memory limit.",
       "fieldConfig": {
         "defaults": {
@@ -303,10 +279,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "container_memory_working_set_bytes{component_name=~\".*(scheduler|webserver|flower|istio-proxy)\", deployment=~\"$deployment\"} / \ncontainer_spec_memory_limit_bytes{component_name=~\".*(scheduler|webserver|flower|istio-proxy)\", deployment=~\"$deployment\"} * 100",
           "format": "time_series",
           "intervalFactor": 1,
@@ -318,10 +290,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -399,10 +367,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "container_memory_working_set_bytes{component_name=\"worker\", deployment=~\"$deployment\"} / container_spec_memory_limit_bytes{component_name=\"worker\", deployment=~\"$deployment\"} * 100",
           "format": "time_series",
           "intervalFactor": 1,
@@ -414,10 +378,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Sum of network bytes received by deployment",
       "fieldConfig": {
         "defaults": {
@@ -496,10 +456,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(rate(container_network_receive_bytes_total{component_name=\"worker\", deployment=~\"$deployment\"}[3m])) by (deployment)",
           "format": "time_series",
           "intervalFactor": 1,
@@ -511,10 +467,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -592,10 +544,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(rate(container_network_transmit_bytes_total{component_name=\"worker\", deployment=~\"$deployment\"}[3m])) by (deployment)",
           "format": "time_series",
           "intervalFactor": 1,
@@ -607,10 +555,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Airflow Pod Bytes Received, not including workers",
       "fieldConfig": {
         "defaults": {
@@ -689,10 +633,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "rate(container_network_receive_bytes_total{component_name!~\"istio-proxy|worker\", deployment=~\"$deployment\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -704,10 +644,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Airflow components network bytes sent, not including the workers",
       "fieldConfig": {
         "defaults": {
@@ -786,10 +722,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "rate(container_network_transmit_bytes_total{component_name!~\"istio-proxy|worker\", deployment=~\"$deployment\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -801,10 +733,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "This shows the amount of ephemeral storage each component is using.",
       "fieldConfig": {
         "defaults": {
@@ -883,10 +811,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "container_fs_usage_bytes{deployment=~\"$deployment\"} * 100 / container_fs_limit_bytes{deployment=~\"$deployment\"}",
           "legendFormat": "{{ pod_name }} ({{ component_name }})",
           "refId": "A"
@@ -909,10 +833,6 @@
           "selected": true,
           "text": ["All"],
           "value": ["$__all"]
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
         },
         "definition": "",
         "hide": 0,

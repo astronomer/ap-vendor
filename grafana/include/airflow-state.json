@@ -3,10 +3,6 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": {
-          "type": "datasource",
-          "uid": "grafana"
-        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -29,10 +25,6 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -43,10 +35,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -57,10 +45,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "#299c46", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Namespaces that are up and hosting an airflow deployment. This will be 0 in single namespace mode.",
       "format": "none",
       "gauge": {
@@ -111,10 +95,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_namespace_status_phase{namespace=~\".*-.*-.*-[0-9]{4}\", phase=\"Active\"})",
           "format": "time_series",
           "instant": true,
@@ -139,10 +119,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "#d44a3a", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "decimals": 0,
       "description": "Namespaces that are in terminating state. Most likely because a deployment has been shut down. This will be 0 in single namespace mode.",
       "format": "short",
@@ -194,10 +170,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_namespace_status_phase{namespace=~\".*-.*-.*-[0-9]{4}\", phase=\"Terminating\"})",
           "format": "time_series",
           "instant": true,
@@ -223,10 +195,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Revision count for the Scheduler. Generally the amount of times code has been pushed.",
       "format": "none",
       "gauge": {
@@ -277,10 +245,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_deployment_status_observed_generation{deployment=~\".*-scheduler\", release=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -304,10 +268,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#d44a3a", "rgba(237, 129, 40, 0.89)", "#299c46"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Active Kubernetes Deployments. Most Airflow components are a deployment.",
       "format": "none",
       "gauge": {
@@ -358,10 +318,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(count(kube_deployment_spec_replicas{release=~\"$deployment\"}))",
           "format": "time_series",
           "instant": true,
@@ -386,10 +342,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#d44a3a", "rgba(237, 129, 40, 0.89)", "#299c46"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Active StatefulSets for an Airflow deployment.",
       "format": "none",
       "gauge": {
@@ -440,10 +392,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(count(kube_statefulset_status_replicas{release=~\"[[deployment]]\"}))",
           "format": "time_series",
           "instant": true,
@@ -465,10 +413,6 @@
       "valueName": "current"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Total pods that are in the running state.",
       "fieldConfig": {
         "defaults": {
@@ -560,10 +504,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_pod_status_phase{release=~\"$deployment\", phase=\"Running\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -578,10 +518,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#d44a3a", "rgba(237, 129, 40, 0.89)", "#299c46"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Percentage of Pods that have been scheduled and are currently running.",
       "format": "percent",
       "gauge": {
@@ -632,10 +568,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_pod_status_scheduled{condition=\"true\", release=~\"$deployment\"})\n/\nsum(kube_pod_status_ready{condition=\"true\", release=~\"$deployment\"})*100",
           "format": "time_series",
           "intervalFactor": 1,
@@ -656,10 +588,6 @@
       "valueName": "current"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Total containers in the Running state.",
       "fieldConfig": {
         "defaults": {
@@ -751,10 +679,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_pod_container_status_running{release=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -767,10 +691,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -781,10 +701,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -795,10 +711,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Maximum total CPU requests allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "none",
       "gauge": {
@@ -849,10 +761,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"requests.cpu\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -876,10 +784,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Maximum total CPU limits allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "none",
       "gauge": {
@@ -930,10 +834,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"limits.cpu\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -957,10 +857,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Maximum total pods allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "none",
       "gauge": {
@@ -1011,10 +907,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"pods\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1038,10 +930,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Maximum total memory requests allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "decbytes",
       "gauge": {
@@ -1092,10 +980,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"requests.memory\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1119,10 +1003,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Maximum total memory limits allowed. Each airflow deployment namespace has resource quotas applied.",
       "format": "decbytes",
       "gauge": {
@@ -1173,10 +1053,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"limits.memory\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1200,10 +1076,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Percentage of total CPU requests in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -1254,10 +1126,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"requests.cpu\", type=\"used\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})\n/\nsum(kube_resourcequota{resource=\"requests.cpu\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})*100",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1282,10 +1150,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Percentage of total CPU limits in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -1336,10 +1200,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"limits.cpu\", type=\"used\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})\n/\nsum(kube_resourcequota{resource=\"limits.cpu\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})*100",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1363,10 +1223,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Percentage of total pods in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -1417,10 +1273,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"pods\", type=\"used\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})\n/\nsum(kube_resourcequota{resource=\"pods\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})*100",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1445,10 +1297,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Percentage of total memory requests in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -1499,10 +1347,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"requests.memory\", type=\"used\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})\n/\nsum(kube_resourcequota{resource=\"requests.memory\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})*100",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1526,10 +1370,6 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Percentage of total memory limits in use currently. Each airflow deployment namespace has resource quotas applied.",
       "format": "percent",
       "gauge": {
@@ -1580,10 +1420,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sum(kube_resourcequota{resource=\"limits.memory\", type=\"used\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})\n/\nsum(kube_resourcequota{resource=\"limits.memory\", type=\"hard\", release=~\"$deployment\", resourcequota=~\"$deployment-resource-quota\"})*100",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1605,10 +1441,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1619,10 +1451,6 @@
       "panels": [],
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "refId": "A"
         }
       ],
@@ -1630,10 +1458,6 @@
       "type": "row"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Status of Airflow deployments. Healthy if everything is up and running, and Unhealthy if there is a problem or during code pushes.",
       "fieldConfig": {
         "defaults": {
@@ -1773,10 +1597,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "editorMode": "code",
           "expr": "sort(\n sum by (release) (\n  sum by (release) (\n  kube_pod_container_status_running{release=~\"$deployment\", container!=\"airflow-cleanup-pods\"}\n ) - \n count by (release) (\n  kube_pod_container_status_running{release=~\"$deployment\", container!=\"airflow-cleanup-pods\"}\n  )\n )\n)",
           "format": "table",
@@ -1797,10 +1617,6 @@
       "type": "table"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "description": "Status of containers that make up an airflow deployment. A failing status here will make the deployment above show Unhealthy.",
       "fieldConfig": {
         "defaults": {
@@ -1983,10 +1799,6 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "expr": "sort_desc(max by (container, pod, reason) (\n max by (container, pod) (\n sort_desc(kube_pod_container_status_waiting{release=~\"$deployment\", container!=\"airflow-cleanup-pods\"})\n ) or\n max by (container, reason) (\n sort_desc(kube_pod_container_status_waiting_reason{release=~\"$deployment\"}==1)\n ) or\n max by (container, reason) (\n sort_desc(kube_pod_container_status_terminated_reason{release=~\"$deployment\", container!=\"airflow-cleanup-pods\"}==1)\n )\n))\n",
           "format": "table",
           "instant": true,
@@ -2019,10 +1831,6 @@
           "selected": true,
           "text": ["All"],
           "value": ["$__all"]
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
         },
         "definition": "",
         "hide": 0,
