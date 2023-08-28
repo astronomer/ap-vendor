@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://quay.io/repository/astronomer/ap-base?tab=tags
-FROM quay.io/astronomer/ap-base:3.16.5-2
+FROM quay.io/astronomer/ap-base:3.18.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -22,7 +22,7 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 # https://github.com/elastic/curator/releases
-ENV CURATOR_VERSION 8.0.4
+ENV CURATOR_VERSION 8.0.8
 
 RUN set -x ; apk --no-cache add \
       libffi \
