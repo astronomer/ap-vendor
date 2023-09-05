@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/prom/alertmanager/tags?page=1&ordering=last_updated
-FROM prom/alertmanager:v0.25.0
+FROM prom/alertmanager:v0.26.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
