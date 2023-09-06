@@ -56,6 +56,7 @@ workflows:
             branches:
               only:
                 - main
+                - update-postgresql-11.18-patch
       - validate-tags:
           directory: {{ directory }}
           tags: "latest"
