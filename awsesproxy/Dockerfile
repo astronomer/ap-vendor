@@ -12,23 +12,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-ARG GO_VERSION=1.18
+ARG GO_VERSION=1.20
 FROM golang:${GO_VERSION}-alpine AS builder
 
 ENV AWSESPROXY_DIR /go/src/github.com/abutaha/aws-es-proxy
-
 RUN set -ex \
     && apk add --no-cache make git file
 
 WORKDIR $AWSESPROXY_DIR
 
-# This commit upgrades go version and related PR can be found here: https://github.com/abutaha/aws-es-proxy/pull/109
-# waiting for the upstream to merge those changes until then we will checkout to custom commit id
-RUN git clone https://github.com/astronomer/aws-es-proxy.git $AWSESPROXY_DIR && git checkout 000696ae41aaf0e563cee3e55afbfb0085011eb0
+RUN git clone  https://github.com/abutaha/aws-es-proxy.git $AWSESPROXY_DIR && git checkout v1.5 && go mod tidy
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o aws-es-proxy
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o aws-es-proxy
 
-FROM quay.io/astronomer/ap-base:3.16.5-2
+FROM quay.io/astronomer/ap-base:3.18.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
