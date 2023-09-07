@@ -22,8 +22,8 @@ ENV REGISTRY_VERSION 2.8.2
 RUN set -eux ; \
 	url="https://github.com/distribution/distribution/releases/download/v${REGISTRY_VERSION}/registry_${REGISTRY_VERSION}_linux_amd64.tar.gz"; \
 	sha256="b68ffb849bcdb49639dc91ba97baba6618346f95fedc0fcc94871b31d515d205" ; \
-	wget -O nats-server.tar.gz "${url}" ; \
-	echo "${sha256} *nats-server.tar.gz" | sha256sum -c - ; \
+	wget -O registry.tar.gz "${url}" ; \
+	echo "$sha256 *registry.tar.gz" | sha256sum -c -; \
 	tar --extract --verbose --file registry.tar.gz --directory /bin/ registry; \
 	rm registry.tar.gz; \
 	registry --version
