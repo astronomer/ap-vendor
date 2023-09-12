@@ -1,36 +1,41 @@
-#
-# Copyright 2018 Astronomer Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-FROM quay.io/astronomer/ap-base:3.18.3 AS build
+# syntax=docker/dockerfile:1
 
-RUN apk add --no-cache ca-certificates
+ARG GO_VERSION=1.19
+ARG ALPINE_VERSION=3.18
+ARG XX_VERSION=1.2.1
 
-# https://github.com/distribution/distribution/releases
-ENV REGISTRY_VERSION 2.8.2
+FROM --platform=$BUILDPLATFORM tonistiigi/xx:${XX_VERSION} AS xx
+FROM --platform=$BUILDPLATFORM golang:${GO_VERSION}-alpine${ALPINE_VERSION} AS base
+COPY --from=xx / /
+RUN apk add --no-cache bash coreutils file git
+ENV GO111MODULE=auto
+ENV CGO_ENABLED=0
+ENV DISTRIBUTION_DIR /go/src/github.com/docker/distribution
+WORKDIR /go/src/github.com/docker/distribution
+RUN git clone https://github.com/distribution/distribution.git $DISTRIBUTION_DIR && git checkout tags/v2.8.2
+COPY parser.go $DISTRIBUTION_DIR/configuration/parser.go
 
-RUN set -eux ; \
-	url="https://github.com/distribution/distribution/releases/download/v${REGISTRY_VERSION}/registry_${REGISTRY_VERSION}_linux_amd64.tar.gz"; \
-	sha256="b68ffb849bcdb49639dc91ba97baba6618346f95fedc0fcc94871b31d515d205" ; \
-	wget -O registry.tar.gz "${url}" ; \
-	echo "$sha256 *registry.tar.gz" | sha256sum -c -; \
-	tar --extract --verbose --file registry.tar.gz --directory /bin/ registry; \
-	rm registry.tar.gz; \
-	registry --version
+FROM base AS version
+ARG PKG="github.com/docker/distribution"
+RUN --mount=target=. \
+  VERSION=$(git describe --match 'v[0-9]*' --dirty='.m' --always --tags) REVISION=$(git rev-parse HEAD)$(if ! git diff --no-ext-diff --quiet --exit-code; then echo .m; fi); \
+  echo "-X ${PKG}/version.Version=2.8.2 -X ${PKG}/version.Revision=${REVISION} -X ${PKG}/version.Package=${PKG}" | tee /tmp/.ldflags; \
+  echo -n "${VERSION}" | tee /tmp/.version;
+
+FROM base AS build
+ARG TARGETPLATFORM
+ARG LDFLAGS="-s -w"
+ARG BUILDTAGS="include_oss include_gcs"
+RUN --mount=type=cache,target=/root/.cache/go-build \
+    --mount=target=/go/pkg/mod,type=cache \
+    --mount=type=bind,source=/tmp/.ldflags,target=/tmp/.ldflags,from=version \
+      set -x ; xx-go build -trimpath -ldflags "$(cat /tmp/.ldflags) ${LDFLAGS}" -o /usr/bin/registry ./cmd/registry \
+      && xx-verify --static /usr/bin/registry
+
 
 FROM quay.io/astronomer/ap-base:3.18.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
-
+ENV DISTRIBUTION_DIR /go/src/github.com/distribution/distribution
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
@@ -42,7 +47,7 @@ RUN addgroup -g 1000 -S registry \
 RUN set -ex \
     && apk add --no-cache ca-certificates
 
-COPY --from=build --chown=1000:1000 /bin/registry /bin/registry
+COPY --from=build --chown=1000:1000 /usr/bin/registry /bin/registry
 COPY --chown=1000:1000 ./config-example.yml /etc/docker/registry/config.yml
 
 VOLUME ["/var/lib/registry"]
