@@ -11,15 +11,16 @@ RUN apk add --no-cache bash coreutils file git
 ENV GO111MODULE=auto
 ENV CGO_ENABLED=0
 ENV DISTRIBUTION_DIR /go/src/github.com/docker/distribution
-WORKDIR /go/src/github.com/docker/distribution
+WORKDIR $DISTRIBUTION_DIR
 RUN git clone https://github.com/distribution/distribution.git $DISTRIBUTION_DIR && git checkout tags/v2.8.2
 COPY parser.go $DISTRIBUTION_DIR/configuration/parser.go
 
 FROM base AS version
 ARG PKG="github.com/docker/distribution"
+ENV REGISTRY_VERSION 2.8.2
 RUN --mount=target=. \
   VERSION=$(git describe --match 'v[0-9]*' --dirty='.m' --always --tags) REVISION=$(git rev-parse HEAD)$(if ! git diff --no-ext-diff --quiet --exit-code; then echo .m; fi); \
-  echo "-X ${PKG}/version.Version=2.8.2 -X ${PKG}/version.Revision=${REVISION} -X ${PKG}/version.Package=${PKG}" | tee /tmp/.ldflags; \
+  echo "-X ${PKG}/version.Version=${REGISTRY_VERSION} -X ${PKG}/version.Revision=${REVISION} -X ${PKG}/version.Package=${PKG}" | tee /tmp/.ldflags; \
   echo -n "${VERSION}" | tee /tmp/.version;
 
 FROM base AS build
