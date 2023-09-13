@@ -16,12 +16,8 @@
 
 ARG GO_VERSION=1.19
 ARG ALPINE_VERSION=3.18
-ARG XX_VERSION=1.2.1
-
-FROM --platform=$BUILDPLATFORM tonistiigi/xx:${XX_VERSION} AS xx
-FROM --platform=$BUILDPLATFORM golang:${GO_VERSION}-alpine${ALPINE_VERSION} AS base
-COPY --from=xx / /
-RUN apk add --no-cache bash coreutils file git
+FROM golang:${GO_VERSION}-alpine${ALPINE_VERSION} AS base
+RUN apk add --no-cache bash coreutils file git make
 ENV GO111MODULE=auto
 ENV CGO_ENABLED=0
 ENV DISTRIBUTION_DIR /go/src/github.com/docker/distribution
@@ -29,6 +25,7 @@ WORKDIR $DISTRIBUTION_DIR
 RUN git clone https://github.com/distribution/distribution.git $DISTRIBUTION_DIR && git checkout tags/v2.8.2
 COPY parser.go $DISTRIBUTION_DIR/configuration/parser.go
 
+# This step is required to generate build config
 FROM base AS version
 ARG PKG="github.com/docker/distribution"
 ENV REGISTRY_VERSION 2.8.2
@@ -38,15 +35,15 @@ RUN --mount=target=. \
   echo -n "${VERSION}" | tee /tmp/.version;
 
 FROM base AS build
-ARG TARGETPLATFORM
-ARG LDFLAGS="-s -w"
-ARG BUILDTAGS="include_oss include_gcs"
-RUN --mount=type=cache,target=/root/.cache/go-build \
-    --mount=target=/go/pkg/mod,type=cache \
-    --mount=type=bind,source=/tmp/.ldflags,target=/tmp/.ldflags,from=version \
-      set -x ; xx-go build -trimpath -ldflags "$(cat /tmp/.ldflags) ${LDFLAGS}" -o /usr/bin/registry ./cmd/registry \
-      && xx-verify --static /usr/bin/registry
+ENV DISTRIBUTION_DIR /go/src/github.com/distribution/distribution
+ENV BUILDTAGS include_oss include_gcs
 
+ARG GOOS=linux
+ARG GOARCH=amd64
+ARG GOARM=6
+ARG VERSION
+ARG REVISION
+RUN CGO_ENABLED=0 make PREFIX=/go clean binaries && file ./bin/registry | grep "statically linked"
 
 FROM quay.io/astronomer/ap-base:3.18.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
@@ -62,7 +59,7 @@ RUN addgroup -g 1000 -S registry \
 RUN set -ex \
     && apk add --no-cache ca-certificates
 
-COPY --from=build --chown=1000:1000 /usr/bin/registry /bin/registry
+COPY --from=build --chown=1000:1000 /go/src/github.com/docker/distribution/bin/registry /bin/registry
 COPY --chown=1000:1000 ./config-example.yml /etc/docker/registry/config.yml
 
 VOLUME ["/var/lib/registry"]
