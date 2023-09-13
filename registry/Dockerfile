@@ -47,7 +47,7 @@ RUN CGO_ENABLED=0 make PREFIX=/go clean binaries && file ./bin/registry | grep "
 
 FROM quay.io/astronomer/ap-base:3.18.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
-ENV DISTRIBUTION_DIR /go/src/github.com/distribution/distribution
+
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
