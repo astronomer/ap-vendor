@@ -15,7 +15,7 @@
 
 # https://hub.docker.com/r/bitnami/postgresql/tags/
 
-FROM bitnami/postgresql:15.2.0-debian-11-r31
+FROM bitnami/postgresql:15.4.0-debian-11-r39
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -25,6 +25,8 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 ENV POSTGRESQL_MAX_CONNECTIONS 200
 
 USER root
+ARG CACHEBUST=1
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 04EE7237B7D453EC 648ACFD622F3D138
 RUN apt-get update && apt-get -y upgrade
 RUN addgroup postgres --gid 1001 && useradd -s /sbin/nologin --gid 1001 --uid 1001 postgres
 
