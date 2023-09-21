@@ -16,12 +16,12 @@
 FROM curlimages/curl:latest as downloader
 
 # https://github.com/vectordotdev/vector/releases/
-ENV VECTOR_VERSION 0.32.0
+ENV VECTOR_VERSION 0.32.2
 
 RUN curl -fsSL https://github.com/vectordotdev/vector/releases/download/v${VECTOR_VERSION}/vector-${VECTOR_VERSION}-x86_64-unknown-linux-musl.tar.gz \
     | tar --directory=/tmp --strip-components=3 -xzf - ./vector-x86_64-unknown-linux-musl/bin/vector
 
-FROM quay.io/astronomer/ap-base:3.18.0-2
+FROM quay.io/astronomer/ap-base:3.18.3
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
