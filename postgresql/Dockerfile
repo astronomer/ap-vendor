@@ -25,8 +25,6 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 ENV POSTGRESQL_MAX_CONNECTIONS 200
 
 USER root
-ARG CACHEBUST=1
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 04EE7237B7D453EC 648ACFD622F3D138
 RUN apt-get update && apt-get -y upgrade
 RUN addgroup postgres --gid 1001 && useradd -s /sbin/nologin --gid 1001 --uid 1001 postgres
 
