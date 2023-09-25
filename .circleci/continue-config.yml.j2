@@ -176,7 +176,7 @@ jobs:
       - run:
           name: scan image
           command: |
-            ./twistcli images scan --address $CONSOLE_URL --user=$USER --password=$PASSWORD --details ap-"<< parameters.directory >>":${CIRCLE_SHA1}
+            ./twistcli images scan --address $CONSOLE_URL --user=$USER --password=$PASSWORD --details "ap-<< parameters.directory >>:${CIRCLE_SHA1}"
   release:
     executor: docker-executor
     parameters:
