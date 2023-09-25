@@ -2342,12 +2342,12 @@ jobs:
           name: Install twistcli
           command: |
             apk add --update-cache --upgrade curl
-            curl -k -u $USER:$PASSWORD --output twistcli $CONSOLE_URL"/api/v1/util/twistcli"
+            curl -k -u "$USER:$PASSWORD" --output twistcli "${CONSOLE_URL}/api/v1/util/twistcli"
             chmod +x twistcli
       - run:
           name: scan image
           command: |
-            ./twistcli images scan --address $CONSOLE_URL --user=$USER --password=$PASSWORD --details ap-"<< parameters.directory >>":${CIRCLE_SHA1}
+            ./twistcli images scan --address $CONSOLE_URL --user=$USER --password=$PASSWORD --details "ap-<< parameters.directory >>:${CIRCLE_SHA1}"
   release:
     executor: docker-executor
     parameters:
