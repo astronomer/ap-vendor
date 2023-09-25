@@ -44,8 +44,6 @@ RUN apk add --no-cache --virtual .build-deps \
   wget \
   c-ares-dev \
   libevent-dev \
-  libressl-dev \
-  openssl-dev \
   && wget https://www.pgbouncer.org/downloads/files/$PGBOUNCER_VERSION/pgbouncer-$PGBOUNCER_VERSION.tar.gz \
   && echo "$PGBOUNCER_SHA256  /pgbouncer-$PGBOUNCER_VERSION.tar.gz" | sha256sum -c - \
   && tar -xzvf pgbouncer-$PGBOUNCER_VERSION.tar.gz \
