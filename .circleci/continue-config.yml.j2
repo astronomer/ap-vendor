@@ -43,10 +43,12 @@ workflows:
           directory: {{ directory }}
           requires:
             - test
-      - scan-twistlock
+      - scan-twistlock:
           directory: {{ directory }}
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: {{ directory }}
           tags: "latest"

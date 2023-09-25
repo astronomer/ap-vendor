@@ -210,6 +210,8 @@ workflows:
           directory: alertmanager
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: alertmanager
           tags: "latest"
@@ -257,6 +259,8 @@ workflows:
           directory: auth-sidecar
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: auth-sidecar
           tags: "latest"
@@ -304,6 +308,8 @@ workflows:
           directory: awsesproxy
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: awsesproxy
           tags: "latest"
@@ -351,6 +357,8 @@ workflows:
           directory: blackbox-exporter
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: blackbox-exporter
           tags: "latest"
@@ -398,6 +406,8 @@ workflows:
           directory: configmap-reloader
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: configmap-reloader
           tags: "latest"
@@ -445,6 +455,8 @@ workflows:
           directory: curator
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: curator
           tags: "latest"
@@ -492,6 +504,8 @@ workflows:
           directory: dind-golang
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: dind-golang
           tags: "latest"
@@ -539,6 +553,8 @@ workflows:
           directory: dogstatsd
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: dogstatsd
           tags: "latest"
@@ -586,6 +602,8 @@ workflows:
           directory: elasticsearch
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: elasticsearch
           tags: "latest"
@@ -633,6 +651,8 @@ workflows:
           directory: elasticsearch-exporter
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: elasticsearch-exporter
           tags: "latest"
@@ -680,6 +700,8 @@ workflows:
           directory: fluentd
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: fluentd
           tags: "latest"
@@ -727,6 +749,8 @@ workflows:
           directory: git-daemon
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: git-daemon
           tags: "latest"
@@ -774,6 +798,8 @@ workflows:
           directory: git-sync
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: git-sync
           tags: "latest"
@@ -821,6 +847,8 @@ workflows:
           directory: git-sync-relay
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: git-sync-relay
           tags: "latest"
@@ -868,6 +896,8 @@ workflows:
           directory: grafana
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: grafana
           tags: "latest"
@@ -915,6 +945,8 @@ workflows:
           directory: init
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: init
           tags: "latest"
@@ -962,6 +994,8 @@ workflows:
           directory: keda
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: keda
           tags: "latest"
@@ -1009,6 +1043,8 @@ workflows:
           directory: keda-metrics-apiserver
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: keda-metrics-apiserver
           tags: "latest"
@@ -1056,6 +1092,8 @@ workflows:
           directory: kibana
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: kibana
           tags: "latest"
@@ -1103,6 +1141,8 @@ workflows:
           directory: kube-state
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: kube-state
           tags: "latest"
@@ -1150,6 +1190,8 @@ workflows:
           directory: kubed
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: kubed
           tags: "latest"
@@ -1197,6 +1239,8 @@ workflows:
           directory: nats-exporter
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: nats-exporter
           tags: "latest"
@@ -1244,6 +1288,8 @@ workflows:
           directory: nats-server
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: nats-server
           tags: "latest"
@@ -1291,6 +1337,8 @@ workflows:
           directory: nats-streaming
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: nats-streaming
           tags: "latest"
@@ -1338,6 +1386,8 @@ workflows:
           directory: nginx
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: nginx
           tags: "latest"
@@ -1385,6 +1435,8 @@ workflows:
           directory: nginx-es
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: nginx-es
           tags: "latest"
@@ -1432,6 +1484,8 @@ workflows:
           directory: node-exporter
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: node-exporter
           tags: "latest"
@@ -1479,6 +1533,8 @@ workflows:
           directory: openresty
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: openresty
           tags: "latest"
@@ -1526,6 +1582,8 @@ workflows:
           directory: pgbouncer
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: pgbouncer
           tags: "latest"
@@ -1573,6 +1631,8 @@ workflows:
           directory: pgbouncer-exporter
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: pgbouncer-exporter
           tags: "latest"
@@ -1620,6 +1680,8 @@ workflows:
           directory: pgbouncer-krb
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: pgbouncer-krb
           tags: "latest"
@@ -1667,6 +1729,8 @@ workflows:
           directory: po-logical-backup
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: po-logical-backup
           tags: "latest"
@@ -1714,6 +1778,8 @@ workflows:
           directory: po-pgbouncer
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: po-pgbouncer
           tags: "latest"
@@ -1761,6 +1827,8 @@ workflows:
           directory: po-spilo
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: po-spilo
           tags: "latest"
@@ -1808,6 +1876,8 @@ workflows:
           directory: postgres-exporter
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: postgres-exporter
           tags: "latest"
@@ -1855,6 +1925,8 @@ workflows:
           directory: postgres-operator
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: postgres-operator
           tags: "latest"
@@ -1902,6 +1974,8 @@ workflows:
           directory: postgresql
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: postgresql
           tags: "latest"
@@ -1949,6 +2023,8 @@ workflows:
           directory: prometheus
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: prometheus
           tags: "latest"
@@ -1996,6 +2072,8 @@ workflows:
           directory: redis
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: redis
           tags: "latest"
@@ -2043,6 +2121,8 @@ workflows:
           directory: registry
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: registry
           tags: "latest"
@@ -2090,6 +2170,8 @@ workflows:
           directory: statsd-exporter
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: statsd-exporter
           tags: "latest"
@@ -2137,6 +2219,8 @@ workflows:
           directory: vector
           requires:
             - test
+          context:
+            - twistcli
       - release:
           directory: vector
           tags: "latest"
