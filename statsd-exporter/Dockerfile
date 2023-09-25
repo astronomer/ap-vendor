@@ -14,7 +14,7 @@
 # limitations under the License.
 
 #https://hub.docker.com/r/prom/statsd-exporter/tags
-FROM prom/statsd-exporter:v0.23.3
+FROM prom/statsd-exporter:v0.24.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
