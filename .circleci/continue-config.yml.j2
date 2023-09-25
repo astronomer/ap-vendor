@@ -171,7 +171,7 @@ jobs:
           name: Install twistcli
           command: |
             apk add --update-cache --upgrade curl
-            curl -k -u $USER:$PASSWORD --output twistcli $CONSOLE_URL"/api/v1/util/twistcli"
+            curl -k -u "$USER:$PASSWORD" --output twistcli "${CONSOLE_URL}/api/v1/util/twistcli"
             chmod +x twistcli
       - run:
           name: scan image
