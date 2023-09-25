@@ -2065,6 +2065,37 @@ jobs:
           key: trivy-cache-{{ checksum "date" }}
           paths:
             - /tmp/workspace/trivy-cache
+  scan-twistcli:
+    docker:
+      - image: docker:20.10.24-git
+    description: "Twistcli: Vulnerability scan a Docker image"
+    shell: /bin/sh -leo pipefail
+    parameters:
+      directory:
+        description: "The directory name of the image to be scanned"
+        type: string
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 20.10.24
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load archived Docker image
+          command: |
+            set -x
+            docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
+            docker images | grep ap-<< parameters.directory >>
+      - run:
+          name: Install twistcli
+          command: |
+            apk add --update-cache --upgrade curl
+            curl -k -u $USER:$PASSWORD --output twistcli $CONSOLE_URL"/api/v1/util/twistcli"
+            chmod +x twistcli
+      - run:
+          name: scan image
+          command: |
+            ./twistcli images scan --address $CONSOLE_URL --user=$USER --password=$PASSWORD --details "<< parameters.directory >>"
   release:
     executor: docker-executor
     parameters:
