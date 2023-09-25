@@ -15,7 +15,7 @@
 
 # https://github.com/CenterForOpenScience/docker-library/blob/master/pgbouncer/Dockerfile
 # https://quay.io/repository/centerforopenscience/pgbouncer
-FROM quay.io/astronomer/ap-base:3.16.5
+FROM quay.io/astronomer/ap-base:3.18.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 # Make it possible to override the UID/GID/username of the user running
@@ -27,8 +27,8 @@ ARG USER=pgbouncer
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV PGBOUNCER_VERSION=1.17.0 \
-  PGBOUNCER_SHA256=657309b7bc5c7a85cbf70a9a441b535f7824123081eabb7ba86d00349a256e23
+ENV PGBOUNCER_VERSION=1.19.1 \
+  PGBOUNCER_SHA256=58c3eff9bb72c18133b28e1f034fd59356ea76281c65e127432ca101c208a394
 
 RUN addgroup -g $GID -S $USER \
   && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
@@ -44,7 +44,6 @@ RUN apk add --no-cache --virtual .build-deps \
   wget \
   c-ares-dev \
   libevent-dev \
-  libressl-dev \
   openssl-dev \
   && wget https://www.pgbouncer.org/downloads/files/$PGBOUNCER_VERSION/pgbouncer-$PGBOUNCER_VERSION.tar.gz \
   && echo "$PGBOUNCER_SHA256  /pgbouncer-$PGBOUNCER_VERSION.tar.gz" | sha256sum -c - \
