@@ -206,6 +206,10 @@ workflows:
           directory: alertmanager
           requires:
             - test
+      - scan-twistlock:
+          directory: alertmanager
+          requires:
+            - test
       - release:
           directory: alertmanager
           tags: "latest"
@@ -246,6 +250,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: auth-sidecar
+          requires:
+            - test
+      - scan-twistlock:
           directory: auth-sidecar
           requires:
             - test
@@ -292,6 +300,10 @@ workflows:
           directory: awsesproxy
           requires:
             - test
+      - scan-twistlock:
+          directory: awsesproxy
+          requires:
+            - test
       - release:
           directory: awsesproxy
           tags: "latest"
@@ -332,6 +344,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: blackbox-exporter
+          requires:
+            - test
+      - scan-twistlock:
           directory: blackbox-exporter
           requires:
             - test
@@ -378,6 +394,10 @@ workflows:
           directory: configmap-reloader
           requires:
             - test
+      - scan-twistlock:
+          directory: configmap-reloader
+          requires:
+            - test
       - release:
           directory: configmap-reloader
           tags: "latest"
@@ -418,6 +438,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: curator
+          requires:
+            - test
+      - scan-twistlock:
           directory: curator
           requires:
             - test
@@ -464,6 +488,10 @@ workflows:
           directory: dind-golang
           requires:
             - test
+      - scan-twistlock:
+          directory: dind-golang
+          requires:
+            - test
       - release:
           directory: dind-golang
           tags: "latest"
@@ -504,6 +532,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: dogstatsd
+          requires:
+            - test
+      - scan-twistlock:
           directory: dogstatsd
           requires:
             - test
@@ -550,6 +582,10 @@ workflows:
           directory: elasticsearch
           requires:
             - test
+      - scan-twistlock:
+          directory: elasticsearch
+          requires:
+            - test
       - release:
           directory: elasticsearch
           tags: "latest"
@@ -590,6 +626,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: elasticsearch-exporter
+          requires:
+            - test
+      - scan-twistlock:
           directory: elasticsearch-exporter
           requires:
             - test
@@ -636,6 +676,10 @@ workflows:
           directory: fluentd
           requires:
             - test
+      - scan-twistlock:
+          directory: fluentd
+          requires:
+            - test
       - release:
           directory: fluentd
           tags: "latest"
@@ -676,6 +720,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: git-daemon
+          requires:
+            - test
+      - scan-twistlock:
           directory: git-daemon
           requires:
             - test
@@ -722,6 +770,10 @@ workflows:
           directory: git-sync
           requires:
             - test
+      - scan-twistlock:
+          directory: git-sync
+          requires:
+            - test
       - release:
           directory: git-sync
           tags: "latest"
@@ -762,6 +814,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: git-sync-relay
+          requires:
+            - test
+      - scan-twistlock:
           directory: git-sync-relay
           requires:
             - test
@@ -808,6 +864,10 @@ workflows:
           directory: grafana
           requires:
             - test
+      - scan-twistlock:
+          directory: grafana
+          requires:
+            - test
       - release:
           directory: grafana
           tags: "latest"
@@ -848,6 +908,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: init
+          requires:
+            - test
+      - scan-twistlock:
           directory: init
           requires:
             - test
@@ -894,6 +958,10 @@ workflows:
           directory: keda
           requires:
             - test
+      - scan-twistlock:
+          directory: keda
+          requires:
+            - test
       - release:
           directory: keda
           tags: "latest"
@@ -934,6 +1002,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: keda-metrics-apiserver
+          requires:
+            - test
+      - scan-twistlock:
           directory: keda-metrics-apiserver
           requires:
             - test
@@ -980,6 +1052,10 @@ workflows:
           directory: kibana
           requires:
             - test
+      - scan-twistlock:
+          directory: kibana
+          requires:
+            - test
       - release:
           directory: kibana
           tags: "latest"
@@ -1020,6 +1096,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: kube-state
+          requires:
+            - test
+      - scan-twistlock:
           directory: kube-state
           requires:
             - test
@@ -1066,6 +1146,10 @@ workflows:
           directory: kubed
           requires:
             - test
+      - scan-twistlock:
+          directory: kubed
+          requires:
+            - test
       - release:
           directory: kubed
           tags: "latest"
@@ -1106,6 +1190,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: nats-exporter
+          requires:
+            - test
+      - scan-twistlock:
           directory: nats-exporter
           requires:
             - test
@@ -1152,6 +1240,10 @@ workflows:
           directory: nats-server
           requires:
             - test
+      - scan-twistlock:
+          directory: nats-server
+          requires:
+            - test
       - release:
           directory: nats-server
           tags: "latest"
@@ -1192,6 +1284,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: nats-streaming
+          requires:
+            - test
+      - scan-twistlock:
           directory: nats-streaming
           requires:
             - test
@@ -1238,6 +1334,10 @@ workflows:
           directory: nginx
           requires:
             - test
+      - scan-twistlock:
+          directory: nginx
+          requires:
+            - test
       - release:
           directory: nginx
           tags: "latest"
@@ -1278,6 +1378,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: nginx-es
+          requires:
+            - test
+      - scan-twistlock:
           directory: nginx-es
           requires:
             - test
@@ -1324,6 +1428,10 @@ workflows:
           directory: node-exporter
           requires:
             - test
+      - scan-twistlock:
+          directory: node-exporter
+          requires:
+            - test
       - release:
           directory: node-exporter
           tags: "latest"
@@ -1364,6 +1472,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: openresty
+          requires:
+            - test
+      - scan-twistlock:
           directory: openresty
           requires:
             - test
@@ -1410,6 +1522,10 @@ workflows:
           directory: pgbouncer
           requires:
             - test
+      - scan-twistlock:
+          directory: pgbouncer
+          requires:
+            - test
       - release:
           directory: pgbouncer
           tags: "latest"
@@ -1450,6 +1566,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: pgbouncer-exporter
+          requires:
+            - test
+      - scan-twistlock:
           directory: pgbouncer-exporter
           requires:
             - test
@@ -1496,6 +1616,10 @@ workflows:
           directory: pgbouncer-krb
           requires:
             - test
+      - scan-twistlock:
+          directory: pgbouncer-krb
+          requires:
+            - test
       - release:
           directory: pgbouncer-krb
           tags: "latest"
@@ -1536,6 +1660,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: po-logical-backup
+          requires:
+            - test
+      - scan-twistlock:
           directory: po-logical-backup
           requires:
             - test
@@ -1582,6 +1710,10 @@ workflows:
           directory: po-pgbouncer
           requires:
             - test
+      - scan-twistlock:
+          directory: po-pgbouncer
+          requires:
+            - test
       - release:
           directory: po-pgbouncer
           tags: "latest"
@@ -1622,6 +1754,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: po-spilo
+          requires:
+            - test
+      - scan-twistlock:
           directory: po-spilo
           requires:
             - test
@@ -1668,6 +1804,10 @@ workflows:
           directory: postgres-exporter
           requires:
             - test
+      - scan-twistlock:
+          directory: postgres-exporter
+          requires:
+            - test
       - release:
           directory: postgres-exporter
           tags: "latest"
@@ -1708,6 +1848,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: postgres-operator
+          requires:
+            - test
+      - scan-twistlock:
           directory: postgres-operator
           requires:
             - test
@@ -1754,6 +1898,10 @@ workflows:
           directory: postgresql
           requires:
             - test
+      - scan-twistlock:
+          directory: postgresql
+          requires:
+            - test
       - release:
           directory: postgresql
           tags: "latest"
@@ -1794,6 +1942,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: prometheus
+          requires:
+            - test
+      - scan-twistlock:
           directory: prometheus
           requires:
             - test
@@ -1840,6 +1992,10 @@ workflows:
           directory: redis
           requires:
             - test
+      - scan-twistlock:
+          directory: redis
+          requires:
+            - test
       - release:
           directory: redis
           tags: "latest"
@@ -1880,6 +2036,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: registry
+          requires:
+            - test
+      - scan-twistlock:
           directory: registry
           requires:
             - test
@@ -1926,6 +2086,10 @@ workflows:
           directory: statsd-exporter
           requires:
             - test
+      - scan-twistlock:
+          directory: statsd-exporter
+          requires:
+            - test
       - release:
           directory: statsd-exporter
           tags: "latest"
@@ -1966,6 +2130,10 @@ workflows:
           requires:
             - build
       - scan-trivy:
+          directory: vector
+          requires:
+            - test
+      - scan-twistlock:
           directory: vector
           requires:
             - test
@@ -2065,7 +2233,7 @@ jobs:
           key: trivy-cache-{{ checksum "date" }}
           paths:
             - /tmp/workspace/trivy-cache
-  scan-twistcli:
+  scan-twistlock:
     docker:
       - image: docker:20.10.24-git
     description: "Twistcli: Vulnerability scan a Docker image"

@@ -43,6 +43,10 @@ workflows:
           directory: {{ directory }}
           requires:
             - test
+      - scan-twistlock
+          directory: {{ directory }}
+          requires:
+            - test
       - release:
           directory: {{ directory }}
           tags: "latest"
@@ -140,7 +144,7 @@ jobs:
           {% raw %}key: trivy-cache-{{ checksum "date" }}{% endraw %}
           paths:
             - /tmp/workspace/trivy-cache
-  scan-twistcli:
+  scan-twistlock:
     docker:
       - image: docker:{{ docker_version }}-git
     description: "Twistcli: Vulnerability scan a Docker image"
