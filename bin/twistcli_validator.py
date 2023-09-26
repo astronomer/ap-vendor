@@ -29,4 +29,5 @@ try:
 except FileNotFoundError:
     if cve_list:
         print("New vulnerabilities found.Fix them or add into ignore list")
+        print([cve for cve in cve_list if cve not in ignored_cve_list])
         sys.exit(1)
