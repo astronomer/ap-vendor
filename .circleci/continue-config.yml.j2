@@ -175,7 +175,7 @@ jobs:
       - run:
           name: scan image
           command: |
-            twistcli images scan --output-file scan-results.json --address "$CONSOLE_URL" --user="$USER" --password="$PASSWORD" --details "ap-<< parameters.directory >>:${CIRCLE_SHA1}"
+            twistcli images scan --output-file << parameters.directory >>/scan-results.json --address "$CONSOLE_URL" --user="$USER" --password="$PASSWORD" --details "ap-<< parameters.directory >>:${CIRCLE_SHA1}"
             export PROJECT_DIRECTORY=<< parameters.directory >>
             python bin/twistcli_validator.py
   release:
