@@ -33,7 +33,7 @@ RUN set -ex \
 
 WORKDIR $DISTRIBUTION_DIR
 
-RUN git clone https://github.com/astronomer/pgbouncer_exporter $DISTRIBUTION_DIR && git checkout 161266496fbacaf33eddb720f7e66d2ccfb6586b
+RUN git clone https://github.com/astronomer/pgbouncer_exporter $DISTRIBUTION_DIR && git checkout f6cf4391e416db23c1ca61c67fabdeebbc1258f1
 
 RUN make build_linux
 
