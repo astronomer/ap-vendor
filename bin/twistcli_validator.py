@@ -49,6 +49,5 @@ print(
     f"Solved CVEs that can be removed from {project_name}/twistcliignore: {cve_list_to_string(solved_cves)}"
 )
 
-
-if found_cves:
+if new_cves:
     raise SystemExit(1)
