@@ -155,12 +155,12 @@ jobs:
         description: "The directory name of the image to be scanned"
         type: string
     steps:
+      - checkout
       - setup_remote_docker:
           docker_layer_caching: true
           version: {{ docker_version }}
       - attach_workspace:
           at: /tmp/workspace
-      - checkout
       - run:
           name: Load archived Docker image
           command: |
@@ -170,14 +170,12 @@ jobs:
       - run:
           name: Install twistcli
           command: |
-            cd project
-            curl -k -u "$USER:$PASSWORD" --output twistcli "${CONSOLE_URL}/api/v1/util/twistcli"
-            chmod +x twistcli
+            sudo curl -k -u "$USER:$PASSWORD" --output /usr/local/bin/twistcli "${CONSOLE_URL}/api/v1/util/twistcli"
+            sudo chmod +x /usr/local/bin/twistcli
       - run:
           name: scan image
           command: |
-            cd project
-            ./twistcli images scan --output-file scan-results.json --address "$CONSOLE_URL" --user="$USER" --password="$PASSWORD" --details "ap-<< parameters.directory >>:${CIRCLE_SHA1}"
+            twistcli images scan --output-file scan-results.json --address "$CONSOLE_URL" --user="$USER" --password="$PASSWORD" --details "ap-<< parameters.directory >>:${CIRCLE_SHA1}"
             export PROJECT_DIRECTORY=<< parameters.directory >>
             python bin/twistcli_validator.py
   release:
