@@ -5,7 +5,9 @@ import os
 from pathlib import Path
 
 
-ROOT_DIRECTORY = [x for x in Path(__file__).resolve().parents if (x / ".git").is_dir()][-1]
+ROOT_DIRECTORY = [x for x in Path(__file__).resolve().parents if (x / ".git").is_dir()][
+    -1
+]
 PROJECT_NAME = os.getenv("PROJECT_DIRECTORY")
 SCAN_RESULTS_FILE_PATH = f"{ROOT_DIRECTORY}/{PROJECT_NAME}"
 output = []
