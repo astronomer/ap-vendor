@@ -29,15 +29,10 @@ def get_ignored_cves():
 
 ignored_cve_list = get_ignored_cves()
 
-if found_cves:
-    print(
-        f"New vulnerabilities found. Fix them or add them to {project_name}/twistcliignore\n"
-    )
-
-    new_cves = [cve for cve in found_cves if cve not in ignored_cve_list]
-    print(
-        f"New CVEs that are not found in {project_name}/twistcliignore: {cve_list_to_string(new_cves)}"
-    )
+new_cves = [cve for cve in found_cves if cve not in ignored_cve_list]
+print(
+    f"New CVEs that are not found in {project_name}/twistcliignore: {cve_list_to_string(new_cves)}"
+)
 
 old_cves = [cve for cve in found_cves if cve in ignored_cve_list and cve in found_cves]
 print(
