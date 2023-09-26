@@ -12,8 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-FROM k8s.gcr.io/kube-state-metrics/kube-state-metrics:v2.8.2
+# https://github.com/kubernetes/kube-state-metrics/releases
+FROM k8s.gcr.io/kube-state-metrics/kube-state-metrics:v2.9.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
