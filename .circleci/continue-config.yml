@@ -2331,6 +2331,7 @@ jobs:
           version: 20.10.24
       - attach_workspace:
           at: /tmp/workspace
+      - checkout
       - run:
           name: Load archived Docker image
           command: |
@@ -2340,13 +2341,15 @@ jobs:
       - run:
           name: Install twistcli
           command: |
-            apk add --update-cache --upgrade curl
+            cd project
             curl -k -u "$USER:$PASSWORD" --output twistcli "${CONSOLE_URL}/api/v1/util/twistcli"
             chmod +x twistcli
       - run:
           name: scan image
           command: |
+            cd project
             ./twistcli images scan --output-file scan-results.json --address "$CONSOLE_URL" --user="$USER" --password="$PASSWORD" --details "ap-<< parameters.directory >>:${CIRCLE_SHA1}"
+            export PROJECT_DIRECTORY=<< parameters.directory >>
             python bin/twistcli_validator.py
   release:
     executor: docker-executor
