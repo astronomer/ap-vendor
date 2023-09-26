@@ -17,6 +17,7 @@ cve_list = [
     vuln["id"] for vuln in data.get("results", [])[0].get("vulnerabilities", [])
 ]
 
+ignored_cve_list = []
 try:
     with open(f"{SCAN_RESULTS_FILE_PATH}/twistcliignore", "r") as f:
         ignored_cve_list = [line.strip() for line in f.read().splitlines()]
