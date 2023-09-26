@@ -147,8 +147,6 @@ jobs:
           paths:
             - /tmp/workspace/trivy-cache
   scan-twistlock:
-    docker:
-      - image: docker:{{ docker_version }}-git
     description: "Twistcli: Vulnerability scan a Docker image"
     shell: /bin/sh -leo pipefail
     parameters:
