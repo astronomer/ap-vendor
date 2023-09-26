@@ -58,6 +58,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -71,6 +72,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
