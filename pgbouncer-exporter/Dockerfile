@@ -14,12 +14,33 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/jbub/pgbouncer_exporter
-FROM jbub/pgbouncer_exporter:v0.15.0 AS upstream
+# we have switched to our own fork of the pgbouncer exporter to update golang version
+ARG GO_VERSION=1.21
 
-FROM quay.io/astronomer/ap-base:3.18.0-2
+FROM golang:${GO_VERSION}-alpine3.18 AS build
+
+ENV DISTRIBUTION_DIR /go/src/github.com/astronomer/pgbouncer_exporter
+ENV BUILDTAGS include_oss include_gcs
+
+ARG GOOS=linux
+ARG GOARCH=amd64
+ARG GOARM=6
+ARG VERSION
+ARG REVISION
+
+RUN set -ex \
+    && apk add --no-cache make git curl
+
+WORKDIR $DISTRIBUTION_DIR
+
+RUN git clone https://github.com/astronomer/pgbouncer_exporter $DISTRIBUTION_DIR && git checkout 161266496fbacaf33eddb720f7e66d2ccfb6586b
+
+RUN make build_linux
+
+FROM quay.io/astronomer/ap-base:3.18.3
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
-
+ENV DISTRIBUTION_DIR /go/src/github.com/astronomer/pgbouncer_exporter
 # Make it possible to override the UID/GID/username of the user running
 ARG UID=1000
 ARG GID=1001
@@ -28,7 +49,7 @@ ARG USER=pgexporter
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-COPY --from=upstream /bin/pgbouncer_exporter /bin
+COPY --from=build $DISTRIBUTION_DIR/pgbouncer_exporter /bin
 
 RUN addgroup -g $GID -S $USER \
     && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER
