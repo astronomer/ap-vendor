@@ -17,7 +17,6 @@ with open(f"{SCAN_RESULTS_FILE_PATH}/scan-results.json", "r") as f:
 try:
     with open(f"{SCAN_RESULTS_FILE_PATH}/twistcliignore", "r") as f:
         ignore_list = [line.strip() for line in f.read().splitlines()]
-        print(ignore_list)
         if ignore_list == output:
             print("vuln is in ignore list")
         else:
