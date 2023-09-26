@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/jbub/pgbouncer_exporter
-
+# we have switched to our own fork of the pgbouncer exporter to update golang version
 ARG GO_VERSION=1.21
 
 FROM golang:${GO_VERSION}-alpine3.18 AS build
