@@ -10,10 +10,8 @@ PROJECT_NAME = os.getenv("PROJECT_DIRECTORY")
 SCAN_RESULTS_FILE_PATH = f"{ROOT_DIRECTORY}/{PROJECT_NAME}"
 output = []
 
-with open(f"{SCAN_RESULTS_FILE_PATH}/scan-results.json", "r") as f:
-    data = json.load(f)
-    vulnerabilities = data.get("results", [])[0].get("vulnerabilities", [])
-    output = [vul["id"] for vul in vulnerabilities]
+data = json.loads(Path(f"{SCAN_RESULTS_FILE_PATH}/scan-results.json").read_text())
+output = [vuln["id"] for vuln in data.get("results", [])[0].get("vulnerabilities", [])]
 
 try:
     with open(f"{SCAN_RESULTS_FILE_PATH}/twistcliignore", "r") as f:
