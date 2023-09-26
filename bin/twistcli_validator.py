@@ -17,7 +17,7 @@ found_cves = [
 
 def cve_list_to_string(list):
     if list:
-        return '\n' + '\n'.join([f'  - {item}' for item in list]) + '\n'
+        return '\n' + '\n'.join([f'  - {item}' for item in list if item]) + '\n'
     return 'none\n'
 
 def get_ignored_cves():
@@ -34,10 +34,12 @@ if found_cves:
     new_cves = [cve for cve in found_cves if cve not in ignored_cve_list]
     print(f"New CVEs that are not found in {project_name}/twistcliignore: {cve_list_to_string(new_cves)}")
 
-    old_cves = [cve for cve in found_cves if cve in ignored_cve_list and cve in found_cves]
-    print(f"Old CVEs that exist now but are already in {project_name}/twistcliignore: {cve_list_to_string(old_cves)}")
+old_cves = [cve for cve in found_cves if cve in ignored_cve_list and cve in found_cves]
+print(f"Old CVEs that exist now but are already in {project_name}/twistcliignore: {cve_list_to_string(old_cves)}")
 
-    solved_cves = [cve for cve in ignored_cve_list if cve not in found_cves]
-    print(f"Solved CVEs that can be removed from {project_name}/twistcliignore: {cve_list_to_string(solved_cves)}")
+solved_cves = [cve for cve in ignored_cve_list if cve not in found_cves]
+print(f"Solved CVEs that can be removed from {project_name}/twistcliignore: {cve_list_to_string(solved_cves)}")
 
+
+if found_cves:
     raise SystemExit(1)
