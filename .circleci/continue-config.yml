@@ -2318,9 +2318,8 @@ jobs:
           paths:
             - /tmp/workspace/trivy-cache
   scan-twistlock:
-    executor: docker-executor
     docker:
-      - image: docker:20.10.24-git
+      - image: cimg/python:3.10
     description: "Twistcli: Vulnerability scan a Docker image"
     shell: /bin/sh -leo pipefail
     parameters:
