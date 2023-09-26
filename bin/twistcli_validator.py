@@ -23,4 +23,6 @@ try:
             print("New vulnerabilities found.Fix them or add into ignore list")
             sys.exit(1)
 except FileNotFoundError:
-    pass
+    if len(output) > 0:
+       print("New vulnerabilities found.Fix them or add into ignore list")
+       sys.exit(1)
