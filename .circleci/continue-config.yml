@@ -206,6 +206,12 @@ workflows:
           directory: alertmanager
           requires:
             - test
+      - scan-twistlock:
+          directory: alertmanager
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: alertmanager
           tags: "latest"
@@ -215,6 +221,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -228,6 +235,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -249,6 +257,12 @@ workflows:
           directory: auth-sidecar
           requires:
             - test
+      - scan-twistlock:
+          directory: auth-sidecar
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: auth-sidecar
           tags: "latest"
@@ -258,6 +272,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -271,6 +286,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -292,6 +308,12 @@ workflows:
           directory: awsesproxy
           requires:
             - test
+      - scan-twistlock:
+          directory: awsesproxy
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: awsesproxy
           tags: "latest"
@@ -301,6 +323,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -314,6 +337,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -335,6 +359,12 @@ workflows:
           directory: blackbox-exporter
           requires:
             - test
+      - scan-twistlock:
+          directory: blackbox-exporter
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: blackbox-exporter
           tags: "latest"
@@ -344,6 +374,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -357,6 +388,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -378,6 +410,12 @@ workflows:
           directory: configmap-reloader
           requires:
             - test
+      - scan-twistlock:
+          directory: configmap-reloader
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: configmap-reloader
           tags: "latest"
@@ -387,6 +425,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -400,6 +439,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -421,6 +461,12 @@ workflows:
           directory: curator
           requires:
             - test
+      - scan-twistlock:
+          directory: curator
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: curator
           tags: "latest"
@@ -430,6 +476,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -443,6 +490,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -464,6 +512,12 @@ workflows:
           directory: dind-golang
           requires:
             - test
+      - scan-twistlock:
+          directory: dind-golang
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: dind-golang
           tags: "latest"
@@ -473,6 +527,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -486,6 +541,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -507,6 +563,12 @@ workflows:
           directory: dogstatsd
           requires:
             - test
+      - scan-twistlock:
+          directory: dogstatsd
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: dogstatsd
           tags: "latest"
@@ -516,6 +578,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -529,6 +592,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -550,6 +614,12 @@ workflows:
           directory: elasticsearch
           requires:
             - test
+      - scan-twistlock:
+          directory: elasticsearch
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: elasticsearch
           tags: "latest"
@@ -559,6 +629,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -572,6 +643,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -593,6 +665,12 @@ workflows:
           directory: elasticsearch-exporter
           requires:
             - test
+      - scan-twistlock:
+          directory: elasticsearch-exporter
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: elasticsearch-exporter
           tags: "latest"
@@ -602,6 +680,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -615,6 +694,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -636,6 +716,12 @@ workflows:
           directory: fluentd
           requires:
             - test
+      - scan-twistlock:
+          directory: fluentd
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: fluentd
           tags: "latest"
@@ -645,6 +731,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -658,6 +745,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -679,6 +767,12 @@ workflows:
           directory: git-daemon
           requires:
             - test
+      - scan-twistlock:
+          directory: git-daemon
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: git-daemon
           tags: "latest"
@@ -688,6 +782,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -701,6 +796,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -722,6 +818,12 @@ workflows:
           directory: git-sync
           requires:
             - test
+      - scan-twistlock:
+          directory: git-sync
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: git-sync
           tags: "latest"
@@ -731,6 +833,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -744,6 +847,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -765,6 +869,12 @@ workflows:
           directory: git-sync-relay
           requires:
             - test
+      - scan-twistlock:
+          directory: git-sync-relay
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: git-sync-relay
           tags: "latest"
@@ -774,6 +884,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -787,6 +898,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -808,6 +920,12 @@ workflows:
           directory: grafana
           requires:
             - test
+      - scan-twistlock:
+          directory: grafana
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: grafana
           tags: "latest"
@@ -817,6 +935,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -830,6 +949,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -851,6 +971,12 @@ workflows:
           directory: init
           requires:
             - test
+      - scan-twistlock:
+          directory: init
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: init
           tags: "latest"
@@ -860,6 +986,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -873,6 +1000,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -894,6 +1022,12 @@ workflows:
           directory: keda
           requires:
             - test
+      - scan-twistlock:
+          directory: keda
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: keda
           tags: "latest"
@@ -903,6 +1037,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -916,6 +1051,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -937,6 +1073,12 @@ workflows:
           directory: keda-metrics-apiserver
           requires:
             - test
+      - scan-twistlock:
+          directory: keda-metrics-apiserver
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: keda-metrics-apiserver
           tags: "latest"
@@ -946,6 +1088,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -959,6 +1102,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -980,6 +1124,12 @@ workflows:
           directory: kibana
           requires:
             - test
+      - scan-twistlock:
+          directory: kibana
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: kibana
           tags: "latest"
@@ -989,6 +1139,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1002,6 +1153,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1023,6 +1175,12 @@ workflows:
           directory: kube-state
           requires:
             - test
+      - scan-twistlock:
+          directory: kube-state
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: kube-state
           tags: "latest"
@@ -1032,6 +1190,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1045,6 +1204,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1066,6 +1226,12 @@ workflows:
           directory: kubed
           requires:
             - test
+      - scan-twistlock:
+          directory: kubed
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: kubed
           tags: "latest"
@@ -1075,6 +1241,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1088,6 +1255,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1109,6 +1277,12 @@ workflows:
           directory: nats-exporter
           requires:
             - test
+      - scan-twistlock:
+          directory: nats-exporter
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: nats-exporter
           tags: "latest"
@@ -1118,6 +1292,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1131,6 +1306,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1152,6 +1328,12 @@ workflows:
           directory: nats-server
           requires:
             - test
+      - scan-twistlock:
+          directory: nats-server
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: nats-server
           tags: "latest"
@@ -1161,6 +1343,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1174,6 +1357,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1195,6 +1379,12 @@ workflows:
           directory: nats-streaming
           requires:
             - test
+      - scan-twistlock:
+          directory: nats-streaming
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: nats-streaming
           tags: "latest"
@@ -1204,6 +1394,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1217,6 +1408,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1238,6 +1430,12 @@ workflows:
           directory: nginx
           requires:
             - test
+      - scan-twistlock:
+          directory: nginx
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: nginx
           tags: "latest"
@@ -1247,6 +1445,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1260,6 +1459,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1281,6 +1481,12 @@ workflows:
           directory: nginx-es
           requires:
             - test
+      - scan-twistlock:
+          directory: nginx-es
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: nginx-es
           tags: "latest"
@@ -1290,6 +1496,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1303,6 +1510,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1324,6 +1532,12 @@ workflows:
           directory: node-exporter
           requires:
             - test
+      - scan-twistlock:
+          directory: node-exporter
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: node-exporter
           tags: "latest"
@@ -1333,6 +1547,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1346,6 +1561,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1367,6 +1583,12 @@ workflows:
           directory: openresty
           requires:
             - test
+      - scan-twistlock:
+          directory: openresty
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: openresty
           tags: "latest"
@@ -1376,6 +1598,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1389,6 +1612,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1410,6 +1634,12 @@ workflows:
           directory: pgbouncer
           requires:
             - test
+      - scan-twistlock:
+          directory: pgbouncer
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: pgbouncer
           tags: "latest"
@@ -1419,6 +1649,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1432,6 +1663,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1453,6 +1685,12 @@ workflows:
           directory: pgbouncer-exporter
           requires:
             - test
+      - scan-twistlock:
+          directory: pgbouncer-exporter
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: pgbouncer-exporter
           tags: "latest"
@@ -1462,6 +1700,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1475,6 +1714,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1496,6 +1736,12 @@ workflows:
           directory: pgbouncer-krb
           requires:
             - test
+      - scan-twistlock:
+          directory: pgbouncer-krb
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: pgbouncer-krb
           tags: "latest"
@@ -1505,6 +1751,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1518,6 +1765,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1539,6 +1787,12 @@ workflows:
           directory: po-logical-backup
           requires:
             - test
+      - scan-twistlock:
+          directory: po-logical-backup
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: po-logical-backup
           tags: "latest"
@@ -1548,6 +1802,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1561,6 +1816,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1582,6 +1838,12 @@ workflows:
           directory: po-pgbouncer
           requires:
             - test
+      - scan-twistlock:
+          directory: po-pgbouncer
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: po-pgbouncer
           tags: "latest"
@@ -1591,6 +1853,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1604,6 +1867,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1625,6 +1889,12 @@ workflows:
           directory: po-spilo
           requires:
             - test
+      - scan-twistlock:
+          directory: po-spilo
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: po-spilo
           tags: "latest"
@@ -1634,6 +1904,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1647,6 +1918,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1668,6 +1940,12 @@ workflows:
           directory: postgres-exporter
           requires:
             - test
+      - scan-twistlock:
+          directory: postgres-exporter
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: postgres-exporter
           tags: "latest"
@@ -1677,6 +1955,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1690,6 +1969,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1711,6 +1991,12 @@ workflows:
           directory: postgres-operator
           requires:
             - test
+      - scan-twistlock:
+          directory: postgres-operator
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: postgres-operator
           tags: "latest"
@@ -1720,6 +2006,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1733,6 +2020,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1754,6 +2042,12 @@ workflows:
           directory: postgresql
           requires:
             - test
+      - scan-twistlock:
+          directory: postgresql
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: postgresql
           tags: "latest"
@@ -1763,6 +2057,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1776,6 +2071,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1797,6 +2093,12 @@ workflows:
           directory: prometheus
           requires:
             - test
+      - scan-twistlock:
+          directory: prometheus
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: prometheus
           tags: "latest"
@@ -1806,6 +2108,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1819,6 +2122,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1840,6 +2144,12 @@ workflows:
           directory: redis
           requires:
             - test
+      - scan-twistlock:
+          directory: redis
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: redis
           tags: "latest"
@@ -1849,6 +2159,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1862,6 +2173,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1883,6 +2195,12 @@ workflows:
           directory: registry
           requires:
             - test
+      - scan-twistlock:
+          directory: registry
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: registry
           tags: "latest"
@@ -1892,6 +2210,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1905,6 +2224,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1926,6 +2246,12 @@ workflows:
           directory: statsd-exporter
           requires:
             - test
+      - scan-twistlock:
+          directory: statsd-exporter
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: statsd-exporter
           tags: "latest"
@@ -1935,6 +2261,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1948,6 +2275,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1969,6 +2297,12 @@ workflows:
           directory: vector
           requires:
             - test
+      - scan-twistlock:
+          directory: vector
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: vector
           tags: "latest"
@@ -1978,6 +2312,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -1991,6 +2326,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -2065,6 +2401,39 @@ jobs:
           key: trivy-cache-{{ checksum "date" }}
           paths:
             - /tmp/workspace/trivy-cache
+  scan-twistlock:
+    docker:
+      - image: cimg/python:3.10
+    description: "Twistcli: Vulnerability scan a Docker image"
+    parameters:
+      directory:
+        description: "The directory name of the image to be scanned"
+        type: string
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 20.10.24
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load archived Docker image
+          command: |
+            set -x
+            docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
+            docker images | grep ap-<< parameters.directory >>
+      - run:
+          name: Install twistcli
+          command: |
+            sudo curl -k -u "$USER:$PASSWORD" --output /usr/local/bin/twistcli "${CONSOLE_URL}/api/v1/util/twistcli"
+            sudo chmod +x /usr/local/bin/twistcli
+      - run:
+          name: scan image
+          command: |
+            twistcli images scan --output-file << parameters.directory >>/scan-results.json --address "$CONSOLE_URL" --user="$USER" --password="$PASSWORD" --details "ap-<< parameters.directory >>:${CIRCLE_SHA1}"
+            export PROJECT_DIRECTORY=<< parameters.directory >>
+            chmod +x bin/twistcli_validator.py
+            python bin/twistcli_validator.py
   release:
     executor: docker-executor
     parameters:

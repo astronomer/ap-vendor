@@ -6,6 +6,7 @@
 *.req
 *.srl
 *.tar
+*/scan-results.json
 *cache*
 *ipynb*
 .DS_Store

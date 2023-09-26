@@ -43,6 +43,12 @@ workflows:
           directory: {{ directory }}
           requires:
             - test
+      - scan-twistlock:
+          directory: {{ directory }}
+          requires:
+            - test
+          context:
+            - twistcli
       - release:
           directory: {{ directory }}
           tags: "latest"
@@ -52,6 +58,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               only:
@@ -65,6 +72,7 @@ workflows:
             - docker.io
           requires:
             - scan-trivy
+            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -140,6 +148,39 @@ jobs:
           {% raw %}key: trivy-cache-{{ checksum "date" }}{% endraw %}
           paths:
             - /tmp/workspace/trivy-cache
+  scan-twistlock:
+    docker:
+      - image: cimg/python:3.10
+    description: "Twistcli: Vulnerability scan a Docker image"
+    parameters:
+      directory:
+        description: "The directory name of the image to be scanned"
+        type: string
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: {{ docker_version }}
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load archived Docker image
+          command: |
+            set -x
+            docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
+            docker images | grep ap-<< parameters.directory >>
+      - run:
+          name: Install twistcli
+          command: |
+            sudo curl -k -u "$USER:$PASSWORD" --output /usr/local/bin/twistcli "${CONSOLE_URL}/api/v1/util/twistcli"
+            sudo chmod +x /usr/local/bin/twistcli
+      - run:
+          name: scan image
+          command: |
+            twistcli images scan --output-file << parameters.directory >>/scan-results.json --address "$CONSOLE_URL" --user="$USER" --password="$PASSWORD" --details "ap-<< parameters.directory >>:${CIRCLE_SHA1}"
+            export PROJECT_DIRECTORY=<< parameters.directory >>
+            chmod +x bin/twistcli_validator.py
+            python bin/twistcli_validator.py
   release:
     executor: docker-executor
     parameters:
