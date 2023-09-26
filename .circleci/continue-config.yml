@@ -2318,6 +2318,7 @@ jobs:
           paths:
             - /tmp/workspace/trivy-cache
   scan-twistlock:
+    executor: docker-executor
     docker:
       - image: docker:20.10.24-git
     description: "Twistcli: Vulnerability scan a Docker image"
@@ -2330,7 +2331,6 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
           version: 20.10.24
-          image: cimg/python:3.10
       - attach_workspace:
           at: /tmp/workspace
       - run:
