@@ -28,7 +28,7 @@ COPY parser.go $DISTRIBUTION_DIR/configuration/parser.go
 # This step is required to generate build config
 FROM base AS version
 ARG PKG="github.com/docker/distribution"
-ENV REGISTRY_VERSION 2.8.2
+ENV REGISTRY_VERSION 2.8.3
 RUN --mount=target=. \
   VERSION=$(git describe --match 'v[0-9]*' --dirty='.m' --always --tags) REVISION=$(git rev-parse HEAD)$(if ! git diff --no-ext-diff --quiet --exit-code; then echo .m; fi); \
   echo "-X ${PKG}/version.Version=${REGISTRY_VERSION} -X ${PKG}/version.Revision=${REVISION} -X ${PKG}/version.Package=${PKG}" | tee /tmp/.ldflags; \
@@ -45,7 +45,7 @@ ARG VERSION
 ARG REVISION
 RUN CGO_ENABLED=0 make PREFIX=/go clean binaries && file ./bin/registry | grep "statically linked"
 
-FROM quay.io/astronomer/ap-base:3.18.3
+FROM quay.io/astronomer/ap-base:3.18.4
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
