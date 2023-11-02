@@ -15,7 +15,7 @@
 
 # https://github.com/CenterForOpenScience/docker-library/blob/master/pgbouncer/Dockerfile
 # https://quay.io/repository/centerforopenscience/pgbouncer
-FROM quay.io/astronomer/ap-base:3.18.3
+FROM quay.io/astronomer/ap-base:3.18.4-1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 # Make it possible to override the UID/GID/username of the user running
