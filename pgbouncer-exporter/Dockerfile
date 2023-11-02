@@ -20,7 +20,6 @@ ARG GO_VERSION=1.21
 FROM golang:${GO_VERSION}-alpine3.18 AS build
 
 ENV DISTRIBUTION_DIR /go/src/github.com/astronomer/pgbouncer_exporter
-ENV BUILDTAGS include_oss include_gcs
 
 ARG GOOS=linux
 ARG GOARCH=amd64
@@ -37,7 +36,7 @@ RUN git clone https://github.com/astronomer/pgbouncer_exporter $DISTRIBUTION_DIR
 
 RUN make build_linux
 
-FROM quay.io/astronomer/ap-base:3.18.4
+FROM quay.io/astronomer/ap-base:3.18.4-1
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ENV DISTRIBUTION_DIR /go/src/github.com/astronomer/pgbouncer_exporter
