@@ -45,7 +45,7 @@ ARG VERSION
 ARG REVISION
 RUN CGO_ENABLED=0 make PREFIX=/go clean binaries && file ./bin/registry | grep "statically linked"
 
-FROM quay.io/astronomer/ap-base:3.18.4
+FROM quay.io/astronomer/ap-base:3.18.4-1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1

@@ -25,7 +25,7 @@ RUN git clone  https://github.com/abutaha/aws-es-proxy.git $AWSESPROXY_DIR && gi
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o aws-es-proxy
 
-FROM quay.io/astronomer/ap-base:3.18.4
+FROM quay.io/astronomer/ap-base:3.18.4-1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
