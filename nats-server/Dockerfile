@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/astronomer/ap-base:3.18.4
+FROM quay.io/astronomer/ap-base:3.18.4-1
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
