@@ -21,7 +21,7 @@ RUN set -ex \
 
 WORKDIR $AWSESPROXY_DIR
 
-RUN git clone  https://github.com/astronomer/aws-es-proxy.git $AWSESPROXY_DIR && git checkout a9417556b0e80196085347498b3921a92e2f85e2 && go mod tidy
+RUN git clone  https://github.com/astronomer/aws-es-proxy.git $AWSESPROXY_DIR && git checkout a9417556b0e80196085347498b3921a92e2f85e2
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o aws-es-proxy
 
