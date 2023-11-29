@@ -35,6 +35,11 @@ fi
 
 cd "$GIT_SYNC_ROOT"
 
+# git sync enhancements
+git config --global pack.windowMemory "100m"
+git config --global pack.packSizeLimit "100m"
+git config --global pack.threads "1"
+
 # Clone the repo for the first time
 if [ ! -f "$GIT_SYNC_ROOT/.git/config" ]; then
   if [ "$GIT_SYNC_DEPTH" -gt 0 ]; then
