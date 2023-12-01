@@ -3,3 +3,6 @@
 
 # The following are all within grafana-server, grafana-cli
 CVE-2023-47108
+CVE-2023-45142
+CVE-2023-39325
+GHSA-m425-mq94-257g
