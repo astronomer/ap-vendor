@@ -20,11 +20,11 @@ def cve_list_to_string(list):
     return "none\n"
 
 
-def get_ignored_cves():
+def get_ignored_cves() -> set:
     ignore_file = Path(f"{scan_results_file_path}/twistcliignore")
     if ignore_file.is_file():
-        return [line.strip() for line in ignore_file.read_text().splitlines()]
-    return []
+        return set([line.strip() for line in ignore_file.read_text().splitlines()])
+    return set()
 
 
 ignored_cve_list = get_ignored_cves()
