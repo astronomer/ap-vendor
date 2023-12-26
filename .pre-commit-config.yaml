@@ -31,35 +31,35 @@ repos:
         files: '.*\/version.txt'
         additional_dependencies: ["packaging"]
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.5
+    rev: v2.2.6
     hooks:
       - id: codespell
         args: ["-L", "AKS,aks"]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.0.281"
+    rev: "v0.1.6"
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --ignore, E501]
   - repo: https://github.com/psf/black
-    rev: 23.7.0
+    rev: 23.11.0
     hooks:
       - id: black
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: "v3.0.0"
+    rev: "v3.0.3"
     hooks:
       - id: prettier
         args: ["--print-width=135"]
         exclude: "^statsd-exporter/test/statsd-test-config.js$"
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.5
+    rev: v2.2.6
     hooks:
       - id: codespell
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.9.0.5
+    rev: v0.9.0.6
     hooks:
       - id: shellcheck
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: check-case-conflict
       - id: check-executables-have-shebangs
