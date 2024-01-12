@@ -1,7 +1,6 @@
 # This config undoes the changes done in https://github.com/astronomer/ap-vendor/pull/37/files
 # so that we can continue to support customers who need these metrics still.
 
-
 mappings:
   # Map dot separated stats to labels
   - match: airflow.dagrun.dependency-check.*.*
