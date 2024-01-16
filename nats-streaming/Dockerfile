@@ -29,7 +29,7 @@ RUN addgroup -g 1000 -S nats-streaming \
 
 RUN set -eux ; \
 	url="https://github.com/nats-io/nats-streaming-server/releases/download/v${NATS_STREAMING_SERVER}/nats-streaming-server-v${NATS_STREAMING_SERVER}-linux-amd64.zip" ; \
-	sha256="819c39e48ac6c21d13ce035464f37fe0916351f0ff255f66d1d25fb1cfb4d984" ; \
+	sha256="10f25b100a5b9a7389882883259790d599b557a16ddde1accdfcf9361e19b2f9" ; \
 	wget -O nats-streaming-server.zip "${url}" ; \
 	echo "${sha256} *nats-streaming-server.zip" | sha256sum -c - ; \
 	apk add --no-cache ca-certificates ; \
