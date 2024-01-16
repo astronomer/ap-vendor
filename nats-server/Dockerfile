@@ -28,7 +28,7 @@ RUN addgroup -g 1000 -S nats \
 
 RUN set -eux ; \
 	url="https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-linux-amd64.tar.gz" ; \
-	sha256="fb6d9cd583410e3a31f6f5d3ef7eafde12706a19c95fda7bb602f1f2dfcf6fb3" ; \
+	sha256="6c2390123fe5926625edef7106dee2c803297e9e80a5b567524b8143c9e69409" ; \
 	wget -O nats-server.tar.gz "${url}" ; \
 	echo "${sha256} *nats-server.tar.gz" | sha256sum -c - ; \
 	apk add --no-cache ca-certificates ; \
