@@ -21,7 +21,7 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV NATS_STREAMING_SERVER 0.25.5
+ENV NATS_STREAMING_SERVER 0.25.6
 
 # Create nats-streamming user and group
 RUN addgroup -g 1000 -S nats-streaming \
