@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://www.docker.elastic.co/r/elasticsearch
-FROM docker.elastic.co/elasticsearch/elasticsearch:8.11.1-amd64
+FROM docker.elastic.co/elasticsearch/elasticsearch:8.11.4-amd64
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
