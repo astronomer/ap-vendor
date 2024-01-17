@@ -1,9 +1,2 @@
 # Upstream node exporter images include several CVEs.
 # We should try to remove these each time we update.
-CVE-2023-45285
-CVE-2023-45283
-CVE-2023-48795
-CVE-2023-48795
-CVE-2023-45284
-CVE-2023-39326
-CVE-2023-6129
