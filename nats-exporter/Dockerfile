@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Golang binary building stage
-ARG GO_VERSION=1.20
+ARG GO_VERSION=1.21
 
 FROM golang:${GO_VERSION}-alpine3.18 AS build
 
@@ -23,7 +23,7 @@ RUN set -ex \
 
 WORKDIR $GOPATH/src/github.com/nats-io/prometheus-nats-exporter
 
-RUN git clone --branch v0.13.0 https://github.com/nats-io/prometheus-nats-exporter.git .
+RUN git clone --branch v0.14.0 https://github.com/nats-io/prometheus-nats-exporter.git .
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -tags netgo -installsuffix netgo -ldflags "-s -w"
 
