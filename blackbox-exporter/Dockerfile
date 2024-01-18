@@ -13,9 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG GO_VERSION=1.18
+ARG GO_VERSION=1.19
 
-FROM golang:${GO_VERSION}-alpine3.16 AS build
+FROM golang:${GO_VERSION}-alpine3.18 AS build
 
 ENV DISTRIBUTION_DIR /go/src/github.com/prometheus/blackbox_exporter
 ENV BUILDTAGS include_oss include_gcs
@@ -35,7 +35,7 @@ RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR 
 
 RUN CGO_ENABLED=0 make build
 
-FROM quay.io/astronomer/ap-base:3.18.4-2
+FROM quay.io/astronomer/ap-base:3.18.5
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
