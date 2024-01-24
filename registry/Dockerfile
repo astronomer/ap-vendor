@@ -58,7 +58,7 @@ EXPOSE 5000
 
 COPY --chown=1000:1000 docker-entrypoint.sh /entrypoint.sh
 
-USER registry
+USER 1000
 
 ENTRYPOINT ["/entrypoint.sh"]
 
