@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ARG GO_VERSION=1.15
-FROM golang:${GO_VERSION}-alpine3.18 AS build
+FROM golang:${GO_VERSION}-alpine3.14 AS build
 
 ENV DISTRIBUTION_DIR /go/src/github.com/distribution/distribution
 ENV BUILDTAGS include_oss include_gcs
