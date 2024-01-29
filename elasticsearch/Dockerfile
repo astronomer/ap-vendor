@@ -27,3 +27,5 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 RUN gpasswd -d elasticsearch root
 USER 1000
+
+USER elasticsearch
