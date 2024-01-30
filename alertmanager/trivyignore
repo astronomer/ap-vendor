@@ -1,3 +1,2 @@
 # Upstream alertmanager images include several CVEs.
 # We should try to remove these each time we update.
-
