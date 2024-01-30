@@ -72,6 +72,9 @@ repos:
         args: ["--allow-multiple-documents"]
       - id: file-contents-sorter
         args: ["--ignore-case", "--unique"]
+        files: "^.*ignore$"
+      - id: file-contents-sorter
+        args: ["--ignore-case", "--unique"]
         files: "^.gitignore$"
       - id: mixed-line-ending
         args: ["--fix=lf"]
