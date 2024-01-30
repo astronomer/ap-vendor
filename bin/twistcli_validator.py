@@ -14,9 +14,11 @@ found_cves = [
 ]
 
 
-def cve_list_to_string(list):
-    if list:
-        return "\n" + "\n".join([f"  - {item}" for item in list if item]) + "\n"
+def cve_list_to_string(items: list):
+    sorted_items = sorted(items, key=lambda x: x.lower() if x else "")
+
+    if sorted_items:
+        return "\n" + "\n".join([f"  - {item}" for item in sorted_items]) + "\n"
     return "none\n"
 
 
