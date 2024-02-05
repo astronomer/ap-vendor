@@ -168,7 +168,7 @@ mappings:
 
   - match: ol.emit.failed
     name: "ol_emit_failed"
-    labels: {}  
+    labels: {}
 
   # drop any metric not matched
   - match: "."
