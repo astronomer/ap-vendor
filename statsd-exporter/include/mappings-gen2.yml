@@ -162,12 +162,12 @@ mappings:
     name: "airflow_dataset_orphaned"
     labels: {}
 
-  - match: ol.emit.attempts
-    name: "ol_emit_attempts"
+  - match: airflow.ol.emit.attempts
+    name: "airflow_ol_emit_attempts"
     labels: {}
 
-  - match: ol.emit.failed
-    name: "ol_emit_failed"
+  - match: airflow.ol.emit.failed
+    name: "airflow_ol_emit_failed"
     labels: {}
 
   # drop any metric not matched
