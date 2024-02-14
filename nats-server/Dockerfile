@@ -21,7 +21,7 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV NATS_SERVER 2.10.10
+ENV NATS_SERVER 2.10.9
 
 RUN addgroup -g 1000 -S nats \
 	&& adduser -u 1000 -S nats -G nats
