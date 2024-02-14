@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/astronomer/ap-base:3.16.5-2
+FROM quay.io/astronomer/ap-base:3.18.6
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -43,7 +43,6 @@ RUN apk add --no-cache --virtual .build-deps \
       c-ares-dev \
       git \
       libevent-dev \
-      libressl-dev \
       libtool \
       openssl-dev \
       wget \

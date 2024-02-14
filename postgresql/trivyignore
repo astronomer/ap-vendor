@@ -1,3 +1,4 @@
 # Upstream postgres images include several CVEs.
 # We should try to remove these each time we update.
 CVE-2022-2625
+CVE-2024-0567
