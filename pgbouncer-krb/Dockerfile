@@ -43,7 +43,6 @@ RUN apk add --no-cache --virtual .build-deps \
       c-ares-dev \
       git \
       libevent-dev \
-      libressl-dev \
       libtool \
       openssl-dev \
       wget \
