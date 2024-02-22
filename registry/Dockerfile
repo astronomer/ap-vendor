@@ -52,7 +52,10 @@ RUN addgroup -g 1000 -S registry \
 RUN set -ex \
     && apk add --no-cache ca-certificates
 
-RUN chown -R 1000:1000 /etc/ssl/
+# Adopt openshift permissions
+RUN chown -R 1000:1000 /etc/ssl/ \
+    && chown -R 1000:0 /etc/ssl/certs \
+    && chmod -R ug+rwx /etc/ssl/certs
 
 COPY --from=build --chown=1000:1000 /go/src/github.com/distribution/distribution/bin/registry /bin/registry
 COPY --chown=1000:1000 ./config-example.yml /etc/docker/registry/config.yml
