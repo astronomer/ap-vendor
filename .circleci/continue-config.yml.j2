@@ -229,6 +229,16 @@ jobs:
           image_name: ap-<< parameters.directory >>
           tags: << parameters.tags >>
           overwrite_tags: << parameters.overwrite_tags >>
+      - docker-operations:
+          operations: push
+          project_path: << parameters.directory >>
+          registry: "astrocr.azurecr.io"
+          registry_username: "${ACR_USERNAME}"
+          registry_password: "${ACR_PASSWORD}"
+          repository: "astronomer"
+          image_name: << parameters.directory >>
+          tags: << parameters.tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
 
   validate-tags:
     executor: docker-executor
@@ -274,6 +284,16 @@ jobs:
           registry_password: "${DOCKER_PASSWORD}"
           repository: "astronomerinc"
           image_name: ap-<< parameters.directory >>
+          tags: << parameters.tags >>
+          overwrite_tags: << parameters.overwrite_tags >>
+      - docker-operations:
+          operations: validate_tags
+          project_path: << parameters.directory >>
+          registry: "astrocr.azurecr.io"
+          registry_username: "${ACR_USERNAME}"
+          registry_password: "${ACR_PASSWORD}"
+          repository: "astronomer"
+          image_name: << parameters.directory >>
           tags: << parameters.tags >>
           overwrite_tags: << parameters.overwrite_tags >>
 
