@@ -56,6 +56,7 @@ workflows:
           context:
             - quay.io
             - docker.io
+            - azurecr.io
           requires:
             - scan-trivy
             - scan-twistlock
@@ -70,6 +71,7 @@ workflows:
           context:
             - quay.io
             - docker.io
+            - azurecr.io
           requires:
             - scan-trivy
             - scan-twistlock
