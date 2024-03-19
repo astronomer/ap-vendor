@@ -18,7 +18,7 @@
 FROM ghcr.io/jimmidyson/configmap-reload:v0.12.0 as base
 
 # https://hub.docker.com/_/busybox?tab=tags
-FROM busybox:1.36.1
+FROM busybox:v0.12.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
