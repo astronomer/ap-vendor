@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/nginxinc/nginx-unprivileged/tags
-FROM nginxinc/nginx-unprivileged:1.25.3-alpine
+FROM nginxinc/nginx-unprivileged:v1.25.4-alpine
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
