@@ -1,3 +1,5 @@
 # Upstream elasticsearch images include several CVEs.
 CVE-2023-1370
+CVE-2024-25710
+CVE-2024-26308
 GHSA-xpw8-rcwv-8f8p
