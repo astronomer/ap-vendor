@@ -22,7 +22,7 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 # https://github.com/elastic/curator/releases
-ENV CURATOR_VERSION 8.0.9
+ENV CURATOR_VERSION 8.0.10
 
 RUN set -x ; apk --no-cache add \
       libffi \
