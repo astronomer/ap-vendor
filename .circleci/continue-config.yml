@@ -2571,7 +2571,7 @@ jobs:
           registry_username: "${ACR_USERNAME}"
           registry_password: "${ACR_PASSWORD}"
           repository: "astronomer"
-          image_name: << parameters.directory >>
+          image_name: ap-<< parameters.directory >>
           tags: << parameters.tags >>
           overwrite_tags: << parameters.overwrite_tags >>
 
