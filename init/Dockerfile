@@ -6,4 +6,5 @@ FROM quay.io/astronomer/ap-base:3.18.6
 RUN apk add --no-cache curl
 
 # Must always run as non-root
-USER astro
+# 101 is astro user, SecurityContextConstraint requires numeric uids
+USER 101
