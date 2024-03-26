@@ -2,5 +2,10 @@
 tests:
   root_user_test: False
   default_user: astro
+  users_config:
+    - name: astro
+      group: astro
+      gid: 101
+      uid: 101
 docker:
   entrypoint: "/bin/sleep 1m"
