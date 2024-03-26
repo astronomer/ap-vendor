@@ -1,6 +1,6 @@
 ---
 tests:
   root_user_test: False
-  default_user: 100
+  default_user: 101
 docker:
   entrypoint: "/bin/sleep 1m"
