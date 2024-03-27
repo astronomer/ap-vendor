@@ -36,7 +36,7 @@ RUN git clone https://github.com/astronomer/pgbouncer_exporter $DISTRIBUTION_DIR
 
 RUN make build_linux
 
-FROM quay.io/astronomer/ap-base:3.18.6
+FROM quay.io/astronomer/ap-base:3.18.6-1
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ENV DISTRIBUTION_DIR /go/src/github.com/astronomer/pgbouncer_exporter
