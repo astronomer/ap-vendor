@@ -25,7 +25,7 @@ WORKDIR $GOPATH/src/github.com/nats-io/prometheus-nats-exporter
 
 ENV NATS_EXPORTER_VERSION 0.14.0
 
-RUN git clone --branch $v{NATS_EXPORTER_VERSION} https://github.com/nats-io/prometheus-nats-exporter.git .
+RUN git clone --branch v${NATS_EXPORTER_VERSION} https://github.com/nats-io/prometheus-nats-exporter.git .
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -tags netgo -installsuffix netgo -ldflags "-s -w"
 
