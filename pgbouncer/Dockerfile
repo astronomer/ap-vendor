@@ -27,8 +27,8 @@ ARG USER=pgbouncer
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV PGBOUNCER_VERSION 1.21.0
-ENV PGBOUNCER_SHA256_CHECKSUM 7e1dd620c8d85a8490aff25061d5055d7aef9cf3e8bfe2d9e7719b8ee59114e2
+ENV PGBOUNCER_VERSION 1.22.1
+ENV PGBOUNCER_SHA256_CHECKSUM 2b018aa6ce7f592c9892bb9e0fd90262484eb73937fd2af929770a45373ba215
 
 RUN addgroup -g $GID -S $USER \
   && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
