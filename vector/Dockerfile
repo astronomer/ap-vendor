@@ -21,7 +21,7 @@ ENV VECTOR_VERSION 0.34.1
 RUN curl -fsSL https://github.com/vectordotdev/vector/releases/download/v${VECTOR_VERSION}/vector-${VECTOR_VERSION}-x86_64-unknown-linux-musl.tar.gz \
     | tar --directory=/tmp --strip-components=3 -xzf - ./vector-x86_64-unknown-linux-musl/bin/vector
 
-FROM quay.io/astronomer/ap-base:3.19.0
+FROM quay.io/astronomer/ap-base:3.18.6-1
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
