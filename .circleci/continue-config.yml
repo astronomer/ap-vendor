@@ -2567,9 +2567,9 @@ jobs:
       - docker-operations:
           operations: push
           project_path: << parameters.directory >>
-          registry: "astrocr.azurecr.io"
-          registry_username: "${ACR_USERNAME}"
-          registry_password: "${ACR_PASSWORD}"
+          registry: "astrocrpublic.azurecr.io"
+          registry_username: "${ACR_PUBLIC_USERNAME}"
+          registry_password: "${ACR_PUBLIC_PASSWORD}"
           repository: "astronomer"
           image_name: ap-<< parameters.directory >>
           tags: << parameters.tags >>
@@ -2624,9 +2624,9 @@ jobs:
       - docker-operations:
           operations: validate_tags
           project_path: << parameters.directory >>
-          registry: "astrocr.azurecr.io"
-          registry_username: "${ACR_USERNAME}"
-          registry_password: "${ACR_PASSWORD}"
+          registry: "astrocrpublic.azurecr.io"
+          registry_username: "${ACR_PUBLIC_USERNAME}"
+          registry_password: "${ACR_PUBLIC_PASSWORD}"
           repository: "astronomer"
           image_name: ap-<< parameters.directory >>
           tags: << parameters.tags >>
