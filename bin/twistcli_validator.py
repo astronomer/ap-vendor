@@ -15,17 +15,17 @@ found_cves = [
 
 
 def cve_list_to_string(items: list):
-    sorted_items = sorted(items, key=lambda x: x.lower() if x else "")
+    sorted_items = sorted(set(items), key=lambda x: x.lower() if x else "")
     if sorted_items:
         return "\n\n" + "\n".join([f"{item}" for item in sorted_items]) + "\n"
     return "none\n"
 
 
-def get_ignored_cves() -> set:
+def get_ignored_cves() -> list:
     ignore_file = Path(f"{scan_results_file_path}/twistcliignore")
     if ignore_file.is_file():
-        return set([line.strip() for line in ignore_file.read_text().splitlines()])
-    return set()
+        return sorted({line.strip() for line in ignore_file.read_text().splitlines()})
+    return []
 
 
 ignored_cve_list = get_ignored_cves()
