@@ -111,14 +111,14 @@ click==8.1.7 \
 docker==6.1.3 \
     --hash=sha256:aa6d17830045ba5ef0168d5eaa34d37beeb113948c413affe1d5991fc11f9a20 \
     --hash=sha256:aecd2277b8bf8e506e484f6ab7aec39abe0038e29fa4a6d3ba86c3fe01844ed9
-    # via -r requirements/requirements.in
+    # via -r requirements.in
 exceptiongroup==1.2.0 \
     --hash=sha256:4bfd3996ac73b41e9b9628b04e079f193850720ea5945fc96a08633c66912f14 \
     --hash=sha256:91f5c769735f051a4290d52edd0858999b57e5876e9f85937691bd4c9fa3ed68
-    # via -r requirements/requirements.in
-idna==3.6 \
-    --hash=sha256:9ecdbbd083b06798ae1e86adcbfe8ab1479cf864e4ee30fe4e46a003d12491ca \
-    --hash=sha256:c05567e9c24a6b9faaa835c4821bad0590fbb9d5779e7caa6e1cc4978e7eb24f
+    # via -r requirements.in
+idna==3.7 \
+    --hash=sha256:028ff3aadf0609c1fd278d8ea3089299412a7a8b9bd005dd08b9f8285bcb5cfc \
+    --hash=sha256:82fee1fc78add43492d3a1898bfa6d8a904cc97d8427f683ed8e798d07761aa0
     # via requests
 iniconfig==2.0.0 \
     --hash=sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3 \
@@ -128,7 +128,7 @@ packaging==23.2 \
     --hash=sha256:048fb0e9405036518eaaf48a55953c750c11e1a1b68e0dd1a9d62ed0c092cfc5 \
     --hash=sha256:8c491190033a9af7e1d931d0b5dacc2ef47509b34dd0de67ed209b5203fc88c7
     # via
-    #   -r requirements/requirements.in
+    #   -r requirements.in
     #   docker
     #   pytest
 pluggy==1.3.0 \
@@ -250,16 +250,16 @@ pytest==7.4.3 \
     --hash=sha256:0d009c083ea859a71b76adf7c1d502e4bc170b80a8ef002da5806527b9591fac \
     --hash=sha256:d989d136982de4e3b29dabcc838ad581c64e8ed52c11fbe86ddebd9da0818cd5
     # via
-    #   -r requirements/requirements.in
+    #   -r requirements.in
     #   pytest-testinfra
 pytest-testinfra==10.0.0 \
     --hash=sha256:03be2824aece7a5eda8bb4f9dbed4d8c821efcfbbc13e13df17f392c229a44ed \
     --hash=sha256:2fb7d0185458a9ba669ff14d0ddbec8b3900c6bde3fb6fad9b097374ce4ab77d
-    # via -r requirements/requirements.in
+    # via -r requirements.in
 python-on-whales==0.67.0 \
     --hash=sha256:4f0e62fbbee31adf2ec255939b0952df9cef83e7b4c0e9961a2f2045682bc15e \
     --hash=sha256:7781cfe856e3cf44f94839210e8fa4e228595834f61a70577dad0b76b4915c90
-    # via -r requirements/requirements.in
+    # via -r requirements.in
 pyyaml==6.0.1 \
     --hash=sha256:04ac92ad1925b2cff1db0cfebffb6ffc43457495c9b3c39d3fcae417d7125dc5 \
     --hash=sha256:062582fca9fabdd2c8b54a3ef1c978d786e0f6b3a1510e0ac93ef59e0ddae2bc \
@@ -311,7 +311,7 @@ pyyaml==6.0.1 \
     --hash=sha256:fca0e3a251908a499833aa292323f32437106001d436eca0e6e7833256674585 \
     --hash=sha256:fd1592b3fdf65fff2ad0004b5e363300ef59ced41c2e6b3a99d4089fa8c5435d \
     --hash=sha256:fd66fc5d0da6d9815ba2cebeb4205f95818ff4b79c3ebe268e75d961704af52f
-    # via -r requirements/requirements.in
+    # via -r requirements.in
 requests==2.31.0 \
     --hash=sha256:58cd2187c01e70e6e26505bca751777aa9f2ee0b7f4300988b709f44e013003f \
     --hash=sha256:942c5a758f98d790eaed1a29cb6eefc7ffb0d1cf7af05c3d2791656dbd6ad1e1
@@ -321,7 +321,7 @@ requests==2.31.0 \
 tomli==2.0.1 \
     --hash=sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc \
     --hash=sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f
-    # via -r requirements/requirements.in
+    # via -r requirements.in
 tqdm==4.66.1 \
     --hash=sha256:d302b3c5b53d47bce91fea46679d9c3c6508cf6332229aa1e7d8653723793386 \
     --hash=sha256:d88e651f9db8d8551a62556d3cff9e3034274ca5d66e93197cf2490e2dcb69c7
