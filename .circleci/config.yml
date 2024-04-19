@@ -23,8 +23,10 @@ parameters:
 
 workflows:
   version: 2.1
-  generate-config:
+  pre-commit-and-generate-config:
     jobs:
+      # Dynamic Configurations can only have one base workflow, so pre-commit has to be in this workflow since it doesn't fit into the path-filtering workflow.
+      # https://support.circleci.com/hc/en-us/articles/360060934851-Troubleshooting-Error-Message-Max-number-of-workflows-exceeded
       - run_pre_commit
       - path-filtering/filter:
           base-revision: main
@@ -76,7 +78,7 @@ workflows:
 jobs:
   run_pre_commit:
     docker:
-      - image: quay.io/astronomer/ci-pre-commit:2023-12
+      - image: quay.io/astronomer/ci-pre-commit:2024-04
     steps:
       - checkout
       - run:
