@@ -23,11 +23,11 @@ parameters:
 
 workflows:
   version: 2.1
-  run-pre-commit:
+  pre-commit-and-generate-config:
     jobs:
+      # Dynamic Configurations can only have one base workflow, so pre-commit has to be in this workflow since it doesn't fit into the path-filtering workflow.
+      # https://support.circleci.com/hc/en-us/articles/360060934851-Troubleshooting-Error-Message-Max-number-of-workflows-exceeded
       - run_pre_commit
-  generate-config:
-    jobs:
       - path-filtering/filter:
           base-revision: main
           config-path: .circleci/continue-config.yml
