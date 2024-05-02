@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM ubuntu:23.10
+FROM ubuntu:24.04
 
 ARG BUILD_NUMBER=-1
 
