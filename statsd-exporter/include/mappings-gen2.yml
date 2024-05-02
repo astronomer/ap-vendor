@@ -6,24 +6,29 @@
 # in the case of users with many Airflow instances being monitored
 
 mappings:
-  - match: "airflow.*_start"
+  - match: 'airflow\.([^.]+)_start'
+    match_type: regex
     name: "airflow_job_start"
     labels:
       job_name: "$1"
-  - match: "airflow.*_end"
+  - match: 'airflow\.([^.]+)_end'
+    match_type: regex
     name: "airflow_job_end"
     labels:
       job_name: "$1"
-  - match: "airflow.*_heartbeat_failure"
+  - match: 'airflow\.([^.]+)_heartbeat_failure'
+    match_type: regex
     name: "airflow_job_heartbeat_failure"
     labels:
       job_name: "$1"
 
-  - match: airflow.operator_successes_*
+  - match: "airflow.operator_successes_(.*)"
+    match_type: regex
     name: "airflow_operator_successes"
     labels:
       operator: "$1"
-  - match: airflow.operator_failures_*
+  - match: "airflow.operator_failures_(.*)"
+    match_type: regex
     name: "airflow_operator_failures"
     labels:
       operator: "$1"
@@ -139,7 +144,7 @@ mappings:
     labels: {}
 
   - match: airflow.scheduler.tasks.running
-    name: "airflow.scheduler.tasks.running"
+    name: "airflow_scheduler_tasks_running"
   - match: airflow.scheduler.tasks.killed_externally
     name: "airflow_scheduler_tasks_killed_externally"
   - match: airflow.scheduler.tasks.starving
