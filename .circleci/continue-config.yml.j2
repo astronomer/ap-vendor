@@ -114,7 +114,7 @@ jobs:
           test_requirements: << parameters.test_requirements >>
   scan-trivy:
     docker:
-      - image: docker:{{ docker_version }}-git
+      - image: cimg/base:current
     description: "Trivy: Vulnerability scan a Docker image"
     parameters:
       directory:
@@ -124,7 +124,6 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-          version: {{ docker_version }}
           image: aquasec/trivy:latest
       - attach_workspace:
           at: /tmp/workspace
@@ -162,7 +161,6 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-          version: {{ docker_version }}
       - attach_workspace:
           at: /tmp/workspace
       - run:
@@ -198,7 +196,6 @@ jobs:
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
-          version: {{ docker_version }}
       - checkout
       - attach_workspace:
           at: /tmp/workspace
@@ -265,7 +262,6 @@ jobs:
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
-          version: {{ docker_version }}
       - checkout
       - attach_workspace:
           at: /tmp/workspace
@@ -340,7 +336,6 @@ commands:
           pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
-          version: {{ docker_version }}
       - run:
           name: Build the Docker image
           command: bin/docker-operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
@@ -374,7 +369,6 @@ commands:
           pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
-          version: {{ docker_version }}
       - attach_workspace:
           at: /tmp/workspace
       - run:
