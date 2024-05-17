@@ -185,7 +185,7 @@ mappings:
   # with the provider name as the label.
   - match: 'airflow\.astro_logging\.(.+)\.write\.failed'
     match_type: regex
-    name: "airflow_astro_logging_write_failed_total"
+    name: "airflow_astro_logging_write_failed"
     labels:
       provider: "$1"
 
