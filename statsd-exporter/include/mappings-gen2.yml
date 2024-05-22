@@ -180,6 +180,14 @@ mappings:
   - match: airflow.ol.emit.failed
     name: "airflow_ol_emit_failed"
     labels: {}
+  # Mapping for astronomer-providers-logging logs write failures
+  # This captures metrics for logs write failures in the astronomer-providers-logging,
+  # with the provider name as the label.
+  - match: 'airflow\.astro_logging\.(.+)\.write\.failed'
+    match_type: regex
+    name: "airflow_astro_logging_write_failed"
+    labels:
+      provider: "$1"
 
   # drop any metric not matched
   - match: "."
