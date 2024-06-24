@@ -35,7 +35,7 @@ RUN chown -R 65534:65534 /etc/ssl/ \
     && chown -R 65534:0 /etc/ssl/certs \
     && chmod -R ug+rwx /etc/ssl/certs
 
-
+# Copied from https://github.com/prometheus/alertmanager/blob/main/Dockerfile
 EXPOSE     9093
 USER 65534
 
