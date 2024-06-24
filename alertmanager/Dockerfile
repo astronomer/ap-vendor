@@ -28,13 +28,19 @@ RUN mkdir -p /alertmanager /etc/alertmanager && \
 COPY --from=UPSTREAM /bin/amtool /usr/local/bin
 COPY --from=UPSTREAM /bin/alertmanager /usr/local/bin
 COPY --from=UPSTREAM /etc/alertmanager/alertmanager.yml   /etc/alertmanager/alertmanager.yml
+COPY --chown=65534:65534 entrypoint.sh /entrypoint.sh
 
-USER       nobody
+# Adopt openshift permissions
+RUN chown -R 65534:65534 /etc/ssl/ \
+    && chown -R 65534:0 /etc/ssl/certs \
+    && chmod -R ug+rwx /etc/ssl/certs
+
+
 EXPOSE     9093
+USER 65534
+
 VOLUME     [ "/alertmanager" ]
 WORKDIR    /alertmanager
-ENTRYPOINT [ "/usr/local/bin/alertmanager" ]
+ENTRYPOINT ["/entrypoint.sh"]
 CMD        [ "--config.file=/etc/alertmanager/alertmanager.yml", \
              "--storage.path=/alertmanager" ]
-
-USER 65534
