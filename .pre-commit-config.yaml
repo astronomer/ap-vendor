@@ -31,12 +31,12 @@ repos:
         files: '.*\/version.txt'
         additional_dependencies: ["packaging"]
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.6
+    rev: v2.3.0
     hooks:
       - id: codespell
         args: ["-L", "AKS,aks"]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.4.3"
+    rev: "v0.4.10"
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --ignore, E501]
@@ -51,7 +51,7 @@ repos:
         args: ["--print-width=135"]
         exclude: "^statsd-exporter/test/statsd-test-config.js$"
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.6
+    rev: v2.3.0
     hooks:
       - id: codespell
   - repo: https://github.com/shellcheck-py/shellcheck-py
