@@ -36,7 +36,7 @@ repos:
       - id: codespell
         args: ["-L", "AKS,aks,showIn"]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.4.10"
+    rev: "v0.5.0"
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --ignore, E501]
@@ -77,7 +77,8 @@ repos:
   - repo: https://github.com/astronomer/pre-commit-hooks
     rev: 8b2d969bd549cd7c9454cc8bb54eec5b35c2e5e6
     hooks:
-      - id: replace-en-dashes
-      - id: replace-unicode-non-breaking-spaces
       - id: remove-unicode-zero-width-non-breaking-spaces
       - id: remove-unicode-zero-width-space
+      - id: replace-en-dashes
+      - id: replace-greek-question-mark
+      - id: replace-unicode-non-breaking-spaces
