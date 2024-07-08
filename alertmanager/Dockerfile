@@ -14,10 +14,33 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/prom/alertmanager/tags?page=1&ordering=last_updated
-FROM prom/alertmanager:v0.27.0
-LABEL maintainer="Astronomer <humans@astronomer.io>"
+FROM prom/alertmanager:v0.27.0 AS UPSTREAM
 
+FROM quay.io/astronomer/ap-base:3.18.6-2
+LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+RUN mkdir -p /alertmanager /etc/alertmanager && \
+    chown -R nobody:nobody /etc/alertmanager /alertmanager
+
+COPY --from=UPSTREAM /bin/amtool /usr/local/bin
+COPY --from=UPSTREAM /bin/alertmanager /usr/local/bin
+COPY --from=UPSTREAM /etc/alertmanager/alertmanager.yml   /etc/alertmanager/alertmanager.yml
+COPY --chown=65534:65534 entrypoint.sh /entrypoint.sh
+
+# Adopt openshift permissions
+RUN chown -R 65534:65534 /etc/ssl/ \
+    && chown -R 65534:0 /etc/ssl/certs \
+    && chmod -R ug+rwx /etc/ssl/certs
+
+# Copied from https://github.com/prometheus/alertmanager/blob/main/Dockerfile
+EXPOSE     9093
 USER 65534
+
+VOLUME     [ "/alertmanager" ]
+WORKDIR    /alertmanager
+ENTRYPOINT ["/entrypoint.sh"]
+CMD        [ "--config.file=/etc/alertmanager/alertmanager.yml", \
+             "--storage.path=/alertmanager" ]
