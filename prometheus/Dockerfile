@@ -15,7 +15,7 @@
 
 # https://prometheus.io/docs/introduction/release-cycle/
 # https://hub.docker.com/r/prom/prometheus/tags
-FROM quay.io/prometheus/prometheus:v2.45.5
+FROM quay.io/prometheus/prometheus:v2.45.6
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
