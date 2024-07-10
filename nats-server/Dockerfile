@@ -21,7 +21,7 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV NATS_SERVER 2.10.17
+ENV NATS_SERVER 2.10.14
 
 ENV NATS_SERVER_SHA256_CHECKSUM c8cd7e19b906a5f8a7f9f7e70fc4bfa492d66a069d9664c4db19fdee1b6aa640
 
