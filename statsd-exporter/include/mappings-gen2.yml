@@ -87,11 +87,11 @@ mappings:
     labels: {}
 
   - match: airflow.dagrun.dependency-check
-    name: "airflow_dagrun_dependency-check"
+    name: "airflow_dagrun_dependency_check"
     labels: {}
 
   - match: airflow.dagrun.dependency-check.*
-    name: "airflow_dagrun_dependency-check"
+    name: "airflow_dagrun_dependency_check"
     labels:
       dag_id: "$1"
 
