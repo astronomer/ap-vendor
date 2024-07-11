@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG GO_VERSION=1.19
+ARG GO_VERSION=1.21
 
 FROM golang:${GO_VERSION}-alpine3.18 AS build
 
@@ -31,7 +31,7 @@ RUN set -ex \
 
 WORKDIR $DISTRIBUTION_DIR
 
-RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR && git checkout v0.24.0
+RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR && git checkout v0.25.0
 
 RUN CGO_ENABLED=0 make build
 
