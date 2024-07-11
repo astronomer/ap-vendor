@@ -23,7 +23,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 ENV NATS_SERVER 2.10.14
 
-ENV NATS_SERVER_SHA256_CHECKSUM c8cd7e19b906a5f8a7f9f7e70fc4bfa492d66a069d9664c4db19fdee1b6aa640
+ENV NATS_SERVER_SHA256_CHECKSUM 8e1ba988220e7f3a0156c085b7c4fe47222ee8342cf1cfa7b364e30d9d6aa47d
 
 RUN addgroup -g 1000 -S nats \
 	&& adduser -u 1000 -S nats -G nats
