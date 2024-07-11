@@ -82,6 +82,19 @@ mappings:
     name: "airflow_dag_processing_total_parse_time"
     labels: {}
 
+  - match: airflow.executor.open_slots
+    name: "airflow_executor_open_slots"
+    labels: {}
+
+  - match: airflow.dagrun.dependency-check
+    name: "airflow_dagrun_dependency_check"
+    labels: {}
+
+  - match: airflow.dagrun.dependency-check.*
+    name: "airflow_dagrun_dependency_check"
+    labels:
+      dag_id: "$1"
+
   - match: airflow.pool.open_slots.*
     name: "airflow_pool_open_slots"
     labels:
