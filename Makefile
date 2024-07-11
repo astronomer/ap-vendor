@@ -6,7 +6,7 @@ image_test_config:=$(image_name)/test.yaml
 
 .PHONY: help
 help: ## Print Makefile help.
-	@grep -Eh '^[a-z.A-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-28s\033[0m %s\n", $$1, $$2}'
+	@grep -Eh '^[a-z.A-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[1;36m%-28s\033[0m %s\n", $$1, $$2}'
 
 .PHONY: install-hooks
 install-hooks: ## Install git hooks
