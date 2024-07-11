@@ -1,3 +1,5 @@
 # Upstream postgres exporter images include several CVEs.
 # We should try to remove these each time we update.
 CVE-2024-24790
+CVE-2023-45283
+CVE-2023-45288
