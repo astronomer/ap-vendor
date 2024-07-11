@@ -31,12 +31,12 @@ repos:
         files: '.*\/version.txt'
         additional_dependencies: ["packaging"]
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.6
+    rev: v2.3.0
     hooks:
       - id: codespell
-        args: ["-L", "AKS,aks"]
+        args: ["-L", "AKS,aks,showIn"]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.4.3"
+    rev: "v0.5.0"
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --ignore, E501]
@@ -50,10 +50,6 @@ repos:
       - id: prettier
         args: ["--print-width=135"]
         exclude: "^statsd-exporter/test/statsd-test-config.js$"
-  - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.6
-    hooks:
-      - id: codespell
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.10.0.1
     hooks:
@@ -73,9 +69,6 @@ repos:
       - id: file-contents-sorter
         args: ["--ignore-case", "--unique"]
         files: "^.*ignore$"
-      - id: file-contents-sorter
-        args: ["--ignore-case", "--unique"]
-        files: "^.gitignore$"
       - id: mixed-line-ending
         args: ["--fix=lf"]
       - id: requirements-txt-fixer
@@ -84,7 +77,8 @@ repos:
   - repo: https://github.com/astronomer/pre-commit-hooks
     rev: 8b2d969bd549cd7c9454cc8bb54eec5b35c2e5e6
     hooks:
-      - id: replace-en-dashes
-      - id: replace-unicode-non-breaking-spaces
       - id: remove-unicode-zero-width-non-breaking-spaces
       - id: remove-unicode-zero-width-space
+      - id: replace-en-dashes
+      - id: replace-greek-question-mark
+      - id: replace-unicode-non-breaking-spaces
