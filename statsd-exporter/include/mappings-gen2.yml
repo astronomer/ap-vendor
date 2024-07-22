@@ -147,6 +147,7 @@ mappings:
     labels:
       dag_id: "$1"
       task_id: "$2"
+      state: "$3"
   - match: airflow.ti_failures
     name: "airflow_ti_failures"
   - match: airflow.ti_successes
