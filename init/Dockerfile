@@ -1,7 +1,7 @@
 # Used only for kubernetes initContainer tasks
 
 # Inherit dockerize and RDS certificates from ap-base
-FROM quay.io/astronomer/ap-base:3.18.7-1
+FROM quay.io/astronomer/ap-base:3.18.8
 
 RUN apk add --no-cache curl  shadow
 
