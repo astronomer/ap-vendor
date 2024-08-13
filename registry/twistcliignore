@@ -29,7 +29,6 @@ CVE-2023-39318
 CVE-2023-39319
 CVE-2023-39326
 CVE-2023-45284
-#Old CVEs that exist now but are already in registry/twistcliignore: 
 CVE-2021-44716
 CVE-2022-21698
 CVE-2022-27664
