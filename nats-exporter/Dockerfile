@@ -30,7 +30,7 @@ RUN git clone --branch v${NATS_EXPORTER_VERSION} https://github.com/nats-io/prom
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -tags netgo -installsuffix netgo -ldflags "-s -w"
 
 # Final docker image building stage
-FROM quay.io/astronomer/ap-base:3.18.7-1
+FROM quay.io/astronomer/ap-base:3.18.8
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
