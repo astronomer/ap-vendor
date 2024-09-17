@@ -16,7 +16,7 @@
 # https://hub.docker.com/r/prom/alertmanager/tags?page=1&ordering=last_updated
 FROM prom/alertmanager:v0.27.0 AS UPSTREAM
 
-FROM quay.io/astronomer/ap-base:3.18.7-1
+FROM quay.io/astronomer/ap-base:3.18.9
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
