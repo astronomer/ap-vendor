@@ -26,7 +26,7 @@ ENV CURATOR_VERSION 8.0.16
 
 RUN set -x ; apk --no-cache add \
       libffi \
-      libssl1.1 \
+      libssl3 \
       py3-cffi \
       py3-pip \
       py3-setuptools \
