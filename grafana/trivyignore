@@ -2,3 +2,4 @@
 # Upstream grafana images include several CVEs.
 # We should try to remove these each time we update.
 CVE-2024-24790
+CVE-2024-8986
