@@ -10,12 +10,12 @@ tests:
   test_commands:
     - command: getcap /nginx-ingress-controller
       expected_result:
-      equals: ""
+        equals: ""
     - command: getcap usr/local/nginx/sbin/nginx
       expected_result:
-      equals: ""
+        equals: ""
     - command: getcap /usr/bin/dumb-init
       expected_result:
-      equals: ""
+        equals: ""
 docker:
   entrypoint: "top"
