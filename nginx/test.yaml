@@ -7,5 +7,15 @@ tests:
       group: www-data
       gid: 82
       uid: 101
+  test_commands:
+    - command: getcap /nginx-ingress-controller
+      expected_result:
+        equals: ""
+    - command: getcap usr/local/nginx/sbin/nginx
+      expected_result:
+        equals: ""
+    - command: getcap /usr/bin/dumb-init
+      expected_result:
+        equals: ""
 docker:
   entrypoint: "top"
