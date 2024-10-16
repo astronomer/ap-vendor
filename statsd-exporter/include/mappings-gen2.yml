@@ -61,6 +61,10 @@ mappings:
     name: "airflow_dagrun_schedule_delay"
     labels:
       dag_id: "$1"
+  - match: airflow.dagrun.*.first_task_scheduling_delay
+    name: "airflow_dagrun_first_task_scheduling_delay"
+    labels:
+      dag_id: "$1"
 
   - match: airflow.dag_processing.last_duration.*
     name: "airflow_dag_processing_last_duration"
@@ -152,6 +156,11 @@ mappings:
     name: "airflow_ti_failures"
   - match: airflow.ti_successes
     name: "airflow_ti_successes"
+  - match: "airflow.task_instance_created_(.*)"
+    match_type: regex
+    name: "airflow_task_instance_created"
+    labels:
+      task_type: "$1"
 
   - match: airflow.dagbag_size
     name: "airflow_dagbag_size"
