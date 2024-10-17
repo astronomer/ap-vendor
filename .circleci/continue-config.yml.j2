@@ -143,7 +143,9 @@ jobs:
             {% raw %}- trivy-cache-{{ checksum "date" }}{% endraw %}
       - run:
           name: Scan the local image with trivy
-          command: bin/trivy-scan.sh "<< parameters.directory >>"
+          command: |
+            export TRIVY_AUTH_TOKEN="${GITHUB_TOKEN}"
+            bin/trivy-scan.sh "<< parameters.directory >>"
       - save_cache:
           {% raw %}key: trivy-cache-{{ checksum "date" }}{% endraw %}
           paths:
