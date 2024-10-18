@@ -206,6 +206,10 @@ workflows:
           directory: alertmanager
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: alertmanager
           requires:
@@ -259,6 +263,10 @@ workflows:
           directory: auth-sidecar
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: auth-sidecar
           requires:
@@ -312,6 +320,10 @@ workflows:
           directory: awsesproxy
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: awsesproxy
           requires:
@@ -365,6 +377,10 @@ workflows:
           directory: blackbox-exporter
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: blackbox-exporter
           requires:
@@ -418,6 +434,10 @@ workflows:
           directory: configmap-reloader
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: configmap-reloader
           requires:
@@ -471,6 +491,10 @@ workflows:
           directory: curator
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: curator
           requires:
@@ -524,6 +548,10 @@ workflows:
           directory: dind-golang
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: dind-golang
           requires:
@@ -577,6 +605,10 @@ workflows:
           directory: dogstatsd
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: dogstatsd
           requires:
@@ -630,6 +662,10 @@ workflows:
           directory: elasticsearch
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: elasticsearch
           requires:
@@ -683,6 +719,10 @@ workflows:
           directory: elasticsearch-exporter
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: elasticsearch-exporter
           requires:
@@ -736,6 +776,10 @@ workflows:
           directory: fluentd
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: fluentd
           requires:
@@ -789,6 +833,10 @@ workflows:
           directory: git-daemon
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: git-daemon
           requires:
@@ -842,6 +890,10 @@ workflows:
           directory: git-sync
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: git-sync
           requires:
@@ -895,6 +947,10 @@ workflows:
           directory: git-sync-relay
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: git-sync-relay
           requires:
@@ -948,6 +1004,10 @@ workflows:
           directory: grafana
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: grafana
           requires:
@@ -1001,6 +1061,10 @@ workflows:
           directory: init
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: init
           requires:
@@ -1054,6 +1118,10 @@ workflows:
           directory: keda
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: keda
           requires:
@@ -1107,6 +1175,10 @@ workflows:
           directory: keda-metrics-apiserver
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: keda-metrics-apiserver
           requires:
@@ -1160,6 +1232,10 @@ workflows:
           directory: kibana
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: kibana
           requires:
@@ -1213,6 +1289,10 @@ workflows:
           directory: kube-state
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: kube-state
           requires:
@@ -1266,6 +1346,10 @@ workflows:
           directory: kubed
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: kubed
           requires:
@@ -1319,6 +1403,10 @@ workflows:
           directory: nats-exporter
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: nats-exporter
           requires:
@@ -1372,6 +1460,10 @@ workflows:
           directory: nats-server
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: nats-server
           requires:
@@ -1425,6 +1517,10 @@ workflows:
           directory: nats-streaming
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: nats-streaming
           requires:
@@ -1478,6 +1574,10 @@ workflows:
           directory: nginx
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: nginx
           requires:
@@ -1531,6 +1631,10 @@ workflows:
           directory: nginx-es
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: nginx-es
           requires:
@@ -1584,6 +1688,10 @@ workflows:
           directory: node-exporter
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: node-exporter
           requires:
@@ -1637,6 +1745,10 @@ workflows:
           directory: openresty
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: openresty
           requires:
@@ -1690,6 +1802,10 @@ workflows:
           directory: pgbouncer
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: pgbouncer
           requires:
@@ -1743,6 +1859,10 @@ workflows:
           directory: pgbouncer-exporter
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: pgbouncer-exporter
           requires:
@@ -1796,6 +1916,10 @@ workflows:
           directory: pgbouncer-krb
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: pgbouncer-krb
           requires:
@@ -1849,6 +1973,10 @@ workflows:
           directory: po-logical-backup
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: po-logical-backup
           requires:
@@ -1902,6 +2030,10 @@ workflows:
           directory: po-pgbouncer
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: po-pgbouncer
           requires:
@@ -1955,6 +2087,10 @@ workflows:
           directory: po-spilo
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: po-spilo
           requires:
@@ -2008,6 +2144,10 @@ workflows:
           directory: postgres-exporter
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: postgres-exporter
           requires:
@@ -2061,6 +2201,10 @@ workflows:
           directory: postgres-operator
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: postgres-operator
           requires:
@@ -2114,6 +2258,10 @@ workflows:
           directory: postgresql
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: postgresql
           requires:
@@ -2167,6 +2315,10 @@ workflows:
           directory: prometheus
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: prometheus
           requires:
@@ -2220,6 +2372,10 @@ workflows:
           directory: redis
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: redis
           requires:
@@ -2273,6 +2429,10 @@ workflows:
           directory: registry
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: registry
           requires:
@@ -2326,6 +2486,10 @@ workflows:
           directory: statsd-exporter
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: statsd-exporter
           requires:
@@ -2379,6 +2543,10 @@ workflows:
           directory: vector
           requires:
             - test
+          context:
+            - github-repo
+            - trivy-db
+
       - scan-twistlock:
           directory: vector
           requires:
@@ -2472,7 +2640,7 @@ jobs:
           name: Install trivy
           command: |
             curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.53.0
-            date +%Y-W%W > date
+            date +%F > date
       - restore_cache:
           keys:
             - trivy-cache-{{ checksum "date" }}
