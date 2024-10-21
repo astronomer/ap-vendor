@@ -120,6 +120,9 @@ jobs:
       directory:
         description: "The directory name of the image to be scanned"
         type: string
+    environment:
+      TRIVY_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-db
+      TRIVY_JAVA_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-java-db
     steps:
       - checkout
       - setup_remote_docker:
@@ -137,7 +140,7 @@ jobs:
           name: Install trivy
           command: |
             curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.53.0
-            date +%Y-W%W > date
+            date +%F > date
       - restore_cache:
           keys:
             {% raw %}- trivy-cache-{{ checksum "date" }}{% endraw %}
