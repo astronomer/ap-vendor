@@ -34,5 +34,7 @@ RUN addgroup -g $GID -S $USER \
     && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER
 USER $UID
 
+RUN apk add openssl
+
 ENTRYPOINT ["pgbouncer_exporter"]
 CMD ["server"]
