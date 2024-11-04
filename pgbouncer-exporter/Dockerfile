@@ -30,7 +30,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 COPY --from=upstream /bin/pgbouncer_exporter /bin
 
-RUN apk add openssl
+RUN apk upgrade --no-cache
 
 RUN addgroup -g $GID -S $USER \
     && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER
