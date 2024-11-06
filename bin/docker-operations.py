@@ -40,9 +40,7 @@ def get_image_tags(project_path: str):
 
             for version in versions:
                 if not semver(version).release:
-                    raise Exception(
-                        f"ERROR: No valid semver found in {docker_image_path}/version.txt"
-                    )
+                    raise Exception(f"ERROR: No valid semver found in {docker_image_path}/version.txt")
 
             return versions
 
@@ -61,32 +59,23 @@ def validate_tags(
     docker_image_uri = f"{registry}/{repository}/{image}"
 
     if overwrite_tags:
-        print(
-            "INFO: Overwrite is set to True. If the tag already exists it will be overwritten."
-        )
+        print("INFO: Overwrite is set to True. If the tag already exists it will be overwritten.")
         return tags
-    else:
-        final_tags = []
-        for tag in tags:
-            if tag == "latest":
-                print("INFO: The image tag is `latest`. It will override.")
+    final_tags = []
+    for tag in tags:
+        if tag == "latest":
+            print("INFO: The image tag is `latest`. It will override.")
+            final_tags.append(tag)
+        else:
+            try:
+                docker_client.images.get_registry_data(name=f"{docker_image_uri}:{tag}")
+
+                print(f"INFO: The docker tag {docker_image_uri}:{tag} already exists. Skipping the Docker push!")
+            except APIError:
+                print(f"INFO: Docker tag {docker_image_uri}:{tag} not found on server. It will be added to the push list.")
                 final_tags.append(tag)
-            else:
-                try:
-                    docker_client.images.get_registry_data(
-                        name=f"{docker_image_uri}:{tag}"
-                    )
 
-                    print(
-                        f"INFO: The docker tag {docker_image_uri}:{tag} already exists. Skipping the Docker push!"
-                    )
-                except APIError:
-                    print(
-                        f"INFO: Docker tag {docker_image_uri}:{tag} not found on server. It will be added to the push list."
-                    )
-                    final_tags.append(tag)
-
-        return final_tags
+    return final_tags
 
 
 def build(project_path: str, image: str) -> None:
@@ -100,7 +89,7 @@ def build(project_path: str, image: str) -> None:
     full_image = f"{image}:{image_tag}"
 
     # Build Docker Image
-    print(f"INFO: Now building docker image: {str(root_directory / project_path)}")
+    print(f"INFO: Now building docker image: {root_directory / project_path!s}")
     logs_iter = docker.build(
         pull=True,
         platforms=["linux/amd64"],
@@ -141,15 +130,11 @@ def push(
             is_tagged = docker_image.tag(repository=docker_image_uri, tag=tag)
 
             if is_tagged is False:
-                raise Exception(
-                    f"Getting error while tagging Image {image}:{image_tag} --> {docker_image_uri}:{tag}."
-                )
+                raise Exception(f"Getting error while tagging Image {image}:{image_tag} --> {docker_image_uri}:{tag}.")
 
             print(f"INFO: Pushing docker image: {docker_image_uri}:{tag}")
 
-            push_resp_generator = docker_client.images.push(
-                repository=docker_image_uri, tag=tag, stream=True, decode=True
-            )
+            push_resp_generator = docker_client.images.push(repository=docker_image_uri, tag=tag, stream=True, decode=True)
 
             # Printing Push Progress
             for line in push_resp_generator:
@@ -164,8 +149,7 @@ def push(
 
             if "error" in line:
                 raise Exception(line["errorDetail"]["message"])
-            else:
-                print(f"INFO: Pushed docker image: {docker_image_uri}:{tag}")
+            print(f"INFO: Pushed docker image: {docker_image_uri}:{tag}")
 
         return True
 
@@ -175,9 +159,7 @@ def push(
 
 
 def main():
-    arg_parser = argparse.ArgumentParser(
-        description="A script to handle docker operations."
-    )
+    arg_parser = argparse.ArgumentParser(description="A script to handle docker operations.")
 
     arg_parser.add_argument("operation", type=str)
     arg_parser.add_argument("--project_path", type=str)
@@ -197,7 +179,7 @@ def main():
     if "build" == args.operation:
         if args.project_path is None:
             raise Exception("Error: Project Path is required.")
-        elif args.image is None:
+        if args.image is None:
             raise Exception("Error: Image name is required.")
 
         build(
@@ -214,15 +196,15 @@ def main():
 
         if args.project_path is None:
             raise Exception("Error: Project Path is required.")
-        elif args.registry is None:
+        if args.registry is None:
             raise Exception("Error: Registry is required.")
-        elif args.username is None:
+        if args.username is None:
             raise Exception("Error: Registry Username is required.")
-        elif args.password is None:
+        if args.password is None:
             raise Exception("Error: Registry Password is required.")
-        elif args.repository is None:
+        if args.repository is None:
             raise Exception("Error: Repository is required.")
-        elif args.image is None:
+        if args.image is None:
             raise Exception("Error: Image name is required.")
 
         file_tags = get_image_tags(project_path=args.project_path)
@@ -230,7 +212,7 @@ def main():
             if "," in tags:
                 tags = tags.strip().split(",") + file_tags
             else:
-                tags = [tags.strip()] + file_tags
+                tags = [tags.strip(), *file_tags]
 
         # Login to registry
         docker_client = login_registry(
@@ -266,15 +248,15 @@ def main():
 
         if args.project_path is None:
             raise Exception("Error: Project Path is required.")
-        elif args.registry is None:
+        if args.registry is None:
             raise Exception("Error: Registry is required.")
-        elif args.username is None:
+        if args.username is None:
             raise Exception("Error: Registry Username is required.")
-        elif args.password is None:
+        if args.password is None:
             raise Exception("Error: Registry Password is required.")
-        elif args.repository is None:
+        if args.repository is None:
             raise Exception("Error: Repository is required.")
-        elif args.image is None:
+        if args.image is None:
             raise Exception("Error: Image name is required.")
 
         file_tags = get_image_tags(project_path=args.project_path)
@@ -282,7 +264,7 @@ def main():
             if "," in tags:
                 tags = tags.strip().split(",") + file_tags
             else:
-                tags = [tags.strip()] + file_tags
+                tags = [tags.strip(), *file_tags]
 
         # Login to registry
         docker_client = login_registry(
