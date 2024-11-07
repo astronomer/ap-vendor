@@ -10,9 +10,7 @@ import yaml
 
 ASTRO_IMAGE_NAME = os.environ["ASTRO_IMAGE_NAME"]  # example: ap-curator
 ASTRO_IMAGE_TAG = os.getenv("CIRCLE_SHA1", "latest")
-ASTRO_IMAGE_TEST_CONFIG_PATH = os.getenv(
-    "ASTRO_IMAGE_TEST_CONFIG_PATH", f'{ASTRO_IMAGE_NAME.removeprefix("ap-")}/test.yaml'
-)
+ASTRO_IMAGE_TEST_CONFIG_PATH = os.getenv("ASTRO_IMAGE_TEST_CONFIG_PATH", f'{ASTRO_IMAGE_NAME.removeprefix("ap-")}/test.yaml')
 
 test_config = {}
 
@@ -88,10 +86,7 @@ def test_no_root_user(docker_host):
 )
 @pytest.mark.parametrize(
     "command, expected_result",
-    [
-        [x["command"], x["expected_result"]]
-        for x in test_config.get("test_commands", [])
-    ],
+    [[x["command"], x["expected_result"]] for x in test_config.get("test_commands", [])],
     ids=[x["command"] for x in test_config.get("test_commands", [])],
 )
 def test_commands(docker_host, command, expected_result):
@@ -124,9 +119,7 @@ def test_default_user(docker_host):
     if "default_user" in test_config:
         """Ensure default user."""
         user = docker_host.check_output("whoami")
-        assert (
-            user == test_config["default_user"]
-        ), f"Expected container to be running as 'nobody', not '{user}'"
+        assert user == test_config["default_user"], f"Expected container to be running as 'nobody', not '{user}'"
 
 
 @pytest.mark.skipif(
@@ -157,8 +150,6 @@ def test_http_service_running(docker_host):
         for service_config in test_config["http_services_running"]:
             """Ensure user is 'nobody'."""
             output = docker_host.check_output(
-                "wget --spider -S http://0.0.0.0:"
-                + str(service_config["port"])
-                + " 2>&1 | grep 'HTTP/' | awk '{print $2}'"
+                "wget --spider -S http://0.0.0.0:" + str(service_config["port"]) + " 2>&1 | grep 'HTTP/' | awk '{print $2}'"
             )
             assert output == str(service_config["response_code"])

@@ -14,9 +14,10 @@ Other behaviors of this script:
 * If the script is killed, vector is terminated.
 
 """
-import time
+
 import os
 import subprocess
+import time
 from pathlib import Path
 
 ppid = os.getppid()
@@ -44,9 +45,7 @@ class VectorHandler:
         if self.airflow_heartbeat_file.exists():
             # Sometimes the file contents are empty due to a race condition, so we only update
             # airflow_heartbeat_timestamp if the file contents can be converted to a float.
-            if airflow_heartbeat_timestamp := float(
-                self.airflow_heartbeat_file.read_text()
-            ):
+            if airflow_heartbeat_timestamp := float(self.airflow_heartbeat_file.read_text()):
                 self.airflow_heartbeat_timestamp = airflow_heartbeat_timestamp
 
         if self.airflow_heartbeat_timestamp:

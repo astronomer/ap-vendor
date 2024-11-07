@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 import sys
-
-from packaging.version import parse as semver, InvalidVersion
 from pathlib import Path
+
+from packaging.version import InvalidVersion
+from packaging.version import parse as semver
 
 errors = 0
 

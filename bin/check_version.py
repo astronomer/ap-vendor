@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Verify that a given ap-vendor component directory has a valid semver in its
 version.txt file, and print it out."""
+
 import sys
 from pathlib import Path
 
@@ -31,6 +32,6 @@ except FileNotFoundError:
 
 if not semver(version).release:
     eprint(f"ERROR: No valid semver found in {directory}/version.txt")
-    exit(1)
+    sys.exit(1)
 
 print(version)
