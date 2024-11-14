@@ -61,7 +61,8 @@ mappings:
     name: "airflow_dagrun_schedule_delay"
     labels:
       dag_id: "$1"
-  - match: airflow.dagrun.*.first_task_scheduling_delay
+  - match: 'airflow\.dagrun\.([^.]+)\.first_task_scheduling_delay'
+    match_type: regex
     name: "airflow_dagrun_first_task_scheduling_delay"
     labels:
       dag_id: "$1"
