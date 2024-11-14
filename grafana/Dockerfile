@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/grafana/grafana/tags
-FROM grafana/grafana:10.4.10
+FROM grafana/grafana:10.4.12
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
