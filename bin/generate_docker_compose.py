@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """This script is used to create the docker-compose file so that we can stay
 DRY."""
+
 from pathlib import Path
 
 import yaml
@@ -22,13 +23,7 @@ dirs_to_skip = [
 
 def list_docker_dirs(path) -> list[str]:
     """Return a list of docker image directories."""
-    return sorted(
-        [
-            x.stem
-            for x in Path(path).glob("*")
-            if x.is_dir() and x.name not in dirs_to_skip
-        ]
-    )
+    return sorted([x.stem for x in Path(path).glob("*") if x.is_dir() and x.name not in dirs_to_skip])
 
 
 def read_test_config(git_root, docker_image_dirs) -> dict:

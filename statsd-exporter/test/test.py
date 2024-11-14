@@ -7,6 +7,8 @@ import requests
 from prometheus_client.parser import text_string_to_metric_families
 from statsd import StatsClient
 
+requests_timeout = 15
+
 
 def _increment_metric(statsd_metric):
     """Send messages to statsd, this is similar to:
@@ -37,7 +39,7 @@ def _gauge_metric(statsd_metric, value):
 
 
 def _get_metrics():
-    response = requests.get("http://localhost:9102/metrics")
+    response = requests.get("http://localhost:9102/metrics", timeout=requests_timeout)
     print(response.text)
     for family in text_string_to_metric_families(response.text):
         for sample in family.samples:
@@ -66,7 +68,7 @@ class Metric:
 @pytest.mark.usefixtures("statsd_docker_compose")
 class TestGen1:
     def test_server_running(self):
-        response = requests.get("http://localhost:9102")
+        response = requests.get("http://localhost:9102", timeout=requests_timeout)
         assert response.status_code == 200
 
     def test_increment_metric(self):
@@ -94,7 +96,7 @@ class TestGen1:
 @pytest.mark.usefixtures("statsd_docker_compose_gen2")
 class TestGen2:
     def test_server_running(self):
-        response = requests.get("http://localhost:9102")
+        response = requests.get("http://localhost:9102", timeout=requests_timeout)
         assert response.status_code == 200
 
     def test_increment_metric(self):
@@ -160,10 +162,11 @@ def statsd_docker_compose():
     subprocess.run(
         "docker compose up --always-recreate-deps --force-recreate --build -d",
         shell=True,
+        check=False,
     )
     sleep(1)
     yield
-    subprocess.run("docker compose down", shell=True)
+    subprocess.run("docker compose down", shell=True, check=False)
 
 
 @pytest.fixture(scope="class")
@@ -171,7 +174,8 @@ def statsd_docker_compose_gen2():
     subprocess.run(
         "docker compose -f docker-compose-gen2.yaml up --always-recreate-deps --force-recreate --build -d",
         shell=True,
+        check=False,
     )
     sleep(1)
     yield
-    subprocess.run("docker compose -f docker-compose-gen2.yaml down", shell=True)
+    subprocess.run("docker compose -f docker-compose-gen2.yaml down", shell=True, check=False)

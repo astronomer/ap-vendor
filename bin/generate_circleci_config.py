@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """This script is used to create the circle config file so that we can stay
 DRY."""
+
 from pathlib import Path
 
 from jinja2 import Template
@@ -11,11 +12,7 @@ required_files = ["Dockerfile", "version.txt"]
 
 def list_docker_dirs(path):
     dirs = [
-        _dir
-        for _dir in sorted(path.iterdir())
-        if _dir.is_dir()
-        and _dir.name not in dirs_to_skip
-        and not _dir.name.startswith(".")
+        _dir for _dir in sorted(path.iterdir()) if _dir.is_dir() and _dir.name not in dirs_to_skip and not _dir.name.startswith(".")
     ]
     for subdir in dirs:
         for required_file in required_files:
