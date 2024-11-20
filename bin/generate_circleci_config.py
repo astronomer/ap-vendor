@@ -10,7 +10,7 @@ from jinja2 import Template
 git_root_dir = next(iter([x for x in Path(__file__).resolve().parents if (x / ".git").is_dir()]), None)
 
 dirs_to_skip = ["bin", "requirements", "venv"]
-required_files = ["Dockerfile", "version.txt", "trivy.yaml"]
+required_files = ["Dockerfile", "version.txt", "test.yaml"]
 
 
 def list_docker_dirs() -> Generator[PosixPath]:
@@ -37,6 +37,9 @@ def ensure_required_files_exist():
         print("\nAll docker build directories must have the following files:")
         for file in required_files:
             print(f"  - {file}")
+        print("\nOptional files are:")
+        print("  - trivyignore")
+        print("  - trivy.yaml")
         exit(1)
 
 
