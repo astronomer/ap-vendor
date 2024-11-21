@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/redis
-FROM redis:7.2.6
+FROM redis:7.4.1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 # Update packages to solve security vulnerabilities
