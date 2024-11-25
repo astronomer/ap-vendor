@@ -2,38 +2,60 @@
 """This script is used to create the circle config file so that we can stay
 DRY."""
 
-from pathlib import Path
+from collections.abc import Generator
+from pathlib import Path, PosixPath
 
 from jinja2 import Template
 
+git_root_dir = next(iter([x for x in Path(__file__).resolve().parents if (x / ".git").is_dir()]), None)
+
 dirs_to_skip = ["bin", "requirements", "venv"]
-required_files = ["Dockerfile", "version.txt"]
+required_files = ["Dockerfile", "version.txt", "test.yaml"]
 
 
-def list_docker_dirs(path):
-    dirs = [
-        _dir for _dir in sorted(path.iterdir()) if _dir.is_dir() and _dir.name not in dirs_to_skip and not _dir.name.startswith(".")
+def list_docker_dirs() -> Generator[PosixPath]:
+    """List all Docker project directories in the git root."""
+    yield from [
+        _dir
+        for _dir in sorted(git_root_dir.iterdir())
+        if _dir.is_dir() and _dir.name not in dirs_to_skip and not _dir.name.startswith(".")
     ]
-    for subdir in dirs:
-        for required_file in required_files:
-            if not Path(subdir / required_file).is_file():
-                raise Exception(
-                    f"ERROR: you must put a file '{required_file}' in {subdir}\n"
-                    + "If this is is not intended to be a Docker image, then make it a hidden directory or add it to dirs_to_skip"
-                )
-        yield subdir.name
+
+
+def ensure_required_files_exist():
+    """Make sure required files exist in all Docker directories. Report missing files."""
+    errors = []
+    for subdir in list_docker_dirs():
+        errors.extend(
+            f"ERROR: missing file {subdir.name}/{required_file}"
+            for required_file in required_files
+            if not (subdir / required_file).is_file()
+        )
+    if errors:
+        print("\n".join(errors))
+        print("\nAny directory that is not a docker build directory must be added to bin/generate_circleci_config.py dirs_to_skip.")
+        print("\nAll docker build directories must have the following files:")
+        for file in required_files:
+            print(f"  - {file}")
+        print("\nOptional files are:")
+        print("  - trivyignore")
+        print("  - trivy.yaml")
+        exit(1)
 
 
 def main():
     """Render the Jinja2 template file."""
-    circle_directory = Path(__file__).parent.parent / ".circleci"
+    ensure_required_files_exist()
+
+    circle_directory = git_root_dir / ".circleci"
     config_template_path = circle_directory / "config.yml.j2"
     config_path = circle_directory / "config.yml"
+    dir_names = [dir.name for dir in list_docker_dirs()]
 
     with config_template_path.open() as circle_ci_config_template:
         templated_file_content = circle_ci_config_template.read()
     template = Template(templated_file_content)
-    config = template.render(directories=list_docker_dirs(circle_directory.parent))
+    config = template.render(directories=dir_names)
     warning_header = (
         "# Warning: automatically generated file\n"
         + "# Please edit .circleci/config.yml.j2, then run bin/generate_circleci_config.py\n"
@@ -50,8 +72,8 @@ def main():
         templated_file_content = continue_circle_ci_config_template.read()
     continue_template = Template(templated_file_content)
     continue_config = continue_template.render(
-        directories=list_docker_dirs(circle_directory.parent),
-        workflow_directories=list_docker_dirs(circle_directory.parent),
+        directories=dir_names,
+        workflow_directories=dir_names,
     )
 
     continue_warning_header = (
