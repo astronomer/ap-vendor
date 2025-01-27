@@ -28,4 +28,4 @@ RUN adduser -u 65533 -S git-sync -G nogroup
 USER 65533:65533
 
 RUN git config --global --add safe.directory /git
-ENTRYPOINT /gitsync.sh
+ENTRYPOINT ["/gitsync.sh"]
