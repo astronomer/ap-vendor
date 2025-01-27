@@ -7,6 +7,11 @@ services:
     image: ap-alertmanager:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: alertmanager
+  ap-alpine:
+    image: ap-alpine:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: alpine
+    entrypoint: "/bin/sleep 1m"
   ap-auth-sidecar:
     image: ap-auth-sidecar:${ASTRO_IMAGE_TAG:-latest}
     build:
@@ -178,6 +183,11 @@ services:
     image: ap-prometheus:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: prometheus
+  ap-python:
+    image: ap-python:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: python
+    entrypoint: "/bin/sleep 1m"
   ap-redis:
     image: ap-redis:${ASTRO_IMAGE_TAG:-latest}
     build:
