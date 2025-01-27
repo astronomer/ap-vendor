@@ -33,6 +33,7 @@ workflows:
           config-path: .circleci/continue-config.yml
           mapping: |
             alertmanager/.* alertmanager true
+            alpine/.* alpine true
             auth-sidecar/.* auth-sidecar true
             awsesproxy/.* awsesproxy true
             blackbox-exporter/.* blackbox-exporter true
@@ -70,6 +71,7 @@ workflows:
             postgres-operator/.* postgres-operator true
             postgresql/.* postgresql true
             prometheus/.* prometheus true
+            python/.* python true
             redis/.* redis true
             registry/.* registry true
             statsd-exporter/.* statsd-exporter true
