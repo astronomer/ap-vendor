@@ -1,0 +1,11 @@
+---
+tests:
+  root_user_test: True
+  default_user: alpine
+  users_config:
+    - name: alpine
+      group: alpine
+      gid: 65533
+      uid: 65533
+docker:
+  entrypoint: "/bin/sleep 1m"
