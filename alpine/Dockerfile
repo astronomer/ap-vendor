@@ -16,7 +16,6 @@
 # https://hub.docker.com/_/alpine
 FROM alpine:3.21.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
-USER 65533:65533
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER

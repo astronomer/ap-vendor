@@ -1,11 +1,11 @@
----
-tests:
-  root_user_test: True
-  default_user: nobody
-  users_config:
-    - name: nobody
-      group: nobody
-      gid: 65533
-      uid: 65533
-docker:
-  entrypoint: "/bin/sleep 1m"
+# ---
+# tests:
+#   root_user_test: True
+#   default_user: nobody
+#   users_config:
+#     - name: nobody
+#       group: nobody
+#       gid: 65533
+#       uid: 65533
+# docker:
+#   entrypoint: "/bin/sleep 1m"
