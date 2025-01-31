@@ -1,10 +1,10 @@
 ---
 tests:
   root_user_test: True
-  default_user: git-sync
+  default_user: nobody
   users_config:
-    - name: git-sync
-      group: git-sync
+    - name: nobody
+      group: nobody
       gid: 65533
       uid: 65533
 docker:
