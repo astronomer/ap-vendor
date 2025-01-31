@@ -14,13 +14,13 @@
 # limitations under the License.
 
 # https://github.com/kubernetes/git-sync/releases
+FROM debian:bookworm-slim as bash
 FROM registry.k8s.io/git-sync/git-sync:v4.2.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 USER root
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y bash \
-    && rm -rf /var/lib/apt/lists/*
+COPY --from=bash /bin/bash /bin/bash
+COPY --from=bash /lib/x86_64-linux-gnu/libc.so.6 /lib/x86_64-linux-gnu/
+COPY --from=bash /lib/x86_64-linux-gnu/libtinfo.so.6 /lib/x86_64-linux-gnu/
 USER 65533:65533
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
