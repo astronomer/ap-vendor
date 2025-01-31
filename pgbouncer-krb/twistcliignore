@@ -1,5 +1,3 @@
 CVE-2023-42366
 CVE-2024-50602
-New CVEs that are not found in pgbouncer-krb/twistcliignore:
-Old CVEs that exist now but are already in pgbouncer-krb/twistcliignore: none
-Solved CVEs that can be removed from pgbouncer-krb/twistcliignore:
+
