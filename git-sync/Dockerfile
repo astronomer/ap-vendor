@@ -39,7 +39,7 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG UID=1000
 ARG GID=1000
 ARG BUILD_NUMBER=-1
-ARG USER=git-sync
+ARG USER=root
 
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
