@@ -63,8 +63,3 @@ USER $UID
 
 # Configure git safe directory
 RUN git config --global --add safe.directory /git
-
-# Set working directory
-WORKDIR /tmp
-
-ENTRYPOINT ["/usr/local/bin/git-sync"]
