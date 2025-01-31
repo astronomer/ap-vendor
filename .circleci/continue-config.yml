@@ -17,6 +17,10 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image alertmanager."
+  alpine:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image alpine."
   auth-sidecar:
     type: boolean
     default: false
@@ -165,6 +169,10 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image prometheus."
+  python:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image python."
   redis:
     type: boolean
     default: false
@@ -229,6 +237,59 @@ workflows:
                 - main
       - validate-tags:
           directory: alertmanager
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+          requires:
+            - scan-trivy
+            - scan-twistlock
+          filters:
+            branches:
+              ignore: main
+  alpine-build:
+    when:
+      and:
+        - << pipeline.parameters.alpine >>
+    jobs:
+      - build:
+          name: build
+          directory: alpine
+      - test:
+          directory: alpine
+          test_script: bin/test.py
+          test_requirements: requirements/requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: alpine
+          requires:
+            - test
+      - scan-twistlock:
+          directory: alpine
+          requires:
+            - test
+          context:
+            - twistcli
+      - release:
+          directory: alpine
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+          requires:
+            - scan-trivy
+            - scan-twistlock
+          filters:
+            branches:
+              only:
+                - main
+      - validate-tags:
+          directory: alpine
           tags: "latest"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
@@ -2190,6 +2251,59 @@ workflows:
                 - main
       - validate-tags:
           directory: prometheus
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+          requires:
+            - scan-trivy
+            - scan-twistlock
+          filters:
+            branches:
+              ignore: main
+  python-build:
+    when:
+      and:
+        - << pipeline.parameters.python >>
+    jobs:
+      - build:
+          name: build
+          directory: python
+      - test:
+          directory: python
+          test_script: bin/test.py
+          test_requirements: requirements/requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: python
+          requires:
+            - test
+      - scan-twistlock:
+          directory: python
+          requires:
+            - test
+          context:
+            - twistcli
+      - release:
+          directory: python
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+          requires:
+            - scan-trivy
+            - scan-twistlock
+          filters:
+            branches:
+              only:
+                - main
+      - validate-tags:
+          directory: python
           tags: "latest"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
