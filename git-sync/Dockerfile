@@ -14,13 +14,24 @@
 # limitations under the License.
 
 # https://github.com/kubernetes/git-sync/releases
-FROM debian:bookworm-slim as bash
+# Stage 1: Get upgraded packages and bash
+FROM debian:bookworm-slim as base
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y bash && \
+    rm -rf /var/lib/apt/lists/*
+
+# Final stage
 FROM registry.k8s.io/git-sync/git-sync:v4.2.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 USER root
-COPY --from=bash /bin/bash /bin/bash
-COPY --from=bash /lib/x86_64-linux-gnu/libc.so.6 /lib/x86_64-linux-gnu/
-COPY --from=bash /lib/x86_64-linux-gnu/libtinfo.so.6 /lib/x86_64-linux-gnu/
+
+# Copy upgraded bash and necessary libraries
+COPY --from=base /bin/bash /bin/bash
+COPY --from=base /lib/x86_64-linux-gnu/libc.so.6 /lib/x86_64-linux-gnu/
+COPY --from=base /lib/x86_64-linux-gnu/libtinfo.so.6 /lib/x86_64-linux-gnu/
+
+# Return to the non-root user
 USER 65533:65533
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
