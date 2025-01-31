@@ -28,7 +28,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # https://github.com/kubernetes/git-sync/releases
-FROM registry.k8s.io/git-sync/git-sync:v3.6.9 AS upstream
+FROM registry.k8s.io/git-sync/git-sync:v4.2.3 AS upstream
 
 FROM quay.io/astronomer/ap-base:3.20.3-1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
