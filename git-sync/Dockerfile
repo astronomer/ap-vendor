@@ -35,9 +35,9 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 COPY --from=upstream /git-sync /usr/local/bin/
 USER root
 RUN apk update && apk upgrade --available && apk add --no-cache git openssh-client
-RUN mkdir -m 02775 /git && chown nobody:nobody /git
+RUN mkdir -m 02775 /git && chown 65533:65533 /git
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 RUN git config --global --add safe.directory /git
-USER nobody
+USER 65533:65533
