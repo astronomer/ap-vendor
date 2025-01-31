@@ -6,7 +6,3 @@ CVE-2018-20677
 CVE-2024-45339
 CVE-2024-51744
 CVE-2024-6485
-CVE-2024-8986
-New CVEs that are not found in grafana/twistcliignore:
-Old CVEs that exist now but are already in grafana/twistcliignore:
-Solved CVEs that can be removed from grafana/twistcliignore:
