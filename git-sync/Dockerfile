@@ -17,7 +17,10 @@
 FROM registry.k8s.io/git-sync/git-sync:v4.2.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 USER root
-# RUN apt update && apt upgrade -y && apt install bash -y && rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y bash \
+    && rm -rf /var/lib/apt/lists/*
 USER 65533:65533
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
