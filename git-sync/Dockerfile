@@ -36,8 +36,8 @@ FROM quay.io/astronomer/ap-base:3.20.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 # Make it possible to override the UID/GID
-ARG UID=65533
-ARG GID=65533
+ARG UID=1000
+ARG GID=1000
 ARG BUILD_NUMBER=-1
 ARG USER=git-sync
 
