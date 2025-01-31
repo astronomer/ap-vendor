@@ -27,41 +27,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+# https://github.com/kubernetes/git-sync/releases
+FROM registry.k8s.io/git-sync/git-sync:v3.6.9 AS upstream
 
-# First stage: get git-sync binary
-FROM registry.k8s.io/git-sync/git-sync:v4.2.3 AS upstream
-
-# Final stage: use ap-base
-FROM quay.io/astronomer/ap-base:3.20.3
+FROM quay.io/astronomer/ap-base:3.20.3-1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
-
-# Make it possible to override the UID/GID
-ARG UID=1000
-ARG GID=1000
+COPY --from=upstream /git-sync /usr/local/bin/
+USER root
+RUN apk update && apk upgrade --available && apk add --no-cache git openssh-client
+RUN mkdir -m 02775 /git && chown 65533:65533 /git
 ARG BUILD_NUMBER=-1
-ARG USER=root
-
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-
-# Copy git-sync binary from upstream
-COPY --from=upstream /git-sync /usr/local/bin/
-COPY --from=upstream /usr/bin/git /usr/bin/
-COPY --from=upstream /usr/lib/git-core /usr/lib/git-core
-
-# Update packages
-RUN apk upgrade --no-cache
-
-# Create user and group
-RUN addgroup -g $GID -S $USER \
-    && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER
-
-# Set the GITSYNC_ROOT environment variable
-ENV GITSYNC_ROOT=/git
-ENV HOME=/tmp
-
-# Switch to non-root user
-USER $UID
-
-# Configure git safe directory
 RUN git config --global --add safe.directory /git
+USER 65533:65533
