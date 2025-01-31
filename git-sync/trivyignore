@@ -1,5 +1,6 @@
 # Upstream git-sync images include several CVEs.
 # We should try to remove these each time we update.
+
 CVE-2019-8457
 CVE-2020-16156
 CVE-2021-33560
@@ -9,3 +10,6 @@ CVE-2022-21698
 CVE-2022-29458
 CVE-2022-42916
 CVE-2022-43551
+CVE-2023-39325
+CVE-2023-45283
+CVE-2023-45288
