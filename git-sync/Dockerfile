@@ -46,6 +46,8 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 # Copy git-sync binary from upstream
 COPY --from=upstream /git-sync /usr/local/bin/
+COPY --from=upstream /usr/bin/git /usr/bin/
+COPY --from=upstream /usr/lib/git-core /usr/lib/git-core
 
 # Update packages
 RUN apk upgrade --no-cache
