@@ -1,10 +1,10 @@
 ---
 tests:
   root_user_test: True
-  default_user: nobody
+  default_user: 65533
   users_config:
-    - name: nobody
-      group: nobody
+    - name: 65533
+      group: 65533
       gid: 65533
       uid: 65533
 docker:
