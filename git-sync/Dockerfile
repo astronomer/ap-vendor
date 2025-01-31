@@ -35,6 +35,7 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 COPY --from=upstream /git-sync /usr/local/bin/
 USER root
 RUN apk update && apk upgrade --available && apk add --no-cache git openssh-client
+RUN addgroup -g 65533 -S git-sync && adduser -u 65533 -S -G git-sync -s /sbin/nologin git-sync
 RUN mkdir -m 02775 /git && chown git-sync:git-sync /git
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
