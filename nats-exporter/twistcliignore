@@ -1,1 +1,5 @@
+CVE-2023-42366
 CVE-2024-24790
+New CVEs that are not found in nats-exporter/twistcliignore:
+Old CVEs that exist now but are already in nats-exporter/twistcliignore:
+Solved CVEs that can be removed from nats-exporter/twistcliignore: none

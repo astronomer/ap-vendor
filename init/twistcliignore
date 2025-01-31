@@ -1,2 +1,6 @@
+CVE-2023-42366
 CVE-2024-50602
 CVE-2024-9143
+New CVEs that are not found in init/twistcliignore:
+Old CVEs that exist now but are already in init/twistcliignore: none
+Solved CVEs that can be removed from init/twistcliignore:
