@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://github.com/kubernetes/git-sync/releases
-FROM registry.k8s.io/git-sync/git-sync:v3.6.9
+FROM registry.k8s.io/git-sync/git-sync:v4.2.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 USER root
 RUN apt update && apt upgrade -y && apt install bash -y && rm -rf /var/lib/apt/lists/*
