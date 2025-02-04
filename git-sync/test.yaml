@@ -4,7 +4,7 @@ tests:
   default_user: git-sync
   users_config:
     - name: git-sync
-      group: git-sync
+      group: nogroup
     - gid: 65533
       uid: 65533
 docker:
