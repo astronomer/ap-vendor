@@ -42,3 +42,4 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 RUN git config --global --add safe.directory /git
 USER 65533
+ENTRYPOINT  [ "git-sync" ]
