@@ -20,7 +20,13 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-RUN apk update && apk upgrade --available && apk add --no-cache git openssh-client
+RUN apk update && \
+    apk upgrade --available && \
+    apk add --no-cache \
+        git \
+        openssh-client \
+        python3
+
 COPY gitsync.sh /gitsync.sh
 RUN mkdir -p /git
 
