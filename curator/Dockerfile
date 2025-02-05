@@ -32,6 +32,7 @@ RUN set -x ; apk --no-cache add \
       py3-setuptools \
       python3 \
       python3-dev && \
+    rm -fv /usr/lib/python3.*/EXTERNALLY-MANAGED && \
     apk add --no-cache  \
       py3-cryptography \
       py3-openssl \
@@ -52,4 +53,3 @@ RUN set -x ; apk --no-cache add \
 USER 65534
 
 ENTRYPOINT ["/usr/bin/curator"]
-
