@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://quay.io/repository/astronomer/ap-base?tab=tags
-FROM quay.io/astronomer/ap-base:3.20.3-1
+FROM quay.io/astronomer/ap-base:3.20.5
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -22,16 +22,17 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 # https://github.com/elastic/curator/releases
-ENV CURATOR_VERSION 8.0.17
+ENV CURATOR_VERSION=8.0.17
 
 RUN set -x ; apk --no-cache add \
       libffi \
-      libssl1.1 \
+      openssl \
       py3-cffi \
       py3-pip \
       py3-setuptools \
       python3 \
       python3-dev && \
+    rm -fv /usr/lib/python3.*/EXTERNALLY-MANAGED && \
     apk add --no-cache  \
       py3-cryptography \
       py3-openssl \
@@ -52,4 +53,3 @@ RUN set -x ; apk --no-cache add \
 USER 65534
 
 ENTRYPOINT ["/usr/bin/curator"]
-
