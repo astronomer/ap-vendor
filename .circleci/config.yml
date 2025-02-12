@@ -52,6 +52,7 @@ workflows:
             keda/.* keda true
             keda-metrics-apiserver/.* keda-metrics-apiserver true
             kibana/.* kibana true
+            kube-rbac-proxy/.* kube-rbac-proxy true
             kube-state/.* kube-state true
             kubed/.* kubed true
             nats-exporter/.* nats-exporter true
