@@ -12,15 +12,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-ARG GO_VERSION=1.15
-FROM golang:${GO_VERSION}-alpine3.14 AS build
+ARG GO_VERSION=1.22.10
+FROM golang:${GO_VERSION}-alpine3.20 AS build
 
 ENV DISTRIBUTION_DIR /go/src/github.com/distribution/distribution
 ENV BUILDTAGS include_oss include_gcs
 
 ARG GOOS=linux
 ARG GOARCH=amd64
-ARG GOARM=6
+ARG GOARM=7  # WTF is this and why is it needed? https://go.dev/wiki/GoArm
 ARG VERSION
 ARG REVISION
 
@@ -29,10 +29,17 @@ RUN set -ex \
 
 WORKDIR $DISTRIBUTION_DIR
 
-# this commit includes some important fixes we need to apply:  https://github.com/distribution/distribution/issues/3097 and
-# in includes fix of https://github.com/distribution/distribution/issues/625
-# since no official release since 2019 o_O
-RUN git clone https://github.com/astronomer/distribution.git $DISTRIBUTION_DIR && git checkout 26bdf12d62492d8cb8e8ed98f490ce99f655f343
+# https://github.com/distribution/distribution/releases
+ENV REGISTRY_VERSION 2.8.3
+
+RUN set -eux ; \
+	url="https://github.com/distribution/distribution/releases/download/v${REGISTRY_VERSION}/registry_${REGISTRY_VERSION}_linux_amd64.tar.gz"; \
+	sha256="b68ffb849bcdb49639dc91ba97baba6618346f95fedc0fcc94871b31d515d205" ; \
+	wget -O registry.tar.gz "${url}" ; \
+	echo "$sha256 *registry.tar.gz" | sha256sum -c -; \
+	tar --extract --verbose --file registry.tar.gz --directory /bin/ registry; \
+	rm registry.tar.gz; \
+	registry --version
 
 RUN CGO_ENABLED=0 make PREFIX=/go clean binaries && file ./bin/registry | grep "statically linked"
 
