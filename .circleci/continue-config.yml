@@ -93,6 +93,10 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image kibana."
+  kube-rbac-proxy:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image kube-rbac-proxy."
   kube-state:
     type: boolean
     default: false
@@ -1244,6 +1248,59 @@ workflows:
                 - main
       - validate-tags:
           directory: kibana
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+          requires:
+            - scan-trivy
+            - scan-twistlock
+          filters:
+            branches:
+              ignore: main
+  kube-rbac-proxy-build:
+    when:
+      and:
+        - << pipeline.parameters.kube-rbac-proxy >>
+    jobs:
+      - build:
+          name: build
+          directory: kube-rbac-proxy
+      - test:
+          directory: kube-rbac-proxy
+          test_script: bin/test.py
+          test_requirements: requirements/requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: kube-rbac-proxy
+          requires:
+            - test
+      - scan-twistlock:
+          directory: kube-rbac-proxy
+          requires:
+            - test
+          context:
+            - twistcli
+      - release:
+          directory: kube-rbac-proxy
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+          requires:
+            - scan-trivy
+            - scan-twistlock
+          filters:
+            branches:
+              only:
+                - main
+      - validate-tags:
+          directory: kube-rbac-proxy
           tags: "latest"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:

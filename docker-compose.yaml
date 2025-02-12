@@ -96,6 +96,10 @@ services:
     image: ap-kibana:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: kibana
+  ap-kube-rbac-proxy:
+    image: ap-kube-rbac-proxy:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: kube-rbac-proxy
   ap-kube-state:
     image: ap-kube-state:${ASTRO_IMAGE_TAG:-latest}
     build:
