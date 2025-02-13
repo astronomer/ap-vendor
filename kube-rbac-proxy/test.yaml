@@ -1,9 +1,9 @@
 ---
 tests:
-  root_user_test: False
+  root_user_test: True
   default_user: kube-rbac-proxy
   users_config:
     - name: kube-rbac-proxy
-      group: kube-rbac-proxy
-      gid: 65533
       uid: 65533
+docker:
+  entrypoint: "/bin/sleep 1m"

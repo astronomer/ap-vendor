@@ -13,17 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM gcr.io/kubebuilder/kube-rbac-proxy:v0.8.0
+FROM quay.io/astronomer/ap-base:3.20.5
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV OPERATOR=/usr/local/bin/kube-rbac-proxy \
-    USER_UID=65533 \
-    USER_NAME=kube-rbac-proxy
+# Copy the kube-rbac-proxy binary from the original image
+COPY --from=gcr.io/kubebuilder/kube-rbac-proxy:v0.8.0 /usr/local/bin/kube-rbac-proxy /usr/local/bin/kube-rbac-proxy
 
-USER ${USER_UID}
-ENTRYPOINT ["kube-rbac-proxy"]
-CMD ["tail", "-f", "/dev/null"]
+COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
+
+RUN adduser -u 65533 -S kube-rbac-proxy -G nogroup
+
+# Switch to non-root user after all permission changes are done
+USER 65533:65533
+
+ENTRYPOINT ["/entrypoint.sh"]

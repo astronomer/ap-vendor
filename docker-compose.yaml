@@ -100,6 +100,7 @@ services:
     image: ap-kube-rbac-proxy:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: kube-rbac-proxy
+    entrypoint: "/bin/sleep 1m"
   ap-kube-state:
     image: ap-kube-state:${ASTRO_IMAGE_TAG:-latest}
     build:
