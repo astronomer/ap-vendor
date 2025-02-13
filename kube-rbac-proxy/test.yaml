@@ -1,9 +1,8 @@
-# ---
-# tests:
-#   root_user_test: True
-#   default_user: kube-rbac-proxy
-#   users_config:
-#     - name: kube-rbac-proxy
-#       group: kube-rbac-proxy
-#       gid: 65533
-#       uid: 65533
+---
+tests:
+  root_user_test: True
+  default_user: kube-rbac-proxy
+  users_config:
+    - name: kube-rbac-proxy
+      group: kube-rbac-proxy
+      uid: 65533
