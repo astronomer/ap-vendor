@@ -25,3 +25,4 @@ ENV OPERATOR=/usr/local/bin/kube-rbac-proxy \
     USER_NAME=kube-rbac-proxy
 
 USER ${USER_UID}
+CMD ["tail", "-f", "/dev/null"]
