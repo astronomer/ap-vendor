@@ -14,8 +14,28 @@
 # limitations under the License.
 # https://github.com/brancz/kube-rbac-proxy
 
-FROM gcr.io/kubebuilder/kube-rbac-proxy:v0.8.0 AS upstream
+# Builder stage
+FROM golang:1.21-bullseye AS builder
 
+# Install build dependencies
+RUN apt-get update && apt-get install -y git make
+
+WORKDIR /src
+RUN git clone https://github.com/brancz/kube-rbac-proxy.git && \
+    cd kube-rbac-proxy && \
+    git checkout 4e78316a56a47e3c05e572a4dba10c4f8a88c994
+
+WORKDIR /src/kube-rbac-proxy
+
+# Build with explicit flags
+ENV GOARCH=amd64 \
+    GOOS=linux \
+    CGO_ENABLED=0 \
+    GO111MODULE=on
+
+RUN make build
+
+# Final stage (keep your existing final stage as is)
 FROM quay.io/astronomer/ap-base:3.20.5
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
@@ -23,7 +43,7 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-COPY --from=upstream /usr/local/bin/kube-rbac-proxy /usr/local/bin/
+COPY --from=builder /src/kube-rbac-proxy/_output/kube-rbac-proxy-linux-amd64 /usr/local/bin/kube-rbac-proxy
 
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
