@@ -35,7 +35,6 @@ ENV GOARCH=amd64 \
 
 RUN make build
 
-# Final stage (keep your existing final stage as is)
 FROM quay.io/astronomer/ap-base:3.20.5
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
