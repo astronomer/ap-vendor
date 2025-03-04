@@ -22,7 +22,7 @@ import time
 from pathlib import Path
 
 
-def signal_handler(sig):
+def signal_handler(sig, _):
     print(f"Received signal {sig}", flush=True)
     if handler:
         handler.quit_proc()
