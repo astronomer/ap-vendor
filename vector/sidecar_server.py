@@ -16,20 +16,26 @@ Other behaviors of this script:
 """
 
 import os
+import signal
 import subprocess
+import sys
 import time
 from pathlib import Path
 
-ppid = os.getppid()
-print(f"{ppid=}", flush=True)
-
+def signal_handler(sig, frame):
+    print(f"Received signal {sig}", flush=True)
+    if handler:
+        handler.quit_proc()
+    sys.exit(0)
 
 class VectorHandler:
     airflow_finished_file = Path("/var/log/sidecar-log-consumer/finished")
     airflow_heartbeat_file = Path("/var/log/sidecar-log-consumer/heartbeat")
     airflow_heartbeat_max_age = 120  # seconds
     airflow_heartbeat_timestamp = None
-    vector = subprocess.Popen("/usr/local/bin/vector", shell=True)
+
+    def __init__(self):
+        self.vector = subprocess.Popen(["/usr/local/bin/vector"], shell=False)
 
     def quit_proc(self):
         """Ask vector to quit nicely, and kill it after 60 if it does not quit."""
@@ -70,6 +76,8 @@ class VectorHandler:
 
         print("Airflow has exited.")
 
+signal.signal(signal.SIGTERM, signal_handler)
+signal.signal(signal.SIGINT, signal_handler)
 
 handler = VectorHandler()
 try:
