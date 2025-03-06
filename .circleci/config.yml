@@ -64,9 +64,6 @@ workflows:
             pgbouncer/.* pgbouncer true
             pgbouncer-exporter/.* pgbouncer-exporter true
             pgbouncer-krb/.* pgbouncer-krb true
-            po-logical-backup/.* po-logical-backup true
-            po-pgbouncer/.* po-pgbouncer true
-            po-spilo/.* po-spilo true
             postgres-exporter/.* postgres-exporter true
             postgres-operator/.* postgres-operator true
             postgresql/.* postgresql true
