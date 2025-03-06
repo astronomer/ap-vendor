@@ -137,10 +137,6 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image pgbouncer-exporter."
-  pgbouncer-krb:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image pgbouncer-krb."
   postgres-exporter:
     type: boolean
     default: false
@@ -1815,59 +1811,6 @@ workflows:
                 - main
       - validate-tags:
           directory: pgbouncer-exporter
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-          requires:
-            - scan-trivy
-            - scan-twistlock
-          filters:
-            branches:
-              ignore: main
-  pgbouncer-krb-build:
-    when:
-      and:
-        - << pipeline.parameters.pgbouncer-krb >>
-    jobs:
-      - build:
-          name: build
-          directory: pgbouncer-krb
-      - test:
-          directory: pgbouncer-krb
-          test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
-          requires:
-            - build
-      - scan-trivy:
-          directory: pgbouncer-krb
-          requires:
-            - test
-      - scan-twistlock:
-          directory: pgbouncer-krb
-          requires:
-            - test
-          context:
-            - twistcli
-      - release:
-          directory: pgbouncer-krb
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-          requires:
-            - scan-trivy
-            - scan-twistlock
-          filters:
-            branches:
-              only:
-                - main
-      - validate-tags:
-          directory: pgbouncer-krb
           tags: "latest"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:

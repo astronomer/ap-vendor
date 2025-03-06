@@ -63,7 +63,6 @@ workflows:
             openresty/.* openresty true
             pgbouncer/.* pgbouncer true
             pgbouncer-exporter/.* pgbouncer-exporter true
-            pgbouncer-krb/.* pgbouncer-krb true
             postgres-exporter/.* postgres-exporter true
             postgres-operator/.* postgres-operator true
             postgresql/.* postgresql true
