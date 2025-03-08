@@ -116,6 +116,14 @@ mappings:
     name: "airflow_pool_running_slots"
     labels:
       pool: "$1"
+  - match: airflow.pool.deferred_slots.*
+    name: "airflow_pool_deferred_slots"
+    labels:
+      pool: "$1"
+  - match: airflow.pool.scheduled_slots.*
+    name: "airflow_pool_scheduled_slots"
+    labels:
+      pool: "$1"
   - match: airflow.pool.starving_tasks.*
     name: "airflow_pool_starving_tasks"
     labels:
