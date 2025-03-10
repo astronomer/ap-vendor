@@ -1,16 +1,15 @@
 # Warning: automatically generated file
 # Please edit .circleci/continue_config.yml.j2, then run bin/generate_circleci_config.py
-
 ---
 version: 2.1
 
 orbs:
-  python: circleci/python@2.1.1
+  python: circleci/python@3.0.0 # https://circleci.com/developer/orbs/orb/circleci/python
 
 executors:
   docker-executor:
     docker:
-      - image: cimg/python:3.11
+      - image: cimg/python:3.12
 
 parameters:
   alertmanager:
@@ -2431,7 +2430,7 @@ jobs:
             - /tmp/workspace/trivy-cache
   scan-twistlock:
     docker:
-      - image: cimg/python:3.10
+      - image: cimg/python:3.12
     description: "Twistcli: Vulnerability scan a Docker image"
     parameters:
       directory:

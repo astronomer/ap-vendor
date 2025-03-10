@@ -7,13 +7,12 @@ version: 2.1
 setup: true
 
 orbs:
-  python: circleci/python@2.1.1
-  path-filtering: circleci/path-filtering@0.1.4
+  path-filtering: circleci/path-filtering@1.2.0 # https://circleci.com/developer/orbs/orb/circleci/path-filtering
 
 executors:
   docker-executor:
     docker:
-      - image: cimg/python:3.11
+      - image: cimg/python:3.12
 
 parameters:
   overwrite_tags:
@@ -77,7 +76,7 @@ workflows:
 jobs:
   run_pre_commit:
     docker:
-      - image: quay.io/astronomer/ci-pre-commit:2024-11
+      - image: quay.io/astronomer/ci-pre-commit:2025-03
     steps:
       - checkout
       - run:

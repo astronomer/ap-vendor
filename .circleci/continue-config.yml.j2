@@ -1,14 +1,15 @@
 {# https://circleci.com/docs/2.0/building-docker-images/#docker-version #}
+{%- set python_version = "3.12" -%}
 ---
 version: 2.1
 
 orbs:
-  python: circleci/python@2.1.1
+  python: circleci/python@3.0.0 # https://circleci.com/developer/orbs/orb/circleci/python
 
 executors:
   docker-executor:
     docker:
-      - image: cimg/python:3.11
+      - image: cimg/python:{{ python_version }}
 
 parameters:
 {%- for directory in directories %}
@@ -153,7 +154,7 @@ jobs:
             - /tmp/workspace/trivy-cache
   scan-twistlock:
     docker:
-      - image: cimg/python:3.10
+      - image: cimg/python:{{ python_version }}
     description: "Twistcli: Vulnerability scan a Docker image"
     parameters:
       directory:
