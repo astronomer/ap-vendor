@@ -12,16 +12,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-ARG GO_VERSION=1.20
+ARG GO_VERSION=1.23
 FROM golang:${GO_VERSION}-alpine AS builder
 
-ENV AWSESPROXY_DIR /go/src/github.com/astronomer/aws-es-proxy
+ENV AWSESPROXY_DIR=/go/src/github.com/astronomer/aws-es-proxy
 RUN set -ex \
     && apk add --no-cache make git file
 
 WORKDIR $AWSESPROXY_DIR
 
-RUN git clone  https://github.com/astronomer/aws-es-proxy.git $AWSESPROXY_DIR && git checkout a9417556b0e80196085347498b3921a92e2f85e2
+RUN git clone https://github.com/astronomer/aws-es-proxy.git $AWSESPROXY_DIR && git checkout 89b3c29292e14ff445750af12fb9d2ad3b0fe47c
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o aws-es-proxy
 
@@ -36,7 +36,7 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /home/
 COPY --from=builder /go/src/github.com/astronomer/aws-es-proxy/aws-es-proxy /usr/local/bin/
 
-ENV PORT_NUM 9200
+ENV PORT_NUM=9200
 EXPOSE ${PORT_NUM}
 
 USER nobody
