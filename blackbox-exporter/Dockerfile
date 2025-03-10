@@ -13,12 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG GO_VERSION=1.21
+ARG GO_VERSION=1.23
 
-FROM golang:${GO_VERSION}-alpine3.18 AS build
+FROM golang:${GO_VERSION}-alpine3.21 AS build
 
-ENV DISTRIBUTION_DIR /go/src/github.com/prometheus/blackbox_exporter
-ENV BUILDTAGS include_oss include_gcs
+ENV DISTRIBUTION_DIR=/go/src/github.com/prometheus/blackbox_exporter
+ENV BUILDTAGS=include_oss include_gcs
 
 ARG GOOS=linux
 ARG GOARCH=amd64
@@ -31,7 +31,7 @@ RUN set -ex \
 
 WORKDIR $DISTRIBUTION_DIR
 
-RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR && git checkout v0.25.0
+RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR && git checkout v0.26.0
 
 RUN CGO_ENABLED=0 make build
 
