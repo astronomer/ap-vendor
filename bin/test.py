@@ -10,7 +10,7 @@ import yaml
 
 ASTRO_IMAGE_NAME = os.environ["ASTRO_IMAGE_NAME"]  # example: ap-curator
 ASTRO_IMAGE_TAG = os.getenv("CIRCLE_SHA1", "latest")
-ASTRO_IMAGE_TEST_CONFIG_PATH = os.getenv("ASTRO_IMAGE_TEST_CONFIG_PATH", f'{ASTRO_IMAGE_NAME.removeprefix("ap-")}/test.yaml')
+ASTRO_IMAGE_TEST_CONFIG_PATH = os.getenv("ASTRO_IMAGE_TEST_CONFIG_PATH", f"{ASTRO_IMAGE_NAME.removeprefix('ap-')}/test.yaml")
 
 test_config = {}
 

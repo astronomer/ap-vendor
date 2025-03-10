@@ -140,9 +140,9 @@ def push(
             for line in push_resp_generator:
                 if "status" in line:
                     if "progress" in line and "id" in line:
-                        text = f'{line["id"]}: {line["status"]} {line["progress"]}'
+                        text = f"{line['id']}: {line['status']} {line['progress']}"
                     elif "id" in line:
-                        text = f'{line["id"]}: {line["status"]}'
+                        text = f"{line['id']}: {line['status']}"
                     else:
                         text = line["status"]
                     print(text)
