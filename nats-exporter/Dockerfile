@@ -14,16 +14,16 @@
 # limitations under the License.
 
 # Golang binary building stage
-ARG GO_VERSION=1.21
+ARG GO_VERSION=1.23
 
-FROM golang:${GO_VERSION}-alpine3.18 AS build
+FROM golang:${GO_VERSION}-alpine3.21 AS build
 
 RUN set -ex \
     && apk add --no-cache make git file
 
 WORKDIR $GOPATH/src/github.com/nats-io/prometheus-nats-exporter
 
-ENV NATS_EXPORTER_VERSION 0.15.0
+ENV NATS_EXPORTER_VERSION=0.15.0
 
 RUN git clone --branch v${NATS_EXPORTER_VERSION} https://github.com/nats-io/prometheus-nats-exporter.git .
 
