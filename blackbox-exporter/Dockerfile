@@ -18,7 +18,7 @@ ARG GO_VERSION=1.23
 FROM golang:${GO_VERSION}-alpine3.21 AS build
 
 ENV DISTRIBUTION_DIR=/go/src/github.com/prometheus/blackbox_exporter
-ENV BUILDTAGS=include_oss include_gcs
+ENV BUILDTAGS="include_oss include_gcs"
 
 ARG GOOS=linux
 ARG GOARCH=amd64
