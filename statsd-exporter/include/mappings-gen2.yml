@@ -213,6 +213,53 @@ mappings:
     labels:
       provider: "$1"
 
+  # Mappings for the Astro bundle backend
+  # See: https://github.com/astronomer/astro-bundle-backend
+  - match: 'airflow.astro.bundle_backend.refresh_success.*.*'
+    name: "astro_bundle_backend_refresh_success"
+    labels:
+      instance: "$1"
+      mount_path: "$2"
+  - match: 'airflow.astro.bundle_backend.refresh_failure.*.*'
+    name: "astro_bundle_backend_refresh_failure"
+    labels:
+      instance: "$1"
+      mount_path: "$2"
+  - match: 'airflow.astro.bundle_backend.tarball_size.*.*.*'
+    name: "astro_bundle_backend_tarball_size"
+    labels:
+      instance: "$1"
+      mount_path: "$2"
+      le: "$3"
+  - match: 'airflow.astro.bundle_backend.num_files.*.*.*'
+    name: "astro_bundle_backend_num_files"
+    labels:
+      instance: "$1"
+      mount_path: "$2"
+      le: "$3"
+  - match: 'airflow.astro.bundle_backend.download_time.*.*.*'
+    name: "astro_bundle_backend_download_time"
+    labels:
+      instance: "$1"
+      mount_path: "$2"
+      le: "$3"
+  - match: 'airflow.astro.bundle_backend.extract_time.*.*.*'
+    name: "astro_bundle_backend_extract_time"
+    labels:
+      instance: "$1"
+      mount_path: "$2"
+      le: "$3"
+  - match: 'airflow.astro.bundle_backend.download_urls_success.*.*'
+    name: "astro_bundle_backend_download_urls_success"
+    labels:
+      instance: "$1"
+      mount_path: "$2"
+  - match: 'airflow.astro.bundle_backend.download_urls_failure.*.*'
+    name: "astro_bundle_backend_download_urls_failure"
+    labels:
+      instance: "$1"
+      mount_path: "$2"
+
   # drop any metric not matched
   - match: "."
     match_type: regex
