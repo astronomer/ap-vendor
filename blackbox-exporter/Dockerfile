@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG GO_VERSION=1.23
+ARG GO_VERSION=1.21
 
 FROM golang:${GO_VERSION}-alpine3.21 AS build
 
