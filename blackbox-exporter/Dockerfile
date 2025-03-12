@@ -15,7 +15,8 @@
 
 ARG GO_VERSION=1.21
 
-FROM golang:${GO_VERSION}-alpine3.21 AS build
+# https://hub.docker.com/_/golang/tags?name=1.21-alpine
+FROM golang:${GO_VERSION}-alpine3.20 AS build
 
 ENV DISTRIBUTION_DIR=/go/src/github.com/prometheus/blackbox_exporter
 ENV BUILDTAGS="include_oss include_gcs"
