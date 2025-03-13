@@ -10,7 +10,7 @@ import yaml
 
 ASTRO_IMAGE_NAME = os.environ["ASTRO_IMAGE_NAME"]  # example: ap-curator
 ASTRO_IMAGE_TAG = os.getenv("CIRCLE_SHA1", "latest")
-ASTRO_IMAGE_TEST_CONFIG_PATH = os.getenv("ASTRO_IMAGE_TEST_CONFIG_PATH", f'{ASTRO_IMAGE_NAME.removeprefix("ap-")}/test.yaml')
+ASTRO_IMAGE_TEST_CONFIG_PATH = os.getenv("ASTRO_IMAGE_TEST_CONFIG_PATH", f"{ASTRO_IMAGE_NAME.removeprefix('ap-')}/test.yaml")
 
 test_config = {}
 
@@ -94,21 +94,21 @@ def test_commands(docker_host, command, expected_result):
         """Run commands and validate their output."""
         output = docker_host.check_output(command)
         if expected_result.get("in"):
-            assert (
-                expected_result["in"] in output
-            ), f"Command `{command}` did not have expected_result in it!\n{output=}\n{expected_result['in']=}"
+            assert expected_result["in"] in output, (
+                f"Command `{command}` did not have expected_result in it!\n{output=}\n{expected_result['in']=}"
+            )
         elif expected_result.get("equals"):
-            assert (
-                output == expected_result["equals"]
-            ), f"Command `{command}` did not equal expected_result!\n{output=}\n{expected_result['equals']=}"
+            assert output == expected_result["equals"], (
+                f"Command `{command}` did not equal expected_result!\n{output=}\n{expected_result['equals']=}"
+            )
         elif expected_result.get("startswith"):
-            assert output.startswith(
-                expected_result["startswith"]
-            ), f"Command `{command}` did not start with expected_result!\n{output=}\n{expected_result['startswith']=}"
+            assert output.startswith(expected_result["startswith"]), (
+                f"Command `{command}` did not start with expected_result!\n{output=}\n{expected_result['startswith']=}"
+            )
         elif expected_result.get("endswith"):
-            assert output.endswith(
-                expected_result["endswith"]
-            ), f"Command `{command}` did not end with expected_result!\n{output=}\n{expected_result['endswith']=}"
+            assert output.endswith(expected_result["endswith"]), (
+                f"Command `{command}` did not end with expected_result!\n{output=}\n{expected_result['endswith']=}"
+            )
 
 
 @pytest.mark.skipif(
