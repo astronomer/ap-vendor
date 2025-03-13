@@ -1,16 +1,15 @@
 # Warning: automatically generated file
 # Please edit .circleci/continue_config.yml.j2, then run bin/generate_circleci_config.py
-
 ---
 version: 2.1
 
 orbs:
-  python: circleci/python@2.1.1
+  python: circleci/python@3.0.0 # https://circleci.com/developer/orbs/orb/circleci/python
 
 executors:
   docker-executor:
     docker:
-      - image: cimg/python:3.11
+      - image: cimg/python:3.12
 
 parameters:
   alertmanager:
@@ -141,18 +140,6 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image pgbouncer-krb."
-  po-logical-backup:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image po-logical-backup."
-  po-pgbouncer:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image po-pgbouncer."
-  po-spilo:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image po-spilo."
   postgres-exporter:
     type: boolean
     default: false
@@ -1892,165 +1879,6 @@ workflows:
           filters:
             branches:
               ignore: main
-  po-logical-backup-build:
-    when:
-      and:
-        - << pipeline.parameters.po-logical-backup >>
-    jobs:
-      - build:
-          name: build
-          directory: po-logical-backup
-      - test:
-          directory: po-logical-backup
-          test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
-          requires:
-            - build
-      - scan-trivy:
-          directory: po-logical-backup
-          requires:
-            - test
-      - scan-twistlock:
-          directory: po-logical-backup
-          requires:
-            - test
-          context:
-            - twistcli
-      - release:
-          directory: po-logical-backup
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-          requires:
-            - scan-trivy
-            - scan-twistlock
-          filters:
-            branches:
-              only:
-                - main
-      - validate-tags:
-          directory: po-logical-backup
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-          requires:
-            - scan-trivy
-            - scan-twistlock
-          filters:
-            branches:
-              ignore: main
-  po-pgbouncer-build:
-    when:
-      and:
-        - << pipeline.parameters.po-pgbouncer >>
-    jobs:
-      - build:
-          name: build
-          directory: po-pgbouncer
-      - test:
-          directory: po-pgbouncer
-          test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
-          requires:
-            - build
-      - scan-trivy:
-          directory: po-pgbouncer
-          requires:
-            - test
-      - scan-twistlock:
-          directory: po-pgbouncer
-          requires:
-            - test
-          context:
-            - twistcli
-      - release:
-          directory: po-pgbouncer
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-          requires:
-            - scan-trivy
-            - scan-twistlock
-          filters:
-            branches:
-              only:
-                - main
-      - validate-tags:
-          directory: po-pgbouncer
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-          requires:
-            - scan-trivy
-            - scan-twistlock
-          filters:
-            branches:
-              ignore: main
-  po-spilo-build:
-    when:
-      and:
-        - << pipeline.parameters.po-spilo >>
-    jobs:
-      - build:
-          name: build
-          directory: po-spilo
-      - test:
-          directory: po-spilo
-          test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
-          requires:
-            - build
-      - scan-trivy:
-          directory: po-spilo
-          requires:
-            - test
-      - scan-twistlock:
-          directory: po-spilo
-          requires:
-            - test
-          context:
-            - twistcli
-      - release:
-          directory: po-spilo
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-          requires:
-            - scan-trivy
-            - scan-twistlock
-          filters:
-            branches:
-              only:
-                - main
-      - validate-tags:
-          directory: po-spilo
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-          requires:
-            - scan-trivy
-            - scan-twistlock
-          filters:
-            branches:
-              ignore: main
   postgres-exporter-build:
     when:
       and:
@@ -2602,7 +2430,7 @@ jobs:
             - /tmp/workspace/trivy-cache
   scan-twistlock:
     docker:
-      - image: cimg/python:3.10
+      - image: cimg/python:3.12
     description: "Twistcli: Vulnerability scan a Docker image"
     parameters:
       directory:
