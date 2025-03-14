@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/astronomer/ap-base:3.20.5
+FROM quay.io/astronomer/ap-base:3.21.3-1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -21,11 +21,16 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 RUN apk update && apk upgrade --available && apk add --no-cache git openssh-client
+
 COPY gitsync.sh /gitsync.sh
 RUN mkdir -p /git
 
 RUN adduser -u 65533 -S git-sync -G nogroup
-USER 65533:65533
 
+ENV HOME=/home/git-sync
+RUN chown -R 65533:0  /home/git-sync \
+    && chmod -R ug+rwx /home/git-sync
+
+USER 65533:65533
 RUN git config --global --add safe.directory /git
 ENTRYPOINT /gitsync.sh

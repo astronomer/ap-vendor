@@ -31,12 +31,12 @@ repos:
         files: '.*\/version.txt'
         additional_dependencies: ["packaging"]
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.3.0
+    rev: v2.4.1
     hooks:
       - id: codespell
         args: ["-L", "AKS,aks,showIn"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.7.1"
+    rev: "v0.9.10"
     hooks:
       - id: ruff
         args:
@@ -75,7 +75,7 @@ repos:
         args: ["requirements/requirements.in", "requirements/requirements.txt"]
       - id: trailing-whitespace
   - repo: https://github.com/astronomer/pre-commit-hooks
-    rev: 8b2d969bd549cd7c9454cc8bb54eec5b35c2e5e6
+    rev: 976b58ba36fcd3313fed6d5a7abc228cec64f994
     hooks:
       - id: remove-unicode-zero-width-non-breaking-spaces
       - id: remove-unicode-zero-width-space
