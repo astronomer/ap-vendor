@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM registry:2.8.3 AS upstream
+# https://hub.docker.com/_/registry/tags
+FROM registry:3.0.0-rc.3 AS upstream
 
 FROM quay.io/astronomer/ap-base:3.21.3-1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
