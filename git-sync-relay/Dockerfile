@@ -20,12 +20,17 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-RUN apk update && apk upgrade --available && apk add --no-cache git openssh-client
+RUN apk update && apk upgrade --available && apk add --no-cache git openssh-client 
+
 COPY gitsync.sh /gitsync.sh
 RUN mkdir -p /git
 
 RUN adduser -u 65533 -S git-sync -G nogroup
-USER 65533:65533
 
-RUN git config --global --add safe.directory /git
+ENV HOME=/home/git-sync
+RUN chown -R 65533:0  /home/git-sync \
+    && chmod -R ug+rwx /home/git-sync 
+    
+USER 65533:65533
+RUN git config --global --add safe.directory /git 
 ENTRYPOINT /gitsync.sh
