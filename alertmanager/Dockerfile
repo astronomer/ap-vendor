@@ -44,3 +44,4 @@ WORKDIR    /alertmanager
 ENTRYPOINT ["/entrypoint.sh"]
 CMD        [ "--config.file=/etc/alertmanager/alertmanager.yml", \
              "--storage.path=/alertmanager" ]
+#echo "# Testing cosign image signing"
