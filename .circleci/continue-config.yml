@@ -222,6 +222,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: alertmanager
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: alertmanager
           tags: "latest"
@@ -275,6 +290,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: alpine
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: alpine
           tags: "latest"
@@ -328,6 +358,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: auth-sidecar
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: auth-sidecar
           tags: "latest"
@@ -381,6 +426,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: awsesproxy
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: awsesproxy
           tags: "latest"
@@ -434,6 +494,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: blackbox-exporter
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: blackbox-exporter
           tags: "latest"
@@ -487,6 +562,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: configmap-reloader
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: configmap-reloader
           tags: "latest"
@@ -540,6 +630,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: curator
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: curator
           tags: "latest"
@@ -593,6 +698,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: dind-golang
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: dind-golang
           tags: "latest"
@@ -646,6 +766,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: dogstatsd
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: dogstatsd
           tags: "latest"
@@ -699,6 +834,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: elasticsearch
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: elasticsearch
           tags: "latest"
@@ -752,6 +902,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: elasticsearch-exporter
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: elasticsearch-exporter
           tags: "latest"
@@ -805,6 +970,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: fluentd
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: fluentd
           tags: "latest"
@@ -858,6 +1038,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: git-daemon
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: git-daemon
           tags: "latest"
@@ -911,6 +1106,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: git-sync
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: git-sync
           tags: "latest"
@@ -964,6 +1174,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: git-sync-relay
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: git-sync-relay
           tags: "latest"
@@ -1017,6 +1242,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: grafana
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: grafana
           tags: "latest"
@@ -1070,6 +1310,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: init
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: init
           tags: "latest"
@@ -1123,6 +1378,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: keda
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: keda
           tags: "latest"
@@ -1176,6 +1446,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: keda-metrics-apiserver
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: keda-metrics-apiserver
           tags: "latest"
@@ -1229,6 +1514,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: kibana
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: kibana
           tags: "latest"
@@ -1282,6 +1582,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: kube-state
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: kube-state
           tags: "latest"
@@ -1335,6 +1650,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: kubed
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: kubed
           tags: "latest"
@@ -1388,6 +1718,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: nats-exporter
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: nats-exporter
           tags: "latest"
@@ -1441,6 +1786,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: nats-server
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: nats-server
           tags: "latest"
@@ -1494,6 +1854,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: nats-streaming
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: nats-streaming
           tags: "latest"
@@ -1547,6 +1922,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: nginx
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: nginx
           tags: "latest"
@@ -1600,6 +1990,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: nginx-es
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: nginx-es
           tags: "latest"
@@ -1653,6 +2058,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: node-exporter
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: node-exporter
           tags: "latest"
@@ -1706,6 +2126,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: openresty
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: openresty
           tags: "latest"
@@ -1759,6 +2194,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: pgbouncer
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: pgbouncer
           tags: "latest"
@@ -1812,6 +2262,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: pgbouncer-exporter
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: pgbouncer-exporter
           tags: "latest"
@@ -1865,6 +2330,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: pgbouncer-krb
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: pgbouncer-krb
           tags: "latest"
@@ -1918,6 +2398,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: postgres-exporter
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: postgres-exporter
           tags: "latest"
@@ -1971,6 +2466,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: postgres-operator
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: postgres-operator
           tags: "latest"
@@ -2024,6 +2534,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: postgresql
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: postgresql
           tags: "latest"
@@ -2077,6 +2602,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: prometheus
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: prometheus
           tags: "latest"
@@ -2130,6 +2670,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: python
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: python
           tags: "latest"
@@ -2183,6 +2738,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: redis
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: redis
           tags: "latest"
@@ -2236,6 +2806,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: registry
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: registry
           tags: "latest"
@@ -2289,6 +2874,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: statsd-exporter
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: statsd-exporter
           tags: "latest"
@@ -2342,6 +2942,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: vector
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: vector
           tags: "latest"
@@ -2358,6 +2973,57 @@ workflows:
               ignore: main
 
 jobs:
+  sign-image:
+    executor: docker-executor
+    parameters:
+      directory:
+        description: "The directory name of the image to be signed"
+        type: string
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - cosign-setup
+      - run:
+          name: Login to docker registries
+          command: |
+            echo "$QUAY_PASSWORD" | docker login --username "$QUAY_USERNAME" --password-stdin quay.io
+            echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin docker.io
+            echo "$ACR_PUBLIC_PASSWORD" | docker login --username "$ACR_PUBLIC_USERNAME" --password-stdin astrocrpublic.azurecr.io
+            echo "$ACR_PASSWORD" | docker login --username "$ACR_USERNAME" --password-stdin astrocr.azurecr.io
+      - run:
+          name: Sign Docker images
+          command: |
+            sign_image() {
+              local registry=$1
+              local repository=$2
+              local tag=$3
+
+              echo "Signing image: $registry/$repository/ap-<< parameters.directory >>:$tag"
+              echo "-----BEGIN ENCRYPTED SIGSTORE PRIVATE KEY-----" > /tmp/cosign.key
+              echo "$COSIGN_PRIVATE_KEY" |
+                sed 's/.*BEGIN ENCRYPTED SIGSTORE PRIVATE KEY----- \(.*\) -----END.*/\1/' |
+                tr -d ' ' | fold -w 64 >> /tmp/cosign.key
+              echo "-----END ENCRYPTED SIGSTORE PRIVATE KEY-----" >> /tmp/cosign.key
+
+              # Use echo to pipe the password (more compatible with CircleCI)
+              echo "$COSIGN_PASSWORD" | cosign sign --yes --key /tmp/cosign.key "$registry/$repository/ap-<< parameters.directory >>:$tag"
+
+              echo "Verifying image: $registry/$repository/ap-<< parameters.directory >>:$tag"
+              echo "-----BEGIN PUBLIC KEY-----" > /tmp/cosign.pub
+              echo "$COSIGN_PUBLIC_KEY" |
+                sed 's/.*BEGIN PUBLIC KEY----- \(.*\) -----END.*/\1/' |
+                tr -d ' ' | fold -w 64 >> /tmp/cosign.pub
+              echo "-----END PUBLIC KEY-----" >> /tmp/cosign.pub
+
+              cosign verify --key /tmp/cosign.pub "$registry/$repository/ap-<< parameters.directory >>:$tag"
+            }
+
+            sign_image "quay.io" "astronomer" "latest"
+            sign_image "docker.io" "astronomerinc" "latest"
+            sign_image "astrocrpublic.azurecr.io" "astronomer" "latest"
+            sign_image "astrocr.azurecr.io" "astronomer" "latest"
+
+            rm -f /tmp/cosign.key /tmp/cosign.pub
   build:
     executor: docker-executor
     description: Build an image
@@ -2593,6 +3259,17 @@ jobs:
           overwrite_tags: << parameters.overwrite_tags >>
 
 commands:
+  cosign-setup:
+    description: "Install cosign"
+    steps:
+      - run:
+          name: Install cosign
+          command: |
+            mkdir -p $HOME/.local/bin
+            curl -L https://github.com/sigstore/cosign/releases/download/v2.2.2/cosign-linux-amd64 -o $HOME/.local/bin/cosign
+            chmod +x $HOME/.local/bin/cosign
+            export PATH=$PATH:$HOME/.local/bin
+            echo 'export PATH=$PATH:$HOME/.local/bin' >> $BASH_ENV
   docker-build:
     description: "Build a Docker image"
     parameters:

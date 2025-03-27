@@ -65,6 +65,21 @@ workflows:
             branches:
               only:
                 - main
+                - codesign-7082
+      - sign-image:
+          directory: {{ directory }}
+          requires:
+            - release
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - softwareCodeSign
+          filters:
+            branches:
+              only:
+                - main
+                - codesign-7082
       - validate-tags:
           directory: {{ directory }}
           tags: "latest"
@@ -82,6 +97,57 @@ workflows:
 {%- endfor %}
 
 jobs:
+  sign-image:
+    executor: docker-executor
+    parameters:
+      directory:
+        description: "The directory name of the image to be signed"
+        type: string
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - cosign-setup
+      - run:
+          name: Login to docker registries
+          command: |
+            echo "$QUAY_PASSWORD" | docker login --username "$QUAY_USERNAME" --password-stdin quay.io
+            echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin docker.io
+            echo "$ACR_PUBLIC_PASSWORD" | docker login --username "$ACR_PUBLIC_USERNAME" --password-stdin astrocrpublic.azurecr.io
+            echo "$ACR_PASSWORD" | docker login --username "$ACR_USERNAME" --password-stdin astrocr.azurecr.io
+      - run:
+          name: Sign Docker images
+          command: |
+            sign_image() {
+              local registry=$1
+              local repository=$2
+              local tag=$3
+
+              echo "Signing image: $registry/$repository/ap-<< parameters.directory >>:$tag"
+              echo "-----BEGIN ENCRYPTED SIGSTORE PRIVATE KEY-----" > /tmp/cosign.key
+              echo "$COSIGN_PRIVATE_KEY" |
+                sed 's/.*BEGIN ENCRYPTED SIGSTORE PRIVATE KEY----- \(.*\) -----END.*/\1/' |
+                tr -d ' ' | fold -w 64 >> /tmp/cosign.key
+              echo "-----END ENCRYPTED SIGSTORE PRIVATE KEY-----" >> /tmp/cosign.key
+
+              # Use echo to pipe the password (more compatible with CircleCI)
+              echo "$COSIGN_PASSWORD" | cosign sign --yes --key /tmp/cosign.key "$registry/$repository/ap-<< parameters.directory >>:$tag"
+
+              echo "Verifying image: $registry/$repository/ap-<< parameters.directory >>:$tag"
+              echo "-----BEGIN PUBLIC KEY-----" > /tmp/cosign.pub
+              echo "$COSIGN_PUBLIC_KEY" |
+                sed 's/.*BEGIN PUBLIC KEY----- \(.*\) -----END.*/\1/' |
+                tr -d ' ' | fold -w 64 >> /tmp/cosign.pub
+              echo "-----END PUBLIC KEY-----" >> /tmp/cosign.pub
+
+              cosign verify --key /tmp/cosign.pub "$registry/$repository/ap-<< parameters.directory >>:$tag"
+            }
+
+            sign_image "quay.io" "astronomer" "latest"
+            sign_image "docker.io" "astronomerinc" "latest"
+            sign_image "astrocrpublic.azurecr.io" "astronomer" "latest"
+            sign_image "astrocr.azurecr.io" "astronomer" "latest"
+
+            rm -f /tmp/cosign.key /tmp/cosign.pub
   build:
     executor: docker-executor
     description: Build an image
@@ -317,6 +383,17 @@ jobs:
           overwrite_tags: << parameters.overwrite_tags >>
 
 commands:
+  cosign-setup:
+    description: "Install cosign"
+    steps:
+      - run:
+          name: Install cosign
+          command: |
+            mkdir -p $HOME/.local/bin
+            curl -L https://github.com/sigstore/cosign/releases/download/v2.2.2/cosign-linux-amd64 -o $HOME/.local/bin/cosign
+            chmod +x $HOME/.local/bin/cosign
+            export PATH=$PATH:$HOME/.local/bin
+            echo 'export PATH=$PATH:$HOME/.local/bin' >> $BASH_ENV
   docker-build:
     description: "Build a Docker image"
     parameters:
