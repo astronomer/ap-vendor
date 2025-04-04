@@ -30,6 +30,9 @@ RUN mkdir redis ; curl -fsSL $REDIS_DOWNLOAD_URL -o redis.tar.gz; echo "$REDIS_D
 FROM debian:bookworm-slim AS build
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
+COPY --from=downloader /tmp/redis /usr/src/redis
+COPY install_packages /usr/local/bin/install_packages
+
 # Make it possible to override the UID/GID/username of the user running
 ARG UID=999
 ARG GID=999
@@ -40,21 +43,11 @@ RUN set -eux; \
 	groupadd -r -g $GID redis; \
 	useradd -r -g redis -u $UID redis
 
-# runtime dependencies
-RUN set -eux; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
 # add tzdata explicitly for https://github.com/docker-library/redis/issues/138 (see also https://bugs.debian.org/837060 and related)
-		tzdata \
-	; \
-	rm -rf /var/lib/apt/lists/*
-
-COPY --from=downloader /tmp/redis /usr/src/redis
-COPY install_packages /usr/local/bin/install_packages
 RUN set -eux; \
 	\
 	savedAptMark="$(apt-mark showmanual)"; \
-	install_packages ca-certificates wget dpkg-dev gcc libc6-dev libssl-dev make; \
+	install_packages tzdata ca-certificates wget dpkg-dev gcc libc6-dev libssl-dev make; \
 	\
 # disable Redis protected mode [1] as it is unnecessary in context of Docker
 # (ports are not automatically exposed when running inside Docker, but rather explicitly by specifying -p / -P)

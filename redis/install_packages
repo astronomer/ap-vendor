@@ -6,7 +6,7 @@ set -eu
 n=0
 max=2
 export DEBIAN_FRONTEND=noninteractive
-
+# shellcheck disable=SC2004
 until [ $n -gt $max ]; do
     set +e
     (
