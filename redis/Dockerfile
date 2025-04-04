@@ -15,6 +15,13 @@
 
 FROM quay.io/astronomer/ap-base:3.21.3-2
 
+LABEL maintainer="Astronomer <humans@astronomer.io>"
+
+ARG BUILD_NUMBER=-1
+LABEL io.astronomer.docker=true
+LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN set -eux; \
 # alpine already has a gid 999, so we'll use the next id
