@@ -122,16 +122,9 @@ RUN set -eux; \
 	groupadd -r -g $GID redis; \
 	useradd -r -g redis -u $UID redis
 
+COPY install_packages /usr/local/bin/install_packages
 
-RUN set -eux; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
-		ca-certificates \
-		dpkg-dev \
-		libc6-dev \
-		libssl-dev \
-	; \
-	rm -rf /var/lib/apt/lists/*;
+RUN install_packages ca-certificates dpkg-dev libc6-dev libssl-dev
 
 COPY --from=build /usr/local/bin/redis* /usr/local/bin/
 COPY docker-entrypoint.sh /usr/local/bin/
