@@ -29,10 +29,16 @@ RUN mkdir redis ; curl -fsSL $REDIS_DOWNLOAD_URL -o redis.tar.gz; echo "$REDIS_D
 
 FROM debian:bookworm-slim
 
+# Make it possible to override the UID/GID/username of the user running
+ARG UID=999
+ARG GID=999
+# Since username and group name `redis` already exists in base image
+ARG USER=redis
+
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN set -eux; \
-	groupadd -r -g 999 redis; \
-	useradd -r -g redis -u 999 redis
+	groupadd -r -g $GID redis; \
+	useradd -r -g redis -u $UID redis
 
 # runtime dependencies
 RUN set -eux; \
@@ -124,6 +130,22 @@ WORKDIR /data
 
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
+
+# Change gid of a specific group
+RUN groupmod -g $GID $USER \
+  && chgrp $GID /data
+
+RUN usermod -u $UID -g $GID $USER
+
+# Adding enough permission for redis to use redis-server service  https://redis.io/docs/manual/persistence/
+RUN chown -R $UID:$GID /usr/local/bin/redis*
+
+ARG BUILD_NUMBER=-1
+LABEL io.astronomer.docker=true
+LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+# Switching user to redis:999
+USER $USER
 
 EXPOSE 6379
 CMD ["redis-server"]
