@@ -138,9 +138,8 @@ COPY docker-entrypoint.sh /usr/local/bin/
 
 # Change gid of a specific group
 RUN groupmod -g $GID $USER \
-  && chgrp $GID /data
-
-RUN usermod -u $UID -g $GID $USER
+  && chgrp $GID /data \
+  && usermod -u $UID -g $GID $USER
 
 # Adding enough permission for redis to use redis-server service  https://redis.io/docs/manual/persistence/
 RUN chown -R $UID:$GID /usr/local/bin/redis*
