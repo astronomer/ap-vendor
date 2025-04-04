@@ -5,5 +5,5 @@ tests:
   users_config:
     - name: redis
       group: redis
-      gid: 999
+      gid: 1000
       uid: 999
