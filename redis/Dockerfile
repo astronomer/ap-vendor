@@ -26,14 +26,18 @@ RUN mkdir redis ; curl -fsSL $REDIS_DOWNLOAD_URL -o redis.tar.gz; echo "$REDIS_D
     tar -xzf redis.tar.gz -C redis --strip-components=1; \
     rm redis.tar.gz;
 
-
+# https://raw.githubusercontent.com/redis/docker-library-redis/refs/heads/master/7.4/debian/Dockerfile
 FROM debian:bookworm-slim
+LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 # Make it possible to override the UID/GID/username of the user running
 ARG UID=999
 ARG GID=999
-# Since username and group name `redis` already exists in base image
 ARG USER=redis
+ARG BUILD_NUMBER=-1
+
+LABEL io.astronomer.docker=true
+LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN set -eux; \
@@ -125,11 +129,12 @@ RUN set -eux; \
 	redis-server --version
 
 RUN mkdir /data && chown redis:redis /data
+
 VOLUME /data
+
 WORKDIR /data
 
 COPY docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
 
 # Change gid of a specific group
 RUN groupmod -g $GID $USER \
@@ -140,12 +145,10 @@ RUN usermod -u $UID -g $GID $USER
 # Adding enough permission for redis to use redis-server service  https://redis.io/docs/manual/persistence/
 RUN chown -R $UID:$GID /usr/local/bin/redis*
 
-ARG BUILD_NUMBER=-1
-LABEL io.astronomer.docker=true
-LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-
 # Switching user to redis:999
-USER $USER
+USER $UID
 
 EXPOSE 6379
+
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["redis-server"]
