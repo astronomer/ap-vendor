@@ -50,22 +50,11 @@ RUN set -eux; \
 	rm -rf /var/lib/apt/lists/*
 
 COPY --from=downloader /tmp/redis /usr/src/redis
-
+COPY install_packages /usr/local/bin/install_packages
 RUN set -eux; \
 	\
 	savedAptMark="$(apt-mark showmanual)"; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
-		ca-certificates \
-		wget \
-		\
-		dpkg-dev \
-		gcc \
-		libc6-dev \
-		libssl-dev \
-		make \
-	; \
-	rm -rf /var/lib/apt/lists/*; \
+	install_packages ca-certificates wget dpkg-dev gcc libc6-dev libssl-dev make; \
 	\
 # disable Redis protected mode [1] as it is unnecessary in context of Docker
 # (ports are not automatically exposed when running inside Docker, but rather explicitly by specifying -p / -P)
