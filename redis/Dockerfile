@@ -40,30 +40,9 @@ RUN set -eux; \
 	useradd -r -g redis -u $UID redis
 
 COPY --from=downloader /tmp/redis /usr/src/redis
-COPY install_packages /usr/local/bin/install_packages
-COPY build-redis.sh /usr/local/bin/build-redis.sh
+COPY install_packages build-redis.sh /usr/local/bin/
 
-# add tzdata explicitly for https://github.com/docker-library/redis/issues/138 (see also https://bugs.debian.org/837060 and related)
-RUN set -eux; \
-	\
-	savedAptMark="$(apt-mark showmanual)"; \
-	install_packages ca-certificates wget dpkg-dev gcc libc6-dev libssl-dev make tzdata; \
-	build-redis.sh; \
-	apt-mark auto '.*' > /dev/null; \
-	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
-	find /usr/local -type f -executable -exec ldd '{}' ';' \
-		| awk '/=>/ { so = $(NF-1); if (index(so, "/usr/local/") == 1) { next }; gsub("^/(usr/)?", "", so); printf "*%s\n", so }' \
-		| sort -u \
-		| xargs -r dpkg-query --search \
-		| cut -d: -f1 \
-		| sort -u \
-		| xargs -r apt-mark manual \
-	; \
-	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
-	rm -rf /usr/local/bin/build-redis.sh \
-	redis-cli --version; \
-	redis-server --version
-
+RUN build-redis.sh
 RUN mkdir /data && chown redis:redis /data
 VOLUME /data
 WORKDIR /data
@@ -71,8 +50,6 @@ WORKDIR /data
 # Change gid of a specific group
 RUN groupmod -g $GID $USER \
   && chgrp $GID /data
-
-RUN usermod -u $UID -g $GID $USER
 
 # Adding enough permission for redis to use redis-server service  https://redis.io/docs/manual/persistence/
 RUN chown -R $UID:$GID /usr/local/bin/redis*

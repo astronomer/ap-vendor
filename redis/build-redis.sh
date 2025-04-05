@@ -1,5 +1,10 @@
-#!/bin/bash
-set -eux;
+#!/usr/bin/env bash
+set -eux
+
+mapfile -t savedAptMark < <(apt-mark showmanual)
+
+# add tzdata explicitly for https://github.com/docker-library/redis/issues/138 (see also https://bugs.debian.org/837060 and related)
+install_packages ca-certificates wget dpkg-dev gcc libc6-dev libssl-dev make tzdata
 
 # disable Redis protected mode [1] as it is unnecessary in context of Docker
 # (ports are not automatically exposed when running inside Docker, but rather explicitly by specifying -p / -P)
@@ -42,3 +47,18 @@ find /usr/local/bin/redis* -maxdepth 0 \
   -exec ln -svfT 'redis-server' '{}' ';'
 
 rm -r /usr/src/redis
+
+apt-mark auto '.*' > /dev/null
+
+[[ "${savedAptMark[@]}" != 0 ]] || apt-mark manual "${savedAptMark[@]}" > /dev/null
+find /usr/local -type f -executable -exec ldd '{}' ';' |
+  awk '/=>/ { so = $(NF-1); if (index(so, "/usr/local/") == 1) { next }; gsub("^/(usr/)?", "", so); printf "*%s\n", so }' |
+  sort -u |
+  xargs -r dpkg-query --search |
+  cut -d: -f1 |
+  sort -u |
+  xargs -r apt-mark manual
+apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
+
+redis-cli --version
+redis-server --version
