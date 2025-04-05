@@ -27,6 +27,7 @@ RUN mkdir redis ; curl -fsSL $REDIS_DOWNLOAD_URL -o redis.tar.gz; echo "$REDIS_D
     rm redis.tar.gz;
 
 FROM debian:bookworm-slim
+LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 # Make it possible to override the UID/GID/username of the user running
 ARG UID=999
