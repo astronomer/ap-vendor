@@ -2,7 +2,6 @@
 set -eux;
 
 mapfile -t savedAptMark < <(apt-mark showmanual)
-savedAptMark="$(apt-mark showmanual)";
 
 # add tzdata explicitly for https://github.com/docker-library/redis/issues/138 (see also https://bugs.debian.org/837060 and related)
 install_packages tzdata ca-certificates wget dpkg-dev gcc libc6-dev libssl-dev make tzdata;
