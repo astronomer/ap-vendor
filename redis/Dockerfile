@@ -26,68 +26,66 @@ RUN mkdir redis ; curl -fsSL $REDIS_DOWNLOAD_URL -o redis.tar.gz; echo "$REDIS_D
     tar -xzf redis.tar.gz -C redis --strip-components=1; \
     rm redis.tar.gz;
 
-# https://raw.githubusercontent.com/redis/docker-library-redis/refs/heads/master/7.4/debian/Dockerfile
-FROM debian:bookworm-slim AS build
-LABEL maintainer="Astronomer <humans@astronomer.io>"
-
-COPY --from=downloader /tmp/redis /usr/src/redis
-COPY install_packages /usr/local/bin/install_packages
-COPY build-redis.sh /usr/local/bin/build-redis.sh
-
-# Make it possible to override the UID/GID/username of the user running
-ARG UID=999
-ARG GID=999
-ARG USER=redis
-
-# add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
-RUN set -eux; \
-	groupadd -r -g $GID redis; \
-	useradd -r -g redis -u $UID redis
-
-# add tzdata explicitly for https://github.com/docker-library/redis/issues/138 (see also https://bugs.debian.org/837060 and related)
-RUN build-redis.sh
-
 FROM debian:bookworm-slim
 
 # Make it possible to override the UID/GID/username of the user running
 ARG UID=999
 ARG GID=999
+# Since username and group name `redis` already exists in base image
 ARG USER=redis
-ARG BUILD_NUMBER=-1
-
-LABEL io.astronomer.docker=true
-LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN set -eux; \
 	groupadd -r -g $GID redis; \
 	useradd -r -g redis -u $UID redis
 
+COPY --from=downloader /tmp/redis /usr/src/redis
 COPY install_packages /usr/local/bin/install_packages
+COPY build-redis.sh /usr/local/bin/build-redis.sh
 
-RUN install_packages ca-certificates dpkg-dev libc6-dev libssl-dev
-
-COPY --from=build /usr/local/bin/redis* /usr/local/bin/
-COPY docker-entrypoint.sh /usr/local/bin/
+# add tzdata explicitly for https://github.com/docker-library/redis/issues/138 (see also https://bugs.debian.org/837060 and related)
+RUN set -eux; \
+	\
+	savedAptMark="$(apt-mark showmanual)"; \
+	install_packages ca-certificates wget dpkg-dev gcc libc6-dev libssl-dev make tzdata; \
+	build-redis.sh; \
+	apt-mark auto '.*' > /dev/null; \
+	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
+	find /usr/local -type f -executable -exec ldd '{}' ';' \
+		| awk '/=>/ { so = $(NF-1); if (index(so, "/usr/local/") == 1) { next }; gsub("^/(usr/)?", "", so); printf "*%s\n", so }' \
+		| sort -u \
+		| xargs -r dpkg-query --search \
+		| cut -d: -f1 \
+		| sort -u \
+		| xargs -r apt-mark manual \
+	; \
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+	rm -rf /usr/local/bin/build-redis.sh \
+	redis-cli --version; \
+	redis-server --version
 
 RUN mkdir /data && chown redis:redis /data
-
 VOLUME /data
-
 WORKDIR /data
 
-## Change gid of a specific group
+# Change gid of a specific group
 RUN groupmod -g $GID $USER \
-  && chgrp $GID /data \
-  && usermod -u $UID -g $GID $USER
+  && chgrp $GID /data
 
-## Adding enough permission for redis to use redis-server service  https://redis.io/docs/manual/persistence/
+RUN usermod -u $UID -g $GID $USER
+
+# Adding enough permission for redis to use redis-server service  https://redis.io/docs/manual/persistence/
 RUN chown -R $UID:$GID /usr/local/bin/redis*
 
-## Switching user to redis:999
+ARG BUILD_NUMBER=-1
+LABEL io.astronomer.docker=true
+LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+# Switching user to redis:999
 USER $UID
 
-EXPOSE 6379
-
+COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
+
+EXPOSE 6379
 CMD ["redis-server"]
