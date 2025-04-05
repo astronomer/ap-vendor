@@ -50,7 +50,7 @@ rm -r /usr/src/redis
 
 apt-mark auto '.*' > /dev/null
 
-[[ "${savedAptMark[@]}" != 0 ]] || apt-mark manual "${savedAptMark[@]}" > /dev/null
+[[ "${savedAptMark[*]}" != 0 ]] || apt-mark manual "${savedAptMark[@]}" > /dev/null
 find /usr/local -type f -executable -exec ldd '{}' ';' |
   awk '/=>/ { so = $(NF-1); if (index(so, "/usr/local/") == 1) { next }; gsub("^/(usr/)?", "", so); printf "*%s\n", so }' |
   sort -u |
