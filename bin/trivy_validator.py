@@ -8,11 +8,8 @@ project_name = os.getenv("PROJECT_DIRECTORY")
 scan_results_file_path = f"{git_root}/{project_name}"
 
 data = json.loads(Path(f"{scan_results_file_path}/scan-results.json").read_text())
-found_cves = [
-    vuln["VulnerabilityID"]
-    for result in data.get("Results", [])
-    for vuln in result.get("Vulnerabilities", [])
-]
+found_cves = [vuln["VulnerabilityID"] for result in data.get("Results", []) for vuln in result.get("Vulnerabilities", [])]
+
 
 def cve_list_to_string(items: list):
     sorted_items = sorted(set(items), key=lambda x: x.lower() if x else "")
