@@ -16,7 +16,7 @@
 # https://hub.docker.com/_/registry/tags
 FROM registry:3.0.0-rc.3 AS upstream
 
-FROM quay.io/astronomer/ap-base:3.21.3-1
+FROM quay.io/astronomer/ap-base:3.21.3-2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
