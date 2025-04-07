@@ -104,6 +104,7 @@ jobs:
         description: "The directory name of the image to be signed"
         type: string
     steps:
+      - checkout
       - setup_remote_docker:
           docker_layer_caching: true
       - cosign-setup
@@ -117,37 +118,7 @@ jobs:
       - run:
           name: Sign Docker images
           command: |
-            sign_image() {
-              local registry=$1
-              local repository=$2
-              local tag=$3
-
-              echo "Signing image: $registry/$repository/ap-<< parameters.directory >>:$tag"
-              echo "-----BEGIN ENCRYPTED SIGSTORE PRIVATE KEY-----" > /tmp/cosign.key
-              echo "$COSIGN_PRIVATE_KEY" |
-                sed 's/.*BEGIN ENCRYPTED SIGSTORE PRIVATE KEY----- \(.*\) -----END.*/\1/' |
-                tr -d ' ' | fold -w 64 >> /tmp/cosign.key
-              echo "-----END ENCRYPTED SIGSTORE PRIVATE KEY-----" >> /tmp/cosign.key
-
-              # Use echo to pipe the password (more compatible with CircleCI)
-              echo "$COSIGN_PASSWORD" | cosign sign --yes --key /tmp/cosign.key "$registry/$repository/ap-<< parameters.directory >>:$tag"
-
-              echo "Verifying image: $registry/$repository/ap-<< parameters.directory >>:$tag"
-              echo "-----BEGIN PUBLIC KEY-----" > /tmp/cosign.pub
-              echo "$COSIGN_PUBLIC_KEY" |
-                sed 's/.*BEGIN PUBLIC KEY----- \(.*\) -----END.*/\1/' |
-                tr -d ' ' | fold -w 64 >> /tmp/cosign.pub
-              echo "-----END PUBLIC KEY-----" >> /tmp/cosign.pub
-
-              cosign verify --key /tmp/cosign.pub "$registry/$repository/ap-<< parameters.directory >>:$tag"
-            }
-
-            sign_image "quay.io" "astronomer" "latest"
-            sign_image "docker.io" "astronomerinc" "latest"
-            sign_image "astrocrpublic.azurecr.io" "astronomer" "latest"
-            sign_image "astrocr.azurecr.io" "astronomer" "latest"
-
-            rm -f /tmp/cosign.key /tmp/cosign.pub
+            bin/sign-image.sh "<< parameters.directory >>" "latest"
   build:
     executor: docker-executor
     description: Build an image
@@ -285,6 +256,7 @@ jobs:
           image_name: ap-<< parameters.directory >>
           tags: << parameters.tags >>
           overwrite_tags: << parameters.overwrite_tags >>
+          skip_signature_check: "true"
       - docker-operations:
           operations: push
           project_path: << parameters.directory >>
@@ -295,6 +267,7 @@ jobs:
           image_name: ap-<< parameters.directory >>
           tags: << parameters.tags >>
           overwrite_tags: << parameters.overwrite_tags >>
+          skip_signature_check: "true"
       - docker-operations:
           operations: push
           project_path: << parameters.directory >>
@@ -305,6 +278,7 @@ jobs:
           image_name: ap-<< parameters.directory >>
           tags: << parameters.tags >>
           overwrite_tags: << parameters.overwrite_tags >>
+          skip_signature_check: "true"
       - docker-operations:
           operations: push
           project_path: << parameters.directory >>
@@ -315,6 +289,7 @@ jobs:
           image_name: ap-<< parameters.directory >>
           tags: << parameters.tags >>
           overwrite_tags: << parameters.overwrite_tags >>
+          skip_signature_check: "true"
 
   validate-tags:
     executor: docker-executor
@@ -493,7 +468,18 @@ commands:
       overwrite_tags:
         type: boolean
         default: false
+      skip_signature_check:
+        type: string
+        default: "false"
     steps:
+      - run:
+          name: Check signing status
+          environment:
+            SKIP_SIGNATURE_CHECK: << parameters.skip_signature_check >>
+          command: |
+            if [ "<< parameters.operations >>" = "push" ]; then
+              bin/check-signature.sh
+            fi
       - run:
           name: Validating docker image(s)'s tags to << parameters.registry >>
           command: bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --tags=<< parameters.tags >> --overwrite_tags=<< parameters.overwrite_tags >>
