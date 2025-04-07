@@ -25,8 +25,8 @@ if [ -f "${config_file}" ]; then
   trivy_args+=(--config "${config_file}")
 fi
 
-trivy "${trivy_args[@]}" "quay.io/astronomer/ap-elasticsearch" --output "${scan_target}/scan-results.json" --format json
-trivy "${trivy_args[@]}" "quay.io/astronomer/ap-redis" > "${GIT_ROOT}/trivy-output.txt"
+trivy "${trivy_args[@]}" "ap-${scan_target}:${CIRCLE_SHA1}" --output "${scan_target}/scan-results.json" --format json
+trivy "${trivy_args[@]}" "ap-${scan_target}:${CIRCLE_SHA1}" > "${GIT_ROOT}/trivy-output.txt"
 #exit_code=$?
 
 cat "${GIT_ROOT}/trivy-output.txt"
