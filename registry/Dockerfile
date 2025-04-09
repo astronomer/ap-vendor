@@ -24,6 +24,7 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 ENV UPDATE_CA_CERTS=false
+ENV OTEL_TRACES_EXPORTER=none
 
 # Create registry user and group
 RUN addgroup -g 1000 -S registry \
