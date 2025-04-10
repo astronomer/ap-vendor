@@ -38,6 +38,6 @@ if grep -q -i 'OS is not detected' trivy-output.txt ; then
   exit 0
 fi
 
-#exit "${exit_code}"
 export PROJECT_DIRECTORY="${scan_target}"
 python bin/trivy_validator.py
+exit "${exit_code}"
