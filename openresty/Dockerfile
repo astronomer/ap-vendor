@@ -16,7 +16,7 @@
 
 # https://github.com/openresty/docker-openresty/
 # https://hub.docker.com/r/openresty/openresty/tags
-FROM docker.io/openresty/openresty:1.27.1.1-3-alpine
+FROM docker.io/openresty/openresty:1.27.1.2-0-alpine
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
