@@ -27,7 +27,7 @@ fi
 
 trivy "${trivy_args[@]}" "ap-${scan_target}:${CIRCLE_SHA1}" --output "${scan_target}/scan-results.json" --format json
 trivy "${trivy_args[@]}" "ap-${scan_target}:${CIRCLE_SHA1}" > "${GIT_ROOT}/trivy-output.txt"
-#exit_code=$?
+exit_code=$?
 
 cat "${GIT_ROOT}/trivy-output.txt"
 
