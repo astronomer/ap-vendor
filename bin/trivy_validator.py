@@ -3,7 +3,7 @@ import json
 import os
 from pathlib import Path
 
-git_root = [x for x in Path(__file__).resolve().parents if (x / ".git").is_dir()][-1]
+git_root = next(iter([x for x in Path(__file__).resolve().parents if (x / ".git").is_dir()]), None)
 project_name = os.getenv("PROJECT_DIRECTORY")
 scan_results_file_path = f"{git_root}/{project_name}"
 
