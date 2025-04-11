@@ -15,18 +15,18 @@
 
 # https://hub.docker.com/r/bitnami/postgresql/tags/
 
-FROM bitnami/postgresql:16.6.0-debian-12-r2
+FROM bitnami/postgresql:17.4.0-debian-12-r15
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV POSTGRESQL_MAX_CONNECTIONS 200
+ENV POSTGRESQL_MAX_CONNECTIONS=200
 
 USER root
 RUN apt-get update && apt-get -y upgrade
-RUN addgroup postgres --gid 1001 && useradd -s /sbin/nologin --gid 1001 --uid 1001 postgres
+RUN addgroup postgres --gid 1001 && usermod -u 1001 -g 1001 postgres
 
 RUN chown -R 1001:1001 /opt/bitnami /bitnami/postgresql
 
