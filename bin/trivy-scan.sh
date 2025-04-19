@@ -3,7 +3,8 @@
 [ "$#" == 1 ] || { echo "ERROR: Must give exactly one thing to scan, in the form of an ap-vendor directory." ; exit 1 ; }
 [ -f /etc/os-release ] && cat /etc/os-release
 
-GIT_ROOT="$(git -C "${0%/*}" rev-parse --show-toplevel)"
+#GIT_ROOT="$(git -C "${0%/*}" rev-parse --show-toplevel)"
+GIT_ROOT="/Users/vishnurampg/Desktop/astronomer-software/ap-vendor"
 scan_target="$1"
 
 set +exo pipefail
@@ -31,13 +32,13 @@ exit_code=$?
 
 cat "${GIT_ROOT}/trivy-output.txt"
 
+export PROJECT_DIRECTORY="${scan_target}"
+python bin/trivy_validator.py
+exit "${exit_code}"
+
 # Trivy cannot detect vulnerabilities not installed by package managers (EG: busybox, buildroot, make install):
 # - https://github.com/aquasecurity/trivy/issues/481 2020-04-30
 if grep -q -i 'OS is not detected' trivy-output.txt ; then
   echo "Skipping trivy scan because of unsupported OS"
   exit 0
 fi
-
-export PROJECT_DIRECTORY="${scan_target}"
-python bin/trivy_validator.py
-exit "${exit_code}"
