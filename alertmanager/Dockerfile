@@ -14,9 +14,9 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/prom/alertmanager/tags?page=1&ordering=last_updated
-FROM prom/alertmanager:v0.28.0 AS UPSTREAM
+FROM prom/alertmanager:v0.28.1 AS upstream
 
-FROM quay.io/astronomer/ap-base:3.21.3-2
+FROM quay.io/astronomer/ap-base:3.21.3-3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
