@@ -40,4 +40,5 @@ fi
 
 export PROJECT_DIRECTORY="${scan_target}"
 python bin/trivy_validator.py
+exit_code=$?
 exit "${exit_code}"
