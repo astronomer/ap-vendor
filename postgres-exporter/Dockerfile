@@ -1,5 +1,5 @@
 #
-# Copyright 2020 Astronomer Inc.
+# Copyright 2016 Astronomer Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,23 +13,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/r/prometheuscommunity/postgres-exporter
-# https://github.com/prometheus-community/postgres_exporter/blob/v0.10.0/Dockerfile
+# https://hub.docker.com/r/prom/alertmanager/tags?page=1&ordering=last_updated
+FROM prom/alertmanager:v0.28.1 AS upstream
 
-FROM quay.io/prometheuscommunity/postgres-exporter:v0.17.1 AS upstream
-
-FROM quay.io/astronomer/ap-base:3.21.3-2
-
+FROM quay.io/astronomer/ap-base:3.21.3-3
+LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-LABEL maintainer="Astronomer <humans@astronomer.io>"
 
-COPY --from=upstream  /bin/postgres_exporter /bin/postgres_exporter
-COPY include/entrypoint /entrypoint
-COPY include/healthcheck /healthcheck
+RUN mkdir -p /alertmanager /etc/alertmanager && \
+    chown -R nobody:nobody /etc/alertmanager /alertmanager
 
+COPY --from=UPSTREAM /bin/amtool /usr/local/bin
+COPY --from=UPSTREAM /bin/alertmanager /usr/local/bin
+COPY --from=UPSTREAM /etc/alertmanager/alertmanager.yml   /etc/alertmanager/alertmanager.yml
+COPY --chown=65534:65534 entrypoint.sh /entrypoint.sh
+
+# Adopt openshift permissions
+RUN chown -R 65534:65534 /etc/ssl/ \
+    && chown -R 65534:0 /etc/ssl/certs \
+    && chmod -R ug+rwx /etc/ssl/certs
+
+# Copied from https://github.com/prometheus/alertmanager/blob/main/Dockerfile
+EXPOSE     9093
 USER 65534
-ENTRYPOINT [ "/entrypoint" ]
 
-
+VOLUME     [ "/alertmanager" ]
+WORKDIR    /alertmanager
+ENTRYPOINT ["/entrypoint.sh"]
+CMD        [ "--config.file=/etc/alertmanager/alertmanager.yml", \
+             "--storage.path=/alertmanager" ]
