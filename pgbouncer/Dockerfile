@@ -15,7 +15,7 @@
 
 # https://github.com/CenterForOpenScience/docker-library/blob/master/pgbouncer/Dockerfile
 # https://quay.io/repository/centerforopenscience/pgbouncer
-FROM quay.io/astronomer/ap-base:3.21.3-2
+FROM quay.io/astronomer/ap-base:3.21.3-3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 # Make it possible to override the UID/GID/username of the user running
@@ -27,8 +27,8 @@ ARG USER=pgbouncer
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV PGBOUNCER_VERSION 1.24.0
-ENV PGBOUNCER_SHA256_CHECKSUM e76adf941a3191a416e223c0b2cdbf73159eef80a2a32314af6fbd82e41a1d41
+ENV PGBOUNCER_VERSION 1.24.1
+ENV PGBOUNCER_SHA256_CHECKSUM da72a3aba13072876d055a3e58dd4aba4a5de4ed6148e73033185245598fd3e0
 
 RUN addgroup -g $GID -S $USER \
   && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
