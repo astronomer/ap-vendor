@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/_/golang/tags?name=1.21-alpine
+# https://hub.docker.com/_/golang/tags?name=1.22-alpine
 FROM golang:1.22-alpine3.21 AS build
 
 ENV DISTRIBUTION_DIR=/go/src/github.com/prometheus/blackbox_exporter
@@ -34,6 +34,7 @@ RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR 
 
 RUN CGO_ENABLED=0 make build
 
+# https://quay.io/repository/astronomer/ap-base?tab=tags
 FROM quay.io/astronomer/ap-base:3.21.3-3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
