@@ -1,4 +1,3 @@
-#
 # Copyright 2016 Astronomer Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +17,7 @@ FROM docker.elastic.co/kibana/kibana:8.15.5
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 USER root
-RUN apt update && apt upgrade  -y && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt upgrade -y && rm -rf /var/lib/apt/lists/*
 RUN gpasswd -d kibana root
 USER 1000
 
