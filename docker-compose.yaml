@@ -143,19 +143,6 @@ services:
     build:
       context: pgbouncer-krb
     entrypoint: "top"
-  ap-po-logical-backup:
-    image: ap-po-logical-backup:${ASTRO_IMAGE_TAG:-latest}
-    build:
-      context: po-logical-backup
-  ap-po-pgbouncer:
-    image: ap-po-pgbouncer:${ASTRO_IMAGE_TAG:-latest}
-    build:
-      context: po-pgbouncer
-    entrypoint: "/bin/sleep 1m"
-  ap-po-spilo:
-    image: ap-po-spilo:${ASTRO_IMAGE_TAG:-latest}
-    build:
-      context: po-spilo
   ap-postgres-exporter:
     image: ap-postgres-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:

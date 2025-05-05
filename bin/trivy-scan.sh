@@ -12,7 +12,6 @@ trivy_args=(
   "--cache-dir" "/tmp/workspace/trivy-cache"
   "image"
   "--ignore-unfixed" "-s" "HIGH,CRITICAL"
-  "--exit-code" "1"
   "--no-progress"
 )
 
@@ -26,6 +25,7 @@ if [ -f "${config_file}" ]; then
   trivy_args+=(--config "${config_file}")
 fi
 
+trivy "${trivy_args[@]}" "ap-${scan_target}:${CIRCLE_SHA1}" --output "${scan_target}/scan-results.json" --format json
 trivy "${trivy_args[@]}" "ap-${scan_target}:${CIRCLE_SHA1}" > "${GIT_ROOT}/trivy-output.txt"
 exit_code=$?
 
@@ -38,4 +38,7 @@ if grep -q -i 'OS is not detected' trivy-output.txt ; then
   exit 0
 fi
 
+export PROJECT_DIRECTORY="${scan_target}"
+python bin/trivy_validator.py
+exit_code=$?
 exit "${exit_code}"

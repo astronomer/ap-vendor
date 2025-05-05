@@ -12,38 +12,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-ARG GO_VERSION=1.15
-FROM golang:${GO_VERSION}-alpine3.14 AS build
 
-ENV DISTRIBUTION_DIR /go/src/github.com/distribution/distribution
-ENV BUILDTAGS include_oss include_gcs
+# https://hub.docker.com/_/registry/tags
+FROM registry:3.0.0 AS upstream
 
-ARG GOOS=linux
-ARG GOARCH=amd64
-ARG GOARM=6
-ARG VERSION
-ARG REVISION
-
-RUN set -ex \
-    && apk add --no-cache make git file
-
-WORKDIR $DISTRIBUTION_DIR
-
-# this commit includes some important fixes we need to apply:  https://github.com/distribution/distribution/issues/3097 and
-# in includes fix of https://github.com/distribution/distribution/issues/625
-# since no official release since 2019 o_O
-RUN git clone https://github.com/astronomer/distribution.git $DISTRIBUTION_DIR && git checkout 26bdf12d62492d8cb8e8ed98f490ce99f655f343
-
-RUN CGO_ENABLED=0 make PREFIX=/go clean binaries && file ./bin/registry | grep "statically linked"
-
-FROM quay.io/astronomer/ap-base:3.20.5
+FROM quay.io/astronomer/ap-base:3.21.3-3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV UPDATE_CA_CERTS false
+ENV UPDATE_CA_CERTS=false
+ENV OTEL_TRACES_EXPORTER=none
 
 # Create registry user and group
 RUN addgroup -g 1000 -S registry \
@@ -57,7 +38,7 @@ RUN chown -R 1000:1000 /etc/ssl/ \
     && chown -R 1000:0 /etc/ssl/certs \
     && chmod -R ug+rwx /etc/ssl/certs
 
-COPY --from=build --chown=1000:1000 /go/src/github.com/distribution/distribution/bin/registry /bin/registry
+COPY --from=upstream --chown=1000:1000 /bin/registry /bin/registry
 COPY --chown=1000:1000 ./config-example.yml /etc/docker/registry/config.yml
 
 VOLUME ["/var/lib/registry"]

@@ -14,9 +14,9 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/jbub/pgbouncer_exporter
-FROM jbub/pgbouncer_exporter:v0.18.0 AS upstream
+FROM jbub/pgbouncer_exporter:v0.19.0 AS upstream
 
-FROM quay.io/astronomer/ap-base:3.20.5
+FROM quay.io/astronomer/ap-base:3.21.3-3
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
