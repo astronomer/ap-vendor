@@ -63,6 +63,7 @@ workflows:
             pgbouncer/.* pgbouncer true
             pgbouncer-exporter/.* pgbouncer-exporter true
             pgbouncer-krb/.* pgbouncer-krb true
+            playwright-server/.* playwright-server true
             postgres-exporter/.* postgres-exporter true
             postgres-operator/.* postgres-operator true
             postgresql/.* postgresql true

@@ -148,6 +148,10 @@ services:
     build:
       context: pgbouncer-krb
     entrypoint: "top"
+  ap-playwright-server:
+    image: ap-playwright-server:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: playwright-server
   ap-postgres-exporter:
     image: ap-postgres-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
