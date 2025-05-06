@@ -6,8 +6,8 @@ const { chromium } = require("playwright");
     wsPath: "ws",
     logger: {
       isEnabled: (name, severity) => true,
-      log: (name, severity, message, args) => console.log(`${name} ${message}`)
-    }
+      log: (name, severity, message, args) => console.log(`${name} ${message}`),
+    },
   });
   const wsEndpoint = browserServer.wsEndpoint();
   console.log("Listening on: ", wsEndpoint);
