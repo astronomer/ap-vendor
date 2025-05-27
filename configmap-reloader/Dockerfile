@@ -15,7 +15,7 @@
 
 # https://github.com/jimmidyson/configmap-reload
 # https://hub.docker.com/r/jimmidyson/configmap-reload/tags
-FROM ghcr.io/jimmidyson/configmap-reload:v0.14.0 as base
+FROM ghcr.io/jimmidyson/configmap-reload:v0.15.0 as base
 
 # https://hub.docker.com/_/busybox?tab=tags
 FROM busybox:1.37.0
