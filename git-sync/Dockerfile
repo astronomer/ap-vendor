@@ -30,7 +30,7 @@
 # https://github.com/kubernetes/git-sync/releases
 FROM registry.k8s.io/git-sync/git-sync:v4.4.1 AS upstream
 
-FROM quay.io/astronomer/ap-base:3.21.3-3
+FROM quay.io/astronomer/ap-base:3.21.3-4
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 COPY --from=upstream /git-sync /usr/local/bin/
 USER root
