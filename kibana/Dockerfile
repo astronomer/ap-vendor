@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # https://www.elastic.co/guide/en/kibana/current/docker.html
-FROM docker.elastic.co/kibana/kibana:8.16.6
+FROM docker.elastic.co/kibana/kibana:8.17.6
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 USER root
