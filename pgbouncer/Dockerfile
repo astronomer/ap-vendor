@@ -15,7 +15,77 @@
 
 # https://github.com/CenterForOpenScience/docker-library/blob/master/pgbouncer/Dockerfile
 # https://quay.io/repository/centerforopenscience/pgbouncer
-FROM quay.io/astronomer/ap-base:3.21.3-4
+
+
+##### Three-stage build
+#  common--+                       common has only stuff you need at both build and run
+#          |
+#          +----build              build produces the binary
+#          |
+#          +----main               runs the binary
+
+
+##### FIRST STAGE: common - stuff needed at both build and run time
+
+FROM quay.io/astronomer/ap-base:3.21.3-4 as common
+RUN addgroup -S pgbouncer \
+    && adduser -D -S -s /sbin/nologin -G pgbouncer pgbouncer \
+    && apk add --no-cache --virtual .run-deps \
+      c-ares \
+      entr \
+      krb5 \
+      krb5-dev \
+      krb5-pkinit \
+      libevent \
+      libressl
+
+###### SECOND STAGE: build
+# Weare not ready to pin yet
+ENV PGBOUNCER_SHA256_CHECKSUM c1cbecdd469327f132005a0ba5a965b710362abe
+FROM common as build
+RUN apk add --no-cache --virtual .build-deps \
+      bash \
+      autoconf \
+      automake \
+      build-base \
+      c-ares-dev \
+      git \
+      libevent-dev \
+      libtool \
+      openssl-dev \
+      pkgconf \
+      wget \
+      pandoc
+    # shallow-fetch only the single commit we care about
+RUN mkdir /build \
+    && cd /build \
+    && git init \
+    && git remote add origin https://github.com/rob-1126/pgbouncer.git \
+    && git fetch --depth 1 origin $PGBOUNCER_SHA256_CHECKSUM \
+    && git checkout FETCH_HEAD \
+    && git submodule init \
+    && git submodule update \
+    # pull in Kerberos compile- and link-flags…
+    && export CPPFLAGS="$(pkgconf --cflags gssapi_krb5)" \
+    && export LDFLAGS="$(pkgconf --libs gssapi_krb5)" \
+    && export LIBS="-lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err" \
+    && ./autogen.sh \
+    && ./configure --prefix=/usr --disable-debug --with-gss --with-openssl \
+    && make \
+    && make install
+# construct a modified /build/pgbouncer.ini
+RUN cd /build \
+    && cp etc/pgbouncer.ini modified-pgbouncer.ini \
+    && sed -i \
+      -e "s|logfile = |#logfile = |" \
+      -e "s|pidfile = |#pidfile = |" \
+      -e "s|listen_addr = .*|listen_addr = 0.0.0.0|" \
+      -e "s|auth_type = .*|auth_type = md5|" \
+      modified-pgbouncer.ini
+
+##### THIRD STAGE main
+
+FROM quay.io/astronomer/ap-base:3.21.3-4 as main
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 # Make it possible to override the UID/GID/username of the user running
@@ -27,45 +97,21 @@ ARG USER=pgbouncer
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV PGBOUNCER_VERSION 1.24.1
-ENV PGBOUNCER_SHA256_CHECKSUM da72a3aba13072876d055a3e58dd4aba4a5de4ed6148e73033185245598fd3e0
-
 RUN addgroup -g $GID -S $USER \
   && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
   && apk add --no-cache --virtual .run-deps \
-  c-ares \
-  entr \
-  libevent \
-  libressl
-
-RUN apk add --no-cache --virtual .build-deps \
-  build-base \
-  autoconf \
-  wget \
-  c-ares-dev \
-  libevent-dev \
-  openssl-dev \
-  && wget https://www.pgbouncer.org/downloads/files/$PGBOUNCER_VERSION/pgbouncer-$PGBOUNCER_VERSION.tar.gz \
-  && echo "$PGBOUNCER_SHA256_CHECKSUM  /pgbouncer-$PGBOUNCER_VERSION.tar.gz" | sha256sum -c - \
-  && tar -xzvf pgbouncer-$PGBOUNCER_VERSION.tar.gz \
-  && cd pgbouncer-$PGBOUNCER_VERSION \
-  && ./configure --prefix=/usr --disable-debug \
-  && make \
-  && make install \
   && mkdir /etc/pgbouncer \
-  && cp ./etc/pgbouncer.ini /etc/pgbouncer/ \
-  && touch /etc/pgbouncer/userlist.txt \
-  && sed -i \
-  -e "s|logfile = |#logfile = |" \
-  -e "s|pidfile = |#pidfile = |" \
-  -e "s|listen_addr = .*|listen_addr = 0.0.0.0|" \
-  -e "s|auth_type = .*|auth_type = md5|" \
-  /etc/pgbouncer/pgbouncer.ini \
-  && cd .. \
-  && rm pgbouncer-$PGBOUNCER_VERSION.tar.gz \
-  && rm -rf pgbouncer-$PGBOUNCER_VERSION \
-  && apk del .build-deps
-COPY ./docker-entrypoint.sh docker-entrypoint.sh
+  && touch /etc/pgbouncer/userlist.txt
+
+# copy over build output
+COPY --from=build /usr/bin/pgbouncer /usr/bin/pgbouncer
+COPY --from=build /usr/share/doc/pgbouncer /usr/share/doc
+COPY --from=build /build/modified-pgbouncer.ini /etc/pgbouncer/pgbouncer.ini
+COPY docker-entrypoint.sh docker-entrypoint.sh
+#COPY --from=build /usr/share/doc/pgbouncer/pgbouncer.1 /usr/share/man/man1
+#COPY --from=build /usr/share/doc/pgbouncer/pgbouncer.5 /usr/share/man/man5
+
+# setup user, entrypoint, and cmd
 USER $UID
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
