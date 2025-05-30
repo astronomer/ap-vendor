@@ -28,9 +28,7 @@
 ##### FIRST STAGE: common - stuff needed at both build and run time
 
 FROM quay.io/astronomer/ap-base:3.21.3-4 as common
-RUN addgroup -S pgbouncer \
-    && adduser -D -S -s /sbin/nologin -G pgbouncer pgbouncer \
-    && apk add --no-cache --virtual .run-deps \
+RUN apk add --no-cache --virtual .run-deps \
       c-ares \
       entr \
       krb5 \
@@ -85,7 +83,7 @@ RUN cd /build \
 
 ##### THIRD STAGE main
 
-FROM quay.io/astronomer/ap-base:3.21.3-4 as main
+FROM common as main
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 # Make it possible to override the UID/GID/username of the user running
@@ -96,10 +94,9 @@ ARG USER=pgbouncer
 
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-
+ 
 RUN addgroup -g $GID -S $USER \
   && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
-  && apk add --no-cache --virtual .run-deps \
   && mkdir /etc/pgbouncer \
   && touch /etc/pgbouncer/userlist.txt
 
