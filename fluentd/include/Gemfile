@@ -4,11 +4,11 @@ source 'https://rubygems.org'
 
 ### Upstream packages
 gem 'activesupport'
-gem 'elasticsearch'
-gem 'elasticsearch-api'
+gem 'elasticsearch', '~> 8.3'
+gem 'elasticsearch-api', '~> 8.3'
 gem 'fluent-plugin-concat'
 gem 'fluent-plugin-detect-exceptions'
-gem 'fluent-plugin-elasticsearch'
+gem 'fluent-plugin-elasticsearch', '~> 5.0'
 gem "fluent-plugin-cloudwatch-logs"
 gem 'fluent-plugin-kubernetes_metadata_filter'
 gem 'fluent-plugin-multi-format-parser'
