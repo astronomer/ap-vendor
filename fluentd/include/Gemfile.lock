@@ -17,11 +17,11 @@ GEM
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     aws-eventstream (1.3.2)
-    aws-partitions (1.1107.0)
+    aws-partitions (1.1109.0)
     aws-sdk-cloudwatchlogs (1.116.0)
       aws-sdk-core (~> 3, >= 3.216.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-core (3.224.0)
+    aws-sdk-core (3.224.1)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -31,8 +31,8 @@ GEM
     aws-sdk-kms (1.101.0)
       aws-sdk-core (~> 3, >= 3.216.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.186.1)
-      aws-sdk-core (~> 3, >= 3.216.0)
+    aws-sdk-s3 (1.188.0)
+      aws-sdk-core (~> 3, >= 3.224.1)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
     aws-sdk-sqs (1.95.0)
@@ -40,13 +40,13 @@ GEM
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.11.0)
       aws-eventstream (~> 1, >= 1.0.2)
-    base64 (0.2.0)
-    benchmark (0.4.0)
-    bigdecimal (3.1.9)
+    base64 (0.3.0)
+    benchmark (0.4.1)
+    bigdecimal (3.2.1)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.3)
     cool.io (1.9.0)
-    csv (3.3.4)
+    csv (3.3.5)
     digest-crc (0.7.0)
       rake (>= 12.0.0, < 14.0.0)
     domain_name (0.6.20240107)
@@ -54,10 +54,10 @@ GEM
     elastic-transport (8.4.0)
       faraday (< 3)
       multi_json
-    elasticsearch (9.0.3)
+    elasticsearch (8.18.0)
       elastic-transport (~> 8.3)
-      elasticsearch-api (= 9.0.3)
-    elasticsearch-api (9.0.3)
+      elasticsearch-api (= 8.18.0)
+    elasticsearch-api (8.18.0)
       multi_json
     excon (1.2.7)
       logger
@@ -87,7 +87,7 @@ GEM
       net-http-persistent (~> 4.0.1)
     fluent-plugin-detect-exceptions (0.0.16)
       fluentd (>= 1.14.2)
-    fluent-plugin-elasticsearch (6.0.0)
+    fluent-plugin-elasticsearch (5.4.4)
       elasticsearch
       excon
       faraday (>= 2.0.0)
@@ -171,17 +171,17 @@ GEM
     multi_json (1.15.0)
     net-http (0.6.0)
       uri
-    net-http-persistent (4.0.5)
-      connection_pool (~> 2.2)
+    net-http-persistent (4.0.6)
+      connection_pool (~> 2.2, >= 2.2.4)
     netrc (0.11.0)
-    oj (3.16.10)
+    oj (3.16.11)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
     ostruct (0.6.1)
     prometheus-client (4.2.4)
       base64
     public_suffix (6.0.2)
-    rake (13.2.1)
+    rake (13.3.0)
     recursive-open-struct (1.3.1)
       ostruct
     rest-client (2.1.0)
@@ -215,13 +215,13 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport
-  elasticsearch
-  elasticsearch-api
+  elasticsearch (~> 8.3)
+  elasticsearch-api (~> 8.3)
   fluent-plugin-cloudwatch-logs
   fluent-plugin-concat
   fluent-plugin-datadog
   fluent-plugin-detect-exceptions
-  fluent-plugin-elasticsearch
+  fluent-plugin-elasticsearch (~> 5.0)
   fluent-plugin-kafka
   fluent-plugin-kubernetes_metadata_filter
   fluent-plugin-multi-format-parser
