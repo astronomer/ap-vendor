@@ -38,8 +38,7 @@ RUN apk add --no-cache --virtual .run-deps \
       libressl
 
 ###### SECOND STAGE: build
-# Weare not ready to pin yet
-ENV PGBOUNCER_SHA256_CHECKSUM c1cbecdd469327f132005a0ba5a965b710362abe
+ENV PGBOUNCER_SHA256_CHECKSUM 5badee0e6e01980ad827e785340581b90d7a72ac
 FROM common as build
 RUN apk add --no-cache --virtual .build-deps \
       bash \
