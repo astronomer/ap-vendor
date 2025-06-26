@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/golang/tags?name=1.23-alpine
-FROM golang:1.23-alpine3.21 AS build
+FROM golang:1.24-alpine3.21 AS build
 
 RUN set -ex \
     && apk add --no-cache make git file
@@ -22,7 +22,7 @@ RUN set -ex \
 WORKDIR $GOPATH/src/github.com/nats-io/prometheus-nats-exporter
 
 # https://github.com/nats-io/prometheus-nats-exporter/releases
-ENV NATS_EXPORTER_VERSION=0.16.0
+ENV NATS_EXPORTER_VERSION=0.17.3
 
 RUN git clone --branch v${NATS_EXPORTER_VERSION} https://github.com/nats-io/prometheus-nats-exporter.git .
 
@@ -30,7 +30,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -tags netgo -installsuf
 
 # Final docker image building stage
 # https://quay.io/repository/astronomer/ap-base?tab=tags&tag=latest
-FROM quay.io/astronomer/ap-base:3.21.3-4
+FROM quay.io/astronomer/ap-base:3.21.3-5
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
