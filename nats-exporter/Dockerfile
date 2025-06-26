@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/golang/tags?name=1.23-alpine
-FROM golang:1.23-alpine3.21 AS build
+FROM golang:1.24-alpine3.21 AS build
 
 RUN set -ex \
     && apk add --no-cache make git file
