@@ -24,7 +24,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 ENV NATS_STREAMING_SERVER 0.25.6-2
 
-ENV NATS_STREAMING_SHA256_CHECKSUM d9543fbb05376f228daaa09afd560eaa8f70f30c6e62ff51d51c3a16eda737e4
+ENV NATS_STREAMING_SHA256_CHECKSUM c1c84f6e52c38120dc8655278979f2f7c70de8787de13691455a1cc9a5cc6e1d
 
 # Create nats-streamming user and group
 RUN addgroup -g 1000 -S nats-streaming \
