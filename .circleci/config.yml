@@ -45,7 +45,6 @@ workflows:
             fluentd/.* fluentd true
             git-daemon/.* git-daemon true
             git-sync/.* git-sync true
-            git-sync-relay/.* git-sync-relay true
             grafana/.* grafana true
             init/.* init true
             keda/.* keda true
