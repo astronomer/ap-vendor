@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/datadog/dogstatsd/tags
-FROM datadog/dogstatsd:7.65.2
+FROM datadog/dogstatsd:7.66.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
