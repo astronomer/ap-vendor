@@ -49,6 +49,16 @@ mappings:
       dag_id: "$1"
       task_id: "$2"
 
+  - match: airflow.task.queued_duration
+    name: "airflow_task_queued_duration"
+    labels: {}
+
+  - match: airflow.dag.*.*.queued_duration
+    name: "airflow_task_queued_duration"
+    labels:
+      dag_id: "$1"
+      task_id: "$2"
+
   - match: airflow.dagrun.duration.success.*
     name: "airflow_dagrun_duration"
     labels:
