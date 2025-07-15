@@ -7,7 +7,7 @@ from pathlib import Path
 
 import docker
 from docker.errors import APIError
-from packaging.version import parse as semver
+from semver import Version as SemVer
 
 root_directory = Path(__file__).parent.parent
 
@@ -20,6 +20,17 @@ docker_labels = {
     "io.astronomer.build.url": os.getenv("CIRCLE_BUILD_URL"),
     "io.astronomer.build.workflow.id": os.getenv("CIRCLE_WORKFLOW_ID"),
 }
+
+
+def validate_version_string(version_string, source="input"):
+    """Validate a version string and return True if valid, False otherwise."""
+    try:
+        SemVer.parse(version_string)
+        print(f"OK {source} {version_string}")
+        return True
+    except ValueError as e:
+        print(f"ERROR {source} {version_string}: {e}")
+        return False
 
 
 def login_registry(docker_client: docker, registry: str, username: str, password: str):
@@ -39,7 +50,7 @@ def get_image_tags(project_path: str):
             versions = versions_text.split(",")
 
             for version in versions:
-                if not semver(version).release:
+                if not validate_version_string(version):
                     raise Exception(f"ERROR: No valid semver found in {docker_image_path}/version.txt")
 
             return versions
