@@ -31,5 +31,3 @@ COPY include/healthcheck /healthcheck
 
 USER 65534
 ENTRYPOINT [ "/entrypoint" ]
-
-

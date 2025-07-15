@@ -36,7 +36,7 @@ class VectorHandler:
     airflow_heartbeat_timestamp = None
 
     def __init__(self):
-        self.vector = subprocess.Popen(["/usr/local/bin/vector"], shell=False)  # noqa: S603 - Using fixed path, not user input
+        self.vector = subprocess.Popen(["/usr/local/bin/vector"], shell=False)
 
     def quit_proc(self):
         """Ask vector to quit nicely, and kill it after 60 if it does not quit."""
