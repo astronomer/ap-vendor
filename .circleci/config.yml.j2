@@ -5,7 +5,7 @@ version: 2.1
 setup: true
 
 orbs:
-  path-filtering: circleci/path-filtering@1.3.0 # https://circleci.com/developer/orbs/orb/circleci/path-filtering
+  path-filtering: circleci/path-filtering@2.0.1 # https://circleci.com/developer/orbs/orb/circleci/path-filtering
 
 executors:
   docker-executor:
@@ -37,7 +37,7 @@ jobs:
   run_pre_commit:
     resource_class: small
     docker:
-      - image: quay.io/astronomer/ci-pre-commit:2025-05
+      - image: quay.io/astronomer/ci-pre-commit:2025-07
     steps:
       - checkout
       - run:

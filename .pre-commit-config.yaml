@@ -27,7 +27,7 @@ repos:
       - id: validate-versions
         name: Validate that version.txt files have valid semvers
         language: python
-        entry: bin/validate-semver.py --file
+        entry: bin/validate-semver.py --files
         files: '.*\/version.txt'
         additional_dependencies: ["semver"]
   - repo: https://github.com/codespell-project/codespell
