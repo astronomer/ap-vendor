@@ -23,6 +23,7 @@ ARG GID=999
 ARG USER=redis
 
 ## Modify redis uid/gid to match our custom values
+USER root
 RUN apk update && \
     apk add shadow && \
     usermod -u $UID $USER && \
