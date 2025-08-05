@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # https://github.com/kubernetes/kube-state-metrics/releases
-FROM registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.15.0
+FROM registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.16.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
