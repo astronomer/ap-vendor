@@ -15,6 +15,8 @@
 # https://hub.docker.com/r/curlimages/curl/tags
 FROM curlimages/curl:latest as downloader
 
+RUN apt-get update && apt-get install -y curl
+
 # https://github.com/vectordotdev/vector/releases/
 ENV VECTOR_VERSION 0.47.0
 
