@@ -15,6 +15,10 @@
 # https://hub.docker.com/r/curlimages/curl/tags
 FROM curlimages/curl:latest as downloader
 
+USER root
+RUN apk upgrade && apk add --upgrade sqlite-libs
+USER 65534
+
 # https://github.com/vectordotdev/vector/releases/
 ENV VECTOR_VERSION 0.47.0
 
