@@ -24,7 +24,8 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 # https://github.com/elastic/curator/releases
 ENV CURATOR_VERSION=8.0.21
 
-RUN set -x ; apk --no-cache add \
+RUN set -x ; apk update && apk add --upgrade sqlite-libs && \
+    apk --no-cache add \
       libffi \
       openssl \
       py3-cffi \
