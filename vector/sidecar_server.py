@@ -58,7 +58,6 @@ class VectorHandler:
                     airflow_heartbeat_timestamp = float(raw_value)
                     self.airflow_heartbeat_timestamp = airflow_heartbeat_timestamp
                 else:
-                    # Empty file is unusual and worth reporting
                     print("WARNING: Heartbeat file exists but is empty", flush=True)
             except ValueError as e:
                 print(f"WARNING: Heartbeat file contains invalid data: {e}", flush=True)
