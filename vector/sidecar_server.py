@@ -52,8 +52,18 @@ class VectorHandler:
         if self.airflow_heartbeat_file.exists():
             # Sometimes the file contents are empty due to a race condition, so we only update
             # airflow_heartbeat_timestamp if the file contents can be converted to a float.
-            if airflow_heartbeat_timestamp := float(self.airflow_heartbeat_file.read_text()):
-                self.airflow_heartbeat_timestamp = airflow_heartbeat_timestamp
+            try:
+                raw_value = self.airflow_heartbeat_file.read_text().strip()
+                if raw_value:
+                    airflow_heartbeat_timestamp = float(raw_value)
+                    self.airflow_heartbeat_timestamp = airflow_heartbeat_timestamp
+                else:
+                    # Empty file is unusual and worth reporting
+                    print("WARNING: Heartbeat file exists but is empty", flush=True)
+            except ValueError as e:
+                print(f"WARNING: Heartbeat file contains invalid data: {e}", flush=True)
+            except OSError as e:
+                print(f"WARNING: Could not read heartbeat file: {e}", flush=True)
 
         if self.airflow_heartbeat_timestamp:
             self.airflow_heartbeat_age = time.time() - self.airflow_heartbeat_timestamp
