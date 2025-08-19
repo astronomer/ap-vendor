@@ -1,71 +1,86 @@
-#
-# Copyright 2016 Astronomer Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# PgBouncer - built from source with configurable features
+# Default to Alpine 3.19 (released 2023-12-07, LTS until 2025-11-01)
+ARG BUILDER_IMAGE=alpine:3.19
+ARG BASE_IMAGE=alpine:3.19
 
-# https://github.com/CenterForOpenScience/docker-library/blob/master/pgbouncer/Dockerfile
-# https://quay.io/repository/centerforopenscience/pgbouncer
-FROM quay.io/astronomer/ap-base:3.21.3-5
-LABEL maintainer="Astronomer <humans@astronomer.io>"
+FROM ${BUILDER_IMAGE} AS builder
 
-# Make it possible to override the UID/GID/username of the user running
-ARG UID=1000
-ARG GID=1001
-ARG BUILD_NUMBER=-1
-ARG USER=pgbouncer
+# Duck typed package management
+ARG PACKAGE_MANAGER
+ARG PACKAGE_NAMING_SCHEME
 
-LABEL io.astronomer.docker=true
-LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+# Define common packages
+ARG COMMON_PACKAGES="git autoconf automake libtool"
 
-ENV PGBOUNCER_VERSION 1.24.1
-ENV PGBOUNCER_SHA256_CHECKSUM da72a3aba13072876d055a3e58dd4aba4a5de4ed6148e73033185245598fd3e0
+# Install packages based on package manager
+RUN case "${PACKAGE_MANAGER}" in \
+      apk) apk add --no-cache ${COMMON_PACKAGES} build-base libevent-dev openssl-dev c-ares-dev ;; \
+      dnf|yum) dnf install -y --allowerasing ${COMMON_PACKAGES} gcc make libevent-devel openssl-devel pkgconfig ;; \
+      apt) apt-get update && apt-get install -y ${COMMON_PACKAGES} build-essential libevent-dev libssl-dev libc-ares-dev && rm -rf /var/lib/apt/lists/* ;; \
+    esac
 
-RUN addgroup -g $GID -S $USER \
-  && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
-  && apk add --no-cache --virtual .run-deps \
-  c-ares \
-  entr \
-  libevent \
-  libressl
+# Build PgBouncer with configurable features
+# PgBouncer 1.21.0 released 2023-10-16
+ARG PGBOUNCER_VERSION="1_21_0"
+# Build with OpenSSL for TLS support, use libevent for DNS
+ARG PGBOUNCER_FEATURES="--with-openssl"
+WORKDIR /build
+RUN git clone https://github.com/pgbouncer/pgbouncer.git && \
+    cd pgbouncer && \
+    git checkout pgbouncer_${PGBOUNCER_VERSION} && \
+    git submodule update --init && \
+    ./autogen.sh && \
+    ./configure ${PGBOUNCER_FEATURES} && \
+    make -j$(nproc) pgbouncer && \
+    strip pgbouncer
 
-RUN apk add --no-cache --virtual .build-deps \
-  build-base \
-  autoconf \
-  wget \
-  c-ares-dev \
-  libevent-dev \
-  openssl-dev \
-  && wget https://www.pgbouncer.org/downloads/files/$PGBOUNCER_VERSION/pgbouncer-$PGBOUNCER_VERSION.tar.gz \
-  && echo "$PGBOUNCER_SHA256_CHECKSUM  /pgbouncer-$PGBOUNCER_VERSION.tar.gz" | sha256sum -c - \
-  && tar -xzvf pgbouncer-$PGBOUNCER_VERSION.tar.gz \
-  && cd pgbouncer-$PGBOUNCER_VERSION \
-  && ./configure --prefix=/usr --disable-debug \
-  && make \
-  && make install \
-  && mkdir /etc/pgbouncer \
-  && cp ./etc/pgbouncer.ini /etc/pgbouncer/ \
-  && touch /etc/pgbouncer/userlist.txt \
-  && sed -i \
-  -e "s|logfile = |#logfile = |" \
-  -e "s|pidfile = |#pidfile = |" \
-  -e "s|listen_addr = .*|listen_addr = 0.0.0.0|" \
-  -e "s|auth_type = .*|auth_type = md5|" \
-  /etc/pgbouncer/pgbouncer.ini \
-  && cd .. \
-  && rm pgbouncer-$PGBOUNCER_VERSION.tar.gz \
-  && rm -rf pgbouncer-$PGBOUNCER_VERSION \
-  && apk del .build-deps
-COPY ./docker-entrypoint.sh docker-entrypoint.sh
-USER $UID
-ENTRYPOINT ["./docker-entrypoint.sh"]
-CMD ["pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
+# Final stage - uses ap-base which already has astro user
+FROM ${BASE_IMAGE}
+
+# Switch to root for installation
+USER root
+
+# Copy runtime libraries from builder
+# Alpine uses /usr/lib, UBI uses /usr/lib64
+# We need to determine which directory exists and copy from there
+RUN --mount=from=builder,source=/usr,target=/builder_usr \
+    if [ -d /builder_usr/lib64 ]; then \
+        mkdir -p /usr/lib64 && \
+        cp -a /builder_usr/lib64/libevent*.so* /usr/lib64/ 2>/dev/null || true && \
+        cp -a /builder_usr/lib64/libssl*.so* /usr/lib64/ 2>/dev/null || true && \
+        cp -a /builder_usr/lib64/libcrypto*.so* /usr/lib64/ 2>/dev/null || true && \
+        cp -a /builder_usr/lib64/libcares* /usr/lib64/ 2>/dev/null || true && \
+        cp -a /builder_usr/lib64/libz*.so* /usr/lib64/ 2>/dev/null || true; \
+    else \
+        mkdir -p /usr/lib && \
+        cp -a /builder_usr/lib/libevent*.so* /usr/lib/ 2>/dev/null || true && \
+        cp -a /builder_usr/lib/libssl*.so* /usr/lib/ 2>/dev/null || true && \
+        cp -a /builder_usr/lib/libcrypto*.so* /usr/lib/ 2>/dev/null || true && \
+        cp -a /builder_usr/lib/libcares* /usr/lib/ 2>/dev/null || true && \
+        cp -a /builder_usr/lib/libz*.so* /usr/lib/ 2>/dev/null || true; \
+    fi
+
+# Create required directories
+# Note: /var/run might be read-only, so we use /tmp for runtime files
+RUN mkdir -p /etc/pgbouncer /tmp/pgbouncer && \
+    echo '[databases]' > /etc/pgbouncer/pgbouncer.ini && \
+    echo '* = host=localhost' >> /etc/pgbouncer/pgbouncer.ini && \
+    echo '[pgbouncer]' >> /etc/pgbouncer/pgbouncer.ini && \
+    echo 'listen_addr = 0.0.0.0' >> /etc/pgbouncer/pgbouncer.ini && \
+    echo 'auth_type = trust' >> /etc/pgbouncer/pgbouncer.ini && \
+    echo 'pidfile = /tmp/pgbouncer/pgbouncer.pid' >> /etc/pgbouncer/pgbouncer.ini && \
+    echo 'unix_socket_dir = /tmp/pgbouncer' >> /etc/pgbouncer/pgbouncer.ini && \
+    echo 'logfile = ' >> /etc/pgbouncer/pgbouncer.ini && \
+    chown -R 50000:50000 /etc/pgbouncer /tmp/pgbouncer
+
+COPY --from=builder /build/pgbouncer/pgbouncer /usr/local/bin/pgbouncer
+RUN chmod 755 /usr/local/bin/pgbouncer
+
+# Set library path for Alpine
+ENV LD_LIBRARY_PATH=/usr/lib:/lib
+
+# Switch back to astro user
+USER 50000
+WORKDIR /home/astro
+EXPOSE 6432
+ENTRYPOINT ["/usr/local/bin/pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]

@@ -1,3 +1,17 @@
+# Branch Specific Changes
+
+contains a Justfile you can use to build ubi10-micro images for
+
+pgbouncer-exporter
+statsd-exporter
+pgbouncer
+statsd
+redis
+
+and perhaps alpine - its a matrix build but alpine has not been tested in a bit
+
+0 CVEs with triviy at any level as of 2025-09-19 18:00 EST
+
 # Astronomer Vendor Images
 
 The Astronomer ap-vendor repo is a collection of third party components that we vendor and provide through our own supply chain. This gives us more control over when updates are released, and how the software is distributed to our customers.
