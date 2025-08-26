@@ -1,1 +1,3 @@
 # Upstream elasticsearch images include several CVEs.
+CVE-2025-54988
+CVE-2025-55163

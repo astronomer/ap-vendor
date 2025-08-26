@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://www.docker.elastic.co/r/elasticsearch
-FROM docker.elastic.co/elasticsearch/elasticsearch:8.18.2-amd64
+FROM docker.elastic.co/elasticsearch/elasticsearch:8.18.5-amd64
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -23,7 +23,6 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER 0
 RUN apt-get update && \
-    apt-get install libssl1.1 openssl -y && \
     rm -rf /var/lib/apt/lists/*
 RUN gpasswd -d elasticsearch root
 USER 1000
