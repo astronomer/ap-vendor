@@ -49,6 +49,9 @@ RUN addgroup -g 1000 -S blackbox-exporter \
 RUN set -ex \
     && apk add --no-cache ca-certificates
 
+# We don't need dockerize in this project
+RUN rm -f /usr/local/bin/dockerize
+
 COPY --from=build --chown=1000:1000 /go/src/github.com/prometheus/blackbox_exporter/blackbox_exporter /usr/local/bin
 COPY --from=build --chown=1000:1000 /go/src/github.com/prometheus/blackbox_exporter/blackbox.yml /etc/blackbox_exporter/blackbox.yml
 USER 1000
