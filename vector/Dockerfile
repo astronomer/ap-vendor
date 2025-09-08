@@ -13,35 +13,30 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/curlimages/curl/tags
-FROM curlimages/curl:latest as downloader
+# https://github.com/vectordotdev/vector/releases/
+
+FROM cgr.dev/astronomer.io/ap-vector:latest
+LABEL maintainer="Astronomer <humans@astronomer.io>"
+
+# Make it possible to override the UID/GID/username
+ARG UID=65534
+ARG GID=65534
+ARG USER=vector
 
 USER root
-RUN apk upgrade && apk add --upgrade sqlite-libs
-USER 65534
+RUN apk update && \
+    apk add shadow python3 vector && \
+    adduser -D -u $UID -g $GID $USER && \
+    chown -R $USER:$USER /etc/vector && \
+    rm -rf /var/cache/apk/*
 
-# https://github.com/vectordotdev/vector/releases/
-ENV VECTOR_VERSION 0.47.0
-
-RUN curl -fsSL https://github.com/vectordotdev/vector/releases/download/v${VECTOR_VERSION}/vector-${VECTOR_VERSION}-x86_64-unknown-linux-musl.tar.gz \
-    | tar --directory=/tmp --strip-components=3 -xzf - ./vector-x86_64-unknown-linux-musl/bin/vector
-
-FROM quay.io/astronomer/ap-base:3.21.3-5
-
-LABEL maintainer="Astronomer <humans@astronomer.io>"
+COPY sidecar_server.py /usr/local/bin/
+COPY vector.toml /etc/vector/vector.toml
+RUN chown $USER:$USER /usr/local/bin/sidecar_server.py
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-# Update packages to solve security vulnerabilities
-RUN apk add python3
-
-COPY --from=downloader /tmp/vector /usr/local/bin/vector
-
-ADD sidecar_server.py /usr/local/bin/
-
-COPY vector.toml /etc/vector/vector.toml
-
-USER 65534
-
+USER $USER
 ENTRYPOINT ["/usr/local/bin/sidecar_server.py"]
