@@ -205,6 +205,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -250,6 +251,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -295,6 +297,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -340,6 +343,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -385,6 +389,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -430,6 +435,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -475,6 +481,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -520,6 +527,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -565,6 +573,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -610,6 +619,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -655,6 +665,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -700,6 +711,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -745,6 +757,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -790,6 +803,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -835,6 +849,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -880,6 +895,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -925,6 +941,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -970,6 +987,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1015,6 +1033,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1060,6 +1079,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1105,6 +1125,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1150,6 +1171,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1195,6 +1217,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1240,6 +1263,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1285,6 +1309,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1330,6 +1355,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1375,6 +1401,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1420,6 +1447,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1465,6 +1493,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1510,6 +1539,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1555,6 +1585,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1600,6 +1631,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1645,6 +1677,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1690,6 +1723,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1735,6 +1769,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1780,6 +1815,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1825,6 +1861,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1870,6 +1907,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1915,6 +1953,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -1960,6 +1999,7 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
           filters:
@@ -2206,6 +2246,10 @@ commands:
           pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
+      - run:
+          name: Login to Chainguard Registry ## Currently we use: https://edu.chainguard.dev/chainguard/chainguard-images/chainguard-registry/authenticating/#authenticating-with-a-pull-token
+          command: |
+            echo $CHAINGUARD_REGISTRY_PASSWORD | docker login cgr.dev -u $CHAINGUARD_REGISTRY_USERNAME --password-stdin
       - run:
           name: Build the Docker image
           command: bin/docker-operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
