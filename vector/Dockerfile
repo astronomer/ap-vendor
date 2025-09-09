@@ -17,19 +17,20 @@
 
 FROM cgr.dev/chainguard/python:latest as python-stage
 
-
 FROM cgr.dev/astronomer.io/ap-vector:latest
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
-COPY --from=python-stage /usr/bin/python3 /usr/bin/python3
 COPY --from=python-stage /usr/lib/python3* /usr/lib/
+COPY --from=python-stage /usr/lib/libpython* /usr/lib/
+COPY --from=python-stage /lib/ /lib/
 
-COPY sidecar_server.py /usr/local/bin/
+COPY --from=python-stage /usr/bin/python3 /usr/bin/python3
+
+COPY --chmod=755 sidecar_server.py /usr/local/bin/
 COPY vector.toml /etc/vector/vector.toml
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-USER 65532
-ENTRYPOINT ["/usr/local/bin/sidecar_server.py"]
+ENTRYPOINT ["/usr/bin/python3", "/usr/local/bin/sidecar_server.py"]
