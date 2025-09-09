@@ -17,7 +17,7 @@
 
 FROM cgr.dev/chainguard/python:latest as python-stage
 
-FROM cgr.dev/astronomer.io/ap-vector:latest
+FROM cgr.dev/astronomer.io/ap-vector:latest-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 COPY --from=python-stage /usr/lib/python3* /usr/lib/
