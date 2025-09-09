@@ -34,6 +34,8 @@ workflows:
       - build:
           name: build
           directory: {{ directory }}
+          context:
+            - apc-chainguard-creds
       - test:
           directory: {{ directory }}
           test_script: bin/test.py

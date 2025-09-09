@@ -187,6 +187,8 @@ workflows:
       - build:
           name: build
           directory: alertmanager
+          context:
+            - apc-chainguard-creds
       - test:
           directory: alertmanager
           test_script: bin/test.py
@@ -233,6 +235,8 @@ workflows:
       - build:
           name: build
           directory: alpine
+          context:
+            - apc-chainguard-creds
       - test:
           directory: alpine
           test_script: bin/test.py
@@ -279,6 +283,8 @@ workflows:
       - build:
           name: build
           directory: auth-sidecar
+          context:
+            - apc-chainguard-creds
       - test:
           directory: auth-sidecar
           test_script: bin/test.py
@@ -325,6 +331,8 @@ workflows:
       - build:
           name: build
           directory: awsesproxy
+          context:
+            - apc-chainguard-creds
       - test:
           directory: awsesproxy
           test_script: bin/test.py
@@ -371,6 +379,8 @@ workflows:
       - build:
           name: build
           directory: blackbox-exporter
+          context:
+            - apc-chainguard-creds
       - test:
           directory: blackbox-exporter
           test_script: bin/test.py
@@ -417,6 +427,8 @@ workflows:
       - build:
           name: build
           directory: configmap-reloader
+          context:
+            - apc-chainguard-creds
       - test:
           directory: configmap-reloader
           test_script: bin/test.py
@@ -463,6 +475,8 @@ workflows:
       - build:
           name: build
           directory: curator
+          context:
+            - apc-chainguard-creds
       - test:
           directory: curator
           test_script: bin/test.py
@@ -509,6 +523,8 @@ workflows:
       - build:
           name: build
           directory: dind-golang
+          context:
+            - apc-chainguard-creds
       - test:
           directory: dind-golang
           test_script: bin/test.py
@@ -555,6 +571,8 @@ workflows:
       - build:
           name: build
           directory: dogstatsd
+          context:
+            - apc-chainguard-creds
       - test:
           directory: dogstatsd
           test_script: bin/test.py
@@ -601,6 +619,8 @@ workflows:
       - build:
           name: build
           directory: elasticsearch
+          context:
+            - apc-chainguard-creds
       - test:
           directory: elasticsearch
           test_script: bin/test.py
@@ -647,6 +667,8 @@ workflows:
       - build:
           name: build
           directory: elasticsearch-exporter
+          context:
+            - apc-chainguard-creds
       - test:
           directory: elasticsearch-exporter
           test_script: bin/test.py
@@ -693,6 +715,8 @@ workflows:
       - build:
           name: build
           directory: fluentd
+          context:
+            - apc-chainguard-creds
       - test:
           directory: fluentd
           test_script: bin/test.py
@@ -739,6 +763,8 @@ workflows:
       - build:
           name: build
           directory: git-daemon
+          context:
+            - apc-chainguard-creds
       - test:
           directory: git-daemon
           test_script: bin/test.py
@@ -785,6 +811,8 @@ workflows:
       - build:
           name: build
           directory: git-sync
+          context:
+            - apc-chainguard-creds
       - test:
           directory: git-sync
           test_script: bin/test.py
@@ -831,6 +859,8 @@ workflows:
       - build:
           name: build
           directory: grafana
+          context:
+            - apc-chainguard-creds
       - test:
           directory: grafana
           test_script: bin/test.py
@@ -877,6 +907,8 @@ workflows:
       - build:
           name: build
           directory: init
+          context:
+            - apc-chainguard-creds
       - test:
           directory: init
           test_script: bin/test.py
@@ -923,6 +955,8 @@ workflows:
       - build:
           name: build
           directory: keda
+          context:
+            - apc-chainguard-creds
       - test:
           directory: keda
           test_script: bin/test.py
@@ -969,6 +1003,8 @@ workflows:
       - build:
           name: build
           directory: keda-metrics-apiserver
+          context:
+            - apc-chainguard-creds
       - test:
           directory: keda-metrics-apiserver
           test_script: bin/test.py
@@ -1015,6 +1051,8 @@ workflows:
       - build:
           name: build
           directory: kibana
+          context:
+            - apc-chainguard-creds
       - test:
           directory: kibana
           test_script: bin/test.py
@@ -1061,6 +1099,8 @@ workflows:
       - build:
           name: build
           directory: kube-state
+          context:
+            - apc-chainguard-creds
       - test:
           directory: kube-state
           test_script: bin/test.py
@@ -1107,6 +1147,8 @@ workflows:
       - build:
           name: build
           directory: kubed
+          context:
+            - apc-chainguard-creds
       - test:
           directory: kubed
           test_script: bin/test.py
@@ -1153,6 +1195,8 @@ workflows:
       - build:
           name: build
           directory: nats-exporter
+          context:
+            - apc-chainguard-creds
       - test:
           directory: nats-exporter
           test_script: bin/test.py
@@ -1199,6 +1243,8 @@ workflows:
       - build:
           name: build
           directory: nats-server
+          context:
+            - apc-chainguard-creds
       - test:
           directory: nats-server
           test_script: bin/test.py
@@ -1245,6 +1291,8 @@ workflows:
       - build:
           name: build
           directory: nats-streaming
+          context:
+            - apc-chainguard-creds
       - test:
           directory: nats-streaming
           test_script: bin/test.py
@@ -1291,6 +1339,8 @@ workflows:
       - build:
           name: build
           directory: nginx
+          context:
+            - apc-chainguard-creds
       - test:
           directory: nginx
           test_script: bin/test.py
@@ -1337,6 +1387,8 @@ workflows:
       - build:
           name: build
           directory: nginx-es
+          context:
+            - apc-chainguard-creds
       - test:
           directory: nginx-es
           test_script: bin/test.py
@@ -1383,6 +1435,8 @@ workflows:
       - build:
           name: build
           directory: node-exporter
+          context:
+            - apc-chainguard-creds
       - test:
           directory: node-exporter
           test_script: bin/test.py
@@ -1429,6 +1483,8 @@ workflows:
       - build:
           name: build
           directory: openresty
+          context:
+            - apc-chainguard-creds
       - test:
           directory: openresty
           test_script: bin/test.py
@@ -1475,6 +1531,8 @@ workflows:
       - build:
           name: build
           directory: pgbouncer
+          context:
+            - apc-chainguard-creds
       - test:
           directory: pgbouncer
           test_script: bin/test.py
@@ -1521,6 +1579,8 @@ workflows:
       - build:
           name: build
           directory: pgbouncer-exporter
+          context:
+            - apc-chainguard-creds
       - test:
           directory: pgbouncer-exporter
           test_script: bin/test.py
@@ -1567,6 +1627,8 @@ workflows:
       - build:
           name: build
           directory: pgbouncer-krb
+          context:
+            - apc-chainguard-creds
       - test:
           directory: pgbouncer-krb
           test_script: bin/test.py
@@ -1613,6 +1675,8 @@ workflows:
       - build:
           name: build
           directory: postgres-exporter
+          context:
+            - apc-chainguard-creds
       - test:
           directory: postgres-exporter
           test_script: bin/test.py
@@ -1659,6 +1723,8 @@ workflows:
       - build:
           name: build
           directory: postgres-operator
+          context:
+            - apc-chainguard-creds
       - test:
           directory: postgres-operator
           test_script: bin/test.py
@@ -1705,6 +1771,8 @@ workflows:
       - build:
           name: build
           directory: postgresql
+          context:
+            - apc-chainguard-creds
       - test:
           directory: postgresql
           test_script: bin/test.py
@@ -1751,6 +1819,8 @@ workflows:
       - build:
           name: build
           directory: prometheus
+          context:
+            - apc-chainguard-creds
       - test:
           directory: prometheus
           test_script: bin/test.py
@@ -1797,6 +1867,8 @@ workflows:
       - build:
           name: build
           directory: python
+          context:
+            - apc-chainguard-creds
       - test:
           directory: python
           test_script: bin/test.py
@@ -1843,6 +1915,8 @@ workflows:
       - build:
           name: build
           directory: redis
+          context:
+            - apc-chainguard-creds
       - test:
           directory: redis
           test_script: bin/test.py
@@ -1889,6 +1963,8 @@ workflows:
       - build:
           name: build
           directory: registry
+          context:
+            - apc-chainguard-creds
       - test:
           directory: registry
           test_script: bin/test.py
@@ -1935,6 +2011,8 @@ workflows:
       - build:
           name: build
           directory: statsd-exporter
+          context:
+            - apc-chainguard-creds
       - test:
           directory: statsd-exporter
           test_script: bin/test.py
@@ -1981,6 +2059,8 @@ workflows:
       - build:
           name: build
           directory: vector
+          context:
+            - apc-chainguard-creds
       - test:
           directory: vector
           test_script: bin/test.py
