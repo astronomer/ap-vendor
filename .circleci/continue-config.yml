@@ -2249,7 +2249,7 @@ commands:
       - run:
           name: Login to Chainguard Registry ## Currently we use: https://edu.chainguard.dev/chainguard/chainguard-images/chainguard-registry/authenticating/#authenticating-with-a-pull-token
           command: |
-            echo $CHAINGUARD_REGISTRY_PASSWORD | docker login cgr.dev --username "$CHAINGUARD_REGISTRY_USERNAME" --password "$CHAINGUARD_REGISTRY_PASSWORD"
+            docker login cgr.dev --username "$CHAINGUARD_REGISTRY_USERNAME" --password "$CHAINGUARD_REGISTRY_PASSWORD"
       - run:
           name: Build the Docker image
           command: bin/docker-operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
