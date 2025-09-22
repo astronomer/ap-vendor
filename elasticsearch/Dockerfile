@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://www.docker.elastic.co/r/elasticsearch
-FROM cgr.dev/astronomer.io/ap-elasticsearch:8
+FROM cgr.dev/astronomer.io/ap-elasticsearch:8.18.6
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
