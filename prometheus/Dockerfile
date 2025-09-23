@@ -15,10 +15,14 @@
 
 # https://prometheus.io/docs/introduction/release-cycle/
 # https://hub.docker.com/r/prom/prometheus/tags
-FROM quay.io/prometheus/prometheus:v3.5.0
+FROM cgr.dev/astronomer.io/ap-prometheus:3.5.0-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
 USER 65534
+
+# Use the built-in configuration
+CMD ["--config.file=/etc/prometheus/prometheus.yml"]
