@@ -23,7 +23,14 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER 0
 
-# Remove existing user/group if they exist, then recreate with desired UID/GID
+RUN apk add --no-cache curl
+
+# Downloaded the lucene-backward-codecs JAR matching ES 8.18.6
+# Using the version of Lucene bundled in 8.18.6 (checked with `bin/elasticsearch --version`)
+RUN curl -L -o /usr/share/elasticsearch/lib/lucene-backward-codecs-9.12.0.jar \
+    https://repo1.maven.org/maven2/org/apache/lucene/lucene-backward-codecs/9.12.0/lucene-backward-codecs-9.12.0.jar && \
+    chown elasticsearch:elasticsearch /usr/share/elasticsearch/lib/lucene-backward-codecs-9.12.0.jar
+
 RUN deluser elasticsearch 2>/dev/null || true && \
     delgroup elasticsearch 2>/dev/null || true && \
     addgroup -g 1000 elasticsearch && \
