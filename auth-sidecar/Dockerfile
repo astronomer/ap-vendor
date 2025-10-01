@@ -23,7 +23,4 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 LABEL io.astronomer.docker.module="auth-sidecar"
 LABEL io.astronomer.docker.component="auth-sidecar"
 
-# fix some CVEs
-USER root
-RUN apk upgrade --no-cache
 USER 101
