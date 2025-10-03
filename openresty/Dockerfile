@@ -18,28 +18,11 @@
 # https://hub.docker.com/r/openresty/openresty/tags
 # Build stage using -dev variant
 FROM cgr.dev/astronomer.io/openresty:1.27.1-dev AS builder
-
-# Pre-create the /tmp/nginx directories that nginx will use
-# Even though /tmp is mounted as emptyDir, we need these to exist in the image
-RUN mkdir -p /tmp/nginx/client_body_temp \
-    && mkdir -p /tmp/nginx/proxy_temp \
-    && mkdir -p /tmp/nginx/fastcgi_temp \
-    && mkdir -p /tmp/nginx/uwsgi_temp \
-    && mkdir -p /tmp/nginx/scgi_temp
-
-# Upgrade packages
 RUN apk upgrade --no-cache
 
-# Final stage using distroless runtime
 FROM cgr.dev/astronomer.io/openresty:1.27.1
-
-# Copy the pre-created directories
-COPY --from=builder /tmp/nginx /tmp/nginx
-
 LABEL maintainer="Astronomer <humans@astronomer.io>"
-
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-
 USER 65534
