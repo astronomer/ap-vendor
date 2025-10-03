@@ -33,11 +33,11 @@ LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 USER root
 
-# Install git and openssh-client (Go is already installed)
+# Install git and openssh-client (Go 1.25.1 is already installed)
 RUN apk update && apk upgrade --available && \
     apk add --no-cache openssh-client git
 
-# Build git-sync with the pre-installed Go 1.25.1
+# Build git-sync from source with Go 1.25.1
 RUN git clone https://github.com/kubernetes/git-sync.git /tmp/git-sync && \
     cd /tmp/git-sync && \
     git checkout v4.4.1 && \
