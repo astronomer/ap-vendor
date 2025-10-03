@@ -16,17 +16,23 @@
 
 # https://github.com/openresty/docker-openresty/
 # https://hub.docker.com/r/openresty/openresty/tags
+# Build stage using -dev variant
 FROM cgr.dev/astronomer.io/openresty:1.27.1-dev AS builder
 
-# Create your original directory structure
-RUN mkdir -p /usr/local/openresty/nginx/client_body_temp \
-    && mkdir -p /usr/local/openresty/nginx/proxy_temp \
-    && mkdir -p /usr/local/openresty/nginx/client_temp \
-    && mkdir -p /usr/local/openresty/nginx/fastcgi_temp \
-    && mkdir -p /usr/local/openresty/nginx/uwsgi_temp \
-    && mkdir -p /usr/local/openresty/nginx/scgi_temp \
-    && chown -R 65534:65534 /usr/local/openresty \
-    && chmod -R g+w /usr/local/openresty
+# Create temp directories under /tmp (which is mounted as writable in K8s)
+RUN mkdir -p /tmp/nginx/client_body_temp \
+    && mkdir -p /tmp/nginx/proxy_temp \
+    && mkdir -p /tmp/nginx/fastcgi_temp \
+    && mkdir -p /tmp/nginx/uwsgi_temp \
+    && mkdir -p /tmp/nginx/scgi_temp \
+    && chown -R 65534:65534 /tmp/nginx
+
+# Create nginx config snippet to use /tmp paths
+RUN printf 'client_body_temp_path /tmp/nginx/client_body_temp;\n\
+proxy_temp_path /tmp/nginx/proxy_temp;\n\
+fastcgi_temp_path /tmp/nginx/fastcgi_temp;\n\
+uwsgi_temp_path /tmp/nginx/uwsgi_temp;\n\
+scgi_temp_path /tmp/nginx/scgi_temp;\n' > /etc/nginx/conf.d/temp_paths.conf
 
 # Upgrade packages
 RUN apk upgrade --no-cache
@@ -34,8 +40,11 @@ RUN apk upgrade --no-cache
 # Final stage using distroless runtime
 FROM cgr.dev/astronomer.io/openresty:1.27.1
 
-# Copy the prepared directories with correct ownership
-COPY --from=builder --chown=65534:65534 /usr/local/openresty /usr/local/openresty
+# Copy the nginx config that sets temp paths to /tmp
+COPY --from=builder /etc/nginx/conf.d/temp_paths.conf /etc/nginx/conf.d/temp_paths.conf
+
+# Note: /tmp directories will be created by the emptyDir volume mount in K8s
+# We don't need to copy them because the volume mount happens at runtime
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
