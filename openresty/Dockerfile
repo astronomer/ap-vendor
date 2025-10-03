@@ -23,12 +23,13 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-RUN mkdir -p /usr/local/openresty/nginx/client_body_temp \
-    && mkdir -p /usr/local/openresty/nginx/proxy_temp \
-    && mkdir -p /usr/local/openresty/nginx/client_temp \
-    && mkdir -p /usr/local/openresty/nginx/fastcgi_temp \
-    && mkdir -p /usr/local/openresty/nginx/uwsgi_temp \
-    && mkdir -p /usr/local/openresty/nginx/scgi_temp \
+RUN ln -sf /tmp/openresty /usr/local/openresty \
+    && mkdir -p /usr/local/openresty/nginx/client_body_temp \
+                /usr/local/openresty/nginx/proxy_temp \
+                /usr/local/openresty/nginx/client_temp \
+                /usr/local/openresty/nginx/fastcgi_temp \
+                /usr/local/openresty/nginx/uwsgi_temp \
+                /usr/local/openresty/nginx/scgi_temp \
     && chown -R nobody:nobody /var/run/openresty \
     && chown -R nobody:nobody /usr/local/openresty \
     && chmod -R g+w /usr/local/openresty
