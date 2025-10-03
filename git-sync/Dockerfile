@@ -34,7 +34,9 @@ FROM quay.io/astronomer/ap-base:3.21.3-5
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 COPY --from=upstream /git-sync /usr/local/bin/
 USER root
-RUN apk update && apk upgrade --available && apk add --no-cache git openssh-client
+RUN apk update && apk upgrade --available && \
+    apk add --no-cache openssh-client && \
+    apk add --no-cache 'git>=2.47.3-r0'
 RUN echo "git-sync:x:65533:65533::/tmp:/sbin/nologin" >> /etc/passwd
 RUN mkdir -m 02775 /git && chown 65533:65533 /git
 ARG BUILD_NUMBER=-1
