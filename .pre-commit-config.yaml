@@ -36,7 +36,7 @@ repos:
       - id: codespell
         args: ["-L", "AKS,aks,showIn"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.12.3"
+    rev: "v0.13.3"
     hooks:
       - id: ruff
         args:
@@ -51,11 +51,11 @@ repos:
         args: ["--print-width=135"]
         exclude: "^statsd-exporter/test/statsd-test-config.js$"
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.10.0.1
+    rev: v0.11.0.1
     hooks:
       - id: shellcheck
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-case-conflict
       - id: check-executables-have-shebangs
@@ -68,7 +68,8 @@ repos:
         args: ["--allow-multiple-documents"]
       - id: end-of-file-fixer
       - id: file-contents-sorter
-        args: ["--ignore-case", "--unique"]
+        args:
+          - "--unique"
         files: "^.*ignore$"
       - id: mixed-line-ending
         args: ["--fix=lf"]

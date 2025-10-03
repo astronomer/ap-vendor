@@ -14,14 +14,14 @@
 .python-version
 .ruff_cache
 .vscode/*
+Untitled*
 __pycache__
-docs/_build
 docs/README.md
+docs/_build
 java/.classpath
 java/.project
 java/.settings/
 local.make
 target
 trivy-output.txt
-Untitled*
 venv
