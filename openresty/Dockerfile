@@ -16,16 +16,32 @@
 
 # https://github.com/openresty/docker-openresty/
 # https://hub.docker.com/r/openresty/openresty/tags
+# Build stage using -dev variant (has shell and package manager according to chainguard)
+FROM cgr.dev/astronomer.io/openresty:1.27.1-dev AS builder
+
+RUN mkdir -p /usr/local/openresty/nginx/client_body_temp \
+    && mkdir -p /usr/local/openresty/nginx/proxy_temp \
+    && mkdir -p /usr/local/openresty/nginx/client_temp \
+    && mkdir -p /usr/local/openresty/nginx/fastcgi_temp \
+    && mkdir -p /usr/local/openresty/nginx/uwsgi_temp \
+    && mkdir -p /usr/local/openresty/nginx/scgi_temp \
+    && chown -R nonroot:nonroot /var/run/openresty \
+    && chown -R nonroot:nonroot /usr/local/openresty \
+    && chmod -R g+w /usr/local/openresty
+
+RUN apk upgrade --no-cache
+
+# Final stage using distroless runtime
 FROM cgr.dev/astronomer.io/openresty:1.27.1
+
+COPY --from=builder --chown=nonroot:nonroot /usr/local/openresty /usr/local/openresty
+COPY --from=builder --chown=nonroot:nonroot /var/run/openresty /var/run/openresty
+
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-
-# All temp directories already exist in /var/run/openresty/ can be seen from: https://console.chainguard.dev/org/astronomer.io/images/organization/image/openresty/overview#chainguard-container-for-openresty
-# Permissions are already configured correctly
-# No RUN commands needed with distroless images
 
 USER 65534
