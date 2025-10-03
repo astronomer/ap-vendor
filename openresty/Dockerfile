@@ -16,24 +16,14 @@
 
 # https://github.com/openresty/docker-openresty/
 # https://hub.docker.com/r/openresty/openresty/tags
-FROM docker.io/openresty/openresty:1.27.1.2-1-alpine
-LABEL maintainer="Astronomer <humans@astronomer.io>"
+# Build stage using -dev variant
+FROM cgr.dev/astronomer.io/openresty:1.27.1-dev AS builder
+RUN apk upgrade --no-cache
 
+FROM cgr.dev/astronomer.io/openresty:1.27.1
+LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-
-RUN mkdir -p /usr/local/openresty/nginx/client_body_temp \
-    && mkdir -p /usr/local/openresty/nginx/proxy_temp \
-    && mkdir -p /usr/local/openresty/nginx/client_temp \
-    && mkdir -p /usr/local/openresty/nginx/fastcgi_temp \
-    && mkdir -p /usr/local/openresty/nginx/uwsgi_temp \
-    && mkdir -p /usr/local/openresty/nginx/scgi_temp \
-    && chown -R nobody:nobody /var/run/openresty \
-    && chown -R nobody:nobody /usr/local/openresty \
-    && chmod -R g+w /usr/local/openresty
-
-# upgrade apk packages
-RUN apk upgrade --no-cache
-
+EXPOSE 8084
 USER 65534
