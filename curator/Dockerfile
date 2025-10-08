@@ -28,6 +28,12 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 COPY --from=sqlite-builder /usr/lib/libsqlite3.so* /usr/lib/
 
+USER root
+
+RUN if [ ! -f /usr/bin/python3 ]; then \
+      ln -s /usr/bin/python /usr/bin/python3 2>/dev/null || true; \
+    fi
+
 USER 65534
 
 ENTRYPOINT ["/usr/bin/curator"]
