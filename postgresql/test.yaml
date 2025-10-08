@@ -8,7 +8,7 @@ tests:
       gid: 1001
       uid: 1001
   test_commands:
-    - command: mkdir /bitnami/postgresql/data
+    - command: mkdir -p /var/lib/postgresql/data/test && rmdir /var/lib/postgresql/data/test
       expected_result:
         # Expect 0 exit code (implicit in test) and no output
         equals: ""

@@ -30,8 +30,18 @@ USER root
 RUN apk update && apk upgrade && \
     rm -rf /var/cache/apk/*
 
-# Create postgres group and user with UID/GID 1001 (only if they don't exist)
-RUN addgroup -g 1001 postgres 2>/dev/null || true && \
-    adduser -u 1001 -G postgres -D -S postgres 2>/dev/null || true
+# Remove existing postgres user/group and recreate with UID/GID 1001
+RUN deluser postgres || true && \
+    delgroup postgres || true && \
+    addgroup -g 1001 postgres && \
+    adduser -u 1001 -G postgres -D -S -h /var/lib/postgresql postgres
+
+# Create the /bitnami/postgresql directory structure for compatibility with tests
+RUN mkdir -p /bitnami/postgresql && \
+    chown -R 1001:1001 /bitnami/postgresql
+
+# Also ensure the standard PostgreSQL data directory has correct permissions
+RUN mkdir -p /var/lib/postgresql/data && \
+    chown -R 1001:1001 /var/lib/postgresql
 
 USER 1001
