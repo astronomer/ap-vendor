@@ -14,42 +14,19 @@
 # limitations under the License.
 
 # https://quay.io/repository/astronomer/ap-base?tab=tags
-FROM quay.io/astronomer/ap-base:3.21.3-5
+# Stage 1: Patched SQLite library
+FROM cgr.dev/chainguard/wolfi-base:latest AS sqlite-builder
+RUN apk update && apk add sqlite-libs --no-cache
+
+# Stage 2: Final image
+FROM quay.io/astronomer/ap-base:3.21.3-6
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-# https://github.com/elastic/curator/releases
-ENV CURATOR_VERSION=8.0.21
-
-RUN set -x ; apk update && apk add --upgrade sqlite-libs && \
-    apk --no-cache add \
-      libffi \
-      openssl \
-      py3-cffi \
-      py3-pip \
-      py3-setuptools \
-      python3 \
-      python3-dev && \
-    rm -fv /usr/lib/python3.*/EXTERNALLY-MANAGED && \
-    apk add --no-cache  \
-      py3-cryptography \
-      py3-openssl \
-      py3-requests \
-      py3-urllib3 \
-      sqlite-libs && \
-    pip install --upgrade --no-cache-dir \
-      setuptools \
-      wheel \
-      elasticsearch \
-      elasticsearch-curator==$CURATOR_VERSION   \
-      boto3 \
-      requests-aws4auth && \
-    apk del \
-      py-pip \
-      python3-dev
+COPY --from=sqlite-builder /usr/lib/libsqlite3.so* /usr/lib/
 
 USER 65534
 
