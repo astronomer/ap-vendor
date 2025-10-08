@@ -15,7 +15,7 @@
 
 # https://hub.docker.com/r/bitnami/postgresql/tags/
 
-FROM bitnami/postgresql:17.5.0-debian-12-r20
+FROM cgr.dev/astronomer.io/ap-postgres:17-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -25,9 +25,13 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 ENV POSTGRESQL_MAX_CONNECTIONS=200
 
 USER root
-RUN apt-get update && apt-get -y upgrade
-RUN addgroup postgres --gid 1001 && usermod -u 1001 -g 1001 postgres
 
-RUN chown -R 1001:1001 /opt/bitnami /bitnami/postgresql
+# Update packages
+RUN apk update && apk upgrade && \
+    rm -rf /var/cache/apk/*
+
+# Create postgres group and user with UID/GID 1001 (only if they don't exist)
+RUN addgroup -g 1001 postgres 2>/dev/null || true && \
+    adduser -u 1001 -G postgres -D -S postgres 2>/dev/null || true
 
 USER 1001
