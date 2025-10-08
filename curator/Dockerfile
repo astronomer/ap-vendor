@@ -30,9 +30,9 @@ COPY --from=sqlite-builder /usr/lib/libsqlite3.so* /usr/lib/
 
 USER root
 
-RUN if [ ! -f /usr/bin/python3 ]; then \
-      ln -s /usr/bin/python /usr/bin/python3 2>/dev/null || true; \
-    fi
+# RUN if [ ! -f /usr/bin/python3 ]; then \
+#       ln -s /usr/bin/python /usr/bin/python3 2>/dev/null || true; \
+#     fi
 
 USER 65534
 
