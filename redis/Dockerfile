@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/redis
-FROM cgr.dev/chainguard/redis:latest-dev
+FROM cgr.dev/chainguard/redis:8.0.3-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 # Make it possible to override the UID/GID/username of the user running
