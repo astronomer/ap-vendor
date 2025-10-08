@@ -8,14 +8,14 @@ tests:
       gid: 65534
       uid: 65534
   test_commands:
-    - command: /usr/bin/python -m curator --help
+    - command: curator --help
       expected_result:
         in: "Do not perform any changes."
         startswith: "Usage: curator [OPTIONS] ACTION_FILE\n\n"
         endswith: "Show this message and exit."
-    - command: /usr/bin/python -c "import curator; print('curator installed')"
+    - command: which curator
       expected_result:
-        equals: "curator installed"
+        equals: "/usr/bin/curator"
 
 docker:
   entrypoint: "/bin/sleep 1m"
