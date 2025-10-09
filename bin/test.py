@@ -148,10 +148,19 @@ def test_user_config(docker_host):
 def test_http_service_running(docker_host):
     if "http_services_running" in test_config:
         for service_config in test_config["http_services_running"]:
-            """Ensure user is 'nobody'."""
-            output = docker_host.check_output(
-                'python3 -c "import urllib.request; import urllib.error; '
-                "try: urllib.request.urlopen('http://0.0.0.0:" + str(service_config["port"]) + "', timeout=5); print('200')\n"
-                'except urllib.error.HTTPError as e: print(e.code)"'
+            """Test HTTP service is running and returns expected status code."""
+            port = service_config["port"]
+            expected_code = service_config["response_code"]
+
+            python_script = (
+                "import urllib.request; "
+                "import urllib.error; "
+                f"req = urllib.request.Request('http://0.0.0.0:{port}', method='HEAD'); "
+                "try: "
+                "    response = urllib.request.urlopen(req, timeout=5); "
+                "    print(response.status); "
+                "except urllib.error.HTTPError as e: "
+                "    print(e.code)"
             )
-            assert output == str(service_config["response_code"])
+            output = docker_host.check_output(f'python3 -c "{python_script}"')
+            assert output.strip() == str(expected_code), f"Expected HTTP {expected_code} but got {output.strip()} on port {port}"
