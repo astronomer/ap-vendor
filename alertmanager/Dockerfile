@@ -24,6 +24,8 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER root
 
+RUN apk add --no-cache python3
+
 RUN mkdir -p /alertmanager /etc/alertmanager && \
     chown -R nobody:nobody /etc/alertmanager /alertmanager
 
