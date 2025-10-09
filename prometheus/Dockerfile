@@ -22,6 +22,9 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+USER root
+RUN apk add --no-cache ca-certificates
+
 USER 65534
 
 # Use the built-in configuration
