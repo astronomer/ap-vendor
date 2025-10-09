@@ -17,12 +17,20 @@
 # https://hub.docker.com/r/prom/prometheus/tags
 FROM cgr.dev/astronomer.io/ap-prometheus:3.5.0-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
-
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+USER root
+
+# Install ca-certificates
+RUN apk add --no-cache ca-certificates
+
+# Copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 USER 65534
 
-# Use the built-in configuration
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["--config.file=/etc/prometheus/prometheus.yml"]
