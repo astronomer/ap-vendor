@@ -44,7 +44,7 @@ test: venv ## Test the docker image. Ex: `make test image_name=alertmanager`
 	venv/bin/pytest -v -s bin/test.py
 
 venv: ## Create the needed virtualenv
-	python3 -m venv venv
+	uv venv venv --seed || python3 -m venv venv
 	venv/bin/pip install -r requirements/requirements.in
 
 .PHONY: clean
