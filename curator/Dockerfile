@@ -38,7 +38,7 @@ RUN set -x ; apk update && apk add --upgrade && \
     rm -fv /usr/lib/python3.*/EXTERNALLY-MANAGED && \
     apk add --no-cache \
       py3-cryptography \
-      py3-openssl \
+      py3-pyopenssl \
       py3-requests \
       py3-urllib3 && \
     pip install --upgrade --no-cache-dir \
