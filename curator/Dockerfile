@@ -21,6 +21,7 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+USER root
 # https://github.com/elastic/curator/releases
 ENV CURATOR_VERSION=8.0.21
 
