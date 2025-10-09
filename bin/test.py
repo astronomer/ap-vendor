@@ -152,15 +152,5 @@ def test_http_service_running(docker_host):
             port = service_config["port"]
             expected_code = service_config["response_code"]
 
-            python_script = (
-                "import urllib.request; "
-                "import urllib.error; "
-                f"req = urllib.request.Request('http://0.0.0.0:{port}', method='HEAD'); "
-                "try: "
-                "    response = urllib.request.urlopen(req, timeout=5); "
-                "    print(response.status); "
-                "except urllib.error.HTTPError as e: "
-                "    print(e.code)"
-            )
-            output = docker_host.check_output(f'python3 -c "{python_script}"')
+            output = docker_host.check_output(f"curl -s -o /dev/null -w '%{{http_code}}' -X HEAD http://0.0.0.0:{port}")
             assert output.strip() == str(expected_code), f"Expected HTTP {expected_code} but got {output.strip()} on port {port}"
