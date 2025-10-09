@@ -1,6 +1,8 @@
 # This is a pytest file. Run it via pytest bin/test.py with the proper env vars
 
 import os
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 import docker
@@ -145,12 +147,22 @@ def test_user_config(docker_host):
     "http_services_running" not in test_config,
     reason="Config `http_services_running` is not set in `test.yaml`.",
 )
-def test_http_service_running(docker_host):
+def test_http_service_running():
+    """Test HTTP service is running and returns expected status code."""
     if "http_services_running" in test_config:
         for service_config in test_config["http_services_running"]:
-            """Test HTTP service is running and returns expected status code."""
             port = service_config["port"]
             expected_code = service_config["response_code"]
 
-            output = docker_host.check_output(f"curl -s -o /dev/null -w '%{{http_code}}' -X HEAD http://0.0.0.0:{port}")
-            assert output.strip() == str(expected_code), f"Expected HTTP {expected_code} but got {output.strip()} on port {port}"
+            url = f"http://localhost:{port}"
+
+            try:
+                req = urllib.request.Request(url, method="HEAD")  # noqa: S310
+                response = urllib.request.urlopen(req, timeout=5)  # noqa: S310
+                actual_code = response.status
+            except urllib.error.HTTPError as e:
+                actual_code = e.code
+            except (urllib.error.URLError, OSError, TimeoutError) as e:
+                pytest.fail(f"Failed to connect to service on port {port}: {e}")
+
+            assert actual_code == expected_code, f"Expected HTTP {expected_code} but got {actual_code} on port {port}"
