@@ -13,11 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Stage 1: Get patched SQLite library
-FROM cgr.dev/chainguard/wolfi-base:latest AS sqlite-builder
-RUN apk update && apk add sqlite-libs --no-cache
-
-# Stage 2: Build curator image
+# https://quay.io/repository/astronomer/ap-base?tab=tags
 FROM quay.io/astronomer/ap-base:3.21.3-6
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
@@ -28,13 +24,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 # https://github.com/elastic/curator/releases
 ENV CURATOR_VERSION=8.0.21
 
-# Copy patched SQLite library from builder stage
-COPY --from=sqlite-builder /usr/lib/libsqlite3.so* /usr/lib/
-
-USER root
-
-# Install all required packages and curator
-RUN set -x ; apk update && apk add --upgrade sqlite-libs && \
+RUN set -x ; apk update && apk add --upgrade && \
     apk --no-cache add \
       libffi \
       openssl \
@@ -42,13 +32,14 @@ RUN set -x ; apk update && apk add --upgrade sqlite-libs && \
       py3-pip \
       py3-setuptools \
       python3 \
-      python3-dev && \
+      python3-dev \
+      sqlite-libs && \
     rm -fv /usr/lib/python3.*/EXTERNALLY-MANAGED && \
     apk add --no-cache \
       py3-cryptography \
+      py3-openssl \
       py3-requests \
-      py3-urllib3 \
-      sqlite-libs && \
+      py3-urllib3 && \
     pip install --upgrade --no-cache-dir \
       setuptools \
       wheel \
