@@ -14,20 +14,22 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/prom/alertmanager/tags?page=1&ordering=last_updated
-FROM prom/alertmanager:v0.28.1 AS UPSTREAM
+FROM prom/alertmanager:v0.28.1 AS upstream
 
-FROM quay.io/astronomer/ap-base:3.21.3-5
+FROM quay.io/astronomer/ap-base:3.21.3-6
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+USER root
+
 RUN mkdir -p /alertmanager /etc/alertmanager && \
     chown -R nobody:nobody /etc/alertmanager /alertmanager
 
-COPY --from=UPSTREAM /bin/amtool /usr/local/bin
-COPY --from=UPSTREAM /bin/alertmanager /usr/local/bin
-COPY --from=UPSTREAM /etc/alertmanager/alertmanager.yml   /etc/alertmanager/alertmanager.yml
+COPY --from=upstream /bin/amtool /usr/local/bin
+COPY --from=upstream /bin/alertmanager /usr/local/bin
+COPY --from=upstream /etc/alertmanager/alertmanager.yml   /etc/alertmanager/alertmanager.yml
 COPY --chown=65534:65534 entrypoint.sh /entrypoint.sh
 
 # Adopt openshift permissions
