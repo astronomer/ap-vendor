@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-ARG GO_VERSION=1.23
+ARG GO_VERSION=1.24.6
 FROM golang:${GO_VERSION}-alpine AS builder
 
 ENV AWSESPROXY_DIR=/go/src/github.com/astronomer/aws-es-proxy
@@ -25,12 +25,14 @@ RUN git clone https://github.com/astronomer/aws-es-proxy.git $AWSESPROXY_DIR && 
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o aws-es-proxy
 
-FROM quay.io/astronomer/ap-base:3.21.3-5
+FROM quay.io/astronomer/ap-base:3.21.3-6
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+USER root
 
 RUN apk --no-cache add ca-certificates
 WORKDIR /home/
