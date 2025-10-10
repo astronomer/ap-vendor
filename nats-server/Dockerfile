@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/astronomer/ap-base:3.21.3-5
+FROM quay.io/astronomer/ap-base:3.21.3-6
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
@@ -21,9 +21,11 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV NATS_SERVER 2.10.19
+USER root
 
-ENV NATS_SERVER_SHA256_CHECKSUM e64e6628795d26fc9c9b15b3894757cde3cefb85cb4a12c23001c997abd276dc
+ENV NATS_SERVER 2.11.10
+
+ENV NATS_SERVER_SHA256_CHECKSUM e99ddaf76e0de2cce90e22d6cbe78d52f003e5e97d45b934d287af2f867c864e
 
 RUN addgroup -g 1000 -S nats \
 	&& adduser -u 1000 -S nats -G nats
