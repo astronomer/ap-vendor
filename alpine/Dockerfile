@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/alpine
-FROM alpine:3.22.1
+FROM alpine:3.22.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
