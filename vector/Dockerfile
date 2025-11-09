@@ -15,16 +15,8 @@
 # https://hub.docker.com/r/curlimages/curl/tags
 # https://github.com/vectordotdev/vector/releases/
 
-FROM cgr.dev/chainguard/python:latest as python-stage
-
-FROM cgr.dev/astronomer.io/ap-vector:latest-dev
+FROM cgr.dev/astronomer.io/ap-vector:0.51.0-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
-
-COPY --from=python-stage /usr/lib/python3* /usr/lib/
-COPY --from=python-stage /usr/lib/libpython* /usr/lib/
-COPY --from=python-stage /lib/ /lib/
-
-COPY --from=python-stage /usr/bin/python3 /usr/bin/python3
 
 COPY --chmod=755 sidecar_server.py /usr/local/bin/
 COPY vector.toml /etc/vector/vector.toml
