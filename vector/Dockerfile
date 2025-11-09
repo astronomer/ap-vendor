@@ -15,7 +15,7 @@
 # https://hub.docker.com/r/curlimages/curl/tags
 # https://github.com/vectordotdev/vector/releases/
 
-FROM cgr.dev/astronomer.io/ap-vector:0.51.0-dev
+FROM cgr.dev/astronomer.io/ap-vector:0.48.0-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 COPY --chmod=755 sidecar_server.py /usr/local/bin/
