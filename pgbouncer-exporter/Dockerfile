@@ -16,7 +16,7 @@
 # https://hub.docker.com/r/jbub/pgbouncer_exporter
 FROM jbub/pgbouncer_exporter:v0.19.0 AS upstream
 
-FROM quay.io/astronomer/ap-base:3.21.3-5
+FROM quay.io/astronomer/ap-base:2025.11.3
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
