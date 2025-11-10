@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/r/prom/alertmanager/tags?page=1&ordering=last_updated
-FROM prom/alertmanager:v0.28.1 AS upstream
+# https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-alertmanager
+FROM cgr.dev/astronomer.io/prometheus-alertmanager:v0.28.1 as upstream
 
 FROM quay.io/astronomer/ap-base:2025.11.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
