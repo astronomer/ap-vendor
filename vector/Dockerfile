@@ -16,6 +16,7 @@ FROM cgr.dev/astronomer.io/ap-vector:0.51.0-dev
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
+USER root
 RUN ln -sf /usr/bin/python3.11 /usr/local/bin/python3 || true
 
 COPY --chmod=755 sidecar_server.py /usr/local/bin/
