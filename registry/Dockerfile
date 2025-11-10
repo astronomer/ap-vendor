@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/_/registry/tags
-FROM registry:3.0.0 AS upstream
+# https://console.chainguard.dev/org/astronomer.io/images/organization/image/ap-registry/versions
+FROM cgr.dev/astronomer.io/ap-registry:3.0.0 AS upstream
 
 FROM quay.io/astronomer/ap-base:2025.11.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
