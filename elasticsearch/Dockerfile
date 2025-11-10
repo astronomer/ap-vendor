@@ -31,4 +31,3 @@ RUN deluser elasticsearch 2>/dev/null || true && \
 
 USER 1000
 
-USER elasticsearch
