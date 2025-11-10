@@ -13,10 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://console.chainguard.dev/org/astronomer.io/images/organization/image/ap-registry/versions
-FROM cgr.dev/astronomer.io/ap-registry:3.0.0 AS upstream
+# https://hub.docker.com/_/registry/tags
+FROM registry:3.0.0 AS upstream
 
-FROM quay.io/astronomer/ap-base:2025.11.3
+FROM quay.io/astronomer/ap-base:3.21.3-5
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -25,8 +25,6 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 ENV UPDATE_CA_CERTS=false
 ENV OTEL_TRACES_EXPORTER=none
-
-USER 0
 
 # Create registry user and group
 RUN addgroup -g 1000 -S registry \
