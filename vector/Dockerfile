@@ -12,11 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/r/curlimages/curl/tags
-# https://github.com/vectordotdev/vector/releases/
-
 FROM cgr.dev/astronomer.io/ap-vector:0.48.0-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
+
+USER root
+
+RUN mkdir -p /opt && \
+    wget https://github.com/indygreg/python-build-standalone/releases/download/20250101/cpython-3.12.12-x86_64-unknown-linux-gnu-install_only.tar.gz && \
+    tar -xzf cpython-3.12.12-x86_64-unknown-linux-gnu-install_only.tar.gz -C /opt && \
+    rm cpython-3.12.12-x86_64-unknown-linux-gnu-install_only.tar.gz
 
 COPY --chmod=755 sidecar_server.py /usr/local/bin/
 COPY vector.toml /etc/vector/vector.toml
