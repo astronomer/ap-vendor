@@ -30,5 +30,3 @@ RUN deluser elasticsearch 2>/dev/null || true && \
     adduser -D -u 1000 -G elasticsearch -s /bin/sh elasticsearch
 
 USER 1000
-
-USER elasticsearch

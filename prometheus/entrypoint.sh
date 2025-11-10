@@ -1,9 +1,6 @@
 #!/bin/sh
 set -e
 
-#!/bin/sh
-set -e
-
 # In production, we mount the registry TLS certificate
 # into /usr/local/share/ca-certificates. This completes
 # the certificate installation so we can trust the registry.
