@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# https://console.chainguard.dev/org/astronomer.io/images/organization?query=nats
 FROM cgr.dev/astronomer.io/nats:v2.12.1 AS upstream
 
 FROM quay.io/astronomer/ap-base:2025.11.3
@@ -28,7 +29,7 @@ USER root
 RUN addgroup -g 1000 -S nats \
 	&& adduser -u 1000 -S nats -G nats
 
-COPY --from=upstream /usr/local/bin/nats-server /usr/local/bin/nats-server
+COPY --from=upstream --chown=1000:1000 /usr/bin/nats-server /usr/local/bin/nats-server
 COPY --chown=1000:1000 nats-server.conf /etc/nats/nats-server.conf
 COPY --chown=1000:1000 docker-entrypoint.sh /usr/local/bin
 
