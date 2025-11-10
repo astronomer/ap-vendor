@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/prometheuscommunity/elasticsearch-exporter/tags
-FROM cgr.dev/astronomer.io/ap-elasticsearch-exporter:1.9.0-dev
+FROM cgr.dev/astronomer.io/ap-elasticsearch-exporter:1.9.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
