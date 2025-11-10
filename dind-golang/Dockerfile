@@ -14,14 +14,14 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/docker?tab=tags&page=1&name=dind-alpine
-FROM docker:28.5.2-dind-alpine3.22
+FROM docker:24.0.6-dind-alpine3.18
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV GOLANG_VERSION=1.21.1
+ENV GOLANG_VERSION 1.21.1
 
 #
 # Install Golang
@@ -60,8 +60,8 @@ RUN set -eux; \
         export PATH="/usr/local/go/bin:$PATH"; \
         go version
 
-ENV GOPATH=/go
-ENV PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
+ENV GOPATH /go
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 
 RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.54.2
 
