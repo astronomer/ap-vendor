@@ -13,14 +13,22 @@
 # limitations under the License.
 
 FROM cgr.dev/astronomer.io/ap-vector:0.48.0-dev
+
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 USER root
 
-RUN mkdir -p /opt && \
-    wget https://github.com/indygreg/python-build-standalone/releases/download/20250101/cpython-3.12.12-x86_64-unknown-linux-gnu-install_only.tar.gz && \
-    tar -xzf cpython-3.12.12-x86_64-unknown-linux-gnu-install_only.tar.gz -C /opt && \
-    rm cpython-3.12.12-x86_64-unknown-linux-gnu-install_only.tar.gz
+# Install minimal build dependencies, build Python from source, then clean up
+RUN apk add --no-cache build-base openssl-dev libffi-dev && \
+    cd /tmp && \
+    wget https://www.python.org/ftp/python/3.12.12/Python-3.12.12.tgz && \
+    tar xzf Python-3.12.12.tgz && \
+    cd Python-3.12.12 && \
+    ./configure --prefix=/usr/local --enable-optimizations && \
+    make && make install && \
+    cd / && rm -rf /tmp/Python* && \
+    apk del build-base openssl-dev libffi-dev && \
+    rm -rf /var/cache/apk/*
 
 COPY --chmod=755 sidecar_server.py /usr/local/bin/
 COPY vector.toml /etc/vector/vector.toml
@@ -29,4 +37,4 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENTRYPOINT ["/usr/bin/python3", "/usr/local/bin/sidecar_server.py"]
+ENTRYPOINT ["/usr/local/bin/python3", "/usr/local/bin/sidecar_server.py"]
