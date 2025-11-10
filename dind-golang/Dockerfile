@@ -21,7 +21,7 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV GOLANG_VERSION 1.21.1
+ENV GOLANG_VERSION=1.21.1
 
 #
 # Install Golang
@@ -60,8 +60,8 @@ RUN set -eux; \
         export PATH="/usr/local/go/bin:$PATH"; \
         go version
 
-ENV GOPATH /go
-ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+ENV GOPATH=/go
+ENV PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 
 RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.54.2
 
