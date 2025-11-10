@@ -14,12 +14,11 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/prometheuscommunity/postgres-exporter
-# https://github.com/prometheus-community/postgres_exporter/blob/v0.17.1/Dockerfile
+# https://github.com/prometheus-community/postgres_exporter/blob/v0.10.0/Dockerfile
 
-# https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-postgres-exporter/versions
-FROM cgr.dev/astronomer.io/prometheus-postgres-exporter:v0.18.1 AS upstream
+FROM quay.io/prometheuscommunity/postgres-exporter:v0.17.1 AS upstream
 
-FROM quay.io/astronomer/ap-base:2025.11.3
+FROM quay.io/astronomer/ap-base:3.21.3-5
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
