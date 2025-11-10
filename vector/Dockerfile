@@ -16,9 +16,6 @@ FROM cgr.dev/astronomer.io/ap-vector:0.51.0-dev
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
-USER root
-RUN ln -sf /usr/bin/python3.11 /usr/local/bin/python3 || true
-
 COPY --chmod=755 sidecar_server.py /usr/local/bin/
 COPY vector.toml /etc/vector/vector.toml
 
@@ -26,4 +23,5 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENTRYPOINT ["/usr/local/bin/python3", "/usr/local/bin/sidecar_server.py"]
+
+ENTRYPOINT ["/usr/bin/python3", "/usr/local/bin/sidecar_server.py"]
