@@ -3,6 +3,8 @@
 # Inherit dockerize and RDS certificates from ap-base
 FROM quay.io/astronomer/ap-base:2025.11.3
 
+USER 0
+
 RUN apk add --no-cache curl  shadow
 
 # update astro user and group

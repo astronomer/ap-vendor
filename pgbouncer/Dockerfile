@@ -30,6 +30,8 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 ENV PGBOUNCER_VERSION 1.24.1
 ENV PGBOUNCER_SHA256_CHECKSUM da72a3aba13072876d055a3e58dd4aba4a5de4ed6148e73033185245598fd3e0
 
+USER 0
+
 RUN addgroup -g $GID -S $USER \
   && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
   && apk add --no-cache --virtual .run-deps \

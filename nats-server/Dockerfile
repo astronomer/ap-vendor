@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+FROM cgr.dev/astronomer.io/nats:v2.12.1 AS upstream
+
 FROM quay.io/astronomer/ap-base:2025.11.3
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
@@ -23,29 +25,17 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER root
 
-ENV NATS_SERVER 2.11.10
-
-ENV NATS_SERVER_SHA256_CHECKSUM e99ddaf76e0de2cce90e22d6cbe78d52f003e5e97d45b934d287af2f867c864e
-
 RUN addgroup -g 1000 -S nats \
 	&& adduser -u 1000 -S nats -G nats
 
-RUN set -eux ; \
-	url="https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-linux-amd64.tar.gz" ; \
-	sha256=${NATS_SERVER_SHA256_CHECKSUM} ; \
-	wget -O nats-server.tar.gz "${url}" ; \
-	echo "${sha256} *nats-server.tar.gz" | sha256sum -c - ; \
-	apk add --no-cache ca-certificates ; \
-	apk add --no-cache --virtual buildtmp ; \
-	tar -xf nats-server.tar.gz ; \
-	rm nats-server.tar.gz ; \
-	mv "nats-server-v${NATS_SERVER}-linux-amd64/nats-server" /usr/local/bin ; \
-	rm -rf "nats-server-v${NATS_SERVER}-linux-amd64" ; \
-	apk del --no-cache --no-network buildtmp
-
+COPY --from=upstream /usr/local/bin/nats-server /usr/local/bin/nats-server
 COPY --chown=1000:1000 nats-server.conf /etc/nats/nats-server.conf
 COPY --chown=1000:1000 docker-entrypoint.sh /usr/local/bin
+
 USER 1000
+
 EXPOSE 4222 8222 6222
+
 ENTRYPOINT ["docker-entrypoint.sh"]
+
 CMD ["nats-server", "--config", "/etc/nats/nats-server.conf"]

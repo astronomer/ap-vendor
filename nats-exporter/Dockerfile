@@ -37,6 +37,8 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
+USER 0
+
 # Create prometheus-nats-exporter user and group
 RUN addgroup -g 1000 -S prometheus-nats-exporter \
     && adduser -u 1000 -S prometheus-nats-exporter -G prometheus-nats-exporter

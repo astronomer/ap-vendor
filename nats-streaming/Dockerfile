@@ -26,6 +26,8 @@ ENV NATS_STREAMING_SERVER 0.25.6-2
 
 ENV NATS_STREAMING_SHA256_CHECKSUM 06e774b3aa5ef945fba6b9a32fa8f62e9f5108a8663b3d6d94bb99c38afd969d
 
+USER 0
+
 # Create nats-streamming user and group
 RUN addgroup -g 1000 -S nats-streaming \
 	&& adduser -u 1000 -S nats-streaming -G nats-streaming
