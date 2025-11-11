@@ -30,12 +30,14 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -tags netgo -installsuf
 
 # Final docker image building stage
 # https://quay.io/repository/astronomer/ap-base?tab=tags&tag=latest
-FROM quay.io/astronomer/ap-base:3.21.3-5
+FROM quay.io/astronomer/ap-base:2025.11.3
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 LABEL maintainer="Astronomer <humans@astronomer.io>"
+
+USER 0
 
 # Create prometheus-nats-exporter user and group
 RUN addgroup -g 1000 -S prometheus-nats-exporter \
