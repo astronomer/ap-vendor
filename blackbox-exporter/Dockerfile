@@ -42,6 +42,8 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+USER root
+
 # Create blackbox-exporter user and group
 RUN addgroup -g 1000 -S blackbox-exporter \
     && adduser -u 1000 -S blackbox-exporter -G blackbox-exporter
