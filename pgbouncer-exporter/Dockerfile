@@ -28,11 +28,11 @@ ARG USER=pgexporter
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+USER root
+
 COPY --from=upstream /bin/pgbouncer_exporter /bin
 
 RUN apk upgrade --no-cache
-
-USER root
 
 RUN addgroup -g $GID -S $USER \
     && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER
