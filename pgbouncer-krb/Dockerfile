@@ -31,12 +31,11 @@ RUN addgroup -S pgbouncer \
     && apk add --no-cache --virtual .run-deps \
       bash \
       c-ares \
-      entr \
       krb5 \
       krb5-dev \
       krb5-pkinit \
       libevent \
-      libressl
+      openssl
 
 RUN apk add --no-cache --virtual .build-deps \
       autoconf \
