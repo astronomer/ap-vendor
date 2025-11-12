@@ -35,12 +35,14 @@ RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR 
 RUN CGO_ENABLED=0 make build
 
 # https://quay.io/repository/astronomer/ap-base?tab=tags
-FROM quay.io/astronomer/ap-base:3.21.3-5
+FROM quay.io/astronomer/ap-base:2025.11.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+USER root
 
 # Create blackbox-exporter user and group
 RUN addgroup -g 1000 -S blackbox-exporter \
@@ -48,9 +50,6 @@ RUN addgroup -g 1000 -S blackbox-exporter \
 
 RUN set -ex \
     && apk add --no-cache ca-certificates
-
-# We don't need dockerize in this project
-RUN rm -f /usr/local/bin/dockerize
 
 COPY --from=build --chown=1000:1000 /go/src/github.com/prometheus/blackbox_exporter/blackbox_exporter /usr/local/bin
 COPY --from=build --chown=1000:1000 /go/src/github.com/prometheus/blackbox_exporter/blackbox.yml /etc/blackbox_exporter/blackbox.yml
