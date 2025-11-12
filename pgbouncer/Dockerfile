@@ -36,9 +36,8 @@ RUN addgroup -g $GID -S $USER \
   && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
   && apk add --no-cache --virtual .run-deps \
   c-ares \
-  entr \
   libevent \
-  libressl
+  openssl
 
 RUN apk add --no-cache --virtual .build-deps \
   build-base \
