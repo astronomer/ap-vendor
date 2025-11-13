@@ -13,60 +13,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://github.com/CenterForOpenScience/docker-library/blob/master/pgbouncer/Dockerfile
-# https://quay.io/repository/centerforopenscience/pgbouncer
+# https://hub.docker.com/r/jbub/pgbouncer_exporter
+FROM jbub/pgbouncer_exporter:v0.19.0 AS upstream
+
 FROM quay.io/astronomer/ap-base:2025.11.3
+
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 # Make it possible to override the UID/GID/username of the user running
 ARG UID=1000
 ARG GID=1001
 ARG BUILD_NUMBER=-1
-ARG USER=pgbouncer
-
+ARG USER=pgexporter
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV PGBOUNCER_VERSION=1.24.1
-ENV PGBOUNCER_SHA256_CHECKSUM=da72a3aba13072876d055a3e58dd4aba4a5de4ed6148e73033185245598fd3e0
-
 USER root
 
-RUN addgroup -g $GID -S $USER \
-  && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
-  && apk add --no-cache --virtual .run-deps \
-  c-ares \
-  libevent \
-  openssl
+COPY --from=upstream /bin/pgbouncer_exporter /bin
 
-RUN apk add --no-cache --virtual .build-deps \
-  build-base \
-  autoconf \
-  wget \
-  c-ares-dev \
-  libevent-dev \
-  openssl-dev \
-  && wget https://www.pgbouncer.org/downloads/files/$PGBOUNCER_VERSION/pgbouncer-$PGBOUNCER_VERSION.tar.gz \
-  && echo "$PGBOUNCER_SHA256_CHECKSUM  /pgbouncer-$PGBOUNCER_VERSION.tar.gz" | sha256sum -c - \
-  && tar -xzvf pgbouncer-$PGBOUNCER_VERSION.tar.gz \
-  && cd pgbouncer-$PGBOUNCER_VERSION \
-  && ./configure --prefix=/usr --disable-debug \
-  && make \
-  && make install \
-  && mkdir /etc/pgbouncer \
-  && cp ./etc/pgbouncer.ini /etc/pgbouncer/ \
-  && touch /etc/pgbouncer/userlist.txt \
-  && sed -i \
-  -e "s|logfile = |#logfile = |" \
-  -e "s|pidfile = |#pidfile = |" \
-  -e "s|listen_addr = .*|listen_addr = 0.0.0.0|" \
-  -e "s|auth_type = .*|auth_type = md5|" \
-  /etc/pgbouncer/pgbouncer.ini \
-  && cd .. \
-  && rm pgbouncer-$PGBOUNCER_VERSION.tar.gz \
-  && rm -rf pgbouncer-$PGBOUNCER_VERSION \
-  && apk del .build-deps
-COPY ./docker-entrypoint.sh docker-entrypoint.sh
+RUN apk upgrade --no-cache
+
+RUN addgroup -g $GID -S $USER \
+    && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER
 USER $UID
-ENTRYPOINT ["./docker-entrypoint.sh"]
-CMD ["pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
+
+ENTRYPOINT ["pgbouncer_exporter"]
+CMD ["server"]
