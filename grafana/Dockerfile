@@ -23,8 +23,8 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER root
 
-RUN echo "grafana:x:472:472:grafana:/var/lib/grafana:/sbin/nologin" >> /etc/passwd && \
-    echo "grafana:x:472:" >> /etc/group && \
+RUN echo "grafana:x:472:472:grafana:/var/lib/grafana:/sbin/nologin" > /etc/passwd && \
+    echo "grafana:x:472:" > /etc/group && \
     chown -R 472:472 /var/lib/grafana /etc/grafana
 
 # Install singlestat panel plugin
