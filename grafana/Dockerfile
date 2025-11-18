@@ -21,8 +21,6 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-USER 472
-
 # Install singlestat panel plugin
 RUN grafana cli plugins install grafana-singlestat-panel
 
@@ -30,3 +28,5 @@ RUN grafana cli plugins install grafana-singlestat-panel
 COPY include/*.json /var/lib/grafana/dashboards/
 COPY include/dashboard.yaml /etc/grafana/provisioning/dashboards/dashboard.yaml
 COPY include/wait-for-db.sh /wait-for-db.sh
+
+USER 472
