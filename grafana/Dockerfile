@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/grafana/grafana/tags
-FROM cgr.dev/astronomer.io/grafana:12.2.1-dev
+FROM cgr.dev/astronomer.io/grafana:12.2.1
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -23,6 +23,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER root
 
+# Replace passwd/group but keep root user
 RUN echo -e "root:x:0:0:root:/root:/bin/sh\ngrafana:x:472:472:grafana:/var/lib/grafana:/sbin/nologin" > /etc/passwd && \
     echo -e "root:x:0:\ngrafana:x:472:" > /etc/group && \
     chown -R 472:472 /var/lib/grafana /etc/grafana
