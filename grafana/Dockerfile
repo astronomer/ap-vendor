@@ -21,6 +21,12 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+USER root
+
+RUN groupadd --gid 472 grafana && \
+    usermod -g grafana grafana && \
+    chown -R grafana:grafana /usr/share/grafana
+
 # Install singlestat panel plugin
 RUN grafana cli plugins install grafana-singlestat-panel
 
