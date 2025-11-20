@@ -51,12 +51,12 @@ def get_image_tags(project_path: str):
 
             for version in versions:
                 if not validate_version_string(version):
-                    raise Exception(f"ERROR: No valid semver found in {docker_image_path}/version.txt")
+                    raise RuntimeError(f"ERROR: No valid semver found in {docker_image_path}/version.txt")
 
             return versions
 
     except FileNotFoundError:
-        raise Exception(f"ERROR: version.txt not found in {docker_image_path}")
+        raise RuntimeError(f"ERROR: version.txt not found in {docker_image_path}")
 
 
 def validate_tags(
@@ -103,7 +103,7 @@ def build(project_path: str, image: str) -> None:
     try:
         version_tags = get_image_tags(project_path)
         build_tags.extend(f"{image}:{tag}" for tag in version_tags)
-    except Exception as e:
+    except RuntimeError as e:
         print(f"WARNING: Failed to get image tags: {e}")
 
     # Build Docker Image
