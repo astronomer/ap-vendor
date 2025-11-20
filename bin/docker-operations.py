@@ -102,10 +102,9 @@ def build(project_path: str, image: str) -> None:
     build_tags = [image, full_image]
     try:
         version_tags = get_image_tags(project_path)
-        for tag in version_tags:
-            build_tags.append(f"{image}:{tag}")
-    except Exception:
-        pass
+        build_tags.extend(f"{image}:{tag}" for tag in version_tags)
+    except Exception as e:
+        print(f"WARNING: Failed to get image tags: {e}")
 
     # Build Docker Image
     print(f"INFO: Now building docker image: {root_directory / project_path!s}")
