@@ -449,8 +449,6 @@ workflows:
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
-            - docker.io
-            - azurecr.io
             - apc-chainguard-creds
           requires:
             - scan-trivy
