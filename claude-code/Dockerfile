@@ -11,7 +11,7 @@ RUN if [ "$TARGETARCH" != "amd64" ]; then \
     fi && \
     PLATFORM="linux-x64" && \
     # Download manifest
-    # URL derived from official install script: https://claude.ai/install.sh (the storage URL could change in the future)
+    # URL derived from official install script: https://claude.ai/install.sh (the storage URL may change in the future)
     curl -fsSL "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/${VERSION}/manifest.json" -o manifest.json && \
     # Extract checksum
     CHECKSUM=$(jq -r ".platforms[\"$PLATFORM\"].checksum // empty" manifest.json) && \
