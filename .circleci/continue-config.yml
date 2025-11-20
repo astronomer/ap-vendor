@@ -462,8 +462,6 @@ workflows:
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
             - quay.io
-            - docker.io
-            - azurecr.io
           requires:
             - scan-trivy
           filters:
