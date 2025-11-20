@@ -99,13 +99,21 @@ def build(project_path: str, image: str) -> None:
     image_tag = os.getenv("CIRCLE_SHA1")
     full_image = f"{image}:{image_tag}"
 
+    build_tags = [image, full_image]
+    try:
+        version_tags = get_image_tags(project_path)
+        for tag in version_tags:
+            build_tags.append(f"{image}:{tag}")
+    except Exception:
+        pass
+
     # Build Docker Image
     print(f"INFO: Now building docker image: {root_directory / project_path!s}")
     logs_iter = docker.build(
         pull=True,
         platforms=["linux/amd64"],
         context_path=project_path,
-        tags=[image, full_image],
+        tags=build_tags,
         cache=False,
         build_args={"BUILD_NUMBER": os.getenv("CIRCLE_BUILD_NUM")},
         labels=docker_labels,
