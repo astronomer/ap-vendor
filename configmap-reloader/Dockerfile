@@ -15,7 +15,7 @@
 
 # https://github.com/jimmidyson/configmap-reload
 # https://hub.docker.com/r/jimmidyson/configmap-reload/tags
-FROM cgr.dev/astronomer.io/configmap-reloader:0.15.0 as base
+FROM cgr.dev/astronomer.io/configmap-reloader:0.15.0 AS base
 
 # https://hub.docker.com/_/busybox?tab=tags
 FROM busybox:1.37.0
@@ -27,7 +27,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER root
 
-COPY  --from=base /configmap-reload /configmap-reload
+COPY  --from=base /usr/bin/configmap-reload /configmap-reload
 
 # nobody user
 USER 65534
