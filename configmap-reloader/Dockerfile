@@ -25,9 +25,11 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-# nobody user
-USER 65534
+USER root
 
 COPY  --from=base /configmap-reload /configmap-reload
+
+# nobody user
+USER 65534
 
 ENTRYPOINT ["/configmap-reload"]
