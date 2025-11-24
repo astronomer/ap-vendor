@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/python
-FROM python:3
+FROM python:3.13.5
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true

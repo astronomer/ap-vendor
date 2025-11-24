@@ -13,28 +13,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/astronomer/ap-base:3.21.3-4
+FROM quay.io/astronomer/ap-base:2025.11.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV REALM ${REALM:-EXAMPLE.COM}
-ENV KADMIN_PRINCIPAL ${KADMIN_PRINCIPAL:-kadmin/admin}
-ENV KADMIN_PASSWORD ${KADMIN_PASSWORD:-postgres}
+ENV REALM=${REALM:-EXAMPLE.COM}
+ENV KADMIN_PRINCIPAL=${KADMIN_PRINCIPAL:-kadmin/admin}
+ENV KADMIN_PASSWORD=${KADMIN_PASSWORD:-postgres}
+
+USER root
 
 RUN addgroup -S pgbouncer \
     && adduser -D -S -s /sbin/nologin -G pgbouncer pgbouncer \
     && apk add --no-cache --virtual .run-deps \
       bash \
       c-ares \
-      entr \
       krb5 \
       krb5-dev \
       krb5-pkinit \
       libevent \
-      libressl
+      openssl
 
 RUN apk add --no-cache --virtual .build-deps \
       autoconf \
@@ -45,6 +46,7 @@ RUN apk add --no-cache --virtual .build-deps \
       libevent-dev \
       libtool \
       openssl-dev \
+      pkgconf-dev \
       wget \
     && wget "https://github.com/jgm/pandoc/releases/download/2.18/pandoc-2.18-linux-amd64.tar.gz" \
     && tar xvzf pandoc-2.18-linux-amd64.tar.gz --strip-components 1 -C /usr/local \

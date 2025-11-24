@@ -27,22 +27,22 @@ repos:
       - id: validate-versions
         name: Validate that version.txt files have valid semvers
         language: python
-        entry: bin/validate-semver.py
+        entry: bin/validate-semver.py --files
         files: '.*\/version.txt'
-        additional_dependencies: ["packaging"]
+        additional_dependencies: ["semver"]
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.1
     hooks:
       - id: codespell
         args: ["-L", "AKS,aks,showIn"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.9.10"
+    rev: "v0.14.0"
     hooks:
-      - id: ruff
+      - id: ruff-check
         args:
-          - "--fix"
           - "--exit-non-zero-on-fix"
-          # - "--unsafe-fixes"
+          - "--fix"
+          - "--unsafe-fixes"
       - id: ruff-format
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: "v3.1.0"
@@ -51,11 +51,11 @@ repos:
         args: ["--print-width=135"]
         exclude: "^statsd-exporter/test/statsd-test-config.js$"
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.10.0.1
+    rev: v0.11.0.1
     hooks:
       - id: shellcheck
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-case-conflict
       - id: check-executables-have-shebangs
@@ -66,8 +66,10 @@ repos:
       - id: check-xml
       - id: check-yaml
         args: ["--allow-multiple-documents"]
+      - id: end-of-file-fixer
       - id: file-contents-sorter
-        args: ["--ignore-case", "--unique"]
+        args:
+          - "--unique"
         files: "^.*ignore$"
       - id: mixed-line-ending
         args: ["--fix=lf"]
@@ -75,7 +77,7 @@ repos:
         args: ["requirements/requirements.in", "requirements/requirements.txt"]
       - id: trailing-whitespace
   - repo: https://github.com/astronomer/pre-commit-hooks
-    rev: 976b58ba36fcd3313fed6d5a7abc228cec64f994
+    rev: 37614dad793bbbdea699c63c8b341ce1e2bf855a
     hooks:
       - id: remove-unicode-zero-width-non-breaking-spaces
       - id: remove-unicode-zero-width-space

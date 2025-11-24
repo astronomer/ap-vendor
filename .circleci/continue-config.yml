@@ -32,6 +32,10 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image blackbox-exporter."
+  claude-code:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image claude-code."
   configmap-reloader:
     type: boolean
     default: false
@@ -68,10 +72,6 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image git-sync."
-  git-sync-relay:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image git-sync-relay."
   grafana:
     type: boolean
     default: false
@@ -191,6 +191,8 @@ workflows:
       - build:
           name: build
           directory: alertmanager
+          context:
+            - apc-chainguard-creds
       - test:
           directory: alertmanager
           test_script: bin/test.py
@@ -201,12 +203,6 @@ workflows:
           directory: alertmanager
           requires:
             - test
-      - scan-twistlock:
-          directory: alertmanager
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: alertmanager
           tags: "latest"
@@ -215,9 +211,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -232,7 +228,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -244,6 +239,8 @@ workflows:
       - build:
           name: build
           directory: alpine
+          context:
+            - apc-chainguard-creds
       - test:
           directory: alpine
           test_script: bin/test.py
@@ -254,12 +251,6 @@ workflows:
           directory: alpine
           requires:
             - test
-      - scan-twistlock:
-          directory: alpine
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: alpine
           tags: "latest"
@@ -268,9 +259,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -285,7 +276,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -297,6 +287,8 @@ workflows:
       - build:
           name: build
           directory: auth-sidecar
+          context:
+            - apc-chainguard-creds
       - test:
           directory: auth-sidecar
           test_script: bin/test.py
@@ -307,12 +299,6 @@ workflows:
           directory: auth-sidecar
           requires:
             - test
-      - scan-twistlock:
-          directory: auth-sidecar
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: auth-sidecar
           tags: "latest"
@@ -321,9 +307,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -338,7 +324,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -350,6 +335,8 @@ workflows:
       - build:
           name: build
           directory: awsesproxy
+          context:
+            - apc-chainguard-creds
       - test:
           directory: awsesproxy
           test_script: bin/test.py
@@ -360,12 +347,6 @@ workflows:
           directory: awsesproxy
           requires:
             - test
-      - scan-twistlock:
-          directory: awsesproxy
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: awsesproxy
           tags: "latest"
@@ -374,9 +355,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -391,7 +372,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -403,6 +383,8 @@ workflows:
       - build:
           name: build
           directory: blackbox-exporter
+          context:
+            - apc-chainguard-creds
       - test:
           directory: blackbox-exporter
           test_script: bin/test.py
@@ -413,12 +395,6 @@ workflows:
           directory: blackbox-exporter
           requires:
             - test
-      - scan-twistlock:
-          directory: blackbox-exporter
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: blackbox-exporter
           tags: "latest"
@@ -427,9 +403,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -444,7 +420,54 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
+          filters:
+            branches:
+              ignore: main
+  claude-code-build:
+    when:
+      and:
+        - << pipeline.parameters.claude-code >>
+    jobs:
+      - build:
+          name: build
+          directory: claude-code
+          context:
+            - apc-chainguard-creds
+      - test:
+          directory: claude-code
+          test_script: bin/test.py
+          test_requirements: requirements/requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: claude-code
+          requires:
+            - test
+      - release:
+          directory: claude-code
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+      - validate-tags:
+          directory: claude-code
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+          requires:
+            - scan-trivy
           filters:
             branches:
               ignore: main
@@ -456,6 +479,8 @@ workflows:
       - build:
           name: build
           directory: configmap-reloader
+          context:
+            - apc-chainguard-creds
       - test:
           directory: configmap-reloader
           test_script: bin/test.py
@@ -466,12 +491,6 @@ workflows:
           directory: configmap-reloader
           requires:
             - test
-      - scan-twistlock:
-          directory: configmap-reloader
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: configmap-reloader
           tags: "latest"
@@ -480,9 +499,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -497,7 +516,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -509,6 +527,8 @@ workflows:
       - build:
           name: build
           directory: curator
+          context:
+            - apc-chainguard-creds
       - test:
           directory: curator
           test_script: bin/test.py
@@ -519,12 +539,6 @@ workflows:
           directory: curator
           requires:
             - test
-      - scan-twistlock:
-          directory: curator
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: curator
           tags: "latest"
@@ -533,9 +547,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -550,7 +564,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -562,6 +575,8 @@ workflows:
       - build:
           name: build
           directory: dind-golang
+          context:
+            - apc-chainguard-creds
       - test:
           directory: dind-golang
           test_script: bin/test.py
@@ -572,12 +587,6 @@ workflows:
           directory: dind-golang
           requires:
             - test
-      - scan-twistlock:
-          directory: dind-golang
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: dind-golang
           tags: "latest"
@@ -586,9 +595,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -603,7 +612,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -615,6 +623,8 @@ workflows:
       - build:
           name: build
           directory: dogstatsd
+          context:
+            - apc-chainguard-creds
       - test:
           directory: dogstatsd
           test_script: bin/test.py
@@ -625,12 +635,6 @@ workflows:
           directory: dogstatsd
           requires:
             - test
-      - scan-twistlock:
-          directory: dogstatsd
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: dogstatsd
           tags: "latest"
@@ -639,9 +643,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -656,7 +660,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -668,6 +671,8 @@ workflows:
       - build:
           name: build
           directory: elasticsearch
+          context:
+            - apc-chainguard-creds
       - test:
           directory: elasticsearch
           test_script: bin/test.py
@@ -678,12 +683,6 @@ workflows:
           directory: elasticsearch
           requires:
             - test
-      - scan-twistlock:
-          directory: elasticsearch
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: elasticsearch
           tags: "latest"
@@ -692,9 +691,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -709,7 +708,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -721,6 +719,8 @@ workflows:
       - build:
           name: build
           directory: elasticsearch-exporter
+          context:
+            - apc-chainguard-creds
       - test:
           directory: elasticsearch-exporter
           test_script: bin/test.py
@@ -731,12 +731,6 @@ workflows:
           directory: elasticsearch-exporter
           requires:
             - test
-      - scan-twistlock:
-          directory: elasticsearch-exporter
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: elasticsearch-exporter
           tags: "latest"
@@ -745,9 +739,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -762,7 +756,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -774,6 +767,8 @@ workflows:
       - build:
           name: build
           directory: fluentd
+          context:
+            - apc-chainguard-creds
       - test:
           directory: fluentd
           test_script: bin/test.py
@@ -784,12 +779,6 @@ workflows:
           directory: fluentd
           requires:
             - test
-      - scan-twistlock:
-          directory: fluentd
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: fluentd
           tags: "latest"
@@ -798,9 +787,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -815,7 +804,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -827,6 +815,8 @@ workflows:
       - build:
           name: build
           directory: git-daemon
+          context:
+            - apc-chainguard-creds
       - test:
           directory: git-daemon
           test_script: bin/test.py
@@ -837,12 +827,6 @@ workflows:
           directory: git-daemon
           requires:
             - test
-      - scan-twistlock:
-          directory: git-daemon
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: git-daemon
           tags: "latest"
@@ -851,9 +835,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -868,7 +852,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -880,6 +863,8 @@ workflows:
       - build:
           name: build
           directory: git-sync
+          context:
+            - apc-chainguard-creds
       - test:
           directory: git-sync
           test_script: bin/test.py
@@ -890,12 +875,6 @@ workflows:
           directory: git-sync
           requires:
             - test
-      - scan-twistlock:
-          directory: git-sync
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: git-sync
           tags: "latest"
@@ -904,9 +883,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -921,60 +900,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
-          filters:
-            branches:
-              ignore: main
-  git-sync-relay-build:
-    when:
-      and:
-        - << pipeline.parameters.git-sync-relay >>
-    jobs:
-      - build:
-          name: build
-          directory: git-sync-relay
-      - test:
-          directory: git-sync-relay
-          test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
-          requires:
-            - build
-      - scan-trivy:
-          directory: git-sync-relay
-          requires:
-            - test
-      - scan-twistlock:
-          directory: git-sync-relay
-          requires:
-            - test
-          context:
-            - twistcli
-      - release:
-          directory: git-sync-relay
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-          requires:
-            - scan-trivy
-            - scan-twistlock
-          filters:
-            branches:
-              only:
-                - main
-      - validate-tags:
-          directory: git-sync-relay
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-          requires:
-            - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -986,6 +911,8 @@ workflows:
       - build:
           name: build
           directory: grafana
+          context:
+            - apc-chainguard-creds
       - test:
           directory: grafana
           test_script: bin/test.py
@@ -996,12 +923,6 @@ workflows:
           directory: grafana
           requires:
             - test
-      - scan-twistlock:
-          directory: grafana
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: grafana
           tags: "latest"
@@ -1010,9 +931,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1027,7 +948,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1039,6 +959,8 @@ workflows:
       - build:
           name: build
           directory: init
+          context:
+            - apc-chainguard-creds
       - test:
           directory: init
           test_script: bin/test.py
@@ -1049,12 +971,6 @@ workflows:
           directory: init
           requires:
             - test
-      - scan-twistlock:
-          directory: init
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: init
           tags: "latest"
@@ -1063,9 +979,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1080,7 +996,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1092,6 +1007,8 @@ workflows:
       - build:
           name: build
           directory: keda
+          context:
+            - apc-chainguard-creds
       - test:
           directory: keda
           test_script: bin/test.py
@@ -1102,12 +1019,6 @@ workflows:
           directory: keda
           requires:
             - test
-      - scan-twistlock:
-          directory: keda
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: keda
           tags: "latest"
@@ -1116,9 +1027,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1133,7 +1044,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1145,6 +1055,8 @@ workflows:
       - build:
           name: build
           directory: keda-metrics-apiserver
+          context:
+            - apc-chainguard-creds
       - test:
           directory: keda-metrics-apiserver
           test_script: bin/test.py
@@ -1155,12 +1067,6 @@ workflows:
           directory: keda-metrics-apiserver
           requires:
             - test
-      - scan-twistlock:
-          directory: keda-metrics-apiserver
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: keda-metrics-apiserver
           tags: "latest"
@@ -1169,9 +1075,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1186,7 +1092,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1198,6 +1103,8 @@ workflows:
       - build:
           name: build
           directory: kibana
+          context:
+            - apc-chainguard-creds
       - test:
           directory: kibana
           test_script: bin/test.py
@@ -1208,12 +1115,6 @@ workflows:
           directory: kibana
           requires:
             - test
-      - scan-twistlock:
-          directory: kibana
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: kibana
           tags: "latest"
@@ -1222,9 +1123,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1239,7 +1140,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1251,6 +1151,8 @@ workflows:
       - build:
           name: build
           directory: kube-state
+          context:
+            - apc-chainguard-creds
       - test:
           directory: kube-state
           test_script: bin/test.py
@@ -1261,12 +1163,6 @@ workflows:
           directory: kube-state
           requires:
             - test
-      - scan-twistlock:
-          directory: kube-state
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: kube-state
           tags: "latest"
@@ -1275,9 +1171,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1292,7 +1188,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1304,6 +1199,8 @@ workflows:
       - build:
           name: build
           directory: kubed
+          context:
+            - apc-chainguard-creds
       - test:
           directory: kubed
           test_script: bin/test.py
@@ -1314,12 +1211,6 @@ workflows:
           directory: kubed
           requires:
             - test
-      - scan-twistlock:
-          directory: kubed
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: kubed
           tags: "latest"
@@ -1328,9 +1219,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1345,7 +1236,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1357,6 +1247,8 @@ workflows:
       - build:
           name: build
           directory: nats-exporter
+          context:
+            - apc-chainguard-creds
       - test:
           directory: nats-exporter
           test_script: bin/test.py
@@ -1367,12 +1259,6 @@ workflows:
           directory: nats-exporter
           requires:
             - test
-      - scan-twistlock:
-          directory: nats-exporter
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: nats-exporter
           tags: "latest"
@@ -1381,9 +1267,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1398,7 +1284,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1410,6 +1295,8 @@ workflows:
       - build:
           name: build
           directory: nats-server
+          context:
+            - apc-chainguard-creds
       - test:
           directory: nats-server
           test_script: bin/test.py
@@ -1420,12 +1307,6 @@ workflows:
           directory: nats-server
           requires:
             - test
-      - scan-twistlock:
-          directory: nats-server
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: nats-server
           tags: "latest"
@@ -1434,9 +1315,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1451,7 +1332,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1463,6 +1343,8 @@ workflows:
       - build:
           name: build
           directory: nats-streaming
+          context:
+            - apc-chainguard-creds
       - test:
           directory: nats-streaming
           test_script: bin/test.py
@@ -1473,12 +1355,6 @@ workflows:
           directory: nats-streaming
           requires:
             - test
-      - scan-twistlock:
-          directory: nats-streaming
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: nats-streaming
           tags: "latest"
@@ -1487,9 +1363,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1504,7 +1380,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1516,6 +1391,8 @@ workflows:
       - build:
           name: build
           directory: nginx
+          context:
+            - apc-chainguard-creds
       - test:
           directory: nginx
           test_script: bin/test.py
@@ -1526,12 +1403,6 @@ workflows:
           directory: nginx
           requires:
             - test
-      - scan-twistlock:
-          directory: nginx
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: nginx
           tags: "latest"
@@ -1540,9 +1411,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1557,7 +1428,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1569,6 +1439,8 @@ workflows:
       - build:
           name: build
           directory: nginx-es
+          context:
+            - apc-chainguard-creds
       - test:
           directory: nginx-es
           test_script: bin/test.py
@@ -1579,12 +1451,6 @@ workflows:
           directory: nginx-es
           requires:
             - test
-      - scan-twistlock:
-          directory: nginx-es
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: nginx-es
           tags: "latest"
@@ -1593,9 +1459,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1610,7 +1476,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1622,6 +1487,8 @@ workflows:
       - build:
           name: build
           directory: node-exporter
+          context:
+            - apc-chainguard-creds
       - test:
           directory: node-exporter
           test_script: bin/test.py
@@ -1632,12 +1499,6 @@ workflows:
           directory: node-exporter
           requires:
             - test
-      - scan-twistlock:
-          directory: node-exporter
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: node-exporter
           tags: "latest"
@@ -1646,9 +1507,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1663,7 +1524,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1675,6 +1535,8 @@ workflows:
       - build:
           name: build
           directory: openresty
+          context:
+            - apc-chainguard-creds
       - test:
           directory: openresty
           test_script: bin/test.py
@@ -1685,12 +1547,6 @@ workflows:
           directory: openresty
           requires:
             - test
-      - scan-twistlock:
-          directory: openresty
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: openresty
           tags: "latest"
@@ -1699,9 +1555,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1716,7 +1572,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1728,6 +1583,8 @@ workflows:
       - build:
           name: build
           directory: pgbouncer
+          context:
+            - apc-chainguard-creds
       - test:
           directory: pgbouncer
           test_script: bin/test.py
@@ -1738,12 +1595,6 @@ workflows:
           directory: pgbouncer
           requires:
             - test
-      - scan-twistlock:
-          directory: pgbouncer
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: pgbouncer
           tags: "latest"
@@ -1752,9 +1603,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1769,7 +1620,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1781,6 +1631,8 @@ workflows:
       - build:
           name: build
           directory: pgbouncer-exporter
+          context:
+            - apc-chainguard-creds
       - test:
           directory: pgbouncer-exporter
           test_script: bin/test.py
@@ -1791,12 +1643,6 @@ workflows:
           directory: pgbouncer-exporter
           requires:
             - test
-      - scan-twistlock:
-          directory: pgbouncer-exporter
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: pgbouncer-exporter
           tags: "latest"
@@ -1805,9 +1651,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1822,7 +1668,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1834,6 +1679,8 @@ workflows:
       - build:
           name: build
           directory: pgbouncer-krb
+          context:
+            - apc-chainguard-creds
       - test:
           directory: pgbouncer-krb
           test_script: bin/test.py
@@ -1844,12 +1691,6 @@ workflows:
           directory: pgbouncer-krb
           requires:
             - test
-      - scan-twistlock:
-          directory: pgbouncer-krb
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: pgbouncer-krb
           tags: "latest"
@@ -1858,9 +1699,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1875,7 +1716,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1887,6 +1727,8 @@ workflows:
       - build:
           name: build
           directory: postgres-exporter
+          context:
+            - apc-chainguard-creds
       - test:
           directory: postgres-exporter
           test_script: bin/test.py
@@ -1897,12 +1739,6 @@ workflows:
           directory: postgres-exporter
           requires:
             - test
-      - scan-twistlock:
-          directory: postgres-exporter
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: postgres-exporter
           tags: "latest"
@@ -1911,9 +1747,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1928,7 +1764,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1940,6 +1775,8 @@ workflows:
       - build:
           name: build
           directory: postgres-operator
+          context:
+            - apc-chainguard-creds
       - test:
           directory: postgres-operator
           test_script: bin/test.py
@@ -1950,12 +1787,6 @@ workflows:
           directory: postgres-operator
           requires:
             - test
-      - scan-twistlock:
-          directory: postgres-operator
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: postgres-operator
           tags: "latest"
@@ -1964,9 +1795,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -1981,7 +1812,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -1993,6 +1823,8 @@ workflows:
       - build:
           name: build
           directory: postgresql
+          context:
+            - apc-chainguard-creds
       - test:
           directory: postgresql
           test_script: bin/test.py
@@ -2003,12 +1835,6 @@ workflows:
           directory: postgresql
           requires:
             - test
-      - scan-twistlock:
-          directory: postgresql
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: postgresql
           tags: "latest"
@@ -2017,9 +1843,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -2034,7 +1860,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -2046,6 +1871,8 @@ workflows:
       - build:
           name: build
           directory: prometheus
+          context:
+            - apc-chainguard-creds
       - test:
           directory: prometheus
           test_script: bin/test.py
@@ -2056,12 +1883,6 @@ workflows:
           directory: prometheus
           requires:
             - test
-      - scan-twistlock:
-          directory: prometheus
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: prometheus
           tags: "latest"
@@ -2070,9 +1891,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -2087,7 +1908,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -2099,6 +1919,8 @@ workflows:
       - build:
           name: build
           directory: python
+          context:
+            - apc-chainguard-creds
       - test:
           directory: python
           test_script: bin/test.py
@@ -2109,12 +1931,6 @@ workflows:
           directory: python
           requires:
             - test
-      - scan-twistlock:
-          directory: python
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: python
           tags: "latest"
@@ -2123,9 +1939,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -2140,7 +1956,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -2152,6 +1967,8 @@ workflows:
       - build:
           name: build
           directory: redis
+          context:
+            - apc-chainguard-creds
       - test:
           directory: redis
           test_script: bin/test.py
@@ -2162,12 +1979,6 @@ workflows:
           directory: redis
           requires:
             - test
-      - scan-twistlock:
-          directory: redis
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: redis
           tags: "latest"
@@ -2176,9 +1987,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -2193,7 +2004,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -2205,6 +2015,8 @@ workflows:
       - build:
           name: build
           directory: registry
+          context:
+            - apc-chainguard-creds
       - test:
           directory: registry
           test_script: bin/test.py
@@ -2215,12 +2027,6 @@ workflows:
           directory: registry
           requires:
             - test
-      - scan-twistlock:
-          directory: registry
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: registry
           tags: "latest"
@@ -2229,9 +2035,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -2246,7 +2052,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -2258,6 +2063,8 @@ workflows:
       - build:
           name: build
           directory: statsd-exporter
+          context:
+            - apc-chainguard-creds
       - test:
           directory: statsd-exporter
           test_script: bin/test.py
@@ -2268,12 +2075,6 @@ workflows:
           directory: statsd-exporter
           requires:
             - test
-      - scan-twistlock:
-          directory: statsd-exporter
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: statsd-exporter
           tags: "latest"
@@ -2282,9 +2083,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -2299,7 +2100,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -2311,6 +2111,8 @@ workflows:
       - build:
           name: build
           directory: vector
+          context:
+            - apc-chainguard-creds
       - test:
           directory: vector
           test_script: bin/test.py
@@ -2321,12 +2123,6 @@ workflows:
           directory: vector
           requires:
             - test
-      - scan-twistlock:
-          directory: vector
-          requires:
-            - test
-          context:
-            - twistcli
       - release:
           directory: vector
           tags: "latest"
@@ -2335,9 +2131,9 @@ workflows:
             - quay.io
             - docker.io
             - azurecr.io
+            - apc-chainguard-creds
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               only:
@@ -2352,7 +2148,6 @@ workflows:
             - azurecr.io
           requires:
             - scan-trivy
-            - scan-twistlock
           filters:
             branches:
               ignore: main
@@ -2428,38 +2223,6 @@ jobs:
           key: trivy-cache-{{ checksum "date" }}
           paths:
             - /tmp/workspace/trivy-cache
-  scan-twistlock:
-    docker:
-      - image: cimg/python:3.12
-    description: "Twistcli: Vulnerability scan a Docker image"
-    parameters:
-      directory:
-        description: "The directory name of the image to be scanned"
-        type: string
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          name: Load archived Docker image
-          command: |
-            set -x
-            docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
-            docker images | grep ap-<< parameters.directory >>
-      - run:
-          name: Install twistcli
-          command: |
-            sudo curl -k -u "$USER:$PASSWORD" --output /usr/local/bin/twistcli "${CONSOLE_URL}/api/v1/util/twistcli"
-            sudo chmod +x /usr/local/bin/twistcli
-      - run:
-          name: scan image
-          command: |
-            twistcli images scan --output-file << parameters.directory >>/scan-results.json --address "$CONSOLE_URL" --user="$USER" --password="$PASSWORD" --details "ap-<< parameters.directory >>:${CIRCLE_SHA1}"
-            export PROJECT_DIRECTORY=<< parameters.directory >>
-            chmod +x bin/twistcli_validator.py
-            python bin/twistcli_validator.py
   release:
     executor: docker-executor
     parameters:
@@ -2615,6 +2378,10 @@ commands:
           pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
+      - run:
+          name: Login to Chainguard Registry ## Currently we use: https://edu.chainguard.dev/chainguard/chainguard-images/chainguard-registry/authenticating/#authenticating-with-a-pull-token
+          command: |
+            docker login cgr.dev --username "$CHAINGUARD_REGISTRY_USERNAME" --password "$CHAINGUARD_REGISTRY_PASSWORD"
       - run:
           name: Build the Docker image
           command: bin/docker-operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>

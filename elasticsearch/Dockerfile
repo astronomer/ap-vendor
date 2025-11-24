@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://www.docker.elastic.co/r/elasticsearch
-FROM docker.elastic.co/elasticsearch/elasticsearch:8.18.0-amd64
+FROM cgr.dev/astronomer.io/ap-elasticsearch:8.18.6
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -22,10 +22,11 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER 0
-RUN apt-get update && \
-    apt-get install libssl1.1 openssl -y && \
-    rm -rf /var/lib/apt/lists/*
-RUN gpasswd -d elasticsearch root
-USER 1000
 
-USER elasticsearch
+# Remove existing user/group if they exist, then recreate with desired UID/GID
+RUN deluser elasticsearch 2>/dev/null || true && \
+    delgroup elasticsearch 2>/dev/null || true && \
+    addgroup -g 1000 elasticsearch && \
+    adduser -D -u 1000 -G elasticsearch -s /bin/sh elasticsearch
+
+USER 1000

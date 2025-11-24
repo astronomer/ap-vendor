@@ -150,6 +150,8 @@ def test_http_service_running(docker_host):
         for service_config in test_config["http_services_running"]:
             """Ensure user is 'nobody'."""
             output = docker_host.check_output(
-                "wget --spider -S http://0.0.0.0:" + str(service_config["port"]) + " 2>&1 | grep 'HTTP/' | awk '{print $2}'"
+                'python3 -c "import urllib.request; '
+                f"urllib.request.urlopen('http://0.0.0.0:{service_config['port']!s}', timeout=5); "
+                "print('200')\""
             )
             assert output == str(service_config["response_code"])

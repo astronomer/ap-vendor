@@ -12,32 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/r/curlimages/curl/tags
-FROM curlimages/curl:latest as downloader
-
-# https://github.com/vectordotdev/vector/releases/
-ENV VECTOR_VERSION 0.47.0
-
-RUN curl -fsSL https://github.com/vectordotdev/vector/releases/download/v${VECTOR_VERSION}/vector-${VECTOR_VERSION}-x86_64-unknown-linux-musl.tar.gz \
-    | tar --directory=/tmp --strip-components=3 -xzf - ./vector-x86_64-unknown-linux-musl/bin/vector
-
-FROM quay.io/astronomer/ap-base:3.21.3-4
+FROM cgr.dev/astronomer.io/ap-vector:0.51.0-dev
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
+
+COPY --chmod=755 sidecar_server.py /usr/local/bin/
+COPY vector.toml /etc/vector/vector.toml
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-# Update packages to solve security vulnerabilities
-RUN apk add python3
-
-COPY --from=downloader /tmp/vector /usr/local/bin/vector
-
-ADD sidecar_server.py /usr/local/bin/
-
-COPY vector.toml /etc/vector/vector.toml
-
-USER 65534
-
-ENTRYPOINT ["/usr/local/bin/sidecar_server.py"]
+ENTRYPOINT ["/usr/bin/python3", "/usr/local/bin/sidecar_server.py"]

@@ -13,21 +13,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/r/prom/alertmanager/tags?page=1&ordering=last_updated
-FROM prom/alertmanager:v0.28.1 AS UPSTREAM
+# https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-alertmanager
+FROM cgr.dev/astronomer.io/prometheus-alertmanager:v0.28.1 as upstream
 
-FROM quay.io/astronomer/ap-base:3.21.3-4
+FROM quay.io/astronomer/ap-base:2025.11.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+USER root
+
+RUN apk add --no-cache python3
+
 RUN mkdir -p /alertmanager /etc/alertmanager && \
     chown -R nobody:nobody /etc/alertmanager /alertmanager
 
-COPY --from=UPSTREAM /bin/amtool /usr/local/bin
-COPY --from=UPSTREAM /bin/alertmanager /usr/local/bin
-COPY --from=UPSTREAM /etc/alertmanager/alertmanager.yml   /etc/alertmanager/alertmanager.yml
+COPY --from=upstream /bin/amtool /usr/local/bin
+COPY --from=upstream /bin/alertmanager /usr/local/bin
+COPY --from=upstream /etc/alertmanager/alertmanager.yml   /etc/alertmanager/alertmanager.yml
 COPY --chown=65534:65534 entrypoint.sh /entrypoint.sh
 
 # Adopt openshift permissions

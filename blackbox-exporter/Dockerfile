@@ -35,12 +35,14 @@ RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR 
 RUN CGO_ENABLED=0 make build
 
 # https://quay.io/repository/astronomer/ap-base?tab=tags
-FROM quay.io/astronomer/ap-base:3.21.3-4
+FROM quay.io/astronomer/ap-base:2025.11.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+USER root
 
 # Create blackbox-exporter user and group
 RUN addgroup -g 1000 -S blackbox-exporter \

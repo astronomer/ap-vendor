@@ -14,40 +14,42 @@
 # limitations under the License.
 
 # https://quay.io/repository/astronomer/ap-base?tab=tags
-FROM quay.io/astronomer/ap-base:3.21.3-4
+FROM quay.io/astronomer/ap-base:2025.11.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+USER root
 # https://github.com/elastic/curator/releases
 ENV CURATOR_VERSION=8.0.21
 
-RUN set -x ; apk --no-cache add \
+RUN set -x ; apk update && apk add --upgrade && \
+    apk --no-cache add \
       libffi \
       openssl \
       py3-cffi \
       py3-pip \
       py3-setuptools \
       python3 \
-      python3-dev && \
-    rm -fv /usr/lib/python3.*/EXTERNALLY-MANAGED && \
-    apk add --no-cache  \
-      py3-cryptography \
-      py3-openssl \
-      py3-requests \
-      py3-urllib3 \
+      python3-dev \
       sqlite-libs && \
+    rm -fv /usr/lib/python3.*/EXTERNALLY-MANAGED && \
+    apk add --no-cache \
+      py3-cryptography \
+      py3-pyopenssl \
+      py3-requests \
+      py3-urllib3 && \
     pip install --upgrade --no-cache-dir \
       setuptools \
       wheel \
       elasticsearch \
-      elasticsearch-curator==$CURATOR_VERSION   \
+      elasticsearch-curator==$CURATOR_VERSION \
       boto3 \
       requests-aws4auth && \
     apk del \
-      py-pip \
+      py3-pip \
       python3-dev
 
 USER 65534
