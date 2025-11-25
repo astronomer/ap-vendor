@@ -8,4 +8,4 @@ tests:
       gid: 65534
       uid: 65534
 docker:
-  entrypoint: "grep configmap-reloader /proc/1/cmdline"
+  entrypoint: "/usr/bin/grep configmap-reloader /proc/1/cmdline"
