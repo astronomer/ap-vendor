@@ -27,7 +27,7 @@
 
 ##### FIRST STAGE: common - stuff needed at both build and run time
 
-FROM quay.io/astronomer/ap-base:3.21.3-4 as common
+FROM quay.io/astronomer/ap-base:2025.11.3 as common
 RUN apk add --no-cache --virtual .run-deps \
       c-ares \
       entr \
@@ -38,7 +38,7 @@ RUN apk add --no-cache --virtual .run-deps \
       libressl
 
 ###### SECOND STAGE: build
-ENV PGBOUNCER_SHA256_CHECKSUM 5badee0e6e01980ad827e785340581b90d7a72ac
+ENV PGBOUNCER_SHA256_CHECKSUM 7f9a12d7d71e88b4c92537133724ab6afb5a72ff
 FROM common as build
 RUN apk add --no-cache --virtual .build-deps \
       bash \
@@ -57,7 +57,7 @@ RUN apk add --no-cache --virtual .build-deps \
 RUN mkdir /build \
     && cd /build \
     && git init \
-    && git remote add origin https://github.com/rob-1126/pgbouncer.git \
+    && git remote add origin https://github.com/astronomer/pgbouncer.git \
     && git fetch --depth 1 origin $PGBOUNCER_SHA256_CHECKSUM \
     && git checkout FETCH_HEAD \
     && git submodule init \
