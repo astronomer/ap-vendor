@@ -36,7 +36,7 @@ services:
     image: ap-configmap-reloader:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: configmap-reloader
-    entrypoint: "['/usr/bin/configmap-reload', '-volume-dir', '/tmp']"
+    entrypoint: "sleep 1000"
   ap-curator:
     image: ap-curator:${ASTRO_IMAGE_TAG:-latest}
     build:
