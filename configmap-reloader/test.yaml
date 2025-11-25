@@ -8,4 +8,4 @@ tests:
       gid: 65534
       uid: 65534
 docker:
-  entrypoint: "/bin/sh -c 'configmap-reload -volume-dir /tmp & tail -f /dev/null'"
+  entrypoint: "/usr/bin/configmap-reload -volume-dir /tmp"
