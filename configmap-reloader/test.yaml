@@ -1,11 +1,11 @@
 ---
 tests:
   root_user_test: False
-  # default_user: nobody
-  # users_config:
-  #   - name: nobody
-  #     group: nobody
-  #     gid: 65534
-  #     uid: 65534
+  default_user: nobody
+  users_config:
+    - name: nobody
+      group: nobody
+      gid: 65534
+      uid: 65534
 docker:
   entrypoint: "/bin/sh -c 'configmap-reload -volume-dir /tmp & tail -f /dev/null'"
