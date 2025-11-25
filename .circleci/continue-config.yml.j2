@@ -61,6 +61,7 @@ workflows:
             branches:
               only:
                 - main
+                - krb-pgbouncer
       - validate-tags:
           directory: {{ directory }}
           tags: "latest"
