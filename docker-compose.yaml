@@ -36,6 +36,7 @@ services:
     image: ap-configmap-reloader:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: configmap-reloader
+    entrypoint: "grep configmap-reloader /proc/1/cmdline"
   ap-curator:
     image: ap-curator:${ASTRO_IMAGE_TAG:-latest}
     build:
