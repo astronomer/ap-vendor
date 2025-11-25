@@ -27,7 +27,7 @@
 
 ##### FIRST STAGE: common - stuff needed at both build and run time
 
-FROM quay.io/astronomer/ap-base:2025.11.3 as common
+FROM quay.io/astronomer/ap-base:3.21.3-4 as common
 RUN apk add --no-cache --virtual .run-deps \
       c-ares \
       entr \
@@ -106,6 +106,8 @@ COPY --from=build /build/modified-pgbouncer.ini /etc/pgbouncer/pgbouncer.ini
 COPY docker-entrypoint.sh docker-entrypoint.sh
 #COPY --from=build /usr/share/doc/pgbouncer/pgbouncer.1 /usr/share/man/man1
 #COPY --from=build /usr/share/doc/pgbouncer/pgbouncer.5 /usr/share/man/man5
+
+RUN rm /usr/local/bin/dockerize
 
 # setup user, entrypoint, and cmd
 USER $UID
