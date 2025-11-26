@@ -15,7 +15,7 @@
 
 # https://github.com/jimmidyson/configmap-reload
 # https://hub.docker.com/r/jimmidyson/configmap-reload/tags
-FROM cgr.dev/astronomer.io/configmap-reloader:0.15.0
+FROM cgr.dev/astronomer.io/configmap-reloader:0.15
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
