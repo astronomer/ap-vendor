@@ -1,9 +1,9 @@
 ---
 tests:
   root_user_test: False
-  # default_user: nginx
-  # users_config:
-  #   - name: nginx
-  #     group: nginx
-  #     gid: 101
-  #     uid: 101
+  default_user: nginx
+  users_config:
+    - name: nginx
+      group: nginx
+      gid: 101
+      uid: 101
