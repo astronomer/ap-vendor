@@ -22,6 +22,8 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+COPY --from=cgr.dev/astronomer.io/configmap-reloader:0.15 /usr/bin/bash /bin/sh
+
 USER 65534
 
 ENTRYPOINT ["/usr/bin/configmap-reload"]
