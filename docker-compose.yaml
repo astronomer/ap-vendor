@@ -36,7 +36,7 @@ services:
     image: ap-configmap-reloader:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: configmap-reloader
-    entrypoint: "/usr/bin/bash -c '/usr/bin/configmap-reload -volume-dir /tmp & tail -f /dev/null'"
+    entrypoint: "/usr/bin/bash -c 'mkdir -p /tmp && /usr/bin/configmap-reload -volume-dir /tmp'"
   ap-curator:
     image: ap-curator:${ASTRO_IMAGE_TAG:-latest}
     build:
