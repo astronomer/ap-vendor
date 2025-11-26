@@ -8,4 +8,4 @@ tests:
       gid: 65534
       uid: 65534
 docker:
-  entrypoint: "/usr/bin/bash -c 'mkdir -p /tmp && /usr/bin/configmap-reload -volume-dir /tmp'"
+  entrypoint: "/usr/bin/configmap-reload -volume-dir /etc -webhook-url http://127.0.0.1:9999"

@@ -36,7 +36,7 @@ services:
     image: ap-configmap-reloader:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: configmap-reloader
-    entrypoint: "/usr/bin/bash -c 'mkdir -p /tmp && /usr/bin/configmap-reload -volume-dir /tmp'"
+    entrypoint: "/usr/bin/configmap-reload -volume-dir /etc -webhook-url http://127.0.0.1:9999"
   ap-curator:
     image: ap-curator:${ASTRO_IMAGE_TAG:-latest}
     build:
