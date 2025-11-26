@@ -1,11 +1,11 @@
 ---
 tests:
   root_user_test: False
-  default_user: nobody
-  users_config:
-    - name: nobody
-      group: nobody
-      gid: 65534
-      uid: 65534
-docker:
-  entrypoint: "/usr/bin/configmap-reload -volume-dir /etc -webhook-url http://127.0.0.1:9999"
+#   default_user: nobody
+#   users_config:
+#     - name: nobody
+#       group: nobody
+#       gid: 65534
+#       uid: 65534
+# docker:
+#   entrypoint: "/usr/bin/configmap-reload -volume-dir /etc -webhook-url http://127.0.0.1:9999"
