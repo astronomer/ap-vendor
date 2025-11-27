@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/nginxinc/nginx-unprivileged/tags
-FROM nginxinc/nginx-unprivileged:1.29.2-alpine
+FROM cgr.dev/astronomer.io/ap-auth-sidecar:1.29.3
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
@@ -23,7 +23,4 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 LABEL io.astronomer.docker.module="auth-sidecar"
 LABEL io.astronomer.docker.component="auth-sidecar"
 
-# fix some CVEs
-USER root
-RUN apk upgrade --no-cache
 USER 101
