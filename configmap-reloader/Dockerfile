@@ -15,19 +15,13 @@
 
 # https://github.com/jimmidyson/configmap-reload
 # https://hub.docker.com/r/jimmidyson/configmap-reload/tags
-FROM ghcr.io/jimmidyson/configmap-reload:v0.15.0 as base
-
-# https://hub.docker.com/_/busybox?tab=tags
-FROM busybox:1.37.0
+FROM cgr.dev/astronomer.io/configmap-reloader:0.15
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-# nobody user
 USER 65534
 
-COPY  --from=base /configmap-reload /configmap-reload
-
-ENTRYPOINT ["/configmap-reload"]
+ENTRYPOINT ["/usr/bin/configmap-reload"]
