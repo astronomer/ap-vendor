@@ -268,6 +268,96 @@ mappings:
       instance: "$1"
       mount_path: "$2"
 
+  # ------------------------------------------------------------
+  # Cosmos-related metrics
+  # ------------------------------------------------------------
+
+  # The goal with Cosmos metrics is to capture information about how end-users are using Cosmos, so we can plan our roadmap, in particular, the Cosmos 2.0 release.
+  # We want to avoid capturing redundant information that is already being collected by other parts of the Astro stack.
+
+  # There are 2 types of Cosmos metrics:
+  # 1. Counters
+  # 2. Durations
+  # These are identified by the suffix ".counter" or ".duration"
+
+  # What is the name of the operator class used to run the task? Did the end-user subclass it?
+  # Which dbt command was used to run the task?
+  # What execution mode was used? What invocation mode was used?
+  - match: cosmos\.task\.operator_name\.([^.]+)\.is_subclass\.([^.]+)\.execution_mode\.([^.]+)\.invocation_mode\.([^.]+)\.dbt_command\.([^.]+)\.origin\.([^.]+)\.has_callback\.([^.]+)\.status\.([^.]+)\.counter$
+    match_type: regex
+    name: "cosmos_task_overview"
+    labels:
+      operator_name: "$1" # Example: "DbtRunLocalOperator", "DbtProducerWatcherOperator"
+      is_subclass: "$2" # True or False
+      execution_mode: "$3" # Example: "local", "virtualenv", "watcher"
+      invocation_mode: "$4" # Subprocess or DbtRunner
+      dbt_command: "$5" # Example: "run", "build", "test"
+      origin: "$6" # DbtTaskGroup, DbtDag or StandaloneTask
+      has_callback: "$7" # True or False
+      status: "$9" # success, failure
+
+  # We can probably avoid capturing this metric, by using information existing in Snowflake based on the operator name
+  # How long did a Cosmos task take to run?
+  #- match: "cosmos\.task\.operator\.([^.]+)\.duration$"
+  #  match_type: regex
+  #  name: "cosmos_task_duration_seconds"
+  #  labels:
+  #    operator_name: "$1"
+
+  # Which database did the user run the transformations against?
+  # How did the user define the profile, via a ProfileMapping or YAML file?
+  # If Profile mapping, which class was used to define the profile?
+  - match: cosmos\.profile\.database\.([^.]+)\.profile_strategy\.([^.]+)\.profile_mapping_class\.([^.]+)\.counter$
+    match_type: regex
+    name: "cosmos_profile_overview"
+    labels:
+      database: "$1" # postgres, snowflake, databricks, bigquery, etc
+      profile_strategy: "$2" # yaml_file or mapping
+      profile_mapping_class: "$3" # None, SnowflakeEncryptedPrivateKeyPemProfileMapping, PostgresUserPasswordProfileMapping, DatabricksTokenProfileMapping, etc
+
+  # If using `DbtDag` or `DbtTaskGroup`, how did the user parse the dbt project? If using dbt_ls, was `dbt` in the same Python virtualenv as Airflow?
+  # Did the user specify a custom load converter?
+  # What were the source and node behaviors?
+  # How many dbt nodes were in the project?
+  # How many dbt nodes were selected by the user?
+  # How long did the parse operation take?
+  # How long did the filtering operation take?
+  - match: cosmos\.rendering\.used_automatic_load_mode\.([^.]+)\.actual_load_mode\.([^.]+)\.invocation_mode\.([^.]+)\.uses_node_converter\.([^.]+)\.test_behavior\.([^.]+)\.source_behavior\.([^.]+)\.total_dbt_nodes\.([^.]+)\.selected_dbt_nodes\.([^.]+)\.counter$
+    match_type: regex
+    name: "cosmos_rendering_overview"
+    labels:
+      used_automatic_load_mode: "$1" # True or False
+      actual_load_mode: "$2" # dbt_ls, dbt_ls_cache, dbt_ls_file, dbt_manifest, custom
+      invocation_mode: "$3" # subprocess or dbt_runner
+      uses_node_converter: "$4" # True or False
+      test_behavior: "$5" # after_each, after_all, none, build
+      source_behavior: "$6" # all, with_tests_or_freshness, none
+      total_dbt_nodes: "$7" # Total number of dbt models in the project
+      selected_dbt_nodes: "$8" # Total number of dbt models selected by the user
+
+  # How long did a Cosmos take to parse the dbt project?
+  - match: cosmos\.rendering\.actual_load_mode\.([^.]+).dbt_nodes_parsing.duration$
+    match_type: regex
+    name: "cosmos_rendering_dbt_nodes_parsing_duration"
+    labels:
+      actual_load_mode: "$1"
+
+  # How long did Cosmos take to filter the dbt project after it was parsed?
+  - match: cosmos\.rendering\.actual_load_mode\.([^.]+)\.dbt_nodes_filtering.duration$
+    match_type: regex
+    name: "cosmos_rendering_dbt_nodes_filtering_duration"
+    labels:
+      actual_load_mode: "$1"
+
+  # How long did Cosmos take to build the Airflow DAG dynamically, after the dbt project has been parsed and filtered?
+  - match: cosmos\.rendering\.actual_load_mode\.([^.]+)\.airflow_dag_generation.duration$
+    match_type: regex
+    name: "cosmos_rendering_airflow_dag_generation_duration"
+    labels:
+      actual_load_mode: "$1"
+
+  # ------------------------------------------------------------
+
   # drop any metric not matched
   - match: "."
     match_type: regex
