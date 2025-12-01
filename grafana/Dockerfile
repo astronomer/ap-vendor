@@ -21,13 +21,6 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-USER root
-
-# Update grafana user to use UID/GID 472 instead of the default
-RUN sed -i 's/^grafana:x:[0-9]*:[0-9]*:/grafana:x:472:472:/' /etc/passwd && \
-    sed -i 's/^grafana:x:[0-9]*:/grafana:x:472:/' /etc/group && \
-    chown -R 472:472 /var/lib/grafana /etc/grafana
-
 # Install singlestat panel plugin
 RUN grafana cli plugins install grafana-singlestat-panel
 
@@ -35,5 +28,3 @@ RUN grafana cli plugins install grafana-singlestat-panel
 COPY include/*.json /var/lib/grafana/dashboards/
 COPY include/dashboard.yaml /etc/grafana/provisioning/dashboards/dashboard.yaml
 COPY include/wait-for-db.sh /wait-for-db.sh
-
-USER 472
