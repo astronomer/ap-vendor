@@ -5,8 +5,8 @@ tests:
   users_config:
     - name: grafana
       group: grafana
-      gid: 472
-      uid: 472
+      gid: 65532
+      uid: 65532
   test_commands:
     - command: "find /var/lib/grafana/dashboards/ -iname '*.json' | wc -l"
       expected_result:
