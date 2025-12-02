@@ -1,4 +1,0 @@
----
-tests:
-  root_user_test: True
-  default_user: nobody
