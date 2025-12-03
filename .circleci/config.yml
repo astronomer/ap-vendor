@@ -36,7 +36,6 @@ workflows:
             auth-sidecar/.* auth-sidecar true
             awsesproxy/.* awsesproxy true
             blackbox-exporter/.* blackbox-exporter true
-            claude-code/.* claude-code true
             configmap-reloader/.* configmap-reloader true
             curator/.* curator true
             dind-golang/.* dind-golang true
