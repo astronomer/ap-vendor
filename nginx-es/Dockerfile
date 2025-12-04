@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/nginxinc/nginx-unprivileged/tags
-FROM nginxinc/nginx-unprivileged:1.29.2-alpine
+FROM cgr.dev/astronomer.io/nginx:1.29.3
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -25,7 +25,4 @@ LABEL io.astronomer.docker.component="default-backend"
 # Expose HTTP
 EXPOSE 9200
 
-# fix some CVEs
-USER root
-RUN apk upgrade --no-cache
 USER 101
