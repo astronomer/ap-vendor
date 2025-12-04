@@ -14,16 +14,21 @@
 # limitations under the License.
 
 # https://github.com/kubernetes/ingress-nginx
-FROM k8s.gcr.io/ingress-nginx/controller:v1.12.6
+FROM alpine:latest AS builder
+RUN apk add --no-cache libcap libcap-utils
+
+# Copy only what we know exists
+COPY --from=cgr.dev/astronomer.io/ingress-nginx-controller:1.13 /nginx-ingress-controller /tmp/nginx-ingress-controller
+
+# Set capabilities on what we have
+RUN setcap cap_net_bind_service=-ep /tmp/nginx-ingress-controller
+
+FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.13
 LABEL maintainer="Astronomer <humans@astronomer.io>"
-USER root
-RUN apk upgrade --no-cache
-# dont require capability NET_BIND_SERVICE - does prevent using ports below 1024 though
-RUN apk add libcap
-RUN  setcap cap_net_bind_service=-ep /nginx-ingress-controller
-RUN  setcap cap_net_bind_service=-ep /usr/local/nginx/sbin/nginx
-RUN  setcap cap_net_bind_service=-ep /usr/bin/dumb-init
-USER www-data
+
+# Copy the modified binary with capabilities
+COPY --from=builder /tmp/nginx-ingress-controller /nginx-ingress-controller
+
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
