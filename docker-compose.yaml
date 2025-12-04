@@ -28,10 +28,6 @@ services:
       context: blackbox-exporter
     ports:
       - 9115:9115
-  ap-claude-code:
-    image: ap-claude-code:${ASTRO_IMAGE_TAG:-latest}
-    build:
-      context: claude-code
   ap-configmap-reloader:
     image: ap-configmap-reloader:${ASTRO_IMAGE_TAG:-latest}
     build:
