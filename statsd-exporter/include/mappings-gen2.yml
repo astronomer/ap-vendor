@@ -314,7 +314,7 @@ mappings:
   # How many dbt nodes were selected by the user?
   # How long did the parse operation take?
   # How long did the filtering operation take?
-  - match: cosmos\.rendering\.used_automatic_load_mode\.([^.]+)\.actual_load_mode\.([^.]+)\.invocation_mode\.([^.]+)\.uses_node_converter\.([^.]+)\.test_behavior\.([^.]+)\.source_behavior\.([^.]+)\.total_dbt_nodes\.([^.]+)\.selected_dbt_nodes\.([^.]+)\.counter$
+  - match: cosmos\.rendering\.used_automatic_load_mode\.([^.]+)\.actual_load_mode\.([^.]+)\.invocation_mode\.([^.]+)\.uses_node_converter\.([^.]+)\.test_behavior\.([^.]+)\.source_behavior\.([^.]+)\.total_dbt_models\.([^.]+)\.selected_dbt_models\.([^.]+)\.counter$
     match_type: regex
     name: "cosmos_rendering_overview"
     labels:
