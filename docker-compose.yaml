@@ -94,10 +94,6 @@ services:
     image: ap-kube-state:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: kube-state
-  ap-kubed:
-    image: ap-kubed:${ASTRO_IMAGE_TAG:-latest}
-    build:
-      context: kubed
   ap-nats-exporter:
     image: ap-nats-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
