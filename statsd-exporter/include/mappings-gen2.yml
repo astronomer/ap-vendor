@@ -324,8 +324,8 @@ mappings:
       uses_node_converter: "$4" # True or False
       test_behavior: "$5" # after_each, after_all, none, build
       source_behavior: "$6" # all, with_tests_or_freshness, none
-      total_dbt_nodes: "$7" # Total number of dbt models in the project
-      selected_dbt_nodes: "$8" # Total number of dbt models selected by the user
+      total_dbt_models: "$7" # Total number of dbt models in the project
+      selected_dbt_models: "$8" # Total number of dbt models selected by the user
 
   # How long did a Cosmos take to parse the dbt project?
   - match: cosmos\.rendering\.actual_load_mode\.([^.]+).dbt_nodes_parsing.duration$
