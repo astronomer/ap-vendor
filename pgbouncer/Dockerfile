@@ -38,7 +38,7 @@ RUN apk add --no-cache --virtual .run-deps \
       libressl
 
 ###### SECOND STAGE: build
-ENV PGBOUNCER_SHA256_CHECKSUM 7f9a12d7d71e88b4c92537133724ab6afb5a72ff
+ENV PGBOUNCER_SHA256_CHECKSUM c8da6a2068c72253340e6cdbbfead281d4d71d18
 FROM common as build
 RUN apk add --no-cache --virtual .build-deps \
       bash \
