@@ -38,7 +38,6 @@ RUN apk add --no-cache --virtual .run-deps \
       libressl
 
 ###### SECOND STAGE: build
-ENV PGBOUNCER_SHA256_CHECKSUM c8da6a2068c72253340e6cdbbfead281d4d71d18
 FROM common as build
 RUN apk add --no-cache --virtual .build-deps \
       bash \
@@ -58,8 +57,8 @@ RUN mkdir /build \
     && cd /build \
     && git init \
     && git remote add origin https://github.com/astronomer/pgbouncer.git \
-    && git fetch --depth 1 origin $PGBOUNCER_SHA256_CHECKSUM \
-    && git checkout FETCH_HEAD \
+    && git fetch \
+    && git checkout kerberos-support \
     && git submodule init \
     && git submodule update \
     # pull in Kerberos compile- and link-flags…
