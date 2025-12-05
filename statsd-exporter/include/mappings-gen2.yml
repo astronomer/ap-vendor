@@ -296,14 +296,6 @@ mappings:
       has_callback: "$7" # True or False
       status: "$9" # success, failure
 
-  # We can probably avoid capturing this metric, by using information existing in Snowflake based on the operator name
-  # How long did a Cosmos task take to run?
-  #- match: "cosmos\.task\.operator\.([^.]+)\.duration$"
-  #  match_type: regex
-  #  name: "cosmos_task_duration_seconds"
-  #  labels:
-  #    operator_name: "$1"
-
   # Which database did the user run the transformations against?
   # How did the user define the profile, via a ProfileMapping or YAML file?
   # If Profile mapping, which class was used to define the profile?
