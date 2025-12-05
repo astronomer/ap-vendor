@@ -294,7 +294,7 @@ mappings:
       dbt_command: "$5" # Example: "run", "build", "test"
       origin: "$6" # DbtTaskGroup, DbtDag or StandaloneTask
       has_callback: "$7" # True or False
-      status: "$9" # success, failure
+      status: "$8" # success, failure
 
   # Which database did the user run the transformations against?
   # How did the user define the profile, via a ProfileMapping or YAML file?
