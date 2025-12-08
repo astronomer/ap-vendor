@@ -342,7 +342,7 @@ mappings:
       actual_load_mode: "$1"
 
   # How long did Cosmos take to build the Airflow DAG dynamically, after the dbt project has been parsed and filtered?
-  - match: cosmos\.rendering\.actual_load_mode\.([^.]+)\.airflow_dag_generation.duration$
+  - match: cosmos\.rendering\.actual_load_mode\.([^.]+)\.airflow_dag_generation\.duration$
     match_type: regex
     name: "cosmos_rendering_airflow_dag_generation_duration"
     labels:
