@@ -335,7 +335,7 @@ mappings:
       actual_load_mode: "$1"
 
   # How long did Cosmos take to filter the dbt project after it was parsed?
-  - match: cosmos\.rendering\.actual_load_mode\.([^.]+)\.dbt_nodes_filtering.duration$
+  - match: cosmos\.rendering\.actual_load_mode\.([^.]+)\.dbt_nodes_filtering\.duration$
     match_type: regex
     name: "cosmos_rendering_dbt_nodes_filtering_duration"
     labels:
