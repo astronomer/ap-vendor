@@ -315,14 +315,14 @@ mappings:
   # How many dbt nodes were selected by the user?
   # How long did the parse operation take?
   # How long did the filtering operation take?
-  - match: cosmos\.rendering\.used_automatic_load_mode\.([^.]+)\.actual_load_mode\.([^.]+)\.invocation_mode\.([^.]+)\.instalL_deps\.([^.]+)\.uses_node_converter\.([^.]+)\.test_behavior\.([^.]+)\.source_behavior\.([^.]+)\.total_dbt_models\.([^.]+)\.selected_dbt_models\.([^.]+)\.counter$
+  - match: cosmos\.rendering\.used_automatic_load_mode\.([^.]+)\.actual_load_mode\.([^.]+)\.invocation_mode\.([^.]+)\.install_deps\.([^.]+)\.uses_node_converter\.([^.]+)\.test_behavior\.([^.]+)\.source_behavior\.([^.]+)\.total_dbt_models\.([^.]+)\.selected_dbt_models\.([^.]+)\.counter$
     match_type: regex
     name: "cosmos_rendering_overview"
     labels:
       used_automatic_load_mode: "$1" # True or False
       actual_load_mode: "$2" # dbt_ls, dbt_ls_cache, dbt_ls_file, dbt_manifest, custom
       invocation_mode: "$3" # subprocess or dbt_runner
-      instalL_deps: "$4" # True or False
+      install_deps: "$4" # True or False
       uses_node_converter: "$5" # True or False
       test_behavior: "$6" # after_each, after_all, none, build
       source_behavior: "$7" # all, with_tests_or_freshness, none
