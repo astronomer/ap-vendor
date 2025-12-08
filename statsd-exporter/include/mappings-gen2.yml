@@ -283,7 +283,7 @@ mappings:
   # What is the name of the operator class used to run the task? Did the end-user subclass it?
   # Which dbt command was used to run the task?
   # What execution mode was used? What invocation mode was used?
-  - match: cosmos\.task\.operator_name\.([^.]+)\.is_subclass\.([^.]+)\.execution_mode\.([^.]+)\.invocation_mode\.([^.]+)\.dbt_command\.([^.]+)\.instalL_deps\.([^.]+)\.origin\.([^.]+)\.has_callback\.([^.]+)\.status\.([^.]+)\.counter$
+  - match: cosmos\.task\.operator_name\.([^.]+)\.is_subclass\.([^.]+)\.execution_mode\.([^.]+)\.invocation_mode\.([^.]+)\.dbt_command\.([^.]+)\.install_deps\.([^.]+)\.origin\.([^.]+)\.has_callback\.([^.]+)\.status\.([^.]+)\.counter$
     match_type: regex
     name: "cosmos_task_overview"
     labels:
