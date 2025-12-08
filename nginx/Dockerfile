@@ -13,22 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://github.com/kubernetes/ingress-nginx
-FROM alpine:latest AS builder
-RUN apk add --no-cache libcap libcap-utils
-
-# Copy only what we know exists
-COPY --from=cgr.dev/astronomer.io/ingress-nginx-controller:1.13 /nginx-ingress-controller /tmp/nginx-ingress-controller
-
-# Set capabilities on what we have
-RUN setcap cap_net_bind_service=-ep /tmp/nginx-ingress-controller
-
 FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.13
 LABEL maintainer="Astronomer <humans@astronomer.io>"
-
-# Copy the modified binary with capabilities
-COPY --from=builder /tmp/nginx-ingress-controller /nginx-ingress-controller
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+RUN apk add --no-cache libcap libcap-utils && \
+    setcap cap_net_bind_service=-ep /tmp/nginx-ingress-controller && \
+    apk del libcap-utils libcap
