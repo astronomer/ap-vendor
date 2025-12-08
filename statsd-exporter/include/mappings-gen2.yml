@@ -327,7 +327,7 @@ mappings:
       total_dbt_models: "$7" # Total number of dbt models in the project
       selected_dbt_models: "$8" # Total number of dbt models selected by the user
 
-  # How long did a Cosmos take to parse the dbt project?
+  # How long did Cosmos take to parse the dbt project?
   - match: cosmos\.rendering\.actual_load_mode\.([^.]+)\.dbt_nodes_parsing\.duration$
     match_type: regex
     name: "cosmos_rendering_dbt_nodes_parsing_duration"
