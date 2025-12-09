@@ -21,9 +21,8 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 RUN apk add libcap
-RUN setcap cap_net_bind_service=-ep /nginx-ingress-controller || true
-RUN setcap cap_net_bind_service=-ep /usr/local/nginx/sbin/nginx || true
-RUN setcap cap_net_bind_service=-ep /usr/bin/dumb-init || true
+RUN setcap cap_net_bind_service=-ep /usr/bin/nginx-ingress-controller
+RUN setcap cap_net_bind_service=-ep /usr/bin/dumb-init
 
 RUN apk del libcap-utils libcap
 
