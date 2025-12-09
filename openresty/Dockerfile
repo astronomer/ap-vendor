@@ -34,7 +34,4 @@ RUN ln -sf /tmp/openresty /usr/local/openresty \
     && chown -R nobody:nobody /usr/local/openresty \
     && chmod -R g+w /usr/local/openresty
 
-# upgrade apk packages
-RUN apk upgrade --no-cache
-
 USER 65534
