@@ -218,7 +218,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: alertmanager
           tags: "latest"
@@ -267,7 +266,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: alpine
           tags: "latest"
@@ -316,7 +314,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: auth-sidecar
           tags: "latest"
@@ -365,7 +362,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: awsesproxy
           tags: "latest"
@@ -414,7 +410,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: blackbox-exporter
           tags: "latest"
@@ -463,7 +458,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: claude-code
           tags: "latest"
@@ -512,7 +506,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: configmap-reloader
           tags: "latest"
@@ -561,7 +554,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: curator
           tags: "latest"
@@ -610,7 +602,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: dind-golang
           tags: "latest"
@@ -659,7 +650,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: dogstatsd
           tags: "latest"
@@ -708,7 +698,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: elasticsearch
           tags: "latest"
@@ -757,7 +746,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: elasticsearch-exporter
           tags: "latest"
@@ -806,7 +794,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: fluentd
           tags: "latest"
@@ -855,7 +842,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: git-daemon
           tags: "latest"
@@ -904,7 +890,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: git-sync
           tags: "latest"
@@ -953,7 +938,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: grafana
           tags: "latest"
@@ -1002,7 +986,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: init
           tags: "latest"
@@ -1051,7 +1034,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: keda
           tags: "latest"
@@ -1100,7 +1082,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: keda-metrics-apiserver
           tags: "latest"
@@ -1149,7 +1130,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: kibana
           tags: "latest"
@@ -1198,7 +1178,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: kube-state
           tags: "latest"
@@ -1247,7 +1226,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: kubed
           tags: "latest"
@@ -1296,7 +1274,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: nats-exporter
           tags: "latest"
@@ -1345,7 +1322,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: nats-server
           tags: "latest"
@@ -1394,7 +1370,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: nats-streaming
           tags: "latest"
@@ -1443,7 +1418,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: nginx
           tags: "latest"
@@ -1492,7 +1466,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: nginx-es
           tags: "latest"
@@ -1541,7 +1514,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: node-exporter
           tags: "latest"
@@ -1590,7 +1562,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: openresty
           tags: "latest"
@@ -1639,7 +1610,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: pgbouncer
           tags: "latest"
@@ -1688,7 +1658,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: pgbouncer-exporter
           tags: "latest"
@@ -1737,7 +1706,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: pgbouncer-krb
           tags: "latest"
@@ -1786,7 +1754,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: postgres-exporter
           tags: "latest"
@@ -1835,7 +1802,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: postgres-operator
           tags: "latest"
@@ -1884,7 +1850,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: postgresql
           tags: "latest"
@@ -1933,7 +1898,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: prometheus
           tags: "latest"
@@ -1982,7 +1946,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: python
           tags: "latest"
@@ -2031,7 +1994,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: redis
           tags: "latest"
@@ -2080,7 +2042,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: registry
           tags: "latest"
@@ -2129,7 +2090,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: statsd-exporter
           tags: "latest"
@@ -2178,7 +2138,6 @@ workflows:
             branches:
               only:
                 - main
-                - krb-pgbouncer
       - validate-tags:
           directory: vector
           tags: "latest"
