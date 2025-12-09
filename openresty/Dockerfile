@@ -16,7 +16,7 @@
 
 # https://github.com/openresty/docker-openresty/
 # https://hub.docker.com/r/openresty/openresty/tags
-FROM docker.io/openresty/openresty:1.27.1.2-1-alpine
+FROM cgr.dev/astronomer.io/openresty:1.27.1-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -33,8 +33,5 @@ RUN ln -sf /tmp/openresty /usr/local/openresty \
     && chown -R nobody:nobody /var/run/openresty \
     && chown -R nobody:nobody /usr/local/openresty \
     && chmod -R g+w /usr/local/openresty
-
-# upgrade apk packages
-RUN apk upgrade --no-cache
 
 USER 65534
