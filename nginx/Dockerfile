@@ -13,13 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.13
+FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.13-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-RUN apk add --no-cache libcap libcap-utils && \
-    setcap cap_net_bind_service=-ep /tmp/nginx-ingress-controller && \
-    apk del libcap-utils libcap
+RUN apk add libcap
+RUN setcap cap_net_bind_service=-ep /nginx-ingress-controller || true
+RUN setcap cap_net_bind_service=-ep /usr/local/nginx/sbin/nginx || true
+RUN setcap cap_net_bind_service=-ep /usr/bin/dumb-init || true
+
+RUN apk del libcap-utils libcap
+
+USER www-data
