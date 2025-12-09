@@ -25,5 +25,6 @@ RUN setcap cap_net_bind_service=-ep /usr/bin/nginx-ingress-controller
 RUN setcap cap_net_bind_service=-ep /usr/bin/dumb-init
 
 RUN apk del libcap-utils libcap
+RUN rm -rf /bin/sh /bin/bash
 
 USER www-data
