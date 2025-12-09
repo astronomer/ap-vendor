@@ -28,15 +28,10 @@ services:
       context: blackbox-exporter
     ports:
       - 9115:9115
-  ap-claude-code:
-    image: ap-claude-code:${ASTRO_IMAGE_TAG:-latest}
-    build:
-      context: claude-code
   ap-configmap-reloader:
     image: ap-configmap-reloader:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: configmap-reloader
-    entrypoint: "top"
   ap-curator:
     image: ap-curator:${ASTRO_IMAGE_TAG:-latest}
     build:
@@ -99,10 +94,6 @@ services:
     image: ap-kube-state:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: kube-state
-  ap-kubed:
-    image: ap-kubed:${ASTRO_IMAGE_TAG:-latest}
-    build:
-      context: kubed
   ap-nats-exporter:
     image: ap-nats-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:

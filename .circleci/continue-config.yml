@@ -32,10 +32,6 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image blackbox-exporter."
-  claude-code:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image claude-code."
   configmap-reloader:
     type: boolean
     default: false
@@ -96,10 +92,6 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image kube-state."
-  kubed:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image kubed."
   nats-exporter:
     type: boolean
     default: false
@@ -412,54 +404,6 @@ workflows:
                 - main
       - validate-tags:
           directory: blackbox-exporter
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-          requires:
-            - scan-trivy
-          filters:
-            branches:
-              ignore: main
-  claude-code-build:
-    when:
-      and:
-        - << pipeline.parameters.claude-code >>
-    jobs:
-      - build:
-          name: build
-          directory: claude-code
-          context:
-            - apc-chainguard-creds
-      - test:
-          directory: claude-code
-          test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
-          requires:
-            - build
-      - scan-trivy:
-          directory: claude-code
-          requires:
-            - test
-      - release:
-          directory: claude-code
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-            - apc-chainguard-creds
-          requires:
-            - scan-trivy
-          filters:
-            branches:
-              only:
-                - main
-      - validate-tags:
-          directory: claude-code
           tags: "latest"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
@@ -1180,54 +1124,6 @@ workflows:
                 - main
       - validate-tags:
           directory: kube-state
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-          requires:
-            - scan-trivy
-          filters:
-            branches:
-              ignore: main
-  kubed-build:
-    when:
-      and:
-        - << pipeline.parameters.kubed >>
-    jobs:
-      - build:
-          name: build
-          directory: kubed
-          context:
-            - apc-chainguard-creds
-      - test:
-          directory: kubed
-          test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
-          requires:
-            - build
-      - scan-trivy:
-          directory: kubed
-          requires:
-            - test
-      - release:
-          directory: kubed
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-            - apc-chainguard-creds
-          requires:
-            - scan-trivy
-          filters:
-            branches:
-              only:
-                - main
-      - validate-tags:
-          directory: kubed
           tags: "latest"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:
