@@ -19,4 +19,4 @@ fi
 set -xe
 
 touch "$GIT_ROOT/.git/git-daemon-export-ok"
-git daemon
+git daemon --reuseaddr
