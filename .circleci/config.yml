@@ -51,7 +51,6 @@ workflows:
             keda-metrics-apiserver/.* keda-metrics-apiserver true
             kibana/.* kibana true
             kube-state/.* kube-state true
-            kubed/.* kubed true
             nats-exporter/.* nats-exporter true
             nats-server/.* nats-server true
             nats-streaming/.* nats-streaming true
