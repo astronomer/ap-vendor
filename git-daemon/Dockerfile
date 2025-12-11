@@ -23,6 +23,8 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER root
 
+RUN apk update && apk upgrade binutils
+
 RUN apk add --no-cache git git-daemon
 COPY entrypoint.sh /
 
