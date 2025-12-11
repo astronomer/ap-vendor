@@ -13,31 +13,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/astronomer/ap-base:2025.11.3
-LABEL maintainer="Astronomer <humans@astronomer.io>"
+# https://github.com/CenterForOpenScience/docker-library/blob/master/pgbouncer/Dockerfile
 
-ARG BUILD_NUMBER=-1
-LABEL io.astronomer.docker=true
-LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+##### FIRST STAGE: common - stuff needed at both build and run time
 
-ENV REALM=${REALM:-EXAMPLE.COM}
-ENV KADMIN_PRINCIPAL=${KADMIN_PRINCIPAL:-kadmin/admin}
-ENV KADMIN_PASSWORD=${KADMIN_PASSWORD:-postgres}
-
-USER root
-
-RUN addgroup -S pgbouncer \
-    && adduser -D -S -s /sbin/nologin -G pgbouncer pgbouncer \
-    && apk add --no-cache --virtual .run-deps \
-      bash \
+FROM quay.io/astronomer/ap-base:3.21.3-4 as common
+RUN apk add --no-cache --virtual .run-deps \
       c-ares \
+      entr \
       krb5 \
       krb5-dev \
       krb5-pkinit \
       libevent \
-      openssl
+      libressl
 
+###### SECOND STAGE: build
+FROM common as build
 RUN apk add --no-cache --virtual .build-deps \
+      bash \
       autoconf \
       automake \
       build-base \
@@ -46,29 +39,64 @@ RUN apk add --no-cache --virtual .build-deps \
       libevent-dev \
       libtool \
       openssl-dev \
-      pkgconf-dev \
+      pkgconf \
       wget \
-    && wget "https://github.com/jgm/pandoc/releases/download/2.18/pandoc-2.18-linux-amd64.tar.gz" \
-    && tar xvzf pandoc-2.18-linux-amd64.tar.gz --strip-components 1 -C /usr/local \
-    && git clone https://github.com/astronomer/pgbouncer.git --single-branch --branch cory/gss-authentication \
-    && cd /pgbouncer; \
-       git submodule init; \
-       git submodule update \
+      pandoc
+    # shallow-fetch only the single commit we care about
+RUN mkdir /build \
+    && cd /build \
+    && git init \
+    && git remote add origin https://github.com/astronomer/pgbouncer.git \
+    && git fetch \
+    && git checkout kerberos-support \
+    && git submodule init \
+    && git submodule update \
+    # pull in Kerberos compile- and link-flags…
+    && export CPPFLAGS="$(pkgconf --cflags gssapi_krb5)" \
+    && export LDFLAGS="$(pkgconf --libs gssapi_krb5)" \
+    && export LIBS="-lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err" \
     && ./autogen.sh \
-    && ./configure --prefix=/usr --with-server-gssenc \
+    && ./configure --prefix=/usr --disable-debug --with-gss --with-openssl \
     && make \
-    && make install \
-    && mkdir /etc/pgbouncer \
-    && touch /etc/pgbouncer/userlist.txt \
-    && cd .. \
-    && rm -rf /pgbouncer* \
-    && apk del .build-deps
+    && make install
+# construct a modified /build/pgbouncer.ini
+RUN cd /build \
+    && cp etc/pgbouncer.ini modified-pgbouncer.ini \
+    && sed -i \
+      -e "s|logfile = |#logfile = |" \
+      -e "s|pidfile = |#pidfile = |" \
+      -e "s|listen_addr = .*|listen_addr = 0.0.0.0|" \
+      -e "s|auth_type = .*|auth_type = md5|" \
+      modified-pgbouncer.ini
 
-RUN chown -R pgbouncer /etc/krb5.conf /etc/pgbouncer/
+##### THIRD STAGE main
 
-COPY entrypoint.sh /entrypoint.sh
+FROM common as main
+LABEL maintainer="Astronomer <humans@astronomer.io>"
 
-USER pgbouncer
+# Make it possible to override the UID/GID/username of the user running
+ARG UID=1000
+ARG GID=1001
+ARG BUILD_NUMBER=-1
+ARG USER=pgbouncer
 
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["pgbouncer", "-u", "pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
+LABEL io.astronomer.docker=true
+LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+RUN addgroup -g $GID -S $USER \
+  && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
+  && mkdir /etc/pgbouncer \
+  && touch /etc/pgbouncer/userlist.txt
+
+# copy over build output
+COPY --from=build /usr/bin/pgbouncer /usr/bin/pgbouncer
+COPY --from=build /usr/share/doc/pgbouncer /usr/share/doc
+COPY --from=build /build/modified-pgbouncer.ini /etc/pgbouncer/pgbouncer.ini
+COPY docker-entrypoint.sh docker-entrypoint.sh
+
+RUN rm /usr/local/bin/dockerize
+
+# setup user, entrypoint, and cmd
+USER $UID
+ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
