@@ -14,16 +14,6 @@
 # limitations under the License.
 
 # https://github.com/CenterForOpenScience/docker-library/blob/master/pgbouncer/Dockerfile
-# https://quay.io/repository/centerforopenscience/pgbouncer
-
-
-##### Three-stage build
-#  common--+                       common has only stuff you need at both build and run
-#          |
-#          +----build              build produces the binary
-#          |
-#          +----main               runs the binary
-
 
 ##### FIRST STAGE: common - stuff needed at both build and run time
 
@@ -103,8 +93,6 @@ COPY --from=build /usr/bin/pgbouncer /usr/bin/pgbouncer
 COPY --from=build /usr/share/doc/pgbouncer /usr/share/doc
 COPY --from=build /build/modified-pgbouncer.ini /etc/pgbouncer/pgbouncer.ini
 COPY docker-entrypoint.sh docker-entrypoint.sh
-#COPY --from=build /usr/share/doc/pgbouncer/pgbouncer.1 /usr/share/man/man1
-#COPY --from=build /usr/share/doc/pgbouncer/pgbouncer.5 /usr/share/man/man5
 
 RUN rm /usr/local/bin/dockerize
 
