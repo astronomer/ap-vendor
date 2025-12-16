@@ -17,7 +17,8 @@
 
 ##### FIRST STAGE: common - stuff needed at both build and run time
 
-FROM quay.io/astronomer/ap-base:3.21.3-4 as common
+FROM quay.io/astronomer/ap-base:3.21.3-4 AS common
+
 RUN apk add --no-cache --virtual .run-deps \
       c-ares \
       entr \
@@ -28,7 +29,8 @@ RUN apk add --no-cache --virtual .run-deps \
       libressl
 
 ###### SECOND STAGE: build
-FROM common as build
+FROM common AS build
+
 RUN apk add --no-cache --virtual .build-deps \
       bash \
       autoconf \
@@ -52,8 +54,8 @@ RUN mkdir /build \
     && git submodule init \
     && git submodule update \
     # pull in Kerberos compile- and link-flags…
-    && export CPPFLAGS="$(pkgconf --cflags gssapi_krb5)" \
-    && export LDFLAGS="$(pkgconf --libs gssapi_krb5)" \
+    && export CPPFLAGS="$(pkgconf --cflags gssapi)" \
+    && export LDFLAGS="$(pkgconf --libs gssapi)" \
     && export LIBS="-lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err" \
     && ./autogen.sh \
     && ./configure --prefix=/usr --disable-debug --with-gss --with-openssl \
@@ -69,9 +71,10 @@ RUN cd /build \
       -e "s|auth_type = .*|auth_type = md5|" \
       modified-pgbouncer.ini
 
-##### THIRD STAGE main
+##### THIRD STAGE: main
 
-FROM common as main
+FROM quay.io/astronomer/ap-base:2025.12.03 AS main
+
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 # Make it possible to override the UID/GID/username of the user running
@@ -83,6 +86,8 @@ ARG USER=pgbouncer
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
+USER root
+
 RUN addgroup -g $GID -S $USER \
   && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
   && mkdir /etc/pgbouncer \
@@ -93,8 +98,6 @@ COPY --from=build /usr/bin/pgbouncer /usr/bin/pgbouncer
 COPY --from=build /usr/share/doc/pgbouncer /usr/share/doc
 COPY --from=build /build/modified-pgbouncer.ini /etc/pgbouncer/pgbouncer.ini
 COPY docker-entrypoint.sh docker-entrypoint.sh
-
-RUN rm /usr/local/bin/dockerize
 
 # setup user, entrypoint, and cmd
 USER $UID
