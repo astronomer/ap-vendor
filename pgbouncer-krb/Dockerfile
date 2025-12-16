@@ -97,6 +97,9 @@ COPY --from=build /usr/share/doc/pgbouncer /usr/share/doc
 COPY --from=build /build/modified-pgbouncer.ini /etc/pgbouncer/pgbouncer.ini
 COPY docker-entrypoint.sh docker-entrypoint.sh
 
+RUN ln -sf /usr/bin/pgbouncer /pgbouncer \
+ && ln -sf /usr/bin/pgbouncer /usr/local/bin/pgbouncer
+
 # setup user, entrypoint, and cmd
 USER $UID
 ENTRYPOINT ["./docker-entrypoint.sh"]
