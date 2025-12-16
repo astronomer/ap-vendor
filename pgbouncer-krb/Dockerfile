@@ -16,7 +16,6 @@
 # https://github.com/CenterForOpenScience/docker-library/blob/master/pgbouncer/Dockerfile
 
 ##### FIRST STAGE: common - stuff needed at both build and run time
-
 FROM quay.io/astronomer/ap-base:3.21.3-4 AS common
 
 RUN apk add --no-cache --virtual .run-deps \
@@ -72,7 +71,6 @@ RUN cd /build \
       modified-pgbouncer.ini
 
 ##### THIRD STAGE: main
-
 FROM quay.io/astronomer/ap-base:2025.12.03 AS main
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
