@@ -111,7 +111,6 @@ services:
     image: ap-nginx:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: nginx
-    entrypoint: "top"
   ap-nginx-es:
     image: ap-nginx-es:${ASTRO_IMAGE_TAG:-latest}
     build:
