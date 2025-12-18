@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM cgr.dev/astronomer.io/ap-vector:0.51.0-dev
+FROM cgr.dev/astronomer.io/ap-vector:0.52.0-dev
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
