@@ -28,7 +28,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # https://github.com/kubernetes/git-sync/releases
-FROM quay.io/astronomer/ap-base:2025.11.3
+FROM quay.io/astronomer/ap-base:2025.12.24
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 USER root
