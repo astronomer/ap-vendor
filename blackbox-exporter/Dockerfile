@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/golang/tags?name=1.22-alpine
-FROM golang:1.22-alpine3.21 AS build
+FROM golang:1.24.11-alpine3.21 AS build
 
 ENV DISTRIBUTION_DIR=/go/src/github.com/prometheus/blackbox_exporter
 ENV BUILDTAGS="include_oss include_gcs"
