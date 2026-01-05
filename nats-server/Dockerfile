@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://console.chainguard.dev/org/astronomer.io/images/organization?query=nats
-FROM cgr.dev/astronomer.io/nats:v2.12.1 AS upstream
+FROM cgr.dev/astronomer.io/nats:v2.12.2 AS upstream
 
 FROM quay.io/astronomer/ap-base:2025.12.24
 
