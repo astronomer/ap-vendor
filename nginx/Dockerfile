@@ -13,17 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://github.com/kubernetes/ingress-nginx
-FROM k8s.gcr.io/ingress-nginx/controller:v1.12.6
+FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.13.5-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
-USER root
-RUN apk upgrade --no-cache
-# dont require capability NET_BIND_SERVICE - does prevent using ports below 1024 though
-RUN apk add libcap
-RUN  setcap cap_net_bind_service=-ep /nginx-ingress-controller
-RUN  setcap cap_net_bind_service=-ep /usr/local/nginx/sbin/nginx
-RUN  setcap cap_net_bind_service=-ep /usr/bin/dumb-init
-USER www-data
+
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+RUN apk add libcap
+RUN setcap cap_net_bind_service=-ep /usr/bin/nginx-ingress-controller
+RUN setcap cap_net_bind_service=-ep /usr/bin/dumb-init
+
+USER www-data
