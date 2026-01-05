@@ -26,6 +26,8 @@ ENV NATS_EXPORTER_VERSION=0.17.3
 
 RUN git clone --branch v${NATS_EXPORTER_VERSION} https://github.com/nats-io/prometheus-nats-exporter.git .
 
+RUN go get -u golang.org/x/crypto@v0.45.0
+
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -tags netgo -installsuffix netgo -ldflags "-s -w"
 
 # Final docker image building stage
