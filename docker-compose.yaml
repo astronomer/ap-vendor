@@ -131,7 +131,6 @@ services:
     image: ap-pgbouncer-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: pgbouncer-exporter
-    entrypoint: "top"
   ap-pgbouncer-krb:
     image: ap-pgbouncer-krb:${ASTRO_IMAGE_TAG:-latest}
     build:
