@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/jbub/pgbouncer_exporter
-FROM cgr.dev/astronomer.io/prometheus-pgbouncer-exporter:0 AS upstream
+FROM cgr.dev/astronomer.io/prometheus-pgbouncer-exporter:v0.11.0 AS upstream
 
 FROM quay.io/astronomer/ap-base:2025.12.24
 
