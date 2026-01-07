@@ -38,5 +38,5 @@ RUN addgroup -g $GID -S $USER \
     && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER
 USER $UID
 
-ENTRYPOINT ["pgbouncer_exporter"]
-CMD ["server"]
+ENTRYPOINT ["/bin/bash"]
+CMD ["-c", "exec /bin/pgbouncer_exporter --pgBouncer.connectionString=$DATABASE_URL"]
