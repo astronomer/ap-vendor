@@ -61,6 +61,7 @@ workflows:
             branches:
               only:
                 - main
+                - kerberisedpgbouncer
       - validate-tags:
           directory: {{ directory }}
           tags: "latest"
