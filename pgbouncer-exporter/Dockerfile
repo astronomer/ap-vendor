@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/jbub/pgbouncer_exporter
-FROM jbub/pgbouncer_exporter:v0.20.0 AS upstream
+FROM cgr.dev/astronomer.io/prometheus-pgbouncer-exporter:v0.11.0 AS upstream
 
 FROM quay.io/astronomer/ap-base:2025.12.24
 
@@ -38,5 +38,5 @@ RUN addgroup -g $GID -S $USER \
     && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER
 USER $UID
 
-ENTRYPOINT ["pgbouncer_exporter"]
-CMD ["server"]
+ENTRYPOINT ["/bin/bash"]
+CMD ["-c", "exec /bin/pgbouncer_exporter --pgBouncer.connectionString=$DATABASE_URL"]
