@@ -15,7 +15,7 @@
 
 # https://prometheus.io/docs/introduction/release-cycle/
 # https://hub.docker.com/r/prom/prometheus/tags
-FROM cgr.dev/astronomer.io/ap-prometheus:3.6.0-dev
+FROM cgr.dev/astronomer.io/ap-prometheus:3.8.1-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
