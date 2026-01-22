@@ -205,7 +205,7 @@ GEM
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2025.2)
       tzinfo (>= 1.0.0)
-    uri (1.0.3)
+    uri (1.0.4)
     webrick (1.9.1)
     yajl-ruby (1.4.3)
 
