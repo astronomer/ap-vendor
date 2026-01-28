@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/nginxinc/nginx-unprivileged/tags
-FROM cgr.dev/astronomer.io/nginx:1.29.3
+FROM cgr.dev/astronomer.io/nginx:1.29.4
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
