@@ -123,6 +123,10 @@ services:
     image: ap-openresty:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: openresty
+  ap-opentelemetry-collector:
+    image: ap-opentelemetry-collector:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: opentelemetry-collector
   ap-pgbouncer:
     image: ap-pgbouncer:${ASTRO_IMAGE_TAG:-latest}
     build:

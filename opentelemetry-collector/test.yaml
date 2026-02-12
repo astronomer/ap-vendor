@@ -1,0 +1,10 @@
+---
+# Distroless image has no /bin/sh; skip shell-based user tests.
+tests:
+  root_user_test: False
+#  default_user: nobody
+#  users_config:
+#    - name: nobody
+#      group: nobody
+#      gid: 65534
+#      uid: 65534

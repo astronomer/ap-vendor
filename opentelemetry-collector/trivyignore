@@ -1,0 +1,10 @@
+# Upstream otel/opentelemetry-collector-contrib CVEs; re-evaluate when bumping base image.
+CVE-2025-47907
+CVE-2025-58183
+CVE-2025-61726
+CVE-2025-61728
+CVE-2025-61729
+CVE-2025-61730
+CVE-2025-63811
+CVE-2025-68121
+CVE-2025-68156

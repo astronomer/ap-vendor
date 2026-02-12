@@ -1,0 +1,442 @@
+# Gen2 config: StatsD receiver + airflow metric mappings (from statsd-exporter mappings-gen2.yml).
+# Use at runtime: --config=/etc/otelcol-contrib/config-gen2.yaml
+#
+# Pipeline: filter/airflow → transform/labels (extract labels from name) → metricstransform (rename) → filter/renamed → batch → prometheus
+# Label extraction must run before rename so we can use the original metric name. filter/renamed is a maintained allowlist—update it when adding new transforms.
+
+receivers:
+  statsd:
+    endpoint: "0.0.0.0:8125"
+
+processors:
+  # 1) Include only airflow.* metrics
+  filter/airflow:
+    metrics:
+      include:
+        match_type: regexp
+        metric_names:
+          - "^airflow\\..*"
+
+  # 2) Extract labels from metric name into datapoint attributes (Prometheus labels).
+  # Uses ExtractPatterns with named groups. Must run before metricstransform.
+  # NOTE: uses distinct tmp keys per pattern to avoid label leakage.
+  transform/labels:
+    error_mode: ignore
+    metric_statements:
+      - context: datapoint
+        statements:
+          # job_name: airflow.(job)_start, _end, _heartbeat_failure
+          - set(datapoint.attributes["job_name"], ExtractPatterns(metric.name, "^airflow\\.(?P<job_name>[^.]+)_start$")["job_name"]) where IsMatch(metric.name, "^airflow\\.[^.]+_start$")
+          - set(datapoint.attributes["job_name"], ExtractPatterns(metric.name, "^airflow\\.(?P<job_name>[^.]+)_end$")["job_name"]) where IsMatch(metric.name, "^airflow\\.[^.]+_end$")
+          - set(datapoint.attributes["job_name"], ExtractPatterns(metric.name, "^airflow\\.(?P<job_name>[^.]+)_heartbeat_failure$")["job_name"]) where IsMatch(metric.name, "^airflow\\.[^.]+_heartbeat_failure$")
+
+          # operator: operator_successes_(.*), operator_failures_(.*)
+          - set(datapoint.attributes["operator"], ExtractPatterns(metric.name, "^airflow\\.operator_successes_(?P<operator>.*)$")["operator"]) where IsMatch(metric.name, "^airflow\\.operator_successes_.*$")
+          - set(datapoint.attributes["operator"], ExtractPatterns(metric.name, "^airflow\\.operator_failures_(?P<operator>.*)$")["operator"]) where IsMatch(metric.name, "^airflow\\.operator_failures_.*$")
+
+          # type: counter for scheduler_heartbeat (mappings-gen2 special label)
+          - set(datapoint.attributes["type"], "counter") where IsMatch(metric.name, "^airflow\\.scheduler_heartbeat$")
+
+          # dag_id, task_id: airflow.dag.<dag_id>.<task_id>.duration
+          - delete_key(datapoint.attributes, "_tmp_dag_duration")
+          - set(datapoint.attributes["_tmp_dag_duration"], ExtractPatterns(metric.name, "^airflow\\.dag\\.(?P<dag_id>[^.]+)\\.(?P<task_id>[^.]+)\\.duration$"))
+            where IsMatch(metric.name, "^airflow\\.dag\\.[^.]+\\.[^.]+\\.duration$")
+          - set(datapoint.attributes["dag_id"], datapoint.attributes["_tmp_dag_duration"]["dag_id"])
+            where datapoint.attributes["_tmp_dag_duration"] != nil
+          - set(datapoint.attributes["task_id"], datapoint.attributes["_tmp_dag_duration"]["task_id"])
+            where datapoint.attributes["_tmp_dag_duration"] != nil
+          - delete_key(datapoint.attributes, "_tmp_dag_duration")
+            where datapoint.attributes["_tmp_dag_duration"] != nil
+
+          # dag_id: dagrun.duration.success.*, failed.*, schedule_delay.*, first_task_scheduling_delay, dependency-check.*
+          - set(datapoint.attributes["dag_id"], ExtractPatterns(metric.name, "^airflow\\.dagrun\\.duration\\.success\\.(?P<dag_id>[^.]+)$")["dag_id"]) where IsMatch(metric.name, "^airflow\\.dagrun\\.duration\\.success\\.[^.]+$")
+          - set(datapoint.attributes["dag_id"], ExtractPatterns(metric.name, "^airflow\\.dagrun\\.duration\\.failed\\.(?P<dag_id>[^.]+)$")["dag_id"]) where IsMatch(metric.name, "^airflow\\.dagrun\\.duration\\.failed\\.[^.]+$")
+          - set(datapoint.attributes["dag_id"], ExtractPatterns(metric.name, "^airflow\\.dagrun\\.schedule_delay\\.(?P<dag_id>[^.]+)$")["dag_id"]) where IsMatch(metric.name, "^airflow\\.dagrun\\.schedule_delay\\.[^.]+$")
+          - set(datapoint.attributes["dag_id"], ExtractPatterns(metric.name, "^airflow\\.dagrun\\.(?P<dag_id>[^.]+)\\.first_task_scheduling_delay$")["dag_id"]) where IsMatch(metric.name, "^airflow\\.dagrun\\.[^.]+\\.first_task_scheduling_delay$")
+          - set(datapoint.attributes["dag_id"], ExtractPatterns(metric.name, "^airflow\\.dagrun\\.dependency-check\\.(?P<dag_id>[^.]+)$")["dag_id"]) where IsMatch(metric.name, "^airflow\\.dagrun\\.dependency-check\\.[^.]+$")
+
+          # dag_file: dag_processing.last_duration.*, last_runtime.*, last_run.seconds_ago.*
+          - set(datapoint.attributes["dag_file"], ExtractPatterns(metric.name, "^airflow\\.dag_processing\\.last_duration\\.(?P<dag_file>[^.]+)$")["dag_file"]) where IsMatch(metric.name, "^airflow\\.dag_processing\\.last_duration\\.[^.]+$")
+          - set(datapoint.attributes["dag_file"], ExtractPatterns(metric.name, "^airflow\\.dag_processing\\.last_runtime\\.(?P<dag_file>[^.]+)$")["dag_file"]) where IsMatch(metric.name, "^airflow\\.dag_processing\\.last_runtime\\.[^.]+$")
+          - set(datapoint.attributes["dag_file"], ExtractPatterns(metric.name, "^airflow\\.dag_processing\\.last_run\\.seconds_ago\\.(?P<dag_file>[^.]+)$")["dag_file"]) where IsMatch(metric.name, "^airflow\\.dag_processing\\.last_run\\.seconds_ago\\.[^.]+$")
+
+          # pool: pool.<type>.<pool>
+          - set(datapoint.attributes["pool"], ExtractPatterns(metric.name, "^airflow\\.pool\\.(?:open_slots|used_slots|queued_slots|running_slots|deferred_slots|scheduled_slots|starving_tasks)\\.(?P<pool>[^.]+)$")["pool"])
+            where IsMatch(metric.name, "^airflow\\.pool\\.(?:open_slots|used_slots|queued_slots|running_slots|deferred_slots|scheduled_slots|starving_tasks)\\.[^.]+$")
+
+          # resource: executor.runner_resources.<resource>
+          - set(datapoint.attributes["resource"], ExtractPatterns(metric.name, "^airflow\\.executor\\.runner_resources\\.(?P<resource>[^.]+)$")["resource"])
+            where IsMatch(metric.name, "^airflow\\.executor\\.runner_resources\\.[^.]+$")
+
+          # resource_stat: executor.task_resources.<resource_stat>
+          - set(datapoint.attributes["resource_stat"], ExtractPatterns(metric.name, "^airflow\\.executor\\.task_resources\\.(?P<resource_stat>[^.]+)$")["resource_stat"])
+            where IsMatch(metric.name, "^airflow\\.executor\\.task_resources\\.[^.]+$")
+
+          # dag_id, task_id: ti.start.<dag_id>.<task_id>
+          - delete_key(datapoint.attributes, "_tmp_ti_start")
+          - set(datapoint.attributes["_tmp_ti_start"], ExtractPatterns(metric.name, "^airflow\\.ti\\.start\\.(?P<dag_id>[^.]+)\\.(?P<task_id>[^.]+)$"))
+            where IsMatch(metric.name, "^airflow\\.ti\\.start\\.[^.]+\\.[^.]+$")
+          - set(datapoint.attributes["dag_id"], datapoint.attributes["_tmp_ti_start"]["dag_id"])
+            where datapoint.attributes["_tmp_ti_start"] != nil
+          - set(datapoint.attributes["task_id"], datapoint.attributes["_tmp_ti_start"]["task_id"])
+            where datapoint.attributes["_tmp_ti_start"] != nil
+          - delete_key(datapoint.attributes, "_tmp_ti_start")
+            where datapoint.attributes["_tmp_ti_start"] != nil
+
+          # dag_id, task_id, state: ti.finish.<dag_id>.<task_id>.<state>
+          - delete_key(datapoint.attributes, "_tmp_ti_finish")
+          - set(datapoint.attributes["_tmp_ti_finish"], ExtractPatterns(metric.name, "^airflow\\.ti\\.finish\\.(?P<dag_id>[^.]+)\\.(?P<task_id>[^.]+)\\.(?P<state>[^.]+)$"))
+            where IsMatch(metric.name, "^airflow\\.ti\\.finish\\.[^.]+\\.[^.]+\\.[^.]+$")
+          - set(datapoint.attributes["dag_id"], datapoint.attributes["_tmp_ti_finish"]["dag_id"])
+            where datapoint.attributes["_tmp_ti_finish"] != nil
+          - set(datapoint.attributes["task_id"], datapoint.attributes["_tmp_ti_finish"]["task_id"])
+            where datapoint.attributes["_tmp_ti_finish"] != nil
+          - set(datapoint.attributes["state"], datapoint.attributes["_tmp_ti_finish"]["state"])
+            where datapoint.attributes["_tmp_ti_finish"] != nil
+          - delete_key(datapoint.attributes, "_tmp_ti_finish")
+            where datapoint.attributes["_tmp_ti_finish"] != nil
+
+          # task_type: task_instance_created_(.*)
+          - set(datapoint.attributes["task_type"], ExtractPatterns(metric.name, "^airflow\\.task_instance_created_(?P<task_type>.*)$")["task_type"])
+            where IsMatch(metric.name, "^airflow\\.task_instance_created_.*$")
+
+          # provider: astro_logging.(.+).write.failed
+          - set(datapoint.attributes["provider"], ExtractPatterns(metric.name, "^airflow\\.astro_logging\\.(?P<provider>.+)\\.write\\.failed$")["provider"])
+            where IsMatch(metric.name, "^airflow\\.astro_logging\\..+\\.write\\.failed$")
+
+          # instance, mount_path: bundle_backend refresh_success/failure, download_urls_success/failure
+          - delete_key(datapoint.attributes, "_tmp_bundle_backend_2")
+          - set(datapoint.attributes["_tmp_bundle_backend_2"], ExtractPatterns(metric.name, "^airflow\\.astro\\.bundle_backend\\.(?:refresh_success|refresh_failure|download_urls_success|download_urls_failure)\\.(?P<instance>[^.]+)\\.(?P<mount_path>[^.]+)$"))
+            where IsMatch(metric.name, "^airflow\\.astro\\.bundle_backend\\.(?:refresh_success|refresh_failure|download_urls_success|download_urls_failure)\\.[^.]+\\.[^.]+$")
+          - set(datapoint.attributes["instance"], datapoint.attributes["_tmp_bundle_backend_2"]["instance"])
+            where datapoint.attributes["_tmp_bundle_backend_2"] != nil
+          - set(datapoint.attributes["mount_path"], datapoint.attributes["_tmp_bundle_backend_2"]["mount_path"])
+            where datapoint.attributes["_tmp_bundle_backend_2"] != nil
+          - delete_key(datapoint.attributes, "_tmp_bundle_backend_2")
+            where datapoint.attributes["_tmp_bundle_backend_2"] != nil
+
+          # instance, mount_path, le: bundle_backend tarball_size, num_files, download_time, extract_time
+          - delete_key(datapoint.attributes, "_tmp_bundle_backend_3")
+          - set(datapoint.attributes["_tmp_bundle_backend_3"], ExtractPatterns(metric.name, "^airflow\\.astro\\.bundle_backend\\.(?:tarball_size|num_files|download_time|extract_time)\\.(?P<instance>[^.]+)\\.(?P<mount_path>[^.]+)\\.(?P<le>[^.]+)$"))
+            where IsMatch(metric.name, "^airflow\\.astro\\.bundle_backend\\.(?:tarball_size|num_files|download_time|extract_time)\\.[^.]+\\.[^.]+\\.[^.]+$")
+          - set(datapoint.attributes["instance"], datapoint.attributes["_tmp_bundle_backend_3"]["instance"])
+            where datapoint.attributes["_tmp_bundle_backend_3"] != nil
+          - set(datapoint.attributes["mount_path"], datapoint.attributes["_tmp_bundle_backend_3"]["mount_path"])
+            where datapoint.attributes["_tmp_bundle_backend_3"] != nil
+          - set(datapoint.attributes["le"], datapoint.attributes["_tmp_bundle_backend_3"]["le"])
+            where datapoint.attributes["_tmp_bundle_backend_3"] != nil
+          - delete_key(datapoint.attributes, "_tmp_bundle_backend_3")
+            where datapoint.attributes["_tmp_bundle_backend_3"] != nil
+
+  # 3) Rename metrics to match mappings-gen2.yml
+  metricstransform:
+    transforms:
+      - include: "^airflow\\.([^.]+)_start$"
+        match_type: regexp
+        action: update
+        new_name: airflow_job_start
+      - include: "^airflow\\.([^.]+)_end$"
+        match_type: regexp
+        action: update
+        new_name: airflow_job_end
+      - include: "^airflow\\.([^.]+)_heartbeat_failure$"
+        match_type: regexp
+        action: update
+        new_name: airflow_job_heartbeat_failure
+      - include: "^airflow\\.operator_successes_(.*)$"
+        match_type: regexp
+        action: update
+        new_name: airflow_operator_successes
+      - include: "^airflow\\.operator_failures_(.*)$"
+        match_type: regexp
+        action: update
+        new_name: airflow_operator_failures
+      - include: "^airflow\\.scheduler_heartbeat$"
+        match_type: regexp
+        action: update
+        new_name: airflow_scheduler_heartbeat
+      - include: "^airflow\\.dag\\.[^.]+\\.[^.]+\\.duration$"
+        match_type: regexp
+        action: update
+        new_name: airflow_task_duration
+      - include: "^airflow\\.dagrun\\.duration\\.success\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_dagrun_duration
+      - include: "^airflow\\.dagrun\\.duration\\.failed\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_dagrun_failed
+      - include: "^airflow\\.dagrun\\.schedule_delay\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_dagrun_schedule_delay
+      - include: "^airflow\\.dagrun\\.([^.]+)\\.first_task_scheduling_delay$"
+        match_type: regexp
+        action: update
+        new_name: airflow_dagrun_first_task_scheduling_delay
+      - include: "^airflow\\.dag_processing\\.last_duration\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_dag_processing_last_duration
+      - include: "^airflow\\.dag_processing\\.last_runtime\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_dag_processing_last_runtime
+      - include: "^airflow\\.dag_processing\\.last_run\\.seconds_ago\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_dag_processing_last_run_seconds_ago
+      - include: "^airflow\\.dag_processing\\.import_errors$"
+        match_type: regexp
+        action: update
+        new_name: airflow_dag_processing_import_errors
+      - include: "^airflow\\.dag_processing\\.total_parse_time$"
+        match_type: regexp
+        action: update
+        new_name: airflow_dag_processing_total_parse_time
+      - include: "^airflow\\.executor\\.open_slots$"
+        match_type: regexp
+        action: update
+        new_name: airflow_executor_open_slots
+      - include: "^airflow\\.dagrun\\.dependency-check$"
+        match_type: regexp
+        action: update
+        new_name: airflow_dagrun_dependency_check
+      - include: "^airflow\\.dagrun\\.dependency-check\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_dagrun_dependency_check
+      - include: "^airflow\\.pool\\.open_slots\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_pool_open_slots
+      - include: "^airflow\\.pool\\.used_slots\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_pool_used_slots
+      - include: "^airflow\\.pool\\.queued_slots\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_pool_queued_slots
+      - include: "^airflow\\.pool\\.running_slots\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_pool_running_slots
+      - include: "^airflow\\.pool\\.deferred_slots\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_pool_deferred_slots
+      - include: "^airflow\\.pool\\.scheduled_slots\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_pool_scheduled_slots
+      - include: "^airflow\\.pool\\.starving_tasks\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_pool_starving_tasks
+      - include: "^airflow\\.zombies_killed$"
+        match_type: regexp
+        action: update
+        new_name: airflow_zombies_killed
+      - include: "^airflow\\.executor\\.running_tasks$"
+        match_type: regexp
+        action: update
+        new_name: airflow_executor_running_tasks
+      - include: "^airflow\\.executor\\.queued_tasks$"
+        match_type: regexp
+        action: update
+        new_name: airflow_executor_queued_tasks
+      - include: "^airflow\\.executor\\.runner_resources\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_runner_resources
+      - include: "^airflow\\.executor\\.task_resources\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_executor_task_resources
+      - include: "^airflow\\.ti\\.start\\.[^.]+\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_ti_start
+      - include: "^airflow\\.ti\\.finish\\.[^.]+\\.[^.]+\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: airflow_ti_finish
+      - include: "^airflow\\.ti_failures$"
+        match_type: regexp
+        action: update
+        new_name: airflow_ti_failures
+      - include: "^airflow\\.ti_successes$"
+        match_type: regexp
+        action: update
+        new_name: airflow_ti_successes
+      - include: "^airflow\\.task_instance_created_(.*)$"
+        match_type: regexp
+        action: update
+        new_name: airflow_task_instance_created
+      - include: "^airflow\\.dagbag_size$"
+        match_type: regexp
+        action: update
+        new_name: airflow_dagbag_size
+      - include: "^airflow\\.scheduler\\.tasks\\.running$"
+        match_type: regexp
+        action: update
+        new_name: airflow_scheduler_tasks_running
+      - include: "^airflow\\.scheduler\\.tasks\\.killed_externally$"
+        match_type: regexp
+        action: update
+        new_name: airflow_scheduler_tasks_killed_externally
+      - include: "^airflow\\.scheduler\\.tasks\\.starving$"
+        match_type: regexp
+        action: update
+        new_name: airflow_scheduler_tasks_starving
+      - include: "^airflow\\.collect_db_dags$"
+        match_type: regexp
+        action: update
+        new_name: airflow_collect_db_dags
+      - include: "^airflow\\.triggers\\.succeeded$"
+        match_type: regexp
+        action: update
+        new_name: airflow_triggers_succeeded
+      - include: "^airflow\\.triggers\\.failed$"
+        match_type: regexp
+        action: update
+        new_name: airflow_triggers_failed
+      - include: "^airflow\\.triggers\\.running$"
+        match_type: regexp
+        action: update
+        new_name: airflow_triggers_running
+      - include: "^airflow\\.dataset\\.triggered_dagruns$"
+        match_type: regexp
+        action: update
+        new_name: airflow_dataset_triggered_dagruns
+      - include: "^airflow\\.dataset\\.updates$"
+        match_type: regexp
+        action: update
+        new_name: airflow_dataset_updates
+      - include: "^airflow\\.dataset\\.orphaned$"
+        match_type: regexp
+        action: update
+        new_name: airflow_dataset_orphaned
+      - include: "^airflow\\.ol\\.emit\\.attempts$"
+        match_type: regexp
+        action: update
+        new_name: airflow_ol_emit_attempts
+      - include: "^airflow\\.ol\\.emit\\.failed$"
+        match_type: regexp
+        action: update
+        new_name: airflow_ol_emit_failed
+      - include: "^airflow\\.astro_logging\\.(.+)\\.write\\.failed$"
+        match_type: regexp
+        action: update
+        new_name: airflow_astro_logging_write_failed
+      - include: "^airflow\\.astro\\.bundle_backend\\.refresh_success\\.[^.]+\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: astro_bundle_backend_refresh_success
+      - include: "^airflow\\.astro\\.bundle_backend\\.refresh_failure\\.[^.]+\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: astro_bundle_backend_refresh_failure
+      - include: "^airflow\\.astro\\.bundle_backend\\.tarball_size\\.[^.]+\\.[^.]+\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: astro_bundle_backend_tarball_size
+      - include: "^airflow\\.astro\\.bundle_backend\\.num_files\\.[^.]+\\.[^.]+\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: astro_bundle_backend_num_files
+      - include: "^airflow\\.astro\\.bundle_backend\\.download_time\\.[^.]+\\.[^.]+\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: astro_bundle_backend_download_time
+      - include: "^airflow\\.astro\\.bundle_backend\\.extract_time\\.[^.]+\\.[^.]+\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: astro_bundle_backend_extract_time
+      - include: "^airflow\\.astro\\.bundle_backend\\.download_urls_success\\.[^.]+\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: astro_bundle_backend_download_urls_success
+      - include: "^airflow\\.astro\\.bundle_backend\\.download_urls_failure\\.[^.]+\\.[^.]+$"
+        match_type: regexp
+        action: update
+        new_name: astro_bundle_backend_download_urls_failure
+
+  # 4) Drop unmapped metrics (equivalent to mappings-gen2 "action: drop" for non-matching)
+  filter/renamed:
+    metrics:
+      include:
+        match_type: regexp
+        metric_names:
+          - "^airflow_job_start$"
+          - "^airflow_job_end$"
+          - "^airflow_job_heartbeat_failure$"
+          - "^airflow_operator_successes$"
+          - "^airflow_operator_failures$"
+          - "^airflow_scheduler_heartbeat$"
+          - "^airflow_task_duration$"
+          - "^airflow_dagrun_duration$"
+          - "^airflow_dagrun_failed$"
+          - "^airflow_dagrun_schedule_delay$"
+          - "^airflow_dagrun_first_task_scheduling_delay$"
+          - "^airflow_dag_processing_last_duration$"
+          - "^airflow_dag_processing_last_runtime$"
+          - "^airflow_dag_processing_last_run_seconds_ago$"
+          - "^airflow_dag_processing_import_errors$"
+          - "^airflow_dag_processing_total_parse_time$"
+          - "^airflow_executor_open_slots$"
+          - "^airflow_dagrun_dependency_check$"
+          - "^airflow_pool_open_slots$"
+          - "^airflow_pool_used_slots$"
+          - "^airflow_pool_queued_slots$"
+          - "^airflow_pool_running_slots$"
+          - "^airflow_pool_deferred_slots$"
+          - "^airflow_pool_scheduled_slots$"
+          - "^airflow_pool_starving_tasks$"
+          - "^airflow_zombies_killed$"
+          - "^airflow_executor_running_tasks$"
+          - "^airflow_executor_queued_tasks$"
+          - "^airflow_runner_resources$"
+          - "^airflow_executor_task_resources$"
+          - "^airflow_ti_start$"
+          - "^airflow_ti_finish$"
+          - "^airflow_ti_failures$"
+          - "^airflow_ti_successes$"
+          - "^airflow_task_instance_created$"
+          - "^airflow_dagbag_size$"
+          - "^airflow_scheduler_tasks_running$"
+          - "^airflow_scheduler_tasks_killed_externally$"
+          - "^airflow_scheduler_tasks_starving$"
+          - "^airflow_collect_db_dags$"
+          - "^airflow_triggers_succeeded$"
+          - "^airflow_triggers_failed$"
+          - "^airflow_triggers_running$"
+          - "^airflow_dataset_triggered_dagruns$"
+          - "^airflow_dataset_updates$"
+          - "^airflow_dataset_orphaned$"
+          - "^airflow_ol_emit_attempts$"
+          - "^airflow_ol_emit_failed$"
+          - "^airflow_astro_logging_write_failed$"
+          - "^astro_bundle_backend_refresh_success$"
+          - "^astro_bundle_backend_refresh_failure$"
+          - "^astro_bundle_backend_tarball_size$"
+          - "^astro_bundle_backend_num_files$"
+          - "^astro_bundle_backend_download_time$"
+          - "^astro_bundle_backend_extract_time$"
+          - "^astro_bundle_backend_download_urls_success$"
+          - "^astro_bundle_backend_download_urls_failure$"
+
+  batch: {}
+
+exporters:
+  prometheus:
+    endpoint: "0.0.0.0:9102"
+
+service:
+  pipelines:
+    metrics:
+      receivers: [statsd]
+      processors: [filter/airflow, transform/labels, metricstransform, filter/renamed, batch]
+      exporters: [prometheus]

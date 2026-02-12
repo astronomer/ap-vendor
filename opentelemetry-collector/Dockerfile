@@ -1,0 +1,26 @@
+#
+# Copyright 2016 Astronomer Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# https://hub.docker.com/r/otel/opentelemetry-collector-contrib/tags
+FROM otel/opentelemetry-collector-contrib:0.145.0
+LABEL maintainer="Astronomer <humans@astronomer.io>"
+
+ARG BUILD_NUMBER=-1
+LABEL io.astronomer.docker=true
+LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+COPY include/config.yaml /etc/otelcol-contrib/config.yaml
+COPY include/config-gen2.yaml /etc/otelcol-contrib/config-gen2.yaml
+CMD ["--config=/etc/otelcol-contrib/config.yaml"]

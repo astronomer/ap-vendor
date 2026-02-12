@@ -120,6 +120,10 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image openresty."
+  opentelemetry-collector:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image opentelemetry-collector."
   pgbouncer:
     type: boolean
     default: false
@@ -1460,6 +1464,54 @@ workflows:
                 - main
       - validate-tags:
           directory: openresty
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  opentelemetry-collector-build:
+    when:
+      and:
+        - << pipeline.parameters.opentelemetry-collector >>
+    jobs:
+      - build:
+          name: build
+          directory: opentelemetry-collector
+          context:
+            - apc-chainguard-creds
+      - test:
+          directory: opentelemetry-collector
+          test_script: bin/test.py
+          test_requirements: requirements/requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: opentelemetry-collector
+          requires:
+            - test
+      - release:
+          directory: opentelemetry-collector
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+      - validate-tags:
+          directory: opentelemetry-collector
           tags: "latest"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:

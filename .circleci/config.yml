@@ -58,6 +58,7 @@ workflows:
             nginx-es/.* nginx-es true
             node-exporter/.* node-exporter true
             openresty/.* openresty true
+            opentelemetry-collector/.* opentelemetry-collector true
             pgbouncer/.* pgbouncer true
             pgbouncer-exporter/.* pgbouncer-exporter true
             pgbouncer-krb/.* pgbouncer-krb true
