@@ -104,6 +104,10 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image nats-streaming."
+  netshoot:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image netshoot."
   nginx:
     type: boolean
     default: false
@@ -1268,6 +1272,54 @@ workflows:
                 - main
       - validate-tags:
           directory: nats-streaming
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              ignore: main
+  netshoot-build:
+    when:
+      and:
+        - << pipeline.parameters.netshoot >>
+    jobs:
+      - build:
+          name: build
+          directory: netshoot
+          context:
+            - apc-chainguard-creds
+      - test:
+          directory: netshoot
+          test_script: bin/test.py
+          test_requirements: requirements/requirements.txt
+          requires:
+            - build
+      - scan-trivy:
+          directory: netshoot
+          requires:
+            - test
+      - release:
+          directory: netshoot
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - scan-trivy
+          filters:
+            branches:
+              only:
+                - main
+      - validate-tags:
+          directory: netshoot
           tags: "latest"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:

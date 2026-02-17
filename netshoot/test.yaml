@@ -1,0 +1,8 @@
+tests:
+  root_user_test: False
+  test_commands:
+    - command: "strace --version"
+      expected_result:
+        startswith: "strace -- version"
+docker:
+  entrypoint: "/bin/sleep 1m"

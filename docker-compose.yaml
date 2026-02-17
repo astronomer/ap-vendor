@@ -107,6 +107,11 @@ services:
     image: ap-nats-streaming:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: nats-streaming
+  ap-netshoot:
+    image: ap-netshoot:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: netshoot
+    entrypoint: "/bin/sleep 1m"
   ap-nginx:
     image: ap-nginx:${ASTRO_IMAGE_TAG:-latest}
     build:

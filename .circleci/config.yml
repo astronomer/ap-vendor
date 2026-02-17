@@ -54,6 +54,7 @@ workflows:
             nats-exporter/.* nats-exporter true
             nats-server/.* nats-server true
             nats-streaming/.* nats-streaming true
+            netshoot/.* netshoot true
             nginx/.* nginx true
             nginx-es/.* nginx-es true
             node-exporter/.* node-exporter true
