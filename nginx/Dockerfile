@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.13.5-dev AS builder
+FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.14.0-dev AS builder
 
 ARG NGINX_VERSION=1.27.1
 
