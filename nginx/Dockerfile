@@ -41,7 +41,7 @@ RUN wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
     ./configure --with-compat --add-dynamic-module=/tmp/subs_module && \
     make modules
 
-FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.13.5-dev
+FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.14.0-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 ARG NGINX_VERSION=1.27.1
