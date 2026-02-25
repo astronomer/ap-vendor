@@ -44,6 +44,7 @@ RUN wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
 FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.13.5-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
+ARG NGINX_VERSION=1.27.1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
