@@ -1,2 +1,4 @@
 # Upstream ingress controller images include several CVEs.
 # We should try to remove these each time we update.
+CVE-2025-61732
+CVE-2025-68121
