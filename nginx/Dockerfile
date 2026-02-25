@@ -49,7 +49,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER root
 
-COPY --from=builder /build/nginx-1.27.1/objs/ngx_http_subs_filter_module.so \
+COPY --from=builder /build/nginx-${NGINX_VERSION}/objs/ngx_http_subs_filter_module.so \
      /etc/nginx/modules/ngx_http_subs_filter_module.so
 
 RUN chmod 644 /etc/nginx/modules/ngx_http_subs_filter_module.so && \
