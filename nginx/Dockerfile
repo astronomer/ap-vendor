@@ -58,4 +58,6 @@ RUN chmod 644 /etc/nginx/modules/ngx_http_subs_filter_module.so && \
     setcap cap_net_bind_service=-ep /nginx-ingress-controller && \
     setcap cap_net_bind_service=-ep /usr/bin/dumb-init
 
+RUN apk add --no-cache zlib-dev && ls -la /usr/lib/libz* && pkg-config --libs zlib
+
 USER www-data
