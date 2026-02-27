@@ -55,8 +55,8 @@ COPY --from=builder /build/nginx-${NGINX_VERSION}/objs/ngx_http_subs_filter_modu
      /etc/nginx/modules/ngx_http_subs_filter_module.so
 
 RUN chmod 644 /etc/nginx/modules/ngx_http_subs_filter_module.so && \
-    apk add libcap curl && \
-    setcap cap_net_bind_service=-ep /nginx-ingress-controller && \
+    apk add libcap && \
+    setcap cap_net_bind_service=-ep /usr/bin/nginx-ingress-controller && \
     setcap cap_net_bind_service=-ep /usr/bin/dumb-init
 
 RUN apk add --no-cache zlib-dev && ls -la /usr/lib/libz* && pkg-config --libs zlib
