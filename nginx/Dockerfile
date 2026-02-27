@@ -23,6 +23,7 @@ RUN apk add --no-cache \
     git \
     pcre2-dev \
     zlib-dev \
+    zlib-static \
     openssl-dev \
     linux-headers \
     wget \
