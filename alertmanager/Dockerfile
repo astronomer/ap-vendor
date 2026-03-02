@@ -14,9 +14,9 @@
 # limitations under the License.
 
 # https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-alertmanager
-FROM cgr.dev/astronomer.io/prometheus-alertmanager:v0.30.0 AS upstream
+FROM cgr.dev/astronomer.io/prometheus-alertmanager:0.31.1 AS upstream
 
-FROM quay.io/astronomer/ap-base:2025.12.24
+FROM quay.io/astronomer/ap-base:2026.02.25
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
