@@ -34,7 +34,6 @@ workflows:
       - test:
           directory: {{ directory }}
           test_script: uv run bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -99,7 +98,6 @@ jobs:
           image_name: ap-<< parameters.directory >>
           path: << parameters.directory >>
           test_script: << parameters.test_script >>
-          test_requirements: << parameters.test_requirements >>
   scan-trivy:
     docker:
       - image: cimg/base:current
@@ -316,9 +314,6 @@ commands:
       test_script:
         type: string
         default: uv run bin/test.py
-      test_requirements:
-        type: string
-        default: requirements/requirements.txt
     steps:
       - checkout
       - setup_remote_docker:
