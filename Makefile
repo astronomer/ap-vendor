@@ -10,7 +10,6 @@ help: ## Print Makefile help.
 
 .PHONY: install-hooks
 install-hooks: ## Install git hooks
-	command -v pre-commit || pip3 install --user --upgrade pre-commit
 	pre-commit install -f --install-hooks
 
 .PHONY: show-quay-urls
@@ -25,28 +24,24 @@ show-quay-pull-urls: ## Show Quay.io pull for all images in repo
 update-fluentd-gemfile.lock: ## Update the fluentd Gemfile.lock file
 	docker run -v "$$PWD/fluentd/include:/docker-share" --workdir=/docker-share --rm -ti ruby bundle update
 
-.PHONY: update-requirements
-update-requirements: ## Update all requirements.txt files
-	for FILE in requirements/*.in ; do uv pip compile --quiet --generate-hashes --upgrade $${FILE} --output-file $${FILE%.in}.txt ; done ;
-	-pre-commit run requirements-txt-fixer --all-files --show-diff-on-failure
-
 .PHONY: build
-build: venv ## Build the docker image. Ex: `make build image_name=alertmanager`
-	venv/bin/python ./bin/docker-operations.py build --project_path=$(image_name) --image=ap-$(image_name)
+build: .venv ## Build the docker image. Ex: `make build image_name=alertmanager`
+	uv run bin/docker-operations.py build --project_path=$(image_name) --image=ap-$(image_name)
 
 .PHONY: test
 test: export ASTRO_IMAGE_NAME = ap-$(image_name)
 test: export ASTRO_IMAGE_TAG = $(image_tag)
 test: export ASTRO_IMAGE_TEST_CONFIG_PATH = $(image_test_config)
 
-test: venv ## Test the docker image. Ex: `make test image_name=alertmanager`
+test: .venv ## Test the docker image. Ex: `make test image_name=alertmanager`
 	env | grep ASTRO
-	venv/bin/pytest -v -s bin/test.py
+	.venv/bin/pytest -v -s bin/test.py
 
-venv: ## Create the needed virtualenv
-	uv venv venv --seed || python3 -m venv venv
-	venv/bin/pip install -r requirements/requirements.in
+PHONY: venv
+venv: .venv ## Create the needed virtualenv
+.venv:
+	uv sync
 
 .PHONY: clean
 clean: ## Delete build artifacts
-	rm -rf venv
+	rm -rf .venv

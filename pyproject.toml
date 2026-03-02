@@ -1,5 +1,21 @@
 # https://www.python.org/dev/peps/pep-0518/#file-format
 
+[project]
+name = "uv"
+version = "0.1.0"
+description = "Astronomer ap-vendor"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "docker>=7.1.0",
+    "pytest>=9.0.2",
+    "pytest-testinfra>=10.2.2",
+    "python-on-whales>=0.80.0",
+    "pyyaml>=6.0.3",
+    "semver>=3.0.4",
+    "tomli>=2.4.0",
+]
+
 # https://docs.astral.sh/ruff/settings/
 [tool.ruff]
 line-length = 132

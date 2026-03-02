@@ -1,5 +1,5 @@
 ---
-exclude: '^(venv|\.vscode)' # regex
+exclude: '^(\.venv|\.vscode)' # regex
 repos:
   - repo: local
     hooks:
@@ -73,8 +73,6 @@ repos:
         files: "^.*ignore$"
       - id: mixed-line-ending
         args: ["--fix=lf"]
-      - id: requirements-txt-fixer
-        args: ["requirements/requirements.in", "requirements/requirements.txt"]
       - id: trailing-whitespace
   - repo: https://github.com/astronomer/pre-commit-hooks
     rev: 37614dad793bbbdea699c63c8b341ce1e2bf855a
