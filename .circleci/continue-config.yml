@@ -2068,9 +2068,6 @@ jobs:
       test_script:
         description: "The pytest test script"
         type: string
-      test_requirements:
-        description: "The python requirement file."
-        type: string
     steps:
       - docker-test:
           image_name: ap-<< parameters.directory >>
@@ -2134,7 +2131,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: /tmp/workspace
-      - python_install_packages-operations
       - run:
           name: Load archived Docker image
           command: |
@@ -2200,7 +2196,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: /tmp/workspace
-      - python_install_packages-operations
       - run:
           name: Load archived Docker image
           command: |
@@ -2300,9 +2295,6 @@ commands:
         default: requirements/requirements.txt
     steps:
       - checkout
-      - python/install-packages:
-          pip-dependency-file: << parameters.test_requirements >>
-          pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
       - attach_workspace:
@@ -2352,15 +2344,14 @@ commands:
     steps:
       - run:
           name: Validating docker image(s)'s tags to << parameters.registry >>
-          command: uv run bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --tags=<< parameters.tags >> --overwrite_tags=<< parameters.overwrite_tags >>
-
-  python_install_packages-operations:
-    description: "Installing Python dependencies."
-    parameters:
-      script_requirements:
-        type: string
-        default: requirements/requirements.txt
-    steps:
-      - python/install-packages:
-          pip-dependency-file: << parameters.script_requirements >>
-          pkg-manager: pip
+          command: >-
+            uv run bin/docker-operations.py
+            << parameters.operations >>
+            --project_path=<< parameters.project_path >>
+            --registry="<< parameters.registry >>"
+            --username="<< parameters.registry_username >>"
+            --password="<< parameters.registry_password >>"
+            --repository="<< parameters.repository >>"
+            --image="<< parameters.image_name >>"
+            --tags=<< parameters.tags >>
+            --overwrite_tags=<< parameters.overwrite_tags >>
