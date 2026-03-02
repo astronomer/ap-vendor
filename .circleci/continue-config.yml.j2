@@ -1,15 +1,10 @@
-{# https://circleci.com/docs/2.0/building-docker-images/#docker-version #}
-{%- set python_version = "3.13" -%}
 ---
 version: 2.1
-
-orbs:
-  python: circleci/python@4.0.0 # https://circleci.com/developer/orbs/orb/circleci/python
 
 executors:
   docker-executor:
     docker:
-      - image: cimg/python:{{ python_version }}
+      - image: cimg/base:current
 
 parameters:
 {%- for directory in directories %}
@@ -39,7 +34,6 @@ workflows:
       - test:
           directory: {{ directory }}
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -85,6 +79,9 @@ jobs:
         description: "The directory of the image to build"
         type: string
     steps:
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - docker-build:
           image_name: ap-<< parameters.directory >>
           dockerfile: Dockerfile
@@ -99,15 +96,11 @@ jobs:
       test_script:
         description: "The pytest test script"
         type: string
-      test_requirements:
-        description: "The python requirement file."
-        type: string
     steps:
       - docker-test:
           image_name: ap-<< parameters.directory >>
           path: << parameters.directory >>
           test_script: << parameters.test_script >>
-          test_requirements: << parameters.test_requirements >>
   scan-trivy:
     docker:
       - image: cimg/base:current
@@ -121,6 +114,9 @@ jobs:
       TRIVY_JAVA_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-java-db
     steps:
       - checkout
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - setup_remote_docker:
           docker_layer_caching: true
           image: aquasec/trivy:latest
@@ -142,7 +138,7 @@ jobs:
             {% raw %}- trivy-cache-{{ checksum "date" }}{% endraw %}
       - run:
           name: Scan the local image with trivy
-          command: bin/trivy-scan.sh "<< parameters.directory >>"
+          command: uv run bin/trivy-scan.sh "<< parameters.directory >>"
       - save_cache:
           {% raw %}key: trivy-cache-{{ checksum "date" }}{% endraw %}
           paths:
@@ -163,9 +159,11 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - checkout
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - attach_workspace:
           at: /tmp/workspace
-      - python_install_packages-operations
       - run:
           name: Load archived Docker image
           command: |
@@ -229,9 +227,11 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - checkout
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - attach_workspace:
           at: /tmp/workspace
-      - python_install_packages-operations
       - run:
           name: Load archived Docker image
           command: |
@@ -292,14 +292,8 @@ commands:
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
-      build_requirements:
-        type: string
-        default: requirements/requirements.txt
     steps:
       - checkout
-      - python/install-packages:
-          pip-dependency-file: << parameters.build_requirements >>
-          pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
@@ -308,7 +302,7 @@ commands:
             docker login cgr.dev --username "$CHAINGUARD_REGISTRY_USERNAME" --password "$CHAINGUARD_REGISTRY_PASSWORD"
       - run:
           name: Build the Docker image
-          command: bin/docker-operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
+          command: uv run bin/docker-operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
       - run:
           name: Running Docker image inspect
           command: docker inspect "<< parameters.image_name >>:${CIRCLE_SHA1}"
@@ -329,14 +323,11 @@ commands:
       test_script:
         type: string
         default: bin/test.py
-      test_requirements:
-        type: string
-        default: requirements/requirements.txt
     steps:
       - checkout
-      - python/install-packages:
-          pip-dependency-file: << parameters.test_requirements >>
-          pkg-manager: pip
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - setup_remote_docker:
           docker_layer_caching: true
       - attach_workspace:
@@ -354,7 +345,7 @@ commands:
             ASTRO_IMAGE_TEST_CONFIG_PATH: << parameters.path >>/test.yaml
           command: |
             mkdir test-results
-            pytest -v --junitxml=test-results/junit.xml << parameters.test_script>>
+            uv run pytest -v --junitxml=test-results/junit.xml << parameters.test_script>>
       - store_test_results:
           path: test-results
 
@@ -385,16 +376,18 @@ commands:
         default: false
     steps:
       - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
+      - run:
           name: Validating docker image(s)'s tags to << parameters.registry >>
-          command: bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --tags=<< parameters.tags >> --overwrite_tags=<< parameters.overwrite_tags >>
-
-  python_install_packages-operations:
-    description: "Installing Python dependencies."
-    parameters:
-      script_requirements:
-        type: string
-        default: requirements/requirements.txt
-    steps:
-      - python/install-packages:
-          pip-dependency-file: << parameters.script_requirements >>
-          pkg-manager: pip
+          command: >-
+            uv run bin/docker-operations.py
+            << parameters.operations >>
+            --project_path=<< parameters.project_path >>
+            --registry="<< parameters.registry >>"
+            --username="<< parameters.registry_username >>"
+            --password="<< parameters.registry_password >>"
+            --repository="<< parameters.repository >>"
+            --image="<< parameters.image_name >>"
+            --tags=<< parameters.tags >>
+            --overwrite_tags=<< parameters.overwrite_tags >>
