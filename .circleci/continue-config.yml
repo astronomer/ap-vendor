@@ -2015,6 +2015,9 @@ jobs:
         description: "The directory of the image to build"
         type: string
     steps:
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - docker-build:
           image_name: ap-<< parameters.directory >>
           dockerfile: Dockerfile
@@ -2047,6 +2050,9 @@ jobs:
       TRIVY_JAVA_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-java-db
     steps:
       - checkout
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - setup_remote_docker:
           docker_layer_caching: true
           image: aquasec/trivy:latest
@@ -2089,6 +2095,9 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - checkout
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - attach_workspace:
           at: /tmp/workspace
       - run:
@@ -2154,6 +2163,9 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - checkout
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - attach_workspace:
           at: /tmp/workspace
       - run:
@@ -2218,9 +2230,6 @@ commands:
         default: $CIRCLE_PROJECT_REPONAME
     steps:
       - checkout
-      - run:
-          name: Install uv
-          command: curl -fsSL https://astral.sh/uv/install.sh | sh
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
@@ -2252,6 +2261,9 @@ commands:
         default: uv run bin/test.py
     steps:
       - checkout
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - setup_remote_docker:
           docker_layer_caching: true
       - attach_workspace:
@@ -2299,6 +2311,9 @@ commands:
         type: boolean
         default: false
     steps:
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - run:
           name: Validating docker image(s)'s tags to << parameters.registry >>
           command: >-

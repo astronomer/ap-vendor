@@ -7,11 +7,6 @@ setup: true
 orbs:
   path-filtering: circleci/path-filtering@2.0.1 # https://circleci.com/developer/orbs/orb/circleci/path-filtering
 
-executors:
-  docker-executor:
-    docker:
-      - image: cimg/python:3.12
-
 parameters:
   overwrite_tags:
     type: boolean
@@ -37,7 +32,7 @@ jobs:
   run_pre_commit:
     resource_class: small
     docker:
-      - image: quay.io/astronomer/ci-pre-commit:2026-03
+      - image: quay.io/astronomer/ci-pre-commit:{{ ci_runner_version }}
     steps:
       - checkout
       - run:
