@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # https://github.com/kubernetes/kube-state-metrics/releases
-FROM cgr.dev/astronomer.io/ap-kube-state:2.17.0
+FROM cgr.dev/astronomer.io/ap-kube-state:2.18.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
