@@ -15,8 +15,6 @@
 
 FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.14.3-dev AS builder
 
-ARG NGINX_VERSION=1.27.1
-
 RUN apk add --no-cache \
     gcc \
     make \
@@ -28,6 +26,13 @@ RUN apk add --no-cache \
     linux-headers \
     wget \
     busybox
+
+# Detect nginx version directly
+RUN NGINX_VERSION=$(nginx -v 2>&1 | sed -E 's|.*nginx/([0-9.]+).*|\1|') && \
+    echo "Detected nginx version: $NGINX_VERSION" && \
+    wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
+    tar -xzf nginx-${NGINX_VERSION}.tar.gz && \
+    mv nginx-${NGINX_VERSION} /build
 
 RUN git clone --depth=1 https://github.com/yaoweibin/ngx_http_substitutions_filter_module /tmp/subs_module
 
@@ -45,13 +50,12 @@ RUN wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
 FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.14.3-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
-ARG NGINX_VERSION=1.27.1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER root
 
-COPY --from=builder /build/nginx-${NGINX_VERSION}/objs/ngx_http_subs_filter_module.so \
+COPY --from=builder /build/nginx-*/objs/ngx_http_subs_filter_module.so \
      /etc/nginx/modules/ngx_http_subs_filter_module.so
 
 RUN chmod 644 /etc/nginx/modules/ngx_http_subs_filter_module.so && \
