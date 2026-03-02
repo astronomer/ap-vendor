@@ -34,7 +34,8 @@ RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR 
 
 RUN go get golang.org/x/crypto@v0.45.0 golang.org/x/oauth2@v0.32.0 \
     github.com/quic-go/qpack@v0.5.1 \
-    && go mod tidy
+    && go mod tidy \
+    && git diff
 
 RUN CGO_ENABLED=0 make build
 
