@@ -12,7 +12,7 @@ orbs:
 executors:
   docker-executor:
     docker:
-      - image: cimg/python:3.12
+      - image: cimg/python:3.13
 
 parameters:
   overwrite_tags:

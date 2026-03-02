@@ -4,12 +4,12 @@
 version: 2.1
 
 orbs:
-  python: circleci/python@3.0.0 # https://circleci.com/developer/orbs/orb/circleci/python
+  python: circleci/python@4.0.0 # https://circleci.com/developer/orbs/orb/circleci/python
 
 executors:
   docker-executor:
     docker:
-      - image: cimg/python:3.12
+      - image: cimg/python:3.13
 
 parameters:
   alertmanager:

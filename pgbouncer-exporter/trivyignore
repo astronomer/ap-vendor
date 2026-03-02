@@ -1,3 +1,8 @@
+# These are due to jbub/pgbouncer_exporter:v0.20.0.
 # We should try to remove these each time we update.
 CVE-2025-58183
+CVE-2025-61726
+CVE-2025-61728
 CVE-2025-61729
+CVE-2025-61730
+CVE-2025-68121
