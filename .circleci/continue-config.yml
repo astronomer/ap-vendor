@@ -2258,7 +2258,7 @@ commands:
         default: $CIRCLE_PROJECT_REPONAME
       test_script:
         type: string
-        default: uv run bin/test.py
+        default: bin/test.py
     steps:
       - checkout
       - run:
