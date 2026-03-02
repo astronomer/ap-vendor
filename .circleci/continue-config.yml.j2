@@ -33,7 +33,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: {{ directory }}
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:

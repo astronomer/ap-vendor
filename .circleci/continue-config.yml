@@ -184,7 +184,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: alertmanager
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -231,7 +231,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: alpine
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -278,7 +278,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: auth-sidecar
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -325,7 +325,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: awsesproxy
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -372,7 +372,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: blackbox-exporter
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -419,7 +419,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: configmap-reloader
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -466,7 +466,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: curator
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -513,7 +513,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: dind-golang
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -560,7 +560,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: dogstatsd
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -607,7 +607,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: elasticsearch
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -654,7 +654,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: elasticsearch-exporter
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -701,7 +701,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: fluentd
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -748,7 +748,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: git-daemon
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -795,7 +795,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: git-sync
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -842,7 +842,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: grafana
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -889,7 +889,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: init
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -936,7 +936,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: keda
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -983,7 +983,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: keda-metrics-apiserver
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1030,7 +1030,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: kibana
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1077,7 +1077,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: kube-state
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1124,7 +1124,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: nats-exporter
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1171,7 +1171,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: nats-server
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1218,7 +1218,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: nats-streaming
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1265,7 +1265,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: nginx
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1312,7 +1312,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: nginx-es
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1359,7 +1359,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: node-exporter
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1406,7 +1406,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: openresty
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1453,7 +1453,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: pgbouncer
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1500,7 +1500,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: pgbouncer-exporter
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1547,7 +1547,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: pgbouncer-krb
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1594,7 +1594,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: postgres-exporter
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1641,7 +1641,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: postgres-operator
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1688,7 +1688,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: postgresql
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1735,7 +1735,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: prometheus
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1782,7 +1782,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: python
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1829,7 +1829,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: redis
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1876,7 +1876,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: registry
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1923,7 +1923,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: statsd-exporter
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
@@ -1970,7 +1970,7 @@ workflows:
             - apc-chainguard-creds
       - test:
           directory: vector
-          test_script: uv run bin/test.py
+          test_script: bin/test.py
           requires:
             - build
       - scan-trivy:
