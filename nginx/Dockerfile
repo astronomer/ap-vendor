@@ -13,9 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.13.5-dev AS builder
-
-ARG NGINX_VERSION=1.27.1
+FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.14.3-dev AS builder
 
 RUN apk add --no-cache \
     gcc \
@@ -23,6 +21,7 @@ RUN apk add --no-cache \
     git \
     pcre2-dev \
     zlib-dev \
+    zlib-static \
     openssl-dev \
     linux-headers \
     wget \
@@ -35,22 +34,24 @@ RUN sed -i 's/return memchr(l, (int)\*cs, l_len);/return (u_char *)memchr(l, (in
 
 WORKDIR /build
 
-RUN wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
-    tar -xzf nginx-${NGINX_VERSION}.tar.gz && \
-    cd nginx-${NGINX_VERSION} && \
-    ./configure --with-compat --add-dynamic-module=/tmp/subs_module && \
+RUN set -eux; \
+    NGINX_VERSION=$(nginx -v 2>&1 | sed -E 's|.*nginx/([0-9.]+).*|\1|'); \
+    echo "Detected nginx version: $NGINX_VERSION"; \
+    wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz; \
+    tar -xzf nginx-${NGINX_VERSION}.tar.gz; \
+    mv nginx-${NGINX_VERSION} nginx-src; \
+    cd nginx-src; \
+    ./configure --with-compat --add-dynamic-module=/tmp/subs_module; \
     make modules
-
-FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.13.5-dev
+FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.14.3-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
-ARG NGINX_VERSION=1.27.1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER root
 
-COPY --from=builder /build/nginx-${NGINX_VERSION}/objs/ngx_http_subs_filter_module.so \
+COPY --from=builder /build/nginx-*/objs/ngx_http_subs_filter_module.so \
      /etc/nginx/modules/ngx_http_subs_filter_module.so
 
 RUN chmod 644 /etc/nginx/modules/ngx_http_subs_filter_module.so && \
