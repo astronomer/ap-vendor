@@ -1,10 +1,10 @@
 {# https://circleci.com/docs/2.0/building-docker-images/#docker-version #}
-{%- set python_version = "3.12" -%}
+{%- set python_version = "3.13" -%}
 ---
 version: 2.1
 
 orbs:
-  python: circleci/python@3.0.0 # https://circleci.com/developer/orbs/orb/circleci/python
+  python: circleci/python@4.0.0 # https://circleci.com/developer/orbs/orb/circleci/python
 
 executors:
   docker-executor:
