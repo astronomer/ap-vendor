@@ -6,7 +6,7 @@ version: 2.1
 executors:
   docker-executor:
     docker:
-      - image: cimg/base
+      - image: cimg/base:current
 
 parameters:
   alertmanager:
