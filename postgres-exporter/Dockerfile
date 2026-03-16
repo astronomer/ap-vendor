@@ -17,7 +17,7 @@
 # https://github.com/prometheus-community/postgres_exporter/blob/v0.17.1/Dockerfile
 
 # https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-postgres-exporter/versions
-FROM cgr.dev/astronomer.io/prometheus-postgres-exporter:v0.19.1 AS upstream
+FROM cgr.dev/astronomer.io/prometheus-postgres-exporter:0.19.1 AS upstream
 
 FROM quay.io/astronomer/ap-base:2026.02.25
 
