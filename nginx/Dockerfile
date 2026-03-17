@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.14.4-dev
+FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.14.4-dev AS builder
 
 RUN apk add --no-cache \
     gcc \
