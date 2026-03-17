@@ -3,13 +3,10 @@
 ---
 version: 2.1
 
-orbs:
-  python: circleci/python@3.0.0 # https://circleci.com/developer/orbs/orb/circleci/python
-
 executors:
   docker-executor:
     docker:
-      - image: cimg/python:3.12
+      - image: cimg/base:current
 
 parameters:
   alertmanager:
@@ -188,7 +185,6 @@ workflows:
       - test:
           directory: alertmanager
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -236,7 +232,6 @@ workflows:
       - test:
           directory: alpine
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -284,7 +279,6 @@ workflows:
       - test:
           directory: auth-sidecar
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -332,7 +326,6 @@ workflows:
       - test:
           directory: awsesproxy
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -380,7 +373,6 @@ workflows:
       - test:
           directory: blackbox-exporter
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -428,7 +420,6 @@ workflows:
       - test:
           directory: configmap-reloader
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -476,7 +467,6 @@ workflows:
       - test:
           directory: curator
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -524,7 +514,6 @@ workflows:
       - test:
           directory: dind-golang
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -572,7 +561,6 @@ workflows:
       - test:
           directory: dogstatsd
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -620,7 +608,6 @@ workflows:
       - test:
           directory: elasticsearch
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -668,7 +655,6 @@ workflows:
       - test:
           directory: elasticsearch-exporter
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -716,7 +702,6 @@ workflows:
       - test:
           directory: fluentd
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -764,7 +749,6 @@ workflows:
       - test:
           directory: git-daemon
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -812,7 +796,6 @@ workflows:
       - test:
           directory: git-sync
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -860,7 +843,6 @@ workflows:
       - test:
           directory: grafana
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -908,7 +890,6 @@ workflows:
       - test:
           directory: init
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -956,7 +937,6 @@ workflows:
       - test:
           directory: keda
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1004,7 +984,6 @@ workflows:
       - test:
           directory: keda-metrics-apiserver
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1052,7 +1031,6 @@ workflows:
       - test:
           directory: kibana
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1100,7 +1078,6 @@ workflows:
       - test:
           directory: kube-state
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1148,7 +1125,6 @@ workflows:
       - test:
           directory: nats-exporter
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1196,7 +1172,6 @@ workflows:
       - test:
           directory: nats-server
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1244,7 +1219,6 @@ workflows:
       - test:
           directory: nats-streaming
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1292,7 +1266,6 @@ workflows:
       - test:
           directory: nginx
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1340,7 +1313,6 @@ workflows:
       - test:
           directory: nginx-es
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1388,7 +1360,6 @@ workflows:
       - test:
           directory: node-exporter
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1436,7 +1407,6 @@ workflows:
       - test:
           directory: openresty
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1484,7 +1454,6 @@ workflows:
       - test:
           directory: pgbouncer
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1532,7 +1501,6 @@ workflows:
       - test:
           directory: pgbouncer-exporter
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1580,7 +1548,6 @@ workflows:
       - test:
           directory: pgbouncer-krb
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1628,7 +1595,6 @@ workflows:
       - test:
           directory: postgres-exporter
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1676,7 +1642,6 @@ workflows:
       - test:
           directory: postgres-operator
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1724,7 +1689,6 @@ workflows:
       - test:
           directory: postgresql
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1772,7 +1736,6 @@ workflows:
       - test:
           directory: prometheus
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1820,7 +1783,6 @@ workflows:
       - test:
           directory: python
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1868,7 +1830,6 @@ workflows:
       - test:
           directory: redis
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1916,7 +1877,6 @@ workflows:
       - test:
           directory: registry
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -1964,7 +1924,6 @@ workflows:
       - test:
           directory: statsd-exporter
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -2012,7 +1971,6 @@ workflows:
       - test:
           directory: vector
           test_script: bin/test.py
-          test_requirements: requirements/requirements.txt
           requires:
             - build
       - scan-trivy:
@@ -2057,6 +2015,9 @@ jobs:
         description: "The directory of the image to build"
         type: string
     steps:
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - docker-build:
           image_name: ap-<< parameters.directory >>
           dockerfile: Dockerfile
@@ -2071,15 +2032,11 @@ jobs:
       test_script:
         description: "The pytest test script"
         type: string
-      test_requirements:
-        description: "The python requirement file."
-        type: string
     steps:
       - docker-test:
           image_name: ap-<< parameters.directory >>
           path: << parameters.directory >>
           test_script: << parameters.test_script >>
-          test_requirements: << parameters.test_requirements >>
   scan-trivy:
     docker:
       - image: cimg/base:current
@@ -2093,6 +2050,9 @@ jobs:
       TRIVY_JAVA_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-java-db
     steps:
       - checkout
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - setup_remote_docker:
           docker_layer_caching: true
           image: aquasec/trivy:latest
@@ -2114,7 +2074,7 @@ jobs:
             - trivy-cache-{{ checksum "date" }}
       - run:
           name: Scan the local image with trivy
-          command: bin/trivy-scan.sh "<< parameters.directory >>"
+          command: uv run bin/trivy-scan.sh "<< parameters.directory >>"
       - save_cache:
           key: trivy-cache-{{ checksum "date" }}
           paths:
@@ -2135,9 +2095,11 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - checkout
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - attach_workspace:
           at: /tmp/workspace
-      - python_install_packages-operations
       - run:
           name: Load archived Docker image
           command: |
@@ -2201,9 +2163,11 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - checkout
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - attach_workspace:
           at: /tmp/workspace
-      - python_install_packages-operations
       - run:
           name: Load archived Docker image
           command: |
@@ -2264,14 +2228,8 @@ commands:
       image_name:
         type: string
         default: $CIRCLE_PROJECT_REPONAME
-      build_requirements:
-        type: string
-        default: requirements/requirements.txt
     steps:
       - checkout
-      - python/install-packages:
-          pip-dependency-file: << parameters.build_requirements >>
-          pkg-manager: pip
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
@@ -2280,7 +2238,7 @@ commands:
             docker login cgr.dev --username "$CHAINGUARD_REGISTRY_USERNAME" --password "$CHAINGUARD_REGISTRY_PASSWORD"
       - run:
           name: Build the Docker image
-          command: bin/docker-operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
+          command: uv run bin/docker-operations.py build --project_path=<< parameters.path>> --image=<< parameters.image_name >>
       - run:
           name: Running Docker image inspect
           command: docker inspect "<< parameters.image_name >>:${CIRCLE_SHA1}"
@@ -2301,14 +2259,11 @@ commands:
       test_script:
         type: string
         default: bin/test.py
-      test_requirements:
-        type: string
-        default: requirements/requirements.txt
     steps:
       - checkout
-      - python/install-packages:
-          pip-dependency-file: << parameters.test_requirements >>
-          pkg-manager: pip
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
       - setup_remote_docker:
           docker_layer_caching: true
       - attach_workspace:
@@ -2326,7 +2281,7 @@ commands:
             ASTRO_IMAGE_TEST_CONFIG_PATH: << parameters.path >>/test.yaml
           command: |
             mkdir test-results
-            pytest -v --junitxml=test-results/junit.xml << parameters.test_script>>
+            uv run pytest -v --junitxml=test-results/junit.xml << parameters.test_script>>
       - store_test_results:
           path: test-results
 
@@ -2357,16 +2312,18 @@ commands:
         default: false
     steps:
       - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
+      - run:
           name: Validating docker image(s)'s tags to << parameters.registry >>
-          command: bin/docker-operations.py << parameters.operations >> --project_path=<< parameters.project_path >> --registry="<< parameters.registry >>" --username="<< parameters.registry_username >>" --password="<< parameters.registry_password >>" --repository="<< parameters.repository >>" --image="<< parameters.image_name >>" --tags=<< parameters.tags >> --overwrite_tags=<< parameters.overwrite_tags >>
-
-  python_install_packages-operations:
-    description: "Installing Python dependencies."
-    parameters:
-      script_requirements:
-        type: string
-        default: requirements/requirements.txt
-    steps:
-      - python/install-packages:
-          pip-dependency-file: << parameters.script_requirements >>
-          pkg-manager: pip
+          command: >-
+            uv run bin/docker-operations.py
+            << parameters.operations >>
+            --project_path=<< parameters.project_path >>
+            --registry="<< parameters.registry >>"
+            --username="<< parameters.registry_username >>"
+            --password="<< parameters.registry_password >>"
+            --repository="<< parameters.repository >>"
+            --image="<< parameters.image_name >>"
+            --tags=<< parameters.tags >>
+            --overwrite_tags=<< parameters.overwrite_tags >>

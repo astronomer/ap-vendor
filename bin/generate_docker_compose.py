@@ -11,7 +11,7 @@ from jinja2 import Template
 git_root_dir = next(iter([x for x in Path(__file__).resolve().parents if (x / ".git").is_dir()]), None)
 
 
-dirs_to_skip = ["bin", "requirements", "venv"]
+dirs_to_skip = ["bin", ".venv"]
 
 
 def list_docker_dirs() -> Generator[PosixPath]:

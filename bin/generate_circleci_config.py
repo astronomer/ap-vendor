@@ -2,6 +2,7 @@
 """This script is used to create the circle config file so that we can stay
 DRY."""
 
+import datetime
 from collections.abc import Generator
 from pathlib import Path, PosixPath
 
@@ -9,8 +10,11 @@ from jinja2 import Template
 
 git_root_dir = next(iter([x for x in Path(__file__).resolve().parents if (x / ".git").is_dir()]), None)
 
-dirs_to_skip = ["bin", "requirements", "venv"]
+dirs_to_skip = ["bin", ".venv"]
 required_files = ["Dockerfile", "version.txt", "test.yaml"]
+ci_runner_version = (datetime.datetime.now() + datetime.timedelta(days=7)).strftime(
+    "%Y-%m"
+)  # ci-images tags %Y-%m as today and also 8 days ahead
 
 
 def list_docker_dirs() -> Generator[PosixPath]:
@@ -55,7 +59,7 @@ def main():
     with config_template_path.open() as circle_ci_config_template:
         templated_file_content = circle_ci_config_template.read()
     template = Template(templated_file_content)
-    config = template.render(directories=dir_names)
+    config = template.render(directories=dir_names, ci_runner_version=ci_runner_version)
     warning_header = (
         "# Warning: automatically generated file\n"
         + "# Please edit .circleci/config.yml.j2, then run bin/generate_circleci_config.py\n"
@@ -74,6 +78,7 @@ def main():
     continue_config = continue_template.render(
         directories=dir_names,
         workflow_directories=dir_names,
+        ci_runner_version=ci_runner_version,
     )
 
     continue_warning_header = (

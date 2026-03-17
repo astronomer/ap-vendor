@@ -1,8 +1,0 @@
-docker
-exceptiongroup # indirect, needed to satisfy hash requirement
-pytest
-pytest-testinfra
-python-on-whales
-PyYAML
-semver
-tomli # indirect, needed to satisfy hash requirement

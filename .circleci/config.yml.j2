@@ -5,12 +5,7 @@ version: 2.1
 setup: true
 
 orbs:
-  path-filtering: circleci/path-filtering@2.0.1 # https://circleci.com/developer/orbs/orb/circleci/path-filtering
-
-executors:
-  docker-executor:
-    docker:
-      - image: cimg/python:3.12
+  path-filtering: circleci/path-filtering@3.0.0 # https://circleci.com/developer/orbs/orb/circleci/path-filtering
 
 parameters:
   overwrite_tags:
@@ -37,14 +32,13 @@ jobs:
   run_pre_commit:
     resource_class: small
     docker:
-      - image: quay.io/astronomer/ci-pre-commit:2025-10
+      - image: quay.io/astronomer/ci-pre-commit:{{ ci_runner_version }}
     steps:
       - checkout
       - run:
           name: Create pre-commit-cache-key.txt
           command: |
-            cp .pre-commit-config.yaml /tmp/pre-commit-cache-key.txt
-            python --version --version | sed 's/^/# /' >> /tmp/pre-commit-cache-key.txt
+            cat uv.lock .pre-commit-config.yaml > /tmp/pre-commit-cache-key.txt
       - restore_cache:
           keys:
             - pre-commit-cache-{{ '{{' }} checksum "/tmp/pre-commit-cache-key.txt" }}
