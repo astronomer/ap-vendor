@@ -14,7 +14,8 @@
 # limitations under the License.
 
 # https://console.chainguard.dev/org/astronomer.io/images/organization/image/ap-registry/versions
-FROM cgr.dev/astronomer.io/ap-registry@sha256:00c02a8146ca8801e8c9c92ccc6c8785303eede8275bac3d6bad439c337cd07c AS upstream
+# Registry image uses sha256 digest to ensure we are using the exact same image as the upstream, which is important for security and stability. The version of the registry image can be found in version.txt, but the sha256 digest must be looked up manually on chainguard.dev.
+FROM cgr.dev/astronomer.io/ap-registry@sha256:18f1cb5c3fa1b36861c67f668a50ec6c748d02e8006374716d9a43a0ba8d58fe AS upstream
 
 FROM quay.io/astronomer/ap-base:2026.03.18
 LABEL maintainer="Astronomer <humans@astronomer.io>"
