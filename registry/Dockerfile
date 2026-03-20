@@ -16,7 +16,7 @@
 # https://console.chainguard.dev/org/astronomer.io/images/organization/image/ap-registry/versions
 FROM cgr.dev/astronomer.io/ap-registry@sha256:00c02a8146ca8801e8c9c92ccc6c8785303eede8275bac3d6bad439c337cd07c AS upstream
 
-FROM quay.io/astronomer/ap-base:2026.02.25
+FROM quay.io/astronomer/ap-base:2026.03.18
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
