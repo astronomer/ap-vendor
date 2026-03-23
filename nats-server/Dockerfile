@@ -16,7 +16,7 @@
 # https://console.chainguard.dev/org/astronomer.io/images/organization?query=nats
 FROM cgr.dev/astronomer.io/nats:2.12.5 AS upstream
 
-FROM quay.io/astronomer/ap-base:2026.02.25
+FROM quay.io/astronomer/ap-base:2026.03.18
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
