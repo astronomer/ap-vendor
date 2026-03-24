@@ -41,9 +41,6 @@ def ensure_required_files_exist():
         print("\nAll docker build directories must have the following files:")
         for file in required_files:
             print(f"  - {file}")
-        print("\nOptional files are:")
-        print("  - trivyignore")
-        print("  - trivy.yaml")
         exit(1)
 
 
