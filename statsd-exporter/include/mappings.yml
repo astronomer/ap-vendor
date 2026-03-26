@@ -31,6 +31,14 @@ mappings:
     labels:
       type: counter
 
+  # Since Airflow 3
+  - match: airflow.dag_processor_heartbeat
+    name: "airflow_dag_processor_heartbeat"
+
+  # Since Airflow 3
+  - match: airflow.triggerer_heartbeat
+    name: "airflow_triggerer_heartbeat"
+
   - match: airflow.dag.*.*.duration
     name: "airflow_task_duration"
     labels: {}
@@ -72,6 +80,11 @@ mappings:
 
   - match: airflow.zombies_killed
     name: "airflow_zombies_killed"
+    labels: {}
+
+  # Since Airflow 3 (replaces airflow.zombies_killed)
+  - match: airflow.task_instances_without_heartbeats_killed
+    name: "airflow_task_instances_without_heartbeats_killed"
     labels: {}
 
   - match: airflow.executor.running_tasks
