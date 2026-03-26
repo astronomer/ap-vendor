@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/golang/tags?name=1.22-alpine
-FROM golang:1.25.7-alpine3.22 AS build
+FROM golang:1.26.1-alpine3.22 AS build
 
 ENV DISTRIBUTION_DIR=/go/src/github.com/prometheus/blackbox_exporter
 ENV BUILDTAGS="include_oss include_gcs"
@@ -32,15 +32,16 @@ WORKDIR $DISTRIBUTION_DIR
 
 RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR && git checkout v0.28.0
 
-RUN go get golang.org/x/crypto@v0.45.0 golang.org/x/oauth2@v0.32.0 \
+RUN go get golang.org/x/crypto@v0.46.0 golang.org/x/oauth2@v0.34.0 \
     github.com/quic-go/qpack@v0.5.1 \
+    google.golang.org/grpc@v1.79.3 \
     && go mod tidy \
     && git diff
 
 RUN CGO_ENABLED=0 make build
 
 # https://quay.io/repository/astronomer/ap-base?tab=tags
-FROM quay.io/astronomer/ap-base:2026.02.25
+FROM quay.io/astronomer/ap-base:2026.03.18
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
