@@ -53,6 +53,10 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image elasticsearch-exporter."
+  external-secrets:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image external-secrets."
   fluentd:
     type: boolean
     default: false
@@ -634,6 +638,49 @@ workflows:
                 - main
       - validate-tags:
           directory: elasticsearch-exporter
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+          requires:
+            - test
+          filters:
+            branches:
+              ignore: main
+  external-secrets-build:
+    when:
+      and:
+        - << pipeline.parameters.external-secrets >>
+    jobs:
+      - build:
+          name: build
+          directory: external-secrets
+          context:
+            - apc-chainguard-creds
+      - test:
+          directory: external-secrets
+          test_script: bin/test.py
+          requires:
+            - build
+      - release:
+          directory: external-secrets
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - main
+      - validate-tags:
+          directory: external-secrets
           tags: "latest"
           overwrite_tags: << pipeline.parameters.overwrite_tags >>
           context:

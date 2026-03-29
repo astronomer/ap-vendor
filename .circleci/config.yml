@@ -37,6 +37,7 @@ workflows:
             dogstatsd/.* dogstatsd true
             elasticsearch/.* elasticsearch true
             elasticsearch-exporter/.* elasticsearch-exporter true
+            external-secrets/.* external-secrets true
             fluentd/.* fluentd true
             git-daemon/.* git-daemon true
             git-sync/.* git-sync true
