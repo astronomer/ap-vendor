@@ -211,7 +211,7 @@ jobs:
       - run:
           name: Compute sanitized branch tag
           command: |
-            BRANCH_TAG=$(python3 bin/sanitize-docker-tag.py "$CIRCLE_BRANCH")
+            BRANCH_TAG=$(uv run bin/sanitize-docker-tag.py "$CIRCLE_BRANCH")
             echo "Branch tag: $BRANCH_TAG"
             echo "export BRANCH_TAG=$BRANCH_TAG" >> "$BASH_ENV"
       - run:
