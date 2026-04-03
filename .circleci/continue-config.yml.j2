@@ -226,6 +226,7 @@ jobs:
             --image="ap-<< parameters.directory >>"
             --tags="$BRANCH_TAG"
             --overwrite_tags=<< parameters.overwrite_tags >>
+            --skip-file-tags
       - run:
           name: Push branch tag to docker.io
           command: >-
@@ -238,6 +239,7 @@ jobs:
             --image="ap-<< parameters.directory >>"
             --tags="$BRANCH_TAG"
             --overwrite_tags=<< parameters.overwrite_tags >>
+            --skip-file-tags
       - run:
           name: Push branch tag to astrocrpublic.azurecr.io
           command: >-
@@ -250,6 +252,7 @@ jobs:
             --image="ap-<< parameters.directory >>"
             --tags="$BRANCH_TAG"
             --overwrite_tags=<< parameters.overwrite_tags >>
+            --skip-file-tags
       - run:
           name: Push branch tag to astrocr.azurecr.io
           command: >-
@@ -262,6 +265,7 @@ jobs:
             --image="ap-<< parameters.directory >>"
             --tags="$BRANCH_TAG"
             --overwrite_tags=<< parameters.overwrite_tags >>
+            --skip-file-tags
 
   validate-tags:
     executor: docker-executor
