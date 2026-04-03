@@ -30,4 +30,5 @@ RUN uv python install 3.14 --default && \
 # Reference:
 # - https://code.claude.com/docs/en/devcontainer
 # - https://github.com/anthropics/claude-code/blob/main/.devcontainer
-RUN curl -fsSL https://claude.ai/install.sh | bash
+# - https://www.npmjs.com/package/@anthropic-ai/claude-code
+RUN npm install --ignore-scripts --min-release-age=7 -g @anthropic-ai/claude-code
