@@ -66,8 +66,6 @@ workflows:
               ignore: main
       - approve-branch-tag:
           type: approval
-          requires:
-            - test
           filters:
             branches:
               ignore: main
@@ -81,6 +79,7 @@ workflows:
             - apc-chainguard-creds
           requires:
             - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
