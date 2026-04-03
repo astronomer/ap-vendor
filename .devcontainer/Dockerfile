@@ -1,0 +1,33 @@
+FROM debian:trixie
+
+ENV DEVCONTAINER=true
+ENV PATH="/root/.local/bin:/root/bin:$PATH"
+
+RUN apt update && apt install -y \
+    build-essential \
+    cmake \
+    curl \
+    dnsutils \
+    file \
+    gh \
+    git \
+    jq \
+    less \
+    nodejs \
+    npm \
+    procps \
+    unzip \
+    vim \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+RUN uv python install 3.14 --default && \
+    uv tool install prek && \
+    uv tool install ruff
+
+# Reference:
+# - https://code.claude.com/docs/en/devcontainer
+# - https://github.com/anthropics/claude-code/blob/main/.devcontainer
+RUN curl -fsSL https://claude.ai/install.sh | bash
