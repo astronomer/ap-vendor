@@ -26,5 +26,4 @@ RUN grafana cli plugins install grafana-singlestat-panel
 
 # Copy default dashboards and datasource configuration
 COPY include/*.json /var/lib/grafana/dashboards/
-COPY include/dashboard.yaml /etc/grafana/provisioning/dashboards/dashboard.yaml
 COPY include/wait-for-db.sh /wait-for-db.sh
