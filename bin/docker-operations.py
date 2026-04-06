@@ -181,6 +181,7 @@ def main():
     arg_parser.add_argument("--image", type=str)
     arg_parser.add_argument("--tags", type=str, default=None)
     arg_parser.add_argument("--overwrite_tags", type=str, default="false")
+    arg_parser.add_argument("--skip-file-tags", action="store_true")
 
     args = arg_parser.parse_args()
 
@@ -201,6 +202,7 @@ def main():
     elif "validate_tags" == args.operation:
         tags = args.tags
         overwrite_tags = False
+        skip_file_tags = args.skip_file_tags
 
         if "true" == args.overwrite_tags.lower():
             overwrite_tags = True
@@ -253,6 +255,7 @@ def main():
     elif "push" == args.operation:
         tags = args.tags
         overwrite_tags = False
+        skip_file_tags = args.skip_file_tags
 
         if "true" == args.overwrite_tags.lower():
             overwrite_tags = True
@@ -270,12 +273,17 @@ def main():
         if args.image is None:
             raise Exception("Error: Image name is required.")
 
-        file_tags = get_image_tags(project_path=args.project_path)
-        if tags is not None:
-            if "," in tags:
-                tags = tags.strip().split(",") + file_tags
+        if not skip_file_tags:
+            file_tags = get_image_tags(project_path=args.project_path)
+            if tags is not None:
+                if "," in tags:
+                    tags = tags.strip().split(",") + file_tags
+                else:
+                    tags = [tags.strip(), *file_tags]
             else:
-                tags = [tags.strip(), *file_tags]
+                tags = file_tags
+        elif tags is not None:
+            tags = tags.strip().split(",") if "," in tags else [tags.strip()]
 
         # Login to registry
         docker_client = login_registry(
