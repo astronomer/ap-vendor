@@ -2,6 +2,10 @@
 
 The Astronomer ap-vendor repo is a collection of third party components that we vendor and provide through our own supply chain. This gives us more control over when updates are released, and how the software is distributed to our customers.
 
+## Requirements
+
+Python tooling in this repository is handled by [uv](https://github.com/astral-sh/uv).
+
 ## Directory layout
 
 Most directories in this repository hold everything needed to build and test one component. Three of the most common files you can find are Dockerfile, version.txt, and test.yaml.
