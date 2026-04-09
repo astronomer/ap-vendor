@@ -1,7 +1,7 @@
 #
-# Copyright 2018 Astronomer Inc.
+# Copyright 2026 Astronomer Inc.
 #
-# Licensed under the Apache License, Version 3.0 (the "License");
+# Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
@@ -13,14 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/r/nginxinc/nginx-unprivileged/tags
-FROM cgr.dev/astronomer.io/ap-auth-sidecar:1.29.7
-
+#FROM ghcr.io/external-secrets/external-secrets:v2.2.0
+FROM cgr.dev/astronomer.io/external-secrets:v2.2.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
+LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-LABEL io.astronomer.docker.module="auth-sidecar"
-LABEL io.astronomer.docker.component="auth-sidecar"
-
-USER 101

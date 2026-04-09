@@ -55,6 +55,10 @@ services:
     image: ap-elasticsearch-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: elasticsearch-exporter
+  ap-external-secrets:
+    image: ap-external-secrets:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: external-secrets
   ap-fluentd:
     image: ap-fluentd:${ASTRO_IMAGE_TAG:-latest}
     build:
