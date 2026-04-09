@@ -14,14 +14,14 @@
 # limitations under the License.
 
 # https://hub.docker.com/_/docker?tab=tags&page=1&name=dind-alpine
-FROM docker:28.5.2-dind-alpine3.22
+FROM docker:29.3.0-dind-alpine3.23
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ENV GOLANG_VERSION=1.21.1
+ENV GOLANG_VERSION=1.26.1
 
 #
 # Install Golang
@@ -41,7 +41,7 @@ RUN set -eux; \
         ; \
         \
         wget -O go.tgz "https://golang.org/dl/go$GOLANG_VERSION.src.tar.gz"; \
-        echo 'bfa36bf75e9a1e9cbbdb9abcf9d1707e479bd3a07880a8ae3564caee5711cb99 *go.tgz' | sha256sum -c -; \
+        echo '3172293d04b209dc1144698e7ba13f0477f6ba8c5ffd0be66c20fdbc9785dfbb *go.tgz' | sha256sum -c -; \
         tar -C /usr/local -xzf go.tgz; \
         rm go.tgz; \
         \
@@ -63,7 +63,7 @@ RUN set -eux; \
 ENV GOPATH=/go
 ENV PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 
-RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.54.2
+RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.11.4
 
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 WORKDIR $GOPATH

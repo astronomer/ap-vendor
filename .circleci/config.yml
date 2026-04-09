@@ -37,6 +37,7 @@ workflows:
             dogstatsd/.* dogstatsd true
             elasticsearch/.* elasticsearch true
             elasticsearch-exporter/.* elasticsearch-exporter true
+            external-secrets/.* external-secrets true
             fluentd/.* fluentd true
             git-daemon/.* git-daemon true
             git-sync/.* git-sync true
@@ -70,7 +71,7 @@ jobs:
   run_pre_commit:
     resource_class: small
     docker:
-      - image: quay.io/astronomer/ci-pre-commit:2026-03
+      - image: quay.io/astronomer/ci-pre-commit:2026-04
     steps:
       - checkout
       - run:
