@@ -41,7 +41,7 @@ RUN go get golang.org/x/crypto@v0.46.0 golang.org/x/oauth2@v0.34.0 \
 RUN CGO_ENABLED=0 make build
 
 # https://quay.io/repository/astronomer/ap-base?tab=tags
-FROM quay.io/astronomer/ap-base: 2026.04.15
+FROM quay.io/astronomer/ap-base:2026.04.15
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
