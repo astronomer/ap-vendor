@@ -32,7 +32,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -tags netgo -installsuf
 
 # Final docker image building stage
 # https://quay.io/repository/astronomer/ap-base?tab=tags&tag=latest
-FROM quay.io/astronomer/ap-base:2026.03.18
+FROM quay.io/astronomer/ap-base: 2026.04.15
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true

@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://quay.io/repository/astronomer/ap-base?tab=tags
-FROM quay.io/astronomer/ap-base:2026.03.18
+FROM quay.io/astronomer/ap-base: 2026.04.15
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
