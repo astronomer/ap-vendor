@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://github.com/kubernetes/git-sync/releases
-FROM quay.io/astronomer/ap-base:2026.02.25
+FROM quay.io/astronomer/ap-base:2026.04.22
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1

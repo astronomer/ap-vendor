@@ -36,10 +36,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: {{ directory }}
-          requires:
-            - test
       - release:
           directory: {{ directory }}
           tags: "latest"
@@ -50,7 +46,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -64,7 +60,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: {{ directory }}
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -101,48 +116,6 @@ jobs:
           image_name: ap-<< parameters.directory >>
           path: << parameters.directory >>
           test_script: << parameters.test_script >>
-  scan-trivy:
-    docker:
-      - image: cimg/base:current
-    description: "Trivy: Vulnerability scan a Docker image"
-    parameters:
-      directory:
-        description: "The directory name of the image to be scanned"
-        type: string
-    environment:
-      TRIVY_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-db
-      TRIVY_JAVA_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-java-db
-    steps:
-      - checkout
-      - run:
-          name: Install uv
-          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
-      - setup_remote_docker:
-          docker_layer_caching: true
-          image: aquasec/trivy:latest
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          name: Load archived Docker image
-          command: |
-            set -x
-            docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
-            docker images | grep ap-<< parameters.directory >>
-      - run:
-          name: Install trivy
-          command: |
-            curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sudo sh -s -- -b /usr/local/bin
-            date +%F > date
-      - restore_cache:
-          keys:
-            {% raw %}- trivy-cache-{{ checksum "date" }}{% endraw %}
-      - run:
-          name: Scan the local image with trivy
-          command: uv run bin/trivy-scan.sh "<< parameters.directory >>"
-      - save_cache:
-          {% raw %}key: trivy-cache-{{ checksum "date" }}{% endraw %}
-          paths:
-            - /tmp/workspace/trivy-cache
   release:
     executor: docker-executor
     parameters:
@@ -210,6 +183,89 @@ jobs:
           image_name: ap-<< parameters.directory >>
           tags: << parameters.tags >>
           overwrite_tags: << parameters.overwrite_tags >>
+
+  release-branch-tag:
+    executor: docker-executor
+    parameters:
+      directory:
+        description: "The directory name of the image to be published"
+        type: string
+      overwrite_tags:
+        type: boolean
+        default: true
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - checkout
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load archived Docker image
+          command: |
+            set -x
+            docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
+            docker images | grep ap-<< parameters.directory >>
+      - run:
+          name: Compute sanitized branch tag
+          command: |
+            BRANCH_TAG=$(uv run bin/sanitize-docker-tag.py "$CIRCLE_BRANCH")
+            echo "Branch tag: $BRANCH_TAG"
+            echo "export BRANCH_TAG=$BRANCH_TAG" >> "$BASH_ENV"
+      - run:
+          name: Push branch tag to quay.io
+          command: >-
+            uv run bin/docker-operations.py push
+            --project_path=<< parameters.directory >>
+            --registry="quay.io"
+            --username="${QUAY_USERNAME}"
+            --password="${QUAY_PASSWORD}"
+            --repository="astronomer"
+            --image="ap-<< parameters.directory >>"
+            --tags="$BRANCH_TAG"
+            --overwrite_tags=<< parameters.overwrite_tags >>
+            --skip-file-tags
+      - run:
+          name: Push branch tag to docker.io
+          command: >-
+            uv run bin/docker-operations.py push
+            --project_path=<< parameters.directory >>
+            --registry="docker.io"
+            --username="${DOCKER_USERNAME}"
+            --password="${DOCKER_PASSWORD}"
+            --repository="astronomerinc"
+            --image="ap-<< parameters.directory >>"
+            --tags="$BRANCH_TAG"
+            --overwrite_tags=<< parameters.overwrite_tags >>
+            --skip-file-tags
+      - run:
+          name: Push branch tag to astrocrpublic.azurecr.io
+          command: >-
+            uv run bin/docker-operations.py push
+            --project_path=<< parameters.directory >>
+            --registry="astrocrpublic.azurecr.io"
+            --username="${ACR_PUBLIC_USERNAME}"
+            --password="${ACR_PUBLIC_PASSWORD}"
+            --repository="astronomer"
+            --image="ap-<< parameters.directory >>"
+            --tags="$BRANCH_TAG"
+            --overwrite_tags=<< parameters.overwrite_tags >>
+            --skip-file-tags
+      - run:
+          name: Push branch tag to astrocr.azurecr.io
+          command: >-
+            uv run bin/docker-operations.py push
+            --project_path=<< parameters.directory >>
+            --registry="astrocr.azurecr.io"
+            --username="${ACR_USERNAME}"
+            --password="${ACR_PASSWORD}"
+            --repository="astronomer"
+            --image="ap-<< parameters.directory >>"
+            --tags="$BRANCH_TAG"
+            --overwrite_tags=<< parameters.overwrite_tags >>
+            --skip-file-tags
 
   validate-tags:
     executor: docker-executor

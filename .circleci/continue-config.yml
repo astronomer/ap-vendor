@@ -53,6 +53,10 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image elasticsearch-exporter."
+  external-secrets:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image external-secrets."
   fluentd:
     type: boolean
     default: false
@@ -187,10 +191,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: alertmanager
-          requires:
-            - test
       - release:
           directory: alertmanager
           tags: "latest"
@@ -201,7 +201,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -215,7 +215,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: alertmanager
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -234,10 +253,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: alpine
-          requires:
-            - test
       - release:
           directory: alpine
           tags: "latest"
@@ -248,7 +263,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -262,7 +277,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: alpine
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -281,10 +315,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: auth-sidecar
-          requires:
-            - test
       - release:
           directory: auth-sidecar
           tags: "latest"
@@ -295,7 +325,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -309,7 +339,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: auth-sidecar
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -328,10 +377,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: awsesproxy
-          requires:
-            - test
       - release:
           directory: awsesproxy
           tags: "latest"
@@ -342,7 +387,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -356,7 +401,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: awsesproxy
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -375,10 +439,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: blackbox-exporter
-          requires:
-            - test
       - release:
           directory: blackbox-exporter
           tags: "latest"
@@ -389,7 +449,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -403,7 +463,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: blackbox-exporter
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -422,10 +501,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: configmap-reloader
-          requires:
-            - test
       - release:
           directory: configmap-reloader
           tags: "latest"
@@ -436,7 +511,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -450,7 +525,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: configmap-reloader
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -469,10 +563,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: curator
-          requires:
-            - test
       - release:
           directory: curator
           tags: "latest"
@@ -483,7 +573,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -497,7 +587,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: curator
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -516,10 +625,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: dind-golang
-          requires:
-            - test
       - release:
           directory: dind-golang
           tags: "latest"
@@ -530,7 +635,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -544,7 +649,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: dind-golang
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -563,10 +687,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: dogstatsd
-          requires:
-            - test
       - release:
           directory: dogstatsd
           tags: "latest"
@@ -577,7 +697,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -591,7 +711,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: dogstatsd
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -610,10 +749,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: elasticsearch
-          requires:
-            - test
       - release:
           directory: elasticsearch
           tags: "latest"
@@ -624,7 +759,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -638,7 +773,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: elasticsearch
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -657,10 +811,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: elasticsearch-exporter
-          requires:
-            - test
       - release:
           directory: elasticsearch-exporter
           tags: "latest"
@@ -671,7 +821,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -685,7 +835,88 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: elasticsearch-exporter
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
+          filters:
+            branches:
+              ignore: main
+  external-secrets-build:
+    when:
+      and:
+        - << pipeline.parameters.external-secrets >>
+    jobs:
+      - build:
+          name: build
+          directory: external-secrets
+          context:
+            - apc-chainguard-creds
+      - test:
+          directory: external-secrets
+          test_script: bin/test.py
+          requires:
+            - build
+      - release:
+          directory: external-secrets
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - main
+      - validate-tags:
+          directory: external-secrets
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+          requires:
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: external-secrets
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -704,10 +935,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: fluentd
-          requires:
-            - test
       - release:
           directory: fluentd
           tags: "latest"
@@ -718,7 +945,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -732,7 +959,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: fluentd
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -751,10 +997,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: git-daemon
-          requires:
-            - test
       - release:
           directory: git-daemon
           tags: "latest"
@@ -765,7 +1007,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -779,7 +1021,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: git-daemon
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -798,10 +1059,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: git-sync
-          requires:
-            - test
       - release:
           directory: git-sync
           tags: "latest"
@@ -812,7 +1069,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -826,7 +1083,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: git-sync
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -845,10 +1121,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: grafana
-          requires:
-            - test
       - release:
           directory: grafana
           tags: "latest"
@@ -859,7 +1131,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -873,7 +1145,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: grafana
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -892,10 +1183,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: init
-          requires:
-            - test
       - release:
           directory: init
           tags: "latest"
@@ -906,7 +1193,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -920,7 +1207,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: init
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -939,10 +1245,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: keda
-          requires:
-            - test
       - release:
           directory: keda
           tags: "latest"
@@ -953,7 +1255,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -967,7 +1269,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: keda
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -986,10 +1307,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: keda-metrics-apiserver
-          requires:
-            - test
       - release:
           directory: keda-metrics-apiserver
           tags: "latest"
@@ -1000,7 +1317,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1014,7 +1331,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: keda-metrics-apiserver
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1033,10 +1369,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: kibana
-          requires:
-            - test
       - release:
           directory: kibana
           tags: "latest"
@@ -1047,7 +1379,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1061,7 +1393,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: kibana
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1080,10 +1431,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: kube-state
-          requires:
-            - test
       - release:
           directory: kube-state
           tags: "latest"
@@ -1094,7 +1441,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1108,7 +1455,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: kube-state
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1127,10 +1493,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: nats-exporter
-          requires:
-            - test
       - release:
           directory: nats-exporter
           tags: "latest"
@@ -1141,7 +1503,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1155,7 +1517,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: nats-exporter
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1174,10 +1555,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: nats-server
-          requires:
-            - test
       - release:
           directory: nats-server
           tags: "latest"
@@ -1188,7 +1565,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1202,7 +1579,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: nats-server
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1221,10 +1617,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: nats-streaming
-          requires:
-            - test
       - release:
           directory: nats-streaming
           tags: "latest"
@@ -1235,7 +1627,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1249,7 +1641,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: nats-streaming
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1268,10 +1679,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: nginx
-          requires:
-            - test
       - release:
           directory: nginx
           tags: "latest"
@@ -1282,7 +1689,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1296,7 +1703,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: nginx
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1315,10 +1741,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: nginx-es
-          requires:
-            - test
       - release:
           directory: nginx-es
           tags: "latest"
@@ -1329,7 +1751,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1343,7 +1765,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: nginx-es
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1362,10 +1803,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: node-exporter
-          requires:
-            - test
       - release:
           directory: node-exporter
           tags: "latest"
@@ -1376,7 +1813,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1390,7 +1827,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: node-exporter
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1409,10 +1865,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: openresty
-          requires:
-            - test
       - release:
           directory: openresty
           tags: "latest"
@@ -1423,7 +1875,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1437,7 +1889,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: openresty
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1456,10 +1927,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: pgbouncer
-          requires:
-            - test
       - release:
           directory: pgbouncer
           tags: "latest"
@@ -1470,7 +1937,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1484,7 +1951,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: pgbouncer
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1503,10 +1989,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: pgbouncer-exporter
-          requires:
-            - test
       - release:
           directory: pgbouncer-exporter
           tags: "latest"
@@ -1517,7 +1999,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1531,7 +2013,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: pgbouncer-exporter
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1550,10 +2051,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: pgbouncer-krb
-          requires:
-            - test
       - release:
           directory: pgbouncer-krb
           tags: "latest"
@@ -1564,7 +2061,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1578,7 +2075,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: pgbouncer-krb
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1597,10 +2113,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: postgres-exporter
-          requires:
-            - test
       - release:
           directory: postgres-exporter
           tags: "latest"
@@ -1611,7 +2123,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1625,7 +2137,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: postgres-exporter
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1644,10 +2175,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: postgres-operator
-          requires:
-            - test
       - release:
           directory: postgres-operator
           tags: "latest"
@@ -1658,7 +2185,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1672,7 +2199,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: postgres-operator
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1691,10 +2237,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: postgresql
-          requires:
-            - test
       - release:
           directory: postgresql
           tags: "latest"
@@ -1705,7 +2247,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1719,7 +2261,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: postgresql
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1738,10 +2299,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: prometheus
-          requires:
-            - test
       - release:
           directory: prometheus
           tags: "latest"
@@ -1752,7 +2309,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1766,7 +2323,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: prometheus
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1785,10 +2361,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: python
-          requires:
-            - test
       - release:
           directory: python
           tags: "latest"
@@ -1799,7 +2371,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1813,7 +2385,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: python
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1832,10 +2423,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: redis
-          requires:
-            - test
       - release:
           directory: redis
           tags: "latest"
@@ -1846,7 +2433,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1860,7 +2447,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: redis
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1879,10 +2485,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: registry
-          requires:
-            - test
       - release:
           directory: registry
           tags: "latest"
@@ -1893,7 +2495,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1907,7 +2509,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: registry
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1926,10 +2547,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: statsd-exporter
-          requires:
-            - test
       - release:
           directory: statsd-exporter
           tags: "latest"
@@ -1940,7 +2557,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -1954,7 +2571,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: statsd-exporter
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -1973,10 +2609,6 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
-      - scan-trivy:
-          directory: vector
-          requires:
-            - test
       - release:
           directory: vector
           tags: "latest"
@@ -1987,7 +2619,7 @@ workflows:
             - azurecr.io
             - apc-chainguard-creds
           requires:
-            - scan-trivy
+            - test
           filters:
             branches:
               only:
@@ -2001,7 +2633,26 @@ workflows:
             - docker.io
             - azurecr.io
           requires:
-            - scan-trivy
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: vector
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
           filters:
             branches:
               ignore: main
@@ -2037,48 +2688,6 @@ jobs:
           image_name: ap-<< parameters.directory >>
           path: << parameters.directory >>
           test_script: << parameters.test_script >>
-  scan-trivy:
-    docker:
-      - image: cimg/base:current
-    description: "Trivy: Vulnerability scan a Docker image"
-    parameters:
-      directory:
-        description: "The directory name of the image to be scanned"
-        type: string
-    environment:
-      TRIVY_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-db
-      TRIVY_JAVA_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-java-db
-    steps:
-      - checkout
-      - run:
-          name: Install uv
-          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
-      - setup_remote_docker:
-          docker_layer_caching: true
-          image: aquasec/trivy:latest
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          name: Load archived Docker image
-          command: |
-            set -x
-            docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
-            docker images | grep ap-<< parameters.directory >>
-      - run:
-          name: Install trivy
-          command: |
-            curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sudo sh -s -- -b /usr/local/bin
-            date +%F > date
-      - restore_cache:
-          keys:
-            - trivy-cache-{{ checksum "date" }}
-      - run:
-          name: Scan the local image with trivy
-          command: uv run bin/trivy-scan.sh "<< parameters.directory >>"
-      - save_cache:
-          key: trivy-cache-{{ checksum "date" }}
-          paths:
-            - /tmp/workspace/trivy-cache
   release:
     executor: docker-executor
     parameters:
@@ -2146,6 +2755,89 @@ jobs:
           image_name: ap-<< parameters.directory >>
           tags: << parameters.tags >>
           overwrite_tags: << parameters.overwrite_tags >>
+
+  release-branch-tag:
+    executor: docker-executor
+    parameters:
+      directory:
+        description: "The directory name of the image to be published"
+        type: string
+      overwrite_tags:
+        type: boolean
+        default: true
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - checkout
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load archived Docker image
+          command: |
+            set -x
+            docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
+            docker images | grep ap-<< parameters.directory >>
+      - run:
+          name: Compute sanitized branch tag
+          command: |
+            BRANCH_TAG=$(uv run bin/sanitize-docker-tag.py "$CIRCLE_BRANCH")
+            echo "Branch tag: $BRANCH_TAG"
+            echo "export BRANCH_TAG=$BRANCH_TAG" >> "$BASH_ENV"
+      - run:
+          name: Push branch tag to quay.io
+          command: >-
+            uv run bin/docker-operations.py push
+            --project_path=<< parameters.directory >>
+            --registry="quay.io"
+            --username="${QUAY_USERNAME}"
+            --password="${QUAY_PASSWORD}"
+            --repository="astronomer"
+            --image="ap-<< parameters.directory >>"
+            --tags="$BRANCH_TAG"
+            --overwrite_tags=<< parameters.overwrite_tags >>
+            --skip-file-tags
+      - run:
+          name: Push branch tag to docker.io
+          command: >-
+            uv run bin/docker-operations.py push
+            --project_path=<< parameters.directory >>
+            --registry="docker.io"
+            --username="${DOCKER_USERNAME}"
+            --password="${DOCKER_PASSWORD}"
+            --repository="astronomerinc"
+            --image="ap-<< parameters.directory >>"
+            --tags="$BRANCH_TAG"
+            --overwrite_tags=<< parameters.overwrite_tags >>
+            --skip-file-tags
+      - run:
+          name: Push branch tag to astrocrpublic.azurecr.io
+          command: >-
+            uv run bin/docker-operations.py push
+            --project_path=<< parameters.directory >>
+            --registry="astrocrpublic.azurecr.io"
+            --username="${ACR_PUBLIC_USERNAME}"
+            --password="${ACR_PUBLIC_PASSWORD}"
+            --repository="astronomer"
+            --image="ap-<< parameters.directory >>"
+            --tags="$BRANCH_TAG"
+            --overwrite_tags=<< parameters.overwrite_tags >>
+            --skip-file-tags
+      - run:
+          name: Push branch tag to astrocr.azurecr.io
+          command: >-
+            uv run bin/docker-operations.py push
+            --project_path=<< parameters.directory >>
+            --registry="astrocr.azurecr.io"
+            --username="${ACR_USERNAME}"
+            --password="${ACR_PASSWORD}"
+            --repository="astronomer"
+            --image="ap-<< parameters.directory >>"
+            --tags="$BRANCH_TAG"
+            --overwrite_tags=<< parameters.overwrite_tags >>
+            --skip-file-tags
 
   validate-tags:
     executor: docker-executor

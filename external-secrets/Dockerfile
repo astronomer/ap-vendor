@@ -1,4 +1,5 @@
-# Copyright 2018 Astronomer Inc.
+#
+# Copyright 2026 Astronomer Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,15 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM cgr.dev/astronomer.io/ap-vector:0.54.0-dev
-
+#FROM ghcr.io/external-secrets/external-secrets:v2.2.0
+FROM cgr.dev/astronomer.io/external-secrets:v2.2.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
-
-COPY --chmod=755 sidecar_server.py /usr/local/bin/
-COPY vector.toml /etc/vector/vector.toml
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-
-ENTRYPOINT ["/usr/bin/python3", "/usr/local/bin/sidecar_server.py"]

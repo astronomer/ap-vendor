@@ -12,9 +12,7 @@ git_root_dir = next(iter([x for x in Path(__file__).resolve().parents if (x / ".
 
 dirs_to_skip = ["bin", ".venv"]
 required_files = ["Dockerfile", "version.txt", "test.yaml"]
-ci_runner_version = (datetime.datetime.now() + datetime.timedelta(days=7)).strftime(
-    "%Y-%m"
-)  # ci-images tags %Y-%m as today and also 8 days ahead
+ci_runner_version = (datetime.datetime.now()).strftime("%Y-%m")
 
 
 def list_docker_dirs() -> Generator[PosixPath]:
@@ -41,9 +39,6 @@ def ensure_required_files_exist():
         print("\nAll docker build directories must have the following files:")
         for file in required_files:
             print(f"  - {file}")
-        print("\nOptional files are:")
-        print("  - trivyignore")
-        print("  - trivy.yaml")
         exit(1)
 
 
