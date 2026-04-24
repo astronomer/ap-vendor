@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/grafana/grafana/tags
-FROM cgr.dev/astronomer.io/grafana:12.4.1
+FROM cgr.dev/astronomer.io/grafana:12.4.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -26,5 +26,4 @@ RUN grafana cli plugins install grafana-singlestat-panel
 
 # Copy default dashboards and datasource configuration
 COPY include/*.json /var/lib/grafana/dashboards/
-COPY include/dashboard.yaml /etc/grafana/provisioning/dashboards/dashboard.yaml
 COPY include/wait-for-db.sh /wait-for-db.sh

@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.14.4-dev AS builder
+FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.14.5-dev AS builder
 
 RUN apk add --no-cache \
     gcc \
@@ -43,7 +43,7 @@ RUN set -eux; \
     cd nginx-src; \
     ./configure --with-compat --add-dynamic-module=/tmp/subs_module; \
     make modules
-FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.14.4-dev
+FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.14.5-dev
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
