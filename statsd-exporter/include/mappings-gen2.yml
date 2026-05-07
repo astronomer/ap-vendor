@@ -291,6 +291,11 @@ mappings:
       instance: "$1"
       mount_path: "$2"
 
+  # Astro Event Scheduler metrics — accept all and strip the airflow prefix
+  - match: 'airflow\.astro_event_scheduler\.(.+)'
+    match_type: regex
+    name: "astro_event_scheduler_${1}"
+
   # drop any metric not matched
   - match: "."
     match_type: regex
