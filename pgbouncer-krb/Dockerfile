@@ -96,6 +96,9 @@ COPY docker-entrypoint.sh docker-entrypoint.sh
 
 RUN rm /usr/local/bin/dockerize
 
+# Pull latest security patches for openssl, expat, zlib
+RUN apk upgrade --no-cache
+
 # setup user, entrypoint, and cmd
 USER $UID
 ENTRYPOINT ["./docker-entrypoint.sh"]
