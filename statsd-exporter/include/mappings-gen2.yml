@@ -291,6 +291,24 @@ mappings:
       instance: "$1"
       mount_path: "$2"
 
+  # Astro Event Scheduler SLA timings — emitted once per DagRun by the owning
+  # scheduler. Histograms; buckets cluster sub-second resolution with long-tail
+  # coverage out to 60s. Specific rules must precede the catch-all below so the
+  # dotted suffix is collapsed cleanly (otherwise the catch-all would produce a
+  # name containing a literal dot).
+  - match: 'airflow\.astro_event_scheduler\.sla\.time_to_first_task'
+    match_type: regex
+    match_metric_type: timer
+    name: "astro_event_scheduler_sla_time_to_first_task"
+    timer_type: histogram
+    buckets: [0.1, 0.25, 0.5, 0.75, 1, 2, 5, 10, 30, 60]
+  - match: 'airflow\.astro_event_scheduler\.sla\.task_lag'
+    match_type: regex
+    match_metric_type: timer
+    name: "astro_event_scheduler_sla_task_lag"
+    timer_type: histogram
+    buckets: [0.1, 0.25, 0.5, 0.75, 1, 2, 5, 10, 30, 60]
+
   # Astro Event Scheduler metrics — accept all and strip the airflow prefix
   - match: 'airflow\.astro_event_scheduler\.(.+)'
     match_type: regex
