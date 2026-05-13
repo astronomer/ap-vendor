@@ -309,7 +309,19 @@ mappings:
     timer_type: histogram
     buckets: [0.1, 0.25, 0.5, 0.75, 1, 2, 5, 10, 30, 60]
 
-  # Astro Event Scheduler metrics — accept all and strip the airflow prefix
+  # Safety net for any future astro_event_scheduler.sla.* metric without a
+  # dedicated rule above — collapses the dotted suffix so we never produce a
+  # Prometheus name containing a literal dot. New SLA *timer* metrics still
+  # need their own explicit histogram rule above this one, otherwise
+  # statsd-exporter exports them as a summary (its default for timers).
+  - match: 'airflow\.astro_event_scheduler\.sla\.(.+)'
+    match_type: regex
+    name: "astro_event_scheduler_sla_${1}"
+
+  # Astro Event Scheduler metrics — accept all and strip the airflow prefix.
+  # Note: this rule doesn't constrain match_metric_type, so any future timer
+  # metric that falls through to here will be exported as a summary, not a
+  # histogram. Add an explicit timer→histogram rule above for new timers.
   - match: 'airflow\.astro_event_scheduler\.(.+)'
     match_type: regex
     name: "astro_event_scheduler_${1}"
