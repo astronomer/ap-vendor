@@ -1,10 +1,12 @@
 """Scan a Docker image with endorctl and filter findings.
 
-Runs `endorctl container scan` and post-processes the JSON output to filter for
-truly fixable vulnerabilities. Endorctl marks CVEs as "Fix Available" even when
-the fix is only a git commit (not a released version), so we filter those out
-by checking whether the proposed fix version is a released version or a git
-commit hash.
+Runs `endorctl container scan` and post-processes the JSON output. A finding
+fails the build when BOTH of these are true:
+  - severity is at or above --severity (default: high)
+  - its CVE ID is not in the optional endorignore file
+
+Devs triage findings by adding the CVE ID to the per-image endorignore file
+after reviewing it in the Endor UI.
 
 If --path is provided and that directory contains a file named `endorignore`,
 each non-blank, non-comment line is treated as a CVE ID to ignore.
@@ -14,7 +16,7 @@ docker daemon required); --image is still passed so findings are tagged with
 the desired image name/tag.
 
 Usage:
-    uv run scan-endorctl.py --image <name:tag> [--image-tar <path>] [--path <dir>]
+    uv run scan-endorctl.py --image <name:tag> [--image-tar <path>] [--path <dir>] [--severity {critical,high,medium,low}]
 """
 
 from __future__ import annotations
@@ -79,14 +81,6 @@ def load_ignored_cves(path: Path | None) -> set[str]:
     return cves
 
 
-def has_released_fix(finding: dict) -> bool:
-    """Check if the fix is a real released version (not just a git commit)."""
-    proposed = finding.get("spec", {}).get("proposed_version", "")
-    if not proposed:
-        return False
-    return not _is_git_hash(proposed)
-
-
 def get_vuln_id(finding: dict) -> str:
     return finding.get("spec", {}).get("extra_key", "") or finding.get("meta", {}).get("name", "unknown")
 
@@ -113,6 +107,17 @@ def get_description(finding: dict) -> str:
 
 
 _SEVERITY_ORDER = {"Critical": 0, "High": 1, "Medium": 2, "Low": 3}
+_SEVERITY_CHOICES = ["critical", "high", "medium", "low"]
+
+
+def severity_at_or_above(finding: dict, threshold: str) -> bool:
+    """True iff finding's severity is at or above the threshold."""
+    finding_sev = get_severity(finding)
+    finding_rank = _SEVERITY_ORDER.get(finding_sev)
+    if finding_rank is None:
+        return False
+    threshold_rank = _SEVERITY_ORDER[threshold.capitalize()]
+    return finding_rank <= threshold_rank
 
 
 def print_table(findings: list[dict], title: str) -> None:
@@ -148,6 +153,12 @@ def main() -> None:
         default=None,
         help="Directory containing an optional `endorignore` file (one CVE ID per line, # comments allowed)",
     )
+    parser.add_argument(
+        "--severity",
+        choices=_SEVERITY_CHOICES,
+        default="high",
+        help="Minimum severity that fails the build (default: high)",
+    )
     args = parser.parse_args()
 
     print(f"Scanning image: {args.image}")
@@ -160,22 +171,23 @@ def main() -> None:
     if web_url:
         print(f"Full results: {web_url}")
 
-    blocking = data.get("blocking_findings", [])
-    truly_fixable = [f for f in blocking if has_released_fix(f)]
+    findings = data.get("findings", [])
+    at_severity = [f for f in findings if severity_at_or_above(f, args.severity)]
 
     ignored_cves = load_ignored_cves(args.path)
 
     actionable: list[dict] = []
     ignored: list[dict] = []
-    for f in truly_fixable:
+    for f in at_severity:
         (ignored if get_vuln_id(f) in ignored_cves else actionable).append(f)
 
+    print(f"\nGate: fail on severity >= {args.severity}")
     if actionable:
-        print_table(actionable, "Fixable vulnerabilities (action required)")
+        print_table(actionable, "Vulnerabilities (action required)")
     if ignored:
-        print_table(ignored, f"Ignored fixable vulnerabilities (in {args.path}/endorignore)")
+        print_table(ignored, f"Ignored vulnerabilities (in {args.path}/endorignore)")
     if not actionable:
-        print("\nNo fixable vulnerabilities found.")
+        print(f"No vulnerabilities at or above {args.severity}.")
 
     sys.exit(1 if actionable else 0)
 
