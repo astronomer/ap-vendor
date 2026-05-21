@@ -48,7 +48,10 @@ def run_endorctl(image: str, image_tar: Path | None) -> tuple[dict, str | None]:
     except subprocess.TimeoutExpired:
         print(f"Error: endorctl timed out after 300 seconds scanning {image}", file=sys.stderr)
         sys.exit(2)
-    print(result.stderr, file=sys.stderr, end="")
+    for line in result.stderr.splitlines():
+        if "WARNING vulnerability-error: Unable to map severity" in line:
+            continue
+        print(line, file=sys.stderr)
     stdout = result.stdout
     if not stdout.strip():
         print("Error: endorctl produced no JSON output.", file=sys.stderr)
@@ -172,13 +175,7 @@ def main() -> None:
     if web_url:
         print(f"Full results: {web_url}")
 
-    # TEMP: dump full endorctl JSON for schema inspection
-    print("\n===== BEGIN RAW endorctl JSON =====")
-    print(json.dumps(data, indent=2, sort_keys=True))
-    print("===== END RAW endorctl JSON =====")
-    print(f"Top-level keys: {sorted(data.keys())}\n")
-
-    findings = data.get("findings", [])
+    findings = data.get("all_findings", [])
     at_severity = [f for f in findings if severity_at_or_above(f, args.severity)]
 
     ignored_cves = load_ignored_cves(args.path)
