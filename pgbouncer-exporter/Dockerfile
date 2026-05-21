@@ -39,4 +39,4 @@ RUN addgroup -g $GID -S $USER \
 USER $UID
 
 ENTRYPOINT ["pgbouncer_exporter"]
-CMD ["server"]
+#CMD ["server"]
