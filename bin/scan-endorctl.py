@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Scan a Docker image with endorctl and filter findings.
 
 Runs `endorctl container scan` and post-processes the JSON output. A finding
@@ -159,6 +160,11 @@ def main() -> None:
         default="high",
         help="Minimum severity that fails the build (default: high)",
     )
+    parser.add_argument(
+        "--debug-json",
+        action="store_true",
+        help="Dump the full raw JSON returned by endorctl, then exit 0 (no gating).",
+    )
     args = parser.parse_args()
 
     print(f"Scanning image: {args.image}")
@@ -170,6 +176,13 @@ def main() -> None:
 
     if web_url:
         print(f"Full results: {web_url}")
+
+    if args.debug_json:
+        print("\n===== BEGIN RAW endorctl JSON =====")
+        print(json.dumps(data, indent=2, sort_keys=True))
+        print("===== END RAW endorctl JSON =====")
+        print(f"Top-level keys: {sorted(data.keys())}")
+        sys.exit(0)
 
     findings = data.get("findings", [])
     at_severity = [f for f in findings if severity_at_or_above(f, args.severity)]
