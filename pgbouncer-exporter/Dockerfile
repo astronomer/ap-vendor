@@ -40,3 +40,5 @@ USER $UID
 
 ENTRYPOINT ["pgbouncer_exporter"]
 CMD ["server"]
+
+# testing v1
