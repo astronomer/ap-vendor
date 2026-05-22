@@ -44,7 +44,7 @@ def run_endorctl(image: str, image_tar: Path | None) -> tuple[dict, str | None]:
     if image_tar is not None:
         cmd.append(f"--image-tar={image_tar}")
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)  # noqa: S603
     except subprocess.TimeoutExpired:
         print(f"Error: endorctl timed out after 300 seconds scanning {image}", file=sys.stderr)
         sys.exit(2)
