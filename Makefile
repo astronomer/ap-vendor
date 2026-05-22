@@ -37,6 +37,13 @@ test: .venv ## Test the docker image. Ex: `make test image_name=alertmanager`
 	env | grep ASTRO
 	.venv/bin/pytest -v -s bin/test.py
 
+.PHONY: scan
+scan: .venv ## Scan the docker image with Endor Labs. Ex: `make scan image_name=alertmanager`
+	@command -v endorctl >/dev/null || { echo "endorctl not found. Install: https://docs.endorlabs.com/deployment/install-endorctl/"; exit 1; }
+	@test -n "$$ENDOR_API_CREDENTIALS_KEY" -a -n "$$ENDOR_API_CREDENTIALS_SECRET" -a -n "$$ENDOR_NAMESPACE" || \
+		{ echo "Set ENDOR_API_CREDENTIALS_KEY, ENDOR_API_CREDENTIALS_SECRET, ENDOR_NAMESPACE before running scan"; exit 1; }
+	uv run bin/scan-endorctl.py --image=ap-$(image_name):$(image_tag) --path=$(image_name)
+
 PHONY: venv
 venv: .venv ## Create the needed virtualenv
 .venv:
