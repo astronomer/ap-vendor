@@ -116,6 +116,38 @@ jobs:
           image_name: ap-<< parameters.directory >>
           path: << parameters.directory >>
           test_script: << parameters.test_script >>
+  endorlabs-container-scan:
+    executor: docker-executor
+    description: "Scan the built image with Endor Labs"
+    parameters:
+      directory:
+        description: "The directory of the image to scan"
+        type: string
+    environment:
+      ENDOR_NAMESPACE: "astronomer"
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Install uv
+          command: uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
+      - run:
+          name: Install endorctl
+          command: |
+            curl -fsSL https://api.endorlabs.com/download/latest/endorctl_linux_amd64 -o ./endorctl
+            echo "$(curl -fsSL https://api.endorlabs.com/sha/latest/endorctl_linux_amd64)  endorctl" | sha256sum -c
+            chmod +x ./endorctl
+            sudo mv ./endorctl /usr/local/bin/endorctl
+            endorctl --version
+      - run:
+          name: Endor Labs container scan
+          command: >-
+            uv run bin/scan-endorctl.py
+            --image=ap-<< parameters.directory >>:${CIRCLE_SHA1}
+            --image-tar=/tmp/workspace/ap-<< parameters.directory >>.tar
+            --path=<< parameters.directory >>
+
   release:
     executor: docker-executor
     parameters:
