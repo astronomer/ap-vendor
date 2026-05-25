@@ -36,7 +36,10 @@ RUN apk upgrade --no-cache
 
 RUN addgroup -g $GID -S $USER \
     && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 USER $UID
 
-ENTRYPOINT ["pgbouncer_exporter"]
-#CMD ["server"]
+ENTRYPOINT ["/entrypoint.sh"]
