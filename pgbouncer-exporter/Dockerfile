@@ -14,9 +14,9 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/jbub/pgbouncer_exporter
-FROM jbub/pgbouncer_exporter:v0.20.0 AS upstream
+FROM cgr.dev/astronomer.io/prometheus-pgbouncer-exporter:0.12.0-dev AS upstream
 
-FROM quay.io/astronomer/ap-base:2026.05.12
+FROM quay.io/astronomer/ap-base:2026.5.22
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
@@ -36,7 +36,10 @@ RUN apk upgrade --no-cache
 
 RUN addgroup -g $GID -S $USER \
     && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 USER $UID
 
-ENTRYPOINT ["pgbouncer_exporter"]
-CMD ["server"]
+ENTRYPOINT ["/entrypoint.sh"]
