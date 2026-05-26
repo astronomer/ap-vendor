@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
 # https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-alertmanager
 FROM cgr.dev/astronomer.io/prometheus-alertmanager:0.32.1 AS upstream
 
