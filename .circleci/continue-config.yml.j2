@@ -36,6 +36,12 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
+      - endorlabs-container-scan:
+          directory: {{ directory }}
+          context:
+            - apc-endorlabs
+          requires:
+            - build
       - release:
           directory: {{ directory }}
           tags: "latest"
@@ -47,6 +53,7 @@ workflows:
             - apc-chainguard-creds
           requires:
             - test
+            - endorlabs-container-scan
           filters:
             branches:
               only:
@@ -80,6 +87,7 @@ workflows:
           requires:
             - approve-branch-tag
             - test
+            - endorlabs-container-scan
           filters:
             branches:
               ignore: main
