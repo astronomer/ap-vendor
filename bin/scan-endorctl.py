@@ -2,9 +2,14 @@
 """Scan a Docker image with endorctl and filter findings.
 
 Runs `endorctl container scan` and post-processes the JSON output. A finding
-fails the build when BOTH of these are true:
+fails the build when ALL of these are true:
   - severity is at or above --severity (default: high)
   - its CVE ID is not in the optional endorignore file
+  - a fix version is available for the finding
+
+Findings at or above the severity threshold are always printed, even when no
+fix version is available — those are reported as informational and do not fail
+the build.
 
 Devs triage findings by adding the CVE ID to the per-image endorignore file
 after reviewing it in the Endor UI.
@@ -106,6 +111,11 @@ def get_package_info(finding: dict) -> tuple[str, str, str]:
     return pkg_name, current_ver, fix_ver
 
 
+def has_fix_version(finding: dict) -> bool:
+    proposed = finding.get("spec", {}).get("proposed_version", "")
+    return bool(proposed) and proposed != "?"
+
+
 def get_description(finding: dict) -> str:
     return finding.get("meta", {}).get("description", "")
 
@@ -182,16 +192,24 @@ def main() -> None:
 
     actionable: list[dict] = []
     ignored: list[dict] = []
+    no_fix: list[dict] = []
     for f in at_severity:
-        (ignored if get_vuln_id(f) in ignored_cves else actionable).append(f)
+        if get_vuln_id(f) in ignored_cves:
+            ignored.append(f)
+        elif not has_fix_version(f):
+            no_fix.append(f)
+        else:
+            actionable.append(f)
 
-    print(f"\nGate: fail on severity >= {args.severity}")
+    print(f"\nGate: fail on severity >= {args.severity} when a fix version is available")
     if actionable:
         print_table(actionable, "Vulnerabilities (action required)")
+    if no_fix:
+        print_table(no_fix, "Vulnerabilities without a fix version (informational, does not fail build)")
     if ignored:
         print_table(ignored, f"Ignored vulnerabilities (in {args.path}/endorignore)")
     if not actionable:
-        print(f"No vulnerabilities at or above {args.severity}.")
+        print(f"No actionable vulnerabilities at or above {args.severity}.")
 
     sys.exit(1 if actionable else 0)
 
