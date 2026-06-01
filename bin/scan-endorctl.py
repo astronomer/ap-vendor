@@ -4,18 +4,19 @@
 Runs `endorctl container scan` and post-processes the JSON output. A finding
 fails the build when ALL of these are true:
   - severity is at or above --severity (default: high)
-  - its CVE ID is not in the optional endorignore file
+  - none of its advisory IDs (CVE/GHSA/GO/...) are in the optional endorignore file
   - a fix version is available for the finding
 
 Findings at or above the severity threshold are always printed, even when no
 fix version is available — those are reported as informational and do not fail
 the build.
 
-Devs triage findings by adding the CVE ID to the per-image endorignore file
-after reviewing it in the Endor UI.
+Devs triage findings by adding any of a finding's advisory IDs (the displayed
+CVE, or its GHSA/GO ID) to the per-image endorignore file after reviewing it in
+the Endor UI. A finding is ignored if any of its aliases match an entry.
 
 If --path is provided and that directory contains a file named `endorignore`,
-each non-blank, non-comment line is treated as a CVE ID to ignore.
+each non-blank, non-comment line is treated as an advisory ID to ignore.
 
 If --image-tar is provided, endorctl scans the tarball directly (no local
 docker daemon required); --image is still passed so findings are tagged with
@@ -90,8 +91,28 @@ def load_ignored_cves(path: Path | None) -> set[str]:
     return cves
 
 
+def _aliases(finding: dict) -> list[str]:
+    """All identifiers Endor knows for this finding (CVE, GHSA, GO, ...).
+
+    Endor nests the advisory under spec.finding_metadata.vulnerability.spec.aliases.
+    The primary key (spec.extra_key / meta.name) is included as a fallback so a
+    finding always has at least one ID.
+    """
+    vuln_spec = finding.get("spec", {}).get("finding_metadata", {}).get("vulnerability", {}).get("spec", {})
+    ids = list(vuln_spec.get("aliases", []) or [])
+    primary = finding.get("spec", {}).get("extra_key", "") or finding.get("meta", {}).get("name", "")
+    if primary and primary not in ids:
+        ids.append(primary)
+    return ids
+
+
 def get_vuln_id(finding: dict) -> str:
-    return finding.get("spec", {}).get("extra_key", "") or finding.get("meta", {}).get("name", "unknown")
+    """Display ID for a finding: prefer a CVE alias, else the Endor primary key."""
+    ids = _aliases(finding)
+    cve = next((i for i in ids if i.startswith("CVE-")), None)
+    if cve:
+        return cve
+    return ids[0] if ids else "unknown"
 
 
 def get_severity(finding: dict) -> str:
@@ -146,7 +167,7 @@ def print_table(findings: list[dict], title: str) -> None:
             desc = desc[:77] + "..."
         rows.append((_SEVERITY_ORDER.get(severity, 99), get_vuln_id(f), severity, pkg, current, fix, desc))
     rows.sort()
-    headers = ["CVE ID", "Severity", "Package", "Version", "Fix Version", "Description"]
+    headers = ["Advisory ID", "Severity", "Package", "Version", "Fix Version", "Description"]
     print(f"\n{title} ({len(findings)} findings)")
     print(tabulate([r[1:] for r in rows], headers=headers, tablefmt="simple"))
     print()
@@ -194,7 +215,7 @@ def main() -> None:
     ignored: list[dict] = []
     no_fix: list[dict] = []
     for f in at_severity:
-        if get_vuln_id(f) in ignored_cves:
+        if any(alias in ignored_cves for alias in _aliases(f)):
             ignored.append(f)
         elif not has_fix_version(f):
             no_fix.append(f)
