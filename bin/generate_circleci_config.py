@@ -12,7 +12,7 @@ git_root_dir = next(iter([x for x in Path(__file__).resolve().parents if (x / ".
 
 dirs_to_skip = ["bin", ".venv"]
 required_files = ["Dockerfile", "version.txt", "test.yaml"]
-ci_runner_version = (datetime.datetime.now()).strftime("%Y-%m")
+ci_runner_version = (datetime.datetime.now() - datetime.timedelta(days=2)).strftime("%Y-%m")
 
 
 def list_docker_dirs() -> Generator[PosixPath]:
