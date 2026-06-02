@@ -58,6 +58,19 @@ def run_endorctl(image: str, image_tar: Path | None) -> tuple[dict, str | None]:
             continue
         print(line, file=sys.stderr)
     stdout = result.stdout
+
+    # ---- TEMP DEBUG (remove after diagnosing empty-stdout issue) ----
+    print("=== ENDORCTL DEBUG START ===", file=sys.stderr)
+    print(f"DEBUG: cmd = {' '.join(cmd)}", file=sys.stderr)
+    print(f"DEBUG: returncode = {result.returncode}", file=sys.stderr)
+    print(f"DEBUG: len(stdout) = {len(stdout)} (stripped: {len(stdout.strip())})", file=sys.stderr)
+    print(f"DEBUG: len(stderr) = {len(result.stderr)}", file=sys.stderr)
+    print(f"DEBUG: stdout repr (first 2000 chars): {stdout[:2000]!r}", file=sys.stderr)
+    print(f"DEBUG: stdout repr (last 500 chars): {stdout[-500:]!r}", file=sys.stderr)
+    print(f"DEBUG: stderr (last 3000 chars): {result.stderr[-3000:]!r}", file=sys.stderr)
+    print("=== ENDORCTL DEBUG END ===", file=sys.stderr)
+    # ---- END TEMP DEBUG ----
+
     if not stdout.strip():
         print("Error: endorctl produced no JSON output.", file=sys.stderr)
         sys.exit(2)
