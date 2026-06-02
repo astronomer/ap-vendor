@@ -43,6 +43,14 @@ def _is_git_hash(value: str) -> bool:
     return bool(_GIT_HASH_RE.fullmatch(value))
 
 
+def _extract_web_url(stderr: str) -> str | None:
+    for line in stderr.splitlines():
+        match = re.search(r"(https://app\.endorlabs\.com/\S+)", line)
+        if match:
+            return match.group(1)
+    return None
+
+
 def run_endorctl(image: str, image_tar: Path | None) -> tuple[dict, str | None]:
     """Run endorctl container scan and return parsed JSON + web URL."""
     cmd = ["endorctl", "container", "scan", "--image", image, "-o", "json"]
@@ -58,27 +66,16 @@ def run_endorctl(image: str, image_tar: Path | None) -> tuple[dict, str | None]:
             continue
         print(line, file=sys.stderr)
     stdout = result.stdout
-
-    # ---- TEMP DEBUG (remove after diagnosing empty-stdout issue) ----
-    print("=== ENDORCTL DEBUG START ===", file=sys.stderr)
-    print(f"DEBUG: cmd = {' '.join(cmd)}", file=sys.stderr)
-    print(f"DEBUG: returncode = {result.returncode}", file=sys.stderr)
-    print(f"DEBUG: len(stdout) = {len(stdout)} (stripped: {len(stdout.strip())})", file=sys.stderr)
-    print(f"DEBUG: len(stderr) = {len(result.stderr)}", file=sys.stderr)
-    print(f"DEBUG: stdout repr (first 2000 chars): {stdout[:2000]!r}", file=sys.stderr)
-    print(f"DEBUG: stdout repr (last 500 chars): {stdout[-500:]!r}", file=sys.stderr)
-    print(f"DEBUG: stderr (last 3000 chars): {result.stderr[-3000:]!r}", file=sys.stderr)
-    print("=== ENDORCTL DEBUG END ===", file=sys.stderr)
-    # ---- END TEMP DEBUG ----
-
     if not stdout.strip():
-        print("Error: endorctl produced no JSON output.", file=sys.stderr)
+        # endorctl uploads container-scan results to the backend and only emits
+        # JSON on stdout when there are findings to format. A clean scan (zero
+        # findings) exits 0 with empty stdout — that is a pass, not an error.
+        if result.returncode == 0:
+            print("endorctl produced no JSON output (clean scan, results uploaded to Endor API).")
+            return {"all_findings": []}, _extract_web_url(result.stderr)
+        print(f"Error: endorctl exited {result.returncode} with no JSON output.", file=sys.stderr)
         sys.exit(2)
-    web_url = None
-    for line in result.stderr.splitlines():
-        match = re.search(r"(https://app\.endorlabs\.com/\S+)", line)
-        if match:
-            web_url = match.group(1)
+    web_url = _extract_web_url(result.stderr)
     try:
         return json.loads(stdout), web_url
     except json.JSONDecodeError as e:
