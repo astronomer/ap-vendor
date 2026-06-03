@@ -292,22 +292,27 @@ mappings:
       mount_path: "$2"
 
   # Astro Event Scheduler SLA timings — emitted once per DagRun by the owning
-  # scheduler. Histograms; buckets cluster sub-second resolution with long-tail
-  # coverage out to 60s. Specific rules must precede the catch-all below so the
-  # dotted suffix is collapsed cleanly (otherwise the catch-all would produce a
-  # name containing a literal dot).
+  # scheduler via Airflow Stats.timing, which puts the value on the wire in
+  # MILLISECONDS (it converts the timedelta via total_seconds() * 1000).
+  # statsd-exporter observes the raw value with no unit conversion, so the
+  # buckets MUST be in milliseconds: 100ms (0.1s) .. 60000ms (60s), clustering
+  # sub-second resolution with long-tail coverage out to 60s. The 1s SLA line
+  # is le="1000". Do not "simplify" these to seconds — the emitter sends ms.
+  # Specific rules must precede the catch-all below so each timer is bucketed
+  # as a histogram (the catch-all sets no timer_type, so it would export these
+  # as a summary) and so the dotted suffix is collapsed cleanly.
   - match: 'airflow\.astro_event_scheduler\.sla\.time_to_first_task'
     match_type: regex
     match_metric_type: timer
-    name: "astro_event_scheduler_sla_time_to_first_task"
+    name: "astro_event_scheduler_sla_time_to_first_task_milliseconds"
     timer_type: histogram
-    buckets: [0.1, 0.25, 0.5, 0.75, 1, 2, 5, 10, 30, 60]
+    buckets: [100, 250, 500, 750, 1000, 2000, 5000, 10000, 30000, 60000]
   - match: 'airflow\.astro_event_scheduler\.sla\.task_lag'
     match_type: regex
     match_metric_type: timer
-    name: "astro_event_scheduler_sla_task_lag"
+    name: "astro_event_scheduler_sla_task_lag_milliseconds"
     timer_type: histogram
-    buckets: [0.1, 0.25, 0.5, 0.75, 1, 2, 5, 10, 30, 60]
+    buckets: [100, 250, 500, 750, 1000, 2000, 5000, 10000, 30000, 60000]
 
   # Safety net for any future astro_event_scheduler.sla.* metric without a
   # dedicated rule above — collapses the dotted suffix so we never produce a
