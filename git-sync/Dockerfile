@@ -37,7 +37,7 @@ RUN git clone https://github.com/kubernetes/git-sync.git /tmp/git-sync && \
     CGO_ENABLED=0 go build -o /usr/local/bin/git-sync . && \
     cd / && rm -rf /tmp/git-sync
 
-FROM quay.io/astronomer/ap-base:2026.6.1
+FROM quay.io/astronomer/ap-base:2026.6.4
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 USER root
 RUN apk update && apk upgrade --available && \
