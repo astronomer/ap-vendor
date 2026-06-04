@@ -29,7 +29,7 @@
 # limitations under the License.
 # https://github.com/kubernetes/git-sync/releases
 
-FROM golang:1.26.3-alpine3.22 AS builder
+FROM golang:1.26.4-alpine3.22 AS builder
 RUN apk add --no-cache git
 RUN git clone https://github.com/kubernetes/git-sync.git /tmp/git-sync && \
     cd /tmp/git-sync && \
