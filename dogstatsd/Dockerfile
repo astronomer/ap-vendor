@@ -39,4 +39,4 @@ RUN addgroup -g 1000 -S datadog \
 
 COPY --chown=datadog:datadog include/dogstatsd.yaml /etc/datadog-agent/dogstatsd.yaml
 
-USER datadog
+USER 1000
