@@ -26,8 +26,6 @@ services:
     image: ap-blackbox-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: blackbox-exporter
-    ports:
-      - 9115:9115
   ap-configmap-reloader:
     image: ap-configmap-reloader:${ASTRO_IMAGE_TAG:-latest}
     build:
