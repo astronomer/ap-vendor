@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://images.chainguard.dev/directory/image/dogstatsd/versions
-FROM cgr.dev/astronomer.io/dogstatsd:7.78.4
+FROM cgr.dev/astronomer.io/dogstatsd:7.79.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
