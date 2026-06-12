@@ -13,12 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/r/datadog/dogstatsd/tags
-FROM datadog/dogstatsd:7.71.2
+# https://images.chainguard.dev/directory/image/dogstatsd/versions
+FROM cgr.dev/astronomer.io/dogstatsd:7.78.4
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-COPY --chown=root:root include/dogstatsd.yaml /etc/datadog-agent/dogstatsd.yaml
+COPY include/dogstatsd.yaml /etc/datadog-agent/dogstatsd.yaml
