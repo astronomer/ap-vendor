@@ -15,7 +15,7 @@
 
 
 # https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-alertmanager
-FROM cgr.dev/astronomer.io/prometheus-alertmanager:0.32.1 AS upstream
+FROM cgr.dev/astronomer.io/prometheus-alertmanager:0.32.2 AS upstream
 
 FROM quay.io/astronomer/ap-base:2026.6.15
 LABEL maintainer="Astronomer <humans@astronomer.io>"
