@@ -30,8 +30,8 @@ RUN apk add --no-cache python3
 RUN mkdir -p /alertmanager /etc/alertmanager && \
     chown -R nobody:nobody /etc/alertmanager /alertmanager
 
-COPY --from=upstream /bin/amtool /usr/local/bin
-COPY --from=upstream /bin/alertmanager /usr/local/bin
+COPY --from=upstream /usr/bin/amtool /usr/local/bin
+COPY --from=upstream /usr/bin/alertmanager /usr/local/bin
 COPY --from=upstream /etc/alertmanager/alertmanager.yml   /etc/alertmanager/alertmanager.yml
 COPY --chown=65534:65534 entrypoint.sh /entrypoint.sh
 
