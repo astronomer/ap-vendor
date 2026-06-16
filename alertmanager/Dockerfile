@@ -15,9 +15,9 @@
 
 
 # https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-alertmanager
-FROM cgr.dev/astronomer.io/prometheus-alertmanager:0.32.1 AS upstream
+FROM cgr.dev/astronomer.io/prometheus-alertmanager:0.32.2 AS upstream
 
-FROM quay.io/astronomer/ap-base:2026.6.5
+FROM quay.io/astronomer/ap-base:2026.6.15
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
@@ -30,8 +30,8 @@ RUN apk add --no-cache python3
 RUN mkdir -p /alertmanager /etc/alertmanager && \
     chown -R nobody:nobody /etc/alertmanager /alertmanager
 
-COPY --from=upstream /bin/amtool /usr/local/bin
-COPY --from=upstream /bin/alertmanager /usr/local/bin
+COPY --from=upstream /usr/bin/amtool /usr/local/bin/amtool
+COPY --from=upstream /usr/bin/alertmanager /usr/local/bin/alertmanager
 COPY --from=upstream /etc/alertmanager/alertmanager.yml   /etc/alertmanager/alertmanager.yml
 COPY --chown=65534:65534 entrypoint.sh /entrypoint.sh
 
