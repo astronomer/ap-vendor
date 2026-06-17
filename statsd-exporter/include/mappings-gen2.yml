@@ -291,7 +291,42 @@ mappings:
       instance: "$1"
       mount_path: "$2"
 
-  # Astro Event Scheduler metrics — accept all and strip the airflow prefix
+  # Astro Event Scheduler SLA timings — emitted once per DagRun by the owning
+  # scheduler via Airflow Stats.timing, which puts the value on the wire in
+  # MILLISECONDS (it converts the timedelta via total_seconds() * 1000).
+  # statsd-exporter observes the raw value with no unit conversion, so the
+  # buckets MUST be in milliseconds: 100ms (0.1s) .. 60000ms (60s), clustering
+  # sub-second resolution with long-tail coverage out to 60s. The 1s SLA line
+  # is le="1000". Do not "simplify" these to seconds — the emitter sends ms.
+  # Specific rules must precede the catch-all below so each timer is bucketed
+  # as a histogram (the catch-all sets no timer_type, so it would export these
+  # as a summary) and so the dotted suffix is collapsed cleanly.
+  - match: 'airflow\.astro_event_scheduler\.sla\.time_to_first_task'
+    match_type: regex
+    match_metric_type: timer
+    name: "astro_event_scheduler_sla_time_to_first_task_milliseconds"
+    timer_type: histogram
+    buckets: [100, 250, 500, 750, 1000, 2000, 5000, 10000, 30000, 60000]
+  - match: 'airflow\.astro_event_scheduler\.sla\.task_lag'
+    match_type: regex
+    match_metric_type: timer
+    name: "astro_event_scheduler_sla_task_lag_milliseconds"
+    timer_type: histogram
+    buckets: [100, 250, 500, 750, 1000, 2000, 5000, 10000, 30000, 60000]
+
+  # Safety net for any future astro_event_scheduler.sla.* metric without a
+  # dedicated rule above — collapses the dotted suffix so we never produce a
+  # Prometheus name containing a literal dot. New SLA *timer* metrics still
+  # need their own explicit histogram rule above this one, otherwise
+  # statsd-exporter exports them as a summary (its default for timers).
+  - match: 'airflow\.astro_event_scheduler\.sla\.(.+)'
+    match_type: regex
+    name: "astro_event_scheduler_sla_${1}"
+
+  # Astro Event Scheduler metrics — accept all and strip the airflow prefix.
+  # Note: this rule doesn't constrain match_metric_type, so any future timer
+  # metric that falls through to here will be exported as a summary, not a
+  # histogram. Add an explicit timer→histogram rule above for new timers.
   - match: 'airflow\.astro_event_scheduler\.(.+)'
     match_type: regex
     name: "astro_event_scheduler_${1}"
