@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#FROM ghcr.io/external-secrets/external-secrets:v2.2.0
-FROM cgr.dev/astronomer.io/external-secrets:v2.2.0
+#FROM ghcr.io/external-secrets/external-secrets:2.2.0
+FROM cgr.dev/astronomer.io/external-secrets:2.2.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
