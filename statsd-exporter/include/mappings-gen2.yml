@@ -296,6 +296,11 @@ mappings:
     match_type: regex
     name: "astro_event_scheduler_${1}"
 
+  # Astro shared distribution namespace — accept all and strip the airflow prefix
+  - match: 'airflow\.astro_dist\.(.+)'
+    match_type: regex
+    name: "astro_dist_${1}"
+
   # drop any metric not matched
   - match: "."
     match_type: regex
