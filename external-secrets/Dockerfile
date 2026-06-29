@@ -14,7 +14,7 @@
 # limitations under the License.
 
 #FROM ghcr.io/external-secrets/external-secrets:2.2.0
-FROM cgr.dev/astronomer.io/external-secrets:2.3.0
+FROM cgr.dev/astronomer.io/external-secrets:2.6.0
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
