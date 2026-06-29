@@ -14,9 +14,46 @@
 # limitations under the License.
 
 #FROM ghcr.io/external-secrets/external-secrets:2.7.0
-FROM cgr.dev/astronomer.io/external-secrets:2.7.0
+#FROM cgr.dev/astronomer.io/external-secrets:2.7.0
+#LABEL maintainer="Astronomer <humans@astronomer.io>"
+
+#ARG BUILD_NUMBER=-1
+#LABEL io.astronomer.docker=true
+#LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+ARG GO_VERSION=1.26.4
+FROM golang:${GO_VERSION}-alpine3.22 AS build
+
+ENV ESO_DIR=/go/src/github.com/astronomer/external-secrets
+
+ARG GOOS=linux
+ARG GOARCH=amd64
+ARG GOARM=6
+ARG VERSION
+ARG REVISION
+
+RUN set -ex \
+    && apk add --no-cache make git file
+
+WORKDIR $ESO_DIR
+
+RUN git clone https://github.com/astronomer/external-secrets.git $ESO_DIR && git checkout 95e9f1e874f6bab962f631fdabdadf59a1e1f3c8
+
+RUN go mod download
+RUN go build -o external-secrets main.go
+
+# Final docker image building stage
+# https://quay.io/repository/astronomer/ap-base?tab=tags&tag=latest
+FROM quay.io/astronomer/ap-base:2026.6.23
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+LABEL maintainer="Astronomer <humans@astronomer.io>"
+
+COPY --from=build /go/src/github.com/astronomer/external-secrets/external-secrets /bin/external-secrets
+
+USER 65534
+
+ENTRYPOINT ["/bin/external-secrets"]
