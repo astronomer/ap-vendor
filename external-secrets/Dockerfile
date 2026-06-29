@@ -40,7 +40,7 @@ WORKDIR $ESO_DIR
 RUN git clone https://github.com/astronomer/external-secrets.git $ESO_DIR && git checkout 95e9f1e874f6bab962f631fdabdadf59a1e1f3c8
 
 RUN go mod download
-RUN go build -o external-secrets main.go
+RUN go build -tags all_providers -o external-secrets main.go
 
 # Final docker image building stage
 # https://quay.io/repository/astronomer/ap-base?tab=tags&tag=latest
