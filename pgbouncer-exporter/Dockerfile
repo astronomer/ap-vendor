@@ -16,7 +16,7 @@
 # https://hub.docker.com/r/jbub/pgbouncer_exporter
 FROM cgr.dev/astronomer.io/prometheus-pgbouncer-exporter:0.12.1-dev AS upstream
 
-FROM quay.io/astronomer/ap-base:2026.7.6
+FROM quay.io/astronomer/ap-base:2026.7.13
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 

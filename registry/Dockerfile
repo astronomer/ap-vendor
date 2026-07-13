@@ -17,7 +17,7 @@
 # Registry image uses sha256 digest to ensure we are using the exact same image as the upstream, which is important for security and stability. The version of the registry image can be found in version.txt, but the sha256 digest must be looked up manually on chainguard.dev.
 FROM cgr.dev/astronomer.io/ap-registry:3.1.1 AS upstream
 
-FROM quay.io/astronomer/ap-base:2026.7.6
+FROM quay.io/astronomer/ap-base:2026.7.13
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
