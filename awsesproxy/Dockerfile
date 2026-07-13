@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG GO_VERSION=1.26.4
+ARG GO_VERSION=1.26.5
 FROM golang:${GO_VERSION}-alpine AS builder
 
 ENV AWSESPROXY_DIR=/go/src/github.com/astronomer/aws-es-proxy
@@ -22,7 +22,7 @@ RUN set -ex \
 
 WORKDIR $AWSESPROXY_DIR
 
-RUN git clone https://github.com/astronomer/aws-es-proxy.git $AWSESPROXY_DIR && git checkout 89b3c29292e14ff445750af12fb9d2ad3b0fe47c
+RUN git clone https://github.com/astronomer/aws-es-proxy.git $AWSESPROXY_DIR && git checkout 8aed7c96f9bad5c79a0beada69e89bd4cbb47488
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o aws-es-proxy
 
