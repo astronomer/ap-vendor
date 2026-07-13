@@ -22,7 +22,7 @@ RUN set -ex \
 WORKDIR $GOPATH/src/github.com/nats-io/prometheus-nats-exporter
 
 # https://github.com/nats-io/prometheus-nats-exporter/releases
-ENV NATS_EXPORTER_VERSION=0.20.1
+ENV NATS_EXPORTER_VERSION=0.20.0
 
 RUN git clone --branch v${NATS_EXPORTER_VERSION} https://github.com/nats-io/prometheus-nats-exporter.git .
 
