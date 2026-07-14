@@ -24,6 +24,10 @@
   "liveNow": false,
   "panels": [
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -94,6 +98,10 @@
       },
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "exemplar": true,
           "expr": "100 * (count by (job) (up{job=\"fluentd\"}  == 0) / count by (job) (up{job=\"fluentd\"}))",
           "hide": false,
@@ -106,6 +114,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -179,6 +191,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "rate(fluentd_output_status_emit_count{type=~\"(elasticsearch|elasticsearch_dynamic)\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -190,6 +206,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -263,6 +283,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "rate(fluentd_output_status_emit_records{type=~\"(elasticsearch|elasticsearch_dynamic)\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -274,6 +298,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -347,6 +375,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "fluentd_output_status_buffer_total_bytes{type=~\"(elasticsearch|elasticsearch_dynamic)\"}",
           "format": "time_series",
           "intervalFactor": 1,
@@ -358,6 +390,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -432,6 +468,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "fluentd_output_status_buffer_queue_length{type=~\"(elasticsearch|elasticsearch_dynamic)\"}",
           "format": "time_series",
           "intervalFactor": 1,
@@ -443,6 +483,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -516,6 +560,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "fluentd_output_status_buffer_total_bytes{type=~\"(elasticsearch|elasticsearch_dynamic)\"}",
           "format": "time_series",
           "intervalFactor": 1,
@@ -527,6 +575,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -601,6 +653,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "fluentd_output_status_buffer_queue_length{type=~\"(elasticsearch|elasticsearch_dynamic)\"}",
           "format": "time_series",
           "intervalFactor": 1,
@@ -612,6 +668,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -685,6 +745,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "rate(fluentd_output_status_num_errors{type=~\"(elasticsearch|elasticsearch_dynamic)\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -696,6 +760,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -769,6 +837,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "fluentd_output_status_retry_wait{type=~\"(elasticsearch|elasticsearch_dynamic)\"}",
           "format": "time_series",
           "intervalFactor": 1,
@@ -785,7 +857,27 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "Prometheus",
+          "value": "Prometheus"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
   },
   "time": {
     "from": "now-3h",

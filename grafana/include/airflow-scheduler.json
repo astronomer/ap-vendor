@@ -27,6 +27,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -76,6 +80,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_scheduler_heartbeat{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 2,
@@ -99,6 +107,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -148,6 +160,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_localtaskjob_start{deployment=~\"$deployment\"} - airflow_localtaskjob_end{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -171,6 +187,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -220,6 +240,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_zombies_killed{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -243,6 +267,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -292,6 +320,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_dagbag_size{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 2,
@@ -315,6 +347,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "format": "s",
       "gauge": {
         "maxValue": 100,
@@ -364,6 +400,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_collect_dags{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 2,
@@ -387,6 +427,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -436,6 +480,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_dagbag_import_errors{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -459,6 +507,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Number of currently running DAG parsing processes",
       "format": "none",
       "gauge": {
@@ -509,6 +561,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_dag_processing_processes{deployment=~\"$deployment\"})",
           "format": "time_series",
           "instant": false,
@@ -533,6 +589,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "",
       "format": "none",
       "gauge": {
@@ -583,6 +643,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_schedulerjob_start{deployment=~\"$deployment\"} - airflow_schedulerjob_end{deployment=~\"$deployment\"}) ",
           "format": "time_series",
           "instant": false,
@@ -607,6 +671,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Number of file processors that have been killed due to taking too long",
       "format": "none",
       "gauge": {
@@ -657,6 +725,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_dag_processing_processor_timeouts{deployment=~\"$deployment\"})",
           "format": "time_series",
           "instant": false,
@@ -681,6 +753,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Number of Executable TaskInstance",
       "format": "none",
       "gauge": {
@@ -731,6 +807,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_scheduler_tasks_executable{deployment=~\"$deployment\"})",
           "format": "time_series",
           "instant": false,
@@ -755,6 +835,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Number of TaskInstance pending execution by Scheduler",
       "format": "none",
       "gauge": {
@@ -805,6 +889,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_scheduler_tasks_pending{deployment=~\"$deployment\"})",
           "format": "time_series",
           "instant": false,
@@ -829,6 +917,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Number of Tasks in Executor",
       "format": "none",
       "gauge": {
@@ -879,6 +971,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_scheduler_tasks_running{deployment=~\"$deployment\"})",
           "format": "time_series",
           "instant": false,
@@ -903,6 +999,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Number of Tasks starving in executor as there are no open slots in the pool",
       "format": "none",
       "gauge": {
@@ -953,6 +1053,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_scheduler_tasks_starving{deployment=~\"$deployment\"})",
           "format": "time_series",
           "instant": false,
@@ -977,6 +1081,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "format": "none",
       "gauge": {
         "minValue": 0,
@@ -1025,6 +1133,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_ti_successes{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1048,6 +1160,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1097,6 +1213,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_ti_failures{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1117,6 +1237,10 @@
       "valueName": "current"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1195,6 +1319,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "rate(airflow_operator_successes{deployment=~\"$deployment\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1206,6 +1334,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1284,6 +1416,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "rate(airflow_operator_failures{deployment=~\"$deployment\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1295,6 +1431,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "TimeSeries Graph showing rate of Scheduler Heartbeart Rate per min. 0 indicate Scheduler outage",
       "fieldConfig": {
         "defaults": {
@@ -1375,6 +1515,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "rate(airflow_scheduler_heartbeat{deployment=~\"$deployment\", type=\"counter\"}[1m])*60",
           "format": "time_series",
           "instant": false,
@@ -1388,6 +1532,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1465,6 +1613,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_scheduler_tasks_executable{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1472,6 +1624,10 @@
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_scheduler_tasks_pending{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1479,6 +1635,10 @@
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_scheduler_tasks_running{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1486,6 +1646,10 @@
           "refId": "C"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_scheduler_tasks_starving{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1497,6 +1661,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1574,6 +1742,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(airflow_schedulerjob_start{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1581,6 +1753,10 @@
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "-sum(airflow_schedulerjob_end{deployment=~\"$deployment\"})",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1592,6 +1768,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1670,6 +1850,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "rate(airflow_dagrun_dependency_check_sum{deployment=~\"$deployment\"}[3m])\n/\nrate(airflow_dagrun_dependency_check_count{deployment=~\"$deployment\"}[3m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -1689,11 +1873,34 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": true,
+          "text": "Prometheus",
+          "value": "Prometheus"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": ".*",
         "current": {
           "selected": false,
           "text": "All",
           "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
         },
         "definition": "",
         "hide": 0,

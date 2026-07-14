@@ -24,6 +24,10 @@
   "liveNow": false,
   "panels": [
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -94,6 +98,10 @@
       },
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "exemplar": true,
           "expr": "count(node_uname_info)",
           "interval": "",
@@ -118,6 +126,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -374,6 +386,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "exemplar": false,
           "expr": "ALERTS",
           "format": "table",
@@ -409,6 +425,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -466,6 +486,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~\"data-.*-prometheus-.*\"})",
           "format": "time_series",
           "instant": true,
@@ -477,6 +501,10 @@
       "type": "stat"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -534,6 +562,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~\"data-.*-registry-.*\"})",
           "format": "time_series",
           "instant": true,
@@ -545,6 +577,10 @@
       "type": "stat"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -602,6 +638,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~\"data-.*elasticsearch-data-.*\"})",
           "format": "time_series",
           "instant": true,
@@ -626,6 +666,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -683,6 +727,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(kubelet_volume_stats_available_bytes{persistentvolumeclaim=~\"data-.*-prometheus-.*\"}) / sum(kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~\"data-.*-prometheus-.*\"}) * 100",
           "format": "time_series",
           "instant": true,
@@ -694,6 +742,10 @@
       "type": "gauge"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -751,6 +803,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(kubelet_volume_stats_available_bytes{persistentvolumeclaim=~\"data-.*-registry-.*\"}) / sum(kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~\"data-.*-registry-.*\"}) * 100",
           "format": "time_series",
           "instant": true,
@@ -762,6 +818,10 @@
       "type": "gauge"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -819,6 +879,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(kubelet_volume_stats_available_bytes{persistentvolumeclaim=~\"data-.*-elasticsearch-data-.*\"}) / sum(kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~\"data-.*-elasticsearch-data-.*\"}) * 100",
           "format": "time_series",
           "instant": true,
@@ -843,6 +907,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Percent of HTTP responses not 5xx, as a moving average over the last 24 hours. 503 from webserver is ignored because it's expected when the airflow webserver is coming up.",
       "fieldConfig": {
         "defaults": {
@@ -994,12 +1062,20 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "(sum(increase(nginx_ingress_controller_requests{status!~\"5.*\"}[1d])) + sum(increase(nginx_ingress_controller_requests{service=~\".*webserver\",status=\"503\"}[1d])) ) / sum(increase(nginx_ingress_controller_requests[1d]))",
           "hide": false,
           "legendFormat": "Availability",
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": ".999",
           "hide": false,
           "legendFormat": "SLO",
@@ -1010,6 +1086,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The percent of responses with code 5xx as a percent of total requests , categorized by response code, measured every five minutes. 503 from webserver is ignored because it's expected when the airflow webserver is coming up.",
       "fieldConfig": {
         "defaults": {
@@ -1102,6 +1182,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum((increase(nginx_ingress_controller_requests{status=~\"5.[^3]\"}[5m]) or increase(nginx_ingress_controller_requests{service!~\".*webserver\", status=\"503\"}[5m]))) by (status) / ignoring(status) group_left sum(increase(nginx_ingress_controller_requests{}[5m])) > 0",
           "hide": false,
           "legendFormat": "{{ status }}",
@@ -1112,6 +1196,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The percent of total requests that error with 4xx, categorized by response code, measured every five minutes",
       "fieldConfig": {
         "defaults": {
@@ -1188,6 +1276,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(nginx_ingress_controller_requests{status=~\"4.*\"}[5m])) by (status) / ignoring(status) group_left sum(increase(nginx_ingress_controller_requests{}[5m]))",
           "hide": false,
           "legendFormat": "{{ status }}",
@@ -1198,6 +1290,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The 99th percentile of response times should be less than 1 second. The line shows the average over the past 24 hours.",
       "fieldConfig": {
         "defaults": {
@@ -1320,6 +1416,10 @@
       "repeatDirection": "h",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "histogram_quantile(0.99, sum by (le) (rate(nginx_ingress_controller_request_duration_seconds_bucket{host=~\".*houston.*|.*app.*\", status!=\"101\"}[1d])))",
           "format": "time_series",
           "hide": false,
@@ -1329,6 +1429,10 @@
           "refId": "C"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "1",
           "format": "time_series",
           "hide": false,
@@ -1342,6 +1446,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Where are the 99th percentile of latency requests coming from?",
       "fieldConfig": {
         "defaults": {
@@ -1415,6 +1523,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "histogram_quantile(0.99, rate(nginx_ingress_controller_request_duration_seconds_bucket{host=~\".*houston.*|.*app.*\", status!=\"101\"}[5m]))",
           "instant": false,
           "legendFormat": "{{ host }} {{ method }} {{ status }}",
@@ -1434,6 +1546,10 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "How many requests are being handled per second, averaged over one minute.",
       "fieldConfig": {
         "defaults": {
@@ -1479,6 +1595,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(nginx_ingress_controller_requests{}[1m])) / 60",
           "hide": false,
           "legendFormat": "1 hour",
@@ -1525,6 +1645,10 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "How many requests have been handled in the past 24 hours. This is useful to monitor platform growth.",
       "fieldConfig": {
         "defaults": {
@@ -1570,6 +1694,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(nginx_ingress_controller_requests{}[1d]))",
           "hide": false,
           "legendFormat": "1 hour",
@@ -1620,6 +1748,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The average task success rate, categorized by percentile. For example, p50 means the success rate of the healthier half of the deployments, sorted by success rate. p100 means just the healthiest deployment. p0 means the average of all deployments.",
       "fieldConfig": {
         "defaults": {
@@ -1693,30 +1825,50 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg(topk(1, (airflow_ti_successes) / (airflow_ti_failures + airflow_ti_successes)))",
           "hide": false,
           "legendFormat": "p100",
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg(topk(scalar(count(airflow_ti_successes) or on() vector(0)) / 4, (airflow_ti_successes) / (airflow_ti_failures + airflow_ti_successes)))",
           "hide": false,
           "legendFormat": "p75",
           "refId": "C"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg(topk(scalar(count(airflow_ti_successes) or on() vector(0)) / 2, (airflow_ti_successes) / (airflow_ti_failures + airflow_ti_successes)))",
           "hide": false,
           "legendFormat": "p50",
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg(topk(scalar(count(airflow_ti_successes) or on() vector(0)) / 1.333, (airflow_ti_successes) / (airflow_ti_failures + airflow_ti_successes)))",
           "hide": false,
           "legendFormat": "p25",
           "refId": "E"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg((airflow_ti_successes) / (airflow_ti_failures + airflow_ti_successes))",
           "hide": false,
           "legendFormat": "p0",
@@ -1727,6 +1879,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The number of tasks that have run in the past 24 hours, categorized by success and failure. This does not account for the size or duration of tasks, but is still kind of useful for monitoring growth.",
       "fieldConfig": {
         "defaults": {
@@ -1817,12 +1973,20 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(airflow_ti_successes[1d]))",
           "hide": false,
           "legendFormat": "successful",
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(airflow_ti_failures[1d]))",
           "hide": false,
           "legendFormat": "failed",
@@ -1833,6 +1997,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The percent of Airflow schedulers that have received a heartbeat in the past 1 minute",
       "fieldConfig": {
         "defaults": {
@@ -1906,6 +2074,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "(count(rate(airflow_scheduler_heartbeat{}[1m]) > 0) / count(rate(airflow_scheduler_heartbeat{}[1m])))",
           "legendFormat": "healthy",
           "refId": "A"
@@ -1915,6 +2087,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The deployments which do not have healthy schedulers.",
       "fieldConfig": {
         "defaults": {
@@ -1988,6 +2164,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "clamp_min(rate(airflow_scheduler_heartbeat{}[1m]) <= 0, 1)",
           "legendFormat": "{{ deployment }}",
           "refId": "A"
@@ -1997,6 +2177,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The average time to parse a DAG, categorized by percentile. For example, p50 means the bottom half of the deployments, sorted by parsing duration. p100 means just the deployment with the fastest average DAG parsing time. p0 means the average of all DAG parsing times. It is normalized across deployments, so each deployment has the same impact on the average, regardless of the number of DAGs a deployment has.",
       "fieldConfig": {
         "defaults": {
@@ -2070,24 +2254,40 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg(bottomk(1, (airflow_dag_processing_total_parse_time / airflow_dagbag_size) > 0 < +Inf))",
           "hide": false,
           "legendFormat": "p100",
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg(bottomk(scalar(count(airflow_dagbag_size > 0) or vector(0)) / 4, (airflow_dag_processing_total_parse_time / airflow_dagbag_size) > 0 < +Inf))",
           "hide": false,
           "legendFormat": "p75",
           "refId": "C"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg(bottomk(scalar(count(airflow_dagbag_size > 0) or vector(0)) / 2, (airflow_dag_processing_total_parse_time / airflow_dagbag_size) > 0 < +Inf))",
           "hide": false,
           "legendFormat": "p50",
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg((airflow_dag_processing_total_parse_time / airflow_dagbag_size) > 0 < +Inf)",
           "hide": false,
           "legendFormat": "p0",
@@ -2098,6 +2298,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The number of Airflow webservers that have restarted in the past five minutes, categorized by namespace",
       "fieldConfig": {
         "defaults": {
@@ -2171,6 +2375,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "round(sum by (namespace) (increase(kube_pod_container_status_restarts_total{pod=~\".*webserver.*\"}[5m]))) > 0",
           "legendFormat": "{{ namespace }}",
           "refId": "A"
@@ -2180,6 +2388,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The number of DAG parsing timeouts in the past 5 minutes",
       "fieldConfig": {
         "defaults": {
@@ -2253,6 +2465,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "increase(airflow_dag_processing_processor_timeouts[5m])",
           "legendFormat": "{{ deployment }}",
           "refId": "A"
@@ -2262,6 +2478,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "At any given time, list the 5 deployments with the slowest average DAG parsing time",
       "fieldConfig": {
         "defaults": {
@@ -2335,6 +2555,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "topk(5, (airflow_dag_processing_total_parse_time / airflow_dagbag_size) > 0 < +Inf)",
           "hide": false,
           "legendFormat": "{{ deployment }}",
@@ -2358,6 +2582,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The number of currently active connections to the database",
       "fieldConfig": {
         "defaults": {
@@ -2431,6 +2659,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum (pgbouncer_exporter_database_current_connections)",
           "legendFormat": "connections",
           "refId": "A"
@@ -2440,6 +2672,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The number of active clients, by deployment",
       "fieldConfig": {
         "defaults": {
@@ -2513,6 +2749,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum by (deployment) (pgbouncer_exporter_pools_active_clients)",
           "legendFormat": "{{ deployment }}",
           "refId": "A"
@@ -2522,6 +2762,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The number of waiting clients, by deployment",
       "fieldConfig": {
         "defaults": {
@@ -2595,6 +2839,10 @@
       "pluginVersion": "8.3.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum by (deployment) (pgbouncer_exporter_pools_waiting_clients)",
           "legendFormat": "{{ deployment }}",
           "refId": "A"
@@ -2609,7 +2857,27 @@
   "style": "dark",
   "tags": ["platform"],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "Prometheus",
+          "value": "Prometheus"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
   },
   "time": {
     "from": "now-30m",
