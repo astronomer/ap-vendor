@@ -69,6 +69,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "decimals": 3,
       "description": "Percentage of uptime during the most recent $interval period.  Change the period with the 'interval' dropdown above.",
       "format": "none",
@@ -120,6 +124,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg(avg_over_time(up{instance=~\"$instance\",job=~\"$job\"}[$interval]) * 100)",
           "format": "time_series",
           "intervalFactor": 2,
@@ -143,6 +151,10 @@
     },
     {
       "columns": [],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Servers which are DOWN RIGHT NOW! \nFIX THEM!!",
       "fontSize": "100%",
       "gridPos": {
@@ -195,6 +207,10 @@
       ],
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "up{instance=~\"$instance\",job=~\"$job\"} < 1",
           "format": "table",
           "intervalFactor": 2,
@@ -211,6 +227,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["rgba(50, 172, 45, 0.97)", "rgba(237, 129, 40, 0.89)", "rgba(245, 54, 54, 0.9)"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Total number of time series in prometheus",
       "format": "short",
       "gauge": {
@@ -261,6 +281,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(prometheus_tsdb_head_series{job=~\"$job\",instance=~\"$instance\"})",
           "format": "time_series",
           "intervalFactor": 2,
@@ -285,6 +309,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "format": "short",
       "gauge": {
         "maxValue": 100,
@@ -334,6 +362,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(prometheus_tsdb_head_chunks{job=~\"$job\",instance=~\"$instance\"})",
           "format": "time_series",
           "intervalFactor": 2,
@@ -376,6 +408,10 @@
       "colorBackground": false,
       "colorValue": true,
       "colors": ["rgba(50, 172, 45, 0.97)", "rgba(237, 129, 40, 0.89)", "rgba(245, 54, 54, 0.9)"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The total number of rule group evaluations missed due to slow rule group evaluation.",
       "format": "none",
       "gauge": {
@@ -426,6 +462,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(sum_over_time(prometheus_evaluator_iterations_missed_total{job=~\"$job\",instance=~\"$instance\"}[$interval]))",
           "format": "time_series",
           "intervalFactor": 2,
@@ -450,6 +490,10 @@
       "colorBackground": false,
       "colorValue": true,
       "colors": ["rgba(50, 172, 45, 0.97)", "rgba(237, 129, 40, 0.89)", "rgba(245, 54, 54, 0.9)"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The total number of rule group evaluations skipped due to throttled metric storage.",
       "format": "none",
       "gauge": {
@@ -500,6 +544,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(sum_over_time(prometheus_evaluator_iterations_skipped_total{job=~\"$job\",instance=~\"$instance\"}[$interval]))",
           "format": "time_series",
           "intervalFactor": 2,
@@ -524,6 +572,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["rgba(50, 172, 45, 0.97)", "rgba(237, 129, 40, 0.89)", "rgba(245, 54, 54, 0.9)"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Total number of scrapes that hit the sample limit and were rejected.",
       "format": "none",
       "gauge": {
@@ -574,6 +626,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(sum_over_time(prometheus_target_scrapes_exceeded_sample_limit_total{job=~\"$job\",instance=~\"$instance\"}[$interval]))",
           "format": "time_series",
           "intervalFactor": 2,
@@ -598,6 +654,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["rgba(50, 172, 45, 0.97)", "rgba(237, 129, 40, 0.89)", "rgba(245, 54, 54, 0.9)"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Number of times the database failed to reload block data from disk.",
       "format": "none",
       "gauge": {
@@ -648,6 +708,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(sum_over_time(prometheus_tsdb_reloads_failures_total{job=~\"$job\",instance=~\"$instance\"}[$interval]))",
           "format": "time_series",
           "intervalFactor": 2,
@@ -672,6 +736,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["rgba(50, 172, 45, 0.97)", "rgba(237, 129, 40, 0.89)", "rgba(245, 54, 54, 0.9)"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Sum of all skipped scrapes",
       "format": "none",
       "gauge": {
@@ -722,6 +790,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(sum_over_time(prometheus_target_scrapes_exceeded_sample_limit_total{job=~\"$job\",instance=~\"$instance\"}[$interval])) + \nsum(sum_over_time(prometheus_target_scrapes_sample_duplicate_timestamp_total{job=~\"$job\",instance=~\"$instance\"}[$interval])) + \nsum(sum_over_time(prometheus_target_scrapes_sample_out_of_bounds_total{job=~\"$job\",instance=~\"$instance\"}[$interval])) + \nsum(sum_over_time(prometheus_target_scrapes_sample_out_of_order_total{job=~\"$job\",instance=~\"$instance\"}[$interval])) ",
           "format": "time_series",
           "intervalFactor": 2,
@@ -761,6 +833,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -839,6 +915,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "kubelet_volume_stats_used_bytes{persistentvolumeclaim=~\"data-.*-prometheus-.*\"}",
           "format": "time_series",
           "intervalFactor": 1,
@@ -850,6 +930,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -928,6 +1012,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "kubelet_volume_stats_available_bytes{persistentvolumeclaim=~\"data-.*-prometheus-.*\"}",
           "format": "time_series",
           "intervalFactor": 1,
@@ -939,6 +1027,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Percent of memory limit used by Prometheus. Hitting 100% will cause termination.",
       "fieldConfig": {
         "defaults": {
@@ -1018,6 +1110,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "container_memory_working_set_bytes{component_name=\"prometheus\"} / container_spec_memory_limit_bytes{component_name=\"prometheus\"} * 100",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1048,6 +1144,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "All non-zero failures and errors",
       "fieldConfig": {
         "defaults": {
@@ -1127,6 +1227,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(net_conntrack_dialer_conn_failed_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1135,6 +1239,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_evaluator_iterations_missed_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1143,6 +1251,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_evaluator_iterations_skipped_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1151,6 +1263,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_rule_evaluation_failures_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1159,6 +1275,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_sd_azure_refresh_failures_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1167,6 +1287,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_sd_consul_rpc_failures_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1175,6 +1299,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_sd_dns_lookup_failures_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1183,6 +1311,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_sd_ec2_refresh_failures_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1191,6 +1323,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_sd_gce_refresh_failures_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1199,6 +1335,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_sd_marathon_refresh_failures_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1207,6 +1347,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_sd_openstack_refresh_failures_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1215,6 +1359,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_sd_triton_refresh_failures_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1223,6 +1371,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_target_scrapes_exceeded_sample_limit_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1231,6 +1383,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_target_scrapes_sample_duplicate_timestamp_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1239,6 +1395,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_target_scrapes_sample_out_of_bounds_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1247,6 +1407,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_target_scrapes_sample_out_of_order_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1255,6 +1419,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_treecache_zookeeper_failures_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1263,6 +1431,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_tsdb_compactions_failed_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1271,6 +1443,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_tsdb_head_series_not_found{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1279,6 +1455,10 @@
           "step": 2
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(increase(prometheus_tsdb_reloads_failures_total{instance=~\"$instance\"}[5m])) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1309,6 +1489,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1388,6 +1572,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "up{instance=~\"$instance\",job=~\"$job\"}",
           "format": "time_series",
           "interval": "",
@@ -1401,6 +1589,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1479,6 +1671,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "prometheus_tsdb_head_chunks{job=~\"$job\",instance=~\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1509,6 +1705,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1587,6 +1787,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "prometheus_tsdb_head_series{job=~\"$job\",instance=~\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1599,6 +1803,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1689,6 +1897,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum( increase(prometheus_tsdb_head_series_created_total{instance=~\"$instance\"}[5m]) )",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1697,6 +1909,10 @@
           "step": 4
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum( increase(prometheus_tsdb_head_series_removed_total{instance=~\"$instance\"}[5m]) )",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1727,6 +1943,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Rate of total number of appended samples",
       "fieldConfig": {
         "defaults": {
@@ -1822,6 +2042,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "rate(prometheus_tsdb_head_samples_appended_total{job=~\"$job\",instance=~\"$instance\"}[1m])",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1852,6 +2076,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Total number of syncs that were executed on a scrape pool.",
       "fieldConfig": {
         "defaults": {
@@ -1931,6 +2159,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(prometheus_target_scrape_pool_sync_total{job=~\"$job\",instance=~\"$instance\"}) by (scrape_job)",
           "format": "time_series",
           "hide": false,
@@ -1944,6 +2176,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Actual interval to sync the scrape pool.",
       "fieldConfig": {
         "defaults": {
@@ -2023,6 +2259,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(rate(prometheus_target_sync_length_seconds_sum{job=~\"$job\",instance=~\"$instance\"}[2m])) by (scrape_job) * 1000",
           "format": "time_series",
           "intervalFactor": 2,
@@ -2053,6 +2293,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2129,6 +2373,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "scrape_duration_seconds{instance=~\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 2,
@@ -2141,6 +2389,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Total number of rejected scrapes",
       "fieldConfig": {
         "defaults": {
@@ -2220,6 +2472,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(prometheus_target_scrapes_exceeded_sample_limit_total{job=~\"$job\",instance=~\"$instance\"})",
           "format": "time_series",
           "intervalFactor": 2,
@@ -2228,6 +2484,10 @@
           "step": 4
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(prometheus_target_scrapes_sample_duplicate_timestamp_total{job=~\"$job\",instance=~\"$instance\"})",
           "format": "time_series",
           "hide": false,
@@ -2237,6 +2497,10 @@
           "step": 4
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(prometheus_target_scrapes_sample_out_of_bounds_total{job=~\"$job\",instance=~\"$instance\"})",
           "format": "time_series",
           "hide": false,
@@ -2246,6 +2510,10 @@
           "step": 4
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(prometheus_target_scrapes_sample_out_of_order_total{job=~\"$job\",instance=~\"$instance\"}) ",
           "format": "time_series",
           "hide": false,
@@ -2277,6 +2545,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "The duration of rule group evaluations",
       "fieldConfig": {
         "defaults": {
@@ -2355,6 +2627,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "1000 * rate(prometheus_evaluator_duration_seconds_sum{job=~\"$job\", instance=~\"$instance\"}[5m]) / rate(prometheus_evaluator_duration_seconds_count{job=~\"$job\", instance=~\"$instance\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
@@ -2367,6 +2643,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2443,6 +2723,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(rate(http_request_duration_microseconds_count{job=~\"$job\",instance=~\"$instance\"}[1m])) by (handler) > 0",
           "format": "time_series",
           "intervalFactor": 2,
@@ -2455,6 +2739,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2532,6 +2820,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(prometheus_engine_query_duration_seconds_sum{job=~\"$job\",instance=~\"$instance\"}) by (slice)",
           "format": "time_series",
           "intervalFactor": 2,
@@ -2544,6 +2836,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Rule-group evaluations \n - total\n - missed due to slow rule group evaluation\n - skipped due to throttled metric storage",
       "fieldConfig": {
         "defaults": {
@@ -2622,6 +2918,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(rate(prometheus_evaluator_iterations_total{job=~\"$job\", instance=~\"$instance\"}[5m]))",
           "format": "time_series",
           "intervalFactor": 2,
@@ -2630,6 +2930,10 @@
           "step": 4
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(rate(prometheus_evaluator_iterations_missed_total{job=~\"$job\", instance=~\"$instance\"}[5m]))",
           "format": "time_series",
           "intervalFactor": 2,
@@ -2638,6 +2942,10 @@
           "step": 4
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(rate(prometheus_evaluator_iterations_skipped_total{job=~\"$job\", instance=~\"$instance\"}[5m]))",
           "format": "time_series",
           "intervalFactor": 2,
@@ -2668,6 +2976,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2745,6 +3057,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "rate(prometheus_notifications_sent_total[5m])",
           "format": "time_series",
           "intervalFactor": 2,
@@ -2775,6 +3091,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2852,6 +3172,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "(time() - prometheus_config_last_reload_success_timestamp_seconds{job=~\"$job\",instance=~\"$instance\"}) / 60",
           "format": "time_series",
           "intervalFactor": 2,
@@ -2864,6 +3188,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2943,6 +3271,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "prometheus_config_last_reload_successful{job=~\"$job\",instance=~\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 2,
@@ -2973,6 +3305,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "GC invocation durations",
       "fieldConfig": {
         "defaults": {
@@ -3050,6 +3386,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(rate(go_gc_duration_seconds_sum{instance=~\"$instance\",job=~\"$job\"}[2m])) by (instance)",
           "format": "time_series",
           "intervalFactor": 2,
@@ -3072,8 +3412,31 @@
       {
         "current": {
           "selected": true,
+          "text": "Prometheus",
+          "value": "Prometheus"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "selected": true,
           "text": ["All"],
           "value": ["$__all"]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
         },
         "definition": "",
         "hide": 0,
@@ -3100,6 +3463,10 @@
           "selected": true,
           "text": ["All"],
           "value": ["$__all"]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
         },
         "definition": "",
         "hide": 0,
