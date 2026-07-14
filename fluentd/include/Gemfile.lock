@@ -59,7 +59,7 @@ GEM
       elasticsearch-api (= 8.18.0)
     elasticsearch-api (8.18.0)
       multi_json
-    excon (1.2.7)
+    excon (1.5.0)
       logger
     faraday (2.13.1)
       faraday-net_http (>= 2.0, < 3.5)
