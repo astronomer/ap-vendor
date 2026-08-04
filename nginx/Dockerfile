@@ -15,6 +15,8 @@
 
 FROM cgr.dev/astronomer.io/ingress-nginx-controller:1.15.9-dev AS builder
 
+USER root
+
 RUN apk add --no-cache \
     gcc \
     make \
