@@ -7,3 +7,10 @@ tests:
       group: git
       gid: 1000
       uid: 1000
+  test_commands:
+    - command: "forgejo --version"
+      expected_result:
+        in: "16.0.2"
+  http_services_running:
+    - port: 3000
+      response_code: 200
