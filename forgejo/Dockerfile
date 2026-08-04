@@ -13,16 +13,15 @@
 # limitations under the License.
 
 # We have an open request with chainguard for them to begin building this image: https://console.chainguard.dev/org/astronomer.io/requests/pending#
-# Until that merges we are using the rootless variant: the standard image's
-# s6-overlay entrypoint needs root to chown /data and generate host SSH keys
-# before it drops privileges to USER_UID/USER_GID, so forcing USER on that
-# image breaks first-run setup. The rootless image bakes in a Go SSH server
-# instead of OpenSSH/s6 and is built to run entirely as a non-root, arbitrary
-# UID/GID.
-FROM codeberg.org/forgejo/forgejo:16.0.2-rootless
+# Using the standard (non-rootless) image rather than the rootless variant:
+# downstream test suites `docker exec` into this container as root to do
+# configuration work, and the rootless image has no root user to exec as.
+# The standard image's entrypoint still starts as root and internally drops
+# the forgejo/git process to USER_UID/USER_GID (default 1000:1000) at
+# runtime, so we leave USER unset here rather than forcing it.
+FROM codeberg.org/forgejo/forgejo:16.0.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-USER 1000:1000

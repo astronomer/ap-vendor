@@ -1,12 +1,18 @@
 ---
 tests:
-  root_user_test: True
-  default_user: git
-  users_config:
-    - name: git
-      group: git
-      gid: 1000
-      uid: 1000
+  # The container's default user is root: the standard forgejo image needs
+  # root for its entrypoint's initial setup, and downstream test suites
+  # `docker exec` into the container as root to do configuration work. The
+  # forgejo/git process itself still runs as non-root internally via
+  # USER_UID/USER_GID (default 1000:1000), so root_user_test/default_user
+  # don't apply here the way they do for images that force a non-root USER.
+  root_user_test: False
+  # default_user: git
+  # users_config:
+  #   - name: git
+  #     group: git
+  #     gid: 1000
+  #     uid: 1000
   test_commands:
     - command: "forgejo --version"
       expected_result:
