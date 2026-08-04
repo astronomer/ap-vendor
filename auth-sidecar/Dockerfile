@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://hub.docker.com/r/nginxinc/nginx-unprivileged/tags
-FROM cgr.dev/astronomer.io/ap-auth-sidecar:1.31.2
+FROM cgr.dev/astronomer.io/ap-auth-sidecar:1.31.3
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
