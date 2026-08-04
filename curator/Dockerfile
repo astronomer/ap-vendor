@@ -48,6 +48,9 @@ RUN set -x ; apk update && apk add --upgrade && \
       elasticsearch-curator==$CURATOR_VERSION \
       boto3 \
       requests-aws4auth && \
+    # es-client (pulled in by elasticsearch-curator) pins click==8.1.8, which is
+    # vulnerable to CVE-2026-7246. Force-upgrade to a patched release.
+    pip install --upgrade --no-cache-dir "click==8.3.3" && \
     apk del \
       py3-pip \
       python3-dev
