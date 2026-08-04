@@ -21,7 +21,7 @@ workflows:
     jobs:
       # Dynamic Configurations can only have one base workflow, so prek has to be in this workflow since it doesn't fit into the path-filtering workflow.
       # https://support.circleci.com/hc/en-us/articles/360060934851-Troubleshooting-Error-Message-Max-number-of-workflows-exceeded
-      - run_pre_commit
+      - run_prek
       - path-filtering/filter:
           base-revision: main
           config-path: .circleci/continue-config.yml
@@ -69,7 +69,7 @@ workflows:
             vector/.* vector true
 
 jobs:
-  run_pre_commit:
+  run_prek:
     resource_class: small
     docker:
       - image: quay.io/astronomer/ci-pre-commit:2026-08
