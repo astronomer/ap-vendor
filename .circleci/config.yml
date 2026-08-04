@@ -39,6 +39,7 @@ workflows:
             elasticsearch-exporter/.* elasticsearch-exporter true
             external-secrets/.* external-secrets true
             fluentd/.* fluentd true
+            forgejo/.* forgejo true
             git-daemon/.* git-daemon true
             git-sync/.* git-sync true
             grafana/.* grafana true
