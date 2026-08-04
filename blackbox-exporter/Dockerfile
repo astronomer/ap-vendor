@@ -33,10 +33,12 @@ WORKDIR $DISTRIBUTION_DIR
 
 RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR && git checkout v0.28.0
 
-RUN go get golang.org/x/crypto@v0.52.0 golang.org/x/oauth2@v0.34.0 \
-    golang.org/x/net@v0.55.0 \
+RUN go get golang.org/x/crypto@v0.52.0 \
+    golang.org/x/oauth2@v0.34.0 \
+    golang.org/x/net@v0.56.0 \
     github.com/quic-go/qpack@v0.5.1 \
-    google.golang.org/grpc@v1.79.3 \
+    google.golang.org/grpc@v1.82.1 \
+    golang.org/x/text@v0.39.0 \
     && go mod tidy \
     && git diff
 
