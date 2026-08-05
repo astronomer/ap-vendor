@@ -1,5 +1,7 @@
 ---
 exclude: '^(\.venv|\.vscode)' # regex
+auto_update:
+  cooldown_days: 7
 repos:
   - repo: local
     hooks:
@@ -31,12 +33,12 @@ repos:
         files: '.*\/version.txt'
         additional_dependencies: ["semver"]
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.1
+    rev: v2.4.3
     hooks:
       - id: codespell
         args: ["-L", "AKS,aks,showIn"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.14.0"
+    rev: "v0.16.0"
     hooks:
       - id: ruff-check
         args:

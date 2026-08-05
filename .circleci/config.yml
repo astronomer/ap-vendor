@@ -17,11 +17,11 @@ parameters:
 
 workflows:
   version: 2.1
-  pre-commit-and-generate-config:
+  prek-and-generate-config:
     jobs:
-      # Dynamic Configurations can only have one base workflow, so pre-commit has to be in this workflow since it doesn't fit into the path-filtering workflow.
+      # Dynamic Configurations can only have one base workflow, so prek has to be in this workflow since it doesn't fit into the path-filtering workflow.
       # https://support.circleci.com/hc/en-us/articles/360060934851-Troubleshooting-Error-Message-Max-number-of-workflows-exceeded
-      - run_pre_commit
+      - run_prek
       - path-filtering/filter:
           base-revision: main
           config-path: .circleci/continue-config.yml
@@ -39,6 +39,7 @@ workflows:
             elasticsearch-exporter/.* elasticsearch-exporter true
             external-secrets/.* external-secrets true
             fluentd/.* fluentd true
+            forgejo/.* forgejo true
             git-daemon/.* git-daemon true
             git-sync/.* git-sync true
             grafana/.* grafana true
@@ -68,26 +69,26 @@ workflows:
             vector/.* vector true
 
 jobs:
-  run_pre_commit:
+  run_prek:
     resource_class: small
     docker:
       - image: quay.io/astronomer/ci-pre-commit:2026-08
     steps:
       - checkout
       - run:
-          name: Create pre-commit-cache-key.txt
+          name: Create prek-cache-key.txt
           command: |
-            cat uv.lock .pre-commit-config.yaml > /tmp/pre-commit-cache-key.txt
+            cat uv.lock .pre-commit-config.yaml > /tmp/prek-cache-key.txt
       - restore_cache:
           keys:
-            - pre-commit-cache-{{ checksum "/tmp/pre-commit-cache-key.txt" }}
+            - prek-cache-{{ checksum "/tmp/prek-cache-key.txt" }}
       - run:
-          name: Install pre-commit hooks
-          command: pre-commit install-hooks
+          name: Install prek hooks
+          command: prek install-hooks
       - save_cache:
-          key: pre-commit-cache-{{ checksum "/tmp/pre-commit-cache-key.txt" }}
+          key: prek-cache-{{ checksum "/tmp/prek-cache-key.txt" }}
           paths:
-            - ~/.cache/pre-commit
+            - ~/.cache/prek
       - run:
-          name: Run pre-commit
-          command: pre-commit run --all-files --show-diff-on-failure
+          name: Run prek
+          command: prek run --all-files --show-diff-on-failure
