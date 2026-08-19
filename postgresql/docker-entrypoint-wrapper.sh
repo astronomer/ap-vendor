@@ -22,7 +22,7 @@ set -e
 #   - It only ever fires once per data directory: once the file exists, every
 #     later start sees the condition as false.
 
-data_dir="${PGDATA:-/var/lib/postgresql/data}"
+data_dir="${PGDATA:-/bitnami/postgresql/data}"
 staging_dir="/opt/astronomer/conf"
 
 if [ -f "$data_dir/PG_VERSION" ] && [ ! -f "$data_dir/postgresql.conf" ] && [ -f "$staging_dir/postgresql.conf" ]; then
