@@ -1,1 +1,5 @@
+# Waiting for upstream fix in cgr
+CVE-2026-49235
 GHSA-82j2-j2ch-gfr8
+RUSTSEC-2026-0194
+RUSTSEC-2026-0195

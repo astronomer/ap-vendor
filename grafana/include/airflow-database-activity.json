@@ -27,6 +27,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -76,6 +80,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(pgbouncer_exporter_database_current_connections{name!=\"pgbouncer\", deployment=~\"$deployment\"})",
           "format": "time_series",
           "instant": true,
@@ -100,6 +108,10 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "format": "none",
       "gauge": {
         "maxValue": 50,
@@ -149,6 +161,10 @@
       "tableColumn": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "sum(pgbouncer_exporter_pools_waiting_clients{database!=\"pgbouncer\", deployment=~\"$deployment\"})",
           "format": "time_series",
           "instant": true,
@@ -170,6 +186,10 @@
       "valueName": "current"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -248,6 +268,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "pgbouncer_exporter_database_current_connections{name!=\"pgbouncer\", deployment=~\"$deployment\"}",
           "format": "time_series",
           "intervalFactor": 1,
@@ -259,6 +283,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -337,6 +365,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "pgbouncer_exporter_pools_waiting_clients{database!=\"pgbouncer\", deployment=~\"$deployment\"}",
           "format": "time_series",
           "intervalFactor": 1,
@@ -348,6 +380,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -426,6 +462,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "pgbouncer_exporter_pools_active_clients{database!=\"pgbouncer\", deployment=~\"$deployment\"}",
           "format": "time_series",
           "instant": false,
@@ -438,6 +478,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -515,6 +559,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "rate(pgbouncer_exporter_stats_total_query_time{database!=\"pgbouncer\", deployment=~\"$deployment\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -526,6 +574,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -603,6 +655,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "rate(pgbouncer_exporter_stats_total_received{database!=\"pgbouncer\", deployment=~\"$deployment\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -614,6 +670,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -691,6 +751,10 @@
       "pluginVersion": "8.5.16",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "rate(pgbouncer_exporter_stats_total_sent{database!=\"pgbouncer\", deployment=~\"$deployment\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -710,11 +774,34 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": true,
+          "text": "Prometheus",
+          "value": "Prometheus"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": ".*",
         "current": {
           "selected": true,
           "text": ["All"],
           "value": ["$__all"]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
         },
         "definition": "",
         "hide": 0,

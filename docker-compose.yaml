@@ -61,6 +61,10 @@ services:
     image: ap-fluentd:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: fluentd
+  ap-forgejo:
+    image: ap-forgejo:${ASTRO_IMAGE_TAG:-latest}
+    build:
+      context: forgejo
   ap-git-daemon:
     image: ap-git-daemon:${ASTRO_IMAGE_TAG:-latest}
     build:

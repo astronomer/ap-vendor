@@ -1,5 +1,4 @@
-#
-# Copyright 2018 Astronomer Inc.
+# Copyright 2016 Astronomer Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,25 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://github.com/kubernetes/git-sync/releases
-FROM quay.io/astronomer/ap-base:2026.8.17
+# We have an open request with chainguard for them to begin building this image: https://console.chainguard.dev/org/astronomer.io/requests/pending#
+# Using the standard (non-rootless) image rather than the rootless variant:
+# downstream test suites `docker exec` into this container as root to do
+# configuration work, and the rootless image has no root user to exec as.
+# The standard image's entrypoint still starts as root and internally drops
+# the forgejo/git process to USER_UID/USER_GID (default 1000:1000) at
+# runtime, so we leave USER unset here rather than forcing it.
+FROM codeberg.org/forgejo/forgejo:16.0.2
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
-
-USER root
-
-RUN apk update && apk upgrade binutils
-
-RUN apk add --no-cache git git-daemon
-COPY entrypoint.sh /
-
-# UID and GID must match git-sync, which are both 65533. There is
-# already a group 'nogroup' on 65533 so just add git-daemon to that.
-RUN adduser -u 65533 -S git-daemon -G nogroup
-
-USER 65533:65533
-
-ENTRYPOINT ["/entrypoint.sh"]

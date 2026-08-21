@@ -61,6 +61,10 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image fluentd."
+  forgejo:
+    type: boolean
+    default: false
+    description: "Set True if you want to run build for image forgejo."
   git-daemon:
     type: boolean
     default: false
@@ -1073,6 +1077,76 @@ workflows:
               ignore: main
       - release-branch-tag:
           directory: fluentd
+          overwrite_tags: true
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - approve-branch-tag
+            - test
+            - endorlabs-container-scan
+          filters:
+            branches:
+              ignore: main
+  forgejo-build:
+    when:
+      and:
+        - << pipeline.parameters.forgejo >>
+    jobs:
+      - build:
+          name: build
+          directory: forgejo
+          context:
+            - apc-chainguard-creds
+      - test:
+          directory: forgejo
+          test_script: bin/test.py
+          requires:
+            - build
+      - endorlabs-container-scan:
+          directory: forgejo
+          context:
+            - apc-endorlabs
+          requires:
+            - build
+      - release:
+          directory: forgejo
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+            - apc-chainguard-creds
+          requires:
+            - test
+            - endorlabs-container-scan
+          filters:
+            branches:
+              only:
+                - main
+      - validate-tags:
+          directory: forgejo
+          tags: "latest"
+          overwrite_tags: << pipeline.parameters.overwrite_tags >>
+          context:
+            - quay.io
+            - docker.io
+            - azurecr.io
+          requires:
+            - test
+          filters:
+            branches:
+              ignore: main
+      - approve-branch-tag:
+          type: approval
+          filters:
+            branches:
+              ignore: main
+      - release-branch-tag:
+          directory: forgejo
           overwrite_tags: true
           context:
             - quay.io

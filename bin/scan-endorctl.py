@@ -100,7 +100,24 @@ def load_ignored_cves(path: Path | None) -> set[str]:
     return cves
 
 
+def _vuln_spec(finding: dict) -> dict:
+    return finding.get("spec", {}).get("finding_metadata", {}).get("vulnerability", {}).get("spec", {})
+
+
+def get_aliases(finding: dict) -> list[str]:
+    """All IDs this finding is known by (GHSA, CVE, GO-…), from the vuln aliases."""
+    return _vuln_spec(finding).get("aliases", [])
+
+
+def is_vulnerability(finding: dict) -> bool:
+    return "FINDING_CATEGORY_VULNERABILITY" in finding.get("spec", {}).get("finding_categories", [])
+
+
 def get_vuln_id(finding: dict) -> str:
+    """Human-facing ID for the finding, preferring the CVE when one exists."""
+    cve = next((a for a in get_aliases(finding) if a.startswith("CVE-")), None)
+    if cve:
+        return cve
     return finding.get("spec", {}).get("extra_key", "") or finding.get("meta", {}).get("name", "unknown")
 
 
@@ -195,7 +212,7 @@ def main() -> None:
     if web_url:
         print(f"Full results: {web_url}")
 
-    findings = data.get("all_findings", [])
+    findings = [f for f in data.get("all_findings", []) if is_vulnerability(f)]
     at_severity = [f for f in findings if severity_at_or_above(f, args.severity)]
 
     ignored_cves = load_ignored_cves(args.path)
@@ -204,7 +221,7 @@ def main() -> None:
     ignored: list[dict] = []
     no_fix: list[dict] = []
     for f in at_severity:
-        if get_vuln_id(f) in ignored_cves:
+        if ignored_cves.intersection(get_aliases(f)) or get_vuln_id(f) in ignored_cves:
             ignored.append(f)
         elif not has_fix_version(f):
             no_fix.append(f)
