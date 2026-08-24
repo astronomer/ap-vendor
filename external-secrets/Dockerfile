@@ -44,7 +44,7 @@ RUN go build -tags all_providers -o external-secrets main.go
 
 # Final docker image building stage
 # https://quay.io/repository/astronomer/ap-base?tab=tags&tag=latest
-FROM quay.io/astronomer/ap-base:2026.8.3
+FROM quay.io/astronomer/ap-base:2026.8.24
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
