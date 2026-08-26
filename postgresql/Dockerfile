@@ -29,11 +29,18 @@ ENV POSTGRESQL_MAX_CONNECTIONS=200
 # every upgrade (where it finds an already-initialized data directory, i.e.
 # PG_VERSION already present). That leaves upgraded installs with a valid
 # data directory but no server config file, and postgres refuses to start.
-# docker-entrypoint-wrapper.sh repairs only that exact case - using the
-# config this same image would have produced on a fresh install - before
-# handing off to the real entrypoint. Fresh installs and already-healthy
-# instances are untouched. See the wrapper script for the full explanation.
-COPY postgresql.conf pg_hba.conf /opt/astronomer/conf/
+# docker-entrypoint-wrapper.sh repairs only that exact case before handing off
+# to the real entrypoint, by running this image's own `initdb` against a
+# throwaway scratch directory and lifting the two generated config files out
+# of it - not a static copy we maintain ourselves. See the wrapper script for
+# the full explanation. Fresh installs and already-healthy instances are
+# untouched either way.
+#
+# postgresql.conf/pg_hba.conf below are NOT used (the wrapper no longer reads
+# them - superseded by the initdb-based approach) - kept for reference/
+# rollback only. Not copied into the image. Remove once we're confident in
+# the new approach.
+# COPY postgresql.conf pg_hba.conf /opt/astronomer/conf/
 COPY docker-entrypoint-wrapper.sh /usr/local/bin/docker-entrypoint-wrapper.sh
 RUN chmod 0755 /usr/local/bin/docker-entrypoint-wrapper.sh
 
