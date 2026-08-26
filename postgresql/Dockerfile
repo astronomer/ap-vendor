@@ -15,7 +15,7 @@
 
 # https://hub.docker.com/r/bitnami/postgresql/tags/
 
-FROM cgr.dev/astronomer.io/ap-postgres:17.10
+FROM cgr.dev/astronomer.io/ap-postgres:17.11
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
