@@ -48,11 +48,21 @@ set -e
 data_dir="${PGDATA:-/bitnami/postgresql/data}"
 
 if [ -f "$data_dir/PG_VERSION" ] && { [ ! -f "$data_dir/postgresql.conf" ] || [ ! -f "$data_dir/pg_hba.conf" ]; }; then
-  scratch_dir="/tmp/pg-repair-$$"
+  scratch_dir="/tmp/pg-repair-scratch"
+  rm -rf "$scratch_dir"
 
-  if mkdir -p "$scratch_dir" 2>/dev/null \
-    && initdb --auth-local=trust --auth-host=trust --username=postgres --no-sync "$scratch_dir" >/dev/null 2>&1; then
+  if mkdir -p "$scratch_dir" 2>/dev/null; then
+    if initdb_output="$(initdb --auth-local=trust --auth-host=trust --username=postgres --no-sync "$scratch_dir" 2>&1)"; then
+      initdb_status=0
+    else
+      initdb_status=$?
+    fi
+  else
+    initdb_output="mkdir $scratch_dir failed"
+    initdb_status=1
+  fi
 
+  if [ "$initdb_status" -eq 0 ]; then
     if [ ! -f "$data_dir/postgresql.conf" ] && [ -f "$scratch_dir/postgresql.conf" ]; then
       cp "$scratch_dir/postgresql.conf" "$data_dir/postgresql.conf"
     fi
@@ -64,7 +74,10 @@ if [ -f "$data_dir/PG_VERSION" ] && { [ ! -f "$data_dir/postgresql.conf" ] || [ 
       echo "host all all all md5" >> "$data_dir/pg_hba.conf"
     fi
   else
-    echo "docker-entrypoint-wrapper.sh: scratch initdb repair failed; leaving config as-is" >&2
+    # Logged, not silently swallowed - this is the only way to debug a failure
+    # here, since there's no other output path once the real entrypoint takes over.
+    echo "docker-entrypoint-wrapper.sh: scratch initdb repair failed, leaving config as-is:" >&2
+    echo "$initdb_output" >&2
   fi
 
   rm -rf "$scratch_dir"
