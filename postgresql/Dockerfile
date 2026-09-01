@@ -36,11 +36,6 @@ ENV POSTGRESQL_MAX_CONNECTIONS=200
 # the full explanation. Fresh installs and already-healthy instances are
 # untouched either way.
 #
-# postgresql.conf/pg_hba.conf below are NOT used (the wrapper no longer reads
-# them - superseded by the initdb-based approach) - kept for reference/
-# rollback only. Not copied into the image. Remove once we're confident in
-# the new approach.
-# COPY postgresql.conf pg_hba.conf /opt/astronomer/conf/
 COPY docker-entrypoint-wrapper.sh /usr/local/bin/docker-entrypoint-wrapper.sh
 RUN chmod 0755 /usr/local/bin/docker-entrypoint-wrapper.sh
 
