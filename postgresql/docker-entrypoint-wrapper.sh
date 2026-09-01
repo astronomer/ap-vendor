@@ -44,12 +44,38 @@ set -e
 # SCRAM-hashed passwords exactly the same way, but also covers any role whose
 # password predates Postgres's SCRAM default and was never rotated - see
 # PINF-347 review discussion.
+#
+# initdb is also particular about the current effective UID existing in
+# /etc/passwd (it looks itself up via getpwuid(), regardless of --username -
+# that flag only names the role created *inside* the new cluster). Kubernetes'
+# runAsUser doesn't add a matching /etc/passwd entry, so this fails under a
+# securityContext-assigned UID unless something fakes that entry first. This
+# same image's own /usr/bin/docker-entrypoint.sh hits the identical problem for
+# its own (fresh-install) initdb call and works around it with "nss_wrapper"
+# (see docker_init_database_dir() in that script, and https://cwrap.org/nss_wrapper.html)
+# - replicated here verbatim (translated to POSIX sh; the original is bash) so
+# our scratch initdb call gets the same fake passwd/group entry.
 
 data_dir="${PGDATA:-/bitnami/postgresql/data}"
 
 if [ -f "$data_dir/PG_VERSION" ] && { [ ! -f "$data_dir/postgresql.conf" ] || [ ! -f "$data_dir/pg_hba.conf" ]; }; then
   scratch_dir="/tmp/pg-repair-scratch"
   rm -rf "$scratch_dir"
+
+  uid="$(id -u)"
+  if ! getent passwd "$uid" >/dev/null 2>&1; then
+    for wrapper in /usr/lib/libnss_wrapper.so /lib/libnss_wrapper.so /usr/lib/*/libnss_wrapper.so /lib/*/libnss_wrapper.so; do
+      if [ -s "$wrapper" ]; then
+        NSS_WRAPPER_PASSWD="$(mktemp)"
+        NSS_WRAPPER_GROUP="$(mktemp)"
+        export LD_PRELOAD="$wrapper" NSS_WRAPPER_PASSWD NSS_WRAPPER_GROUP
+        gid="$(id -g)"
+        printf 'postgres:x:%s:%s:PostgreSQL:%s:/bin/false\n' "$uid" "$gid" "$data_dir" > "$NSS_WRAPPER_PASSWD"
+        printf 'postgres:x:%s:\n' "$gid" > "$NSS_WRAPPER_GROUP"
+        break
+      fi
+    done
+  fi
 
   if mkdir -p "$scratch_dir" 2>/dev/null; then
     if initdb_output="$(initdb --auth-local=trust --auth-host=trust --username=postgres --no-sync "$scratch_dir" 2>&1)"; then
@@ -60,6 +86,17 @@ if [ -f "$data_dir/PG_VERSION" ] && { [ ! -f "$data_dir/postgresql.conf" ] || [ 
   else
     initdb_output="mkdir $scratch_dir failed"
     initdb_status=1
+  fi
+
+  # Cleanup mirrors the real entrypoint's own hygiene: don't leave a stale
+  # LD_PRELOAD/NSS_WRAPPER_* pointing at deleted temp files in the environment
+  # that execs into the real entrypoint below. Guard on NSS_WRAPPER_PASSWD
+  # (only ever set inside the loop above) rather than comparing against
+  # $wrapper, which is empty/stale whenever getent already succeeded or no
+  # library was found - either way meaning nothing here needs cleaning up.
+  if [ -n "${NSS_WRAPPER_PASSWD:-}" ]; then
+    rm -f "$NSS_WRAPPER_PASSWD" "$NSS_WRAPPER_GROUP"
+    unset LD_PRELOAD NSS_WRAPPER_PASSWD NSS_WRAPPER_GROUP
   fi
 
   if [ "$initdb_status" -eq 0 ]; then
