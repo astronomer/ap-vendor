@@ -8,19 +8,7 @@ set -e
 # image's own `initdb` against a throwaway scratch dir (can't target the real,
 # already-populated $PGDATA - initdb refuses a non-empty directory) and copy the
 # two generated files into place. That way the repair always matches whatever the
-# running image's initdb actually produces, instead of a static copy we'd have to
-# keep in sync by hand (the previous version of this fix - see git history).
-#
-# Two gaps initdb's own output doesn't cover:
-#   - initdb needs its effective UID resolvable via getpwuid(), which a
-#     Kubernetes-assigned runAsUser doesn't guarantee. Worked around with the
-#     same nss_wrapper technique the real entrypoint uses for its own initdb
-#     call (docker_init_database_dir() in docker-entrypoint.sh) - LD_PRELOAD a
-#     fake passwd/group entry for the current UID.
-#   - initdb never writes a remote (non-loopback) pg_hba.conf rule; appended
-#     below as `md5` rather than `scram-sha-256`, since a repair (unlike a
-#     fresh install) may be authenticating roles whose stored password predates
-#     Postgres's SCRAM default - `md5` accepts both transparently.
+# running image's initdb actually produces, instead of a static copy we'd have to maintain.
 
 data_dir="${PGDATA:-/bitnami/postgresql/data}"
 
