@@ -32,7 +32,7 @@ if [ -f "$data_dir/PG_VERSION" ] && { [ ! -f "$data_dir/postgresql.conf" ] || [ 
   fi
 
   if mkdir -p "$scratch_dir" 2>/dev/null; then
-    if initdb_output="$(initdb --auth-local=trust --auth-host=trust --username=postgres --no-sync "$scratch_dir" 2>&1)"; then
+    if initdb_output="$(initdb --auth-local=scram-sha-256 --auth-host=scram-sha-256 --username=postgres --no-sync "$scratch_dir" 2>&1)"; then
       initdb_status=0
     else
       initdb_status=$?
