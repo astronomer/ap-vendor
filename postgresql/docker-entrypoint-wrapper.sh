@@ -13,8 +13,7 @@ set -e
 data_dir="${PGDATA:-/bitnami/postgresql/data}"
 
 if [ -f "$data_dir/PG_VERSION" ] && { [ ! -f "$data_dir/postgresql.conf" ] || [ ! -f "$data_dir/pg_hba.conf" ]; }; then
-  scratch_dir="/tmp/pg-repair-scratch"
-  rm -rf "$scratch_dir"
+  scratch_dir="$(mktemp -d /tmp/pg-repair-scratch.XXXXXX 2>/dev/null)" || scratch_dir=""
 
   uid="$(id -u)"
   if ! getent passwd "$uid" >/dev/null 2>&1; then
