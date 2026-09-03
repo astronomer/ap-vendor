@@ -24,4 +24,22 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 ENV POSTGRESQL_MAX_CONNECTIONS=200
 
+# PINF-347: the base image's own /usr/bin/docker-entrypoint.sh only writes
+# postgresql.conf/pg_hba.conf on first init, and silently skips that step on
+# every upgrade (where it finds an already-initialized data directory, i.e.
+# PG_VERSION already present). That leaves upgraded installs with a valid
+# data directory but no server config file, and postgres refuses to start.
+# docker-entrypoint-wrapper.sh repairs only that exact case before handing off
+# to the real entrypoint, by running this image's own `initdb` against a
+# throwaway scratch directory and lifting the two generated config files out
+# of it - not a static copy we maintain ourselves. See the wrapper script for
+# the full explanation. Fresh installs and already-healthy instances are
+# untouched either way.
+#
+COPY docker-entrypoint-wrapper.sh /usr/local/bin/docker-entrypoint-wrapper.sh
+RUN chmod 0755 /usr/local/bin/docker-entrypoint-wrapper.sh
+
 USER 1001
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint-wrapper.sh"]
+CMD ["postgres"]
