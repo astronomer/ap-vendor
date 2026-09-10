@@ -22,7 +22,7 @@
 #LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 ARG GO_VERSION=1.26.6
-FROM golang:${GO_VERSION}-alpine3.22 AS build
+FROM golang:${GO_VERSION}-alpine3.23 AS build
 
 ENV ESO_DIR=/go/src/github.com/astronomer/external-secrets
 
