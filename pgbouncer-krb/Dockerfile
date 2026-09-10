@@ -18,6 +18,7 @@
 ##### FIRST STAGE: common - stuff needed at both build and run time
 
 FROM quay.io/astronomer/ap-base:2026.9.7 as common
+USER root
 RUN apk add --no-cache --virtual .run-deps \
       c-ares \
       entr \
