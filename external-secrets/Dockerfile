@@ -14,7 +14,7 @@
 # limitations under the License.
 
 #FROM ghcr.io/external-secrets/external-secrets:2.7.0
-#FROM cgr.dev/astronomer.io/external-secrets:2.7.0
+#FROM cgr.dev/astronomer.io/external-secrets:2.10.0
 #LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 #ARG BUILD_NUMBER=-1
@@ -44,7 +44,7 @@ RUN go build -tags all_providers -o external-secrets main.go
 
 # Final docker image building stage
 # https://quay.io/repository/astronomer/ap-base?tab=tags&tag=latest
-FROM quay.io/astronomer/ap-base:2026.9.7
+FROM quay.io/astronomer/ap-base:2026.9.14
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
