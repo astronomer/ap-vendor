@@ -21,8 +21,8 @@
 #LABEL io.astronomer.docker=true
 #LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-ARG GO_VERSION=1.26.4
-FROM golang:${GO_VERSION}-alpine3.22 AS build
+ARG GO_VERSION=1.26.6
+FROM golang:${GO_VERSION}-alpine3.23 AS build
 
 ENV ESO_DIR=/go/src/github.com/astronomer/external-secrets
 
@@ -37,14 +37,14 @@ RUN set -ex \
 
 WORKDIR $ESO_DIR
 
-RUN git clone https://github.com/astronomer/external-secrets.git $ESO_DIR && git checkout 80ba47d0f6aa39fcf5b0ecac2cc73985c2fdc97c
+RUN git clone https://github.com/astronomer/external-secrets.git $ESO_DIR && git checkout 22aac7c0cc478e729007da1e1d368d007fbd867a
 
 RUN go mod download
 RUN go build -tags all_providers -o external-secrets main.go
 
 # Final docker image building stage
 # https://quay.io/repository/astronomer/ap-base?tab=tags&tag=latest
-FROM quay.io/astronomer/ap-base:2026.8.24
+FROM quay.io/astronomer/ap-base:2026.9.7
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
