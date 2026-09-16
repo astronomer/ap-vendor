@@ -299,20 +299,26 @@ mappings:
   # sub-second resolution with long-tail coverage out to 60s. The 1s SLA line
   # is le="1000". Do not "simplify" these to seconds — the emitter sends ms.
   # Specific rules must precede the catch-all below so each timer is bucketed
-  # as a histogram (the catch-all sets no timer_type, so it would export these
-  # as a summary) and so the dotted suffix is collapsed cleanly.
+  # as a histogram (the catch-all sets no observer_type, so it would export
+  # these as a summary) and so the dotted suffix is collapsed cleanly.
+  #
+  # NOTE (statsd-exporter 0.31.0): the pre-0.31 `match_metric_type: timer` +
+  # `timer_type` + top-level `buckets` fields were removed. The equivalent
+  # config is now `observer_type: histogram` with buckets nested under
+  # `histogram_options`. This is a pure syntax port — bucket values and emitted
+  # behavior are unchanged.
   - match: 'airflow\.astro_event_scheduler\.sla\.time_to_first_task'
     match_type: regex
-    match_metric_type: timer
     name: "astro_event_scheduler_sla_time_to_first_task_milliseconds"
-    timer_type: histogram
-    buckets: [100, 250, 500, 750, 1000, 2000, 5000, 10000, 30000, 60000]
+    observer_type: histogram
+    histogram_options:
+      buckets: [100, 250, 500, 750, 1000, 2000, 5000, 10000, 30000, 60000]
   - match: 'airflow\.astro_event_scheduler\.sla\.task_lag'
     match_type: regex
-    match_metric_type: timer
     name: "astro_event_scheduler_sla_task_lag_milliseconds"
-    timer_type: histogram
-    buckets: [100, 250, 500, 750, 1000, 2000, 5000, 10000, 30000, 60000]
+    observer_type: histogram
+    histogram_options:
+      buckets: [100, 250, 500, 750, 1000, 2000, 5000, 10000, 30000, 60000]
 
   # Safety net for any future astro_event_scheduler.sla.* metric without a
   # dedicated rule above — collapses the dotted suffix so we never produce a
@@ -324,9 +330,9 @@ mappings:
     name: "astro_event_scheduler_sla_${1}"
 
   # Astro Event Scheduler metrics — accept all and strip the airflow prefix.
-  # Note: this rule doesn't constrain match_metric_type, so any future timer
+  # Note: this rule doesn't constrain observer_type, so any future timer
   # metric that falls through to here will be exported as a summary, not a
-  # histogram. Add an explicit timer→histogram rule above for new timers.
+  # histogram. Add an explicit timer->histogram rule above for new timers.
   - match: 'airflow\.astro_event_scheduler\.(.+)'
     match_type: regex
     name: "astro_event_scheduler_${1}"
