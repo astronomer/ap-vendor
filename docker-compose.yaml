@@ -175,6 +175,7 @@ services:
     image: ap-statsd-exporter:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: statsd-exporter
+    command: "--statsd.mapping-config=/etc/statsd-exporter/mappings-gen2.yml"
   ap-vector:
     image: ap-vector:${ASTRO_IMAGE_TAG:-latest}
     build:
