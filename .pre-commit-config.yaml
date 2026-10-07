@@ -1,6 +1,6 @@
 ---
 exclude: '^(\.venv|\.vscode)' # regex
-auto_update:
+update:
   cooldown_days: 7
 repos:
   - repo: local
