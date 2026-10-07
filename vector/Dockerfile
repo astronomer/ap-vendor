@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM cgr.dev/astronomer.io/ap-vector:0.56.0-dev
+FROM cgr.dev/astronomer.io/ap-vector:0.58.0-dev
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
@@ -22,5 +22,8 @@ COPY vector.toml /etc/vector/vector.toml
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
+
+# https://linear.app/astronomer/issue/PINF-1268
+ENV VECTOR_DANGEROUSLY_ALLOW_ENV_VAR_INTERPOLATION=true
 
 ENTRYPOINT ["/usr/bin/python3", "/usr/local/bin/sidecar_server.py"]
