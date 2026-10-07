@@ -7,3 +7,10 @@ tests:
       group: nobody
       gid: 65534
       uid: 65534
+
+# Start the exporter with the gen2 mapping config rather than the image default.
+# statsd-exporter 0.31.0+ rejects unknown mapping fields and exits 1, so the
+# container checks above only pass if mappings-gen2.yml actually loads. Without
+# this the mapping files are never parsed anywhere in CI.
+docker:
+  command: "--statsd.mapping-config=/etc/statsd-exporter/mappings-gen2.yml"

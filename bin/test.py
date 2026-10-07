@@ -1,6 +1,7 @@
 # This is a pytest file. Run it via pytest bin/test.py with the proper env vars
 
 import os
+import time
 from pathlib import Path
 
 import docker
@@ -52,12 +53,30 @@ def docker_host():
     else:
         entrypoint = None
 
+    if "command" in docker_compose_config["services"][ASTRO_IMAGE_NAME]:
+        command = docker_compose_config["services"][ASTRO_IMAGE_NAME]["command"]
+    else:
+        command = None
+
     container = docker_client.containers.run(
         image=image,
         entrypoint=entrypoint,
+        command=command,
         ports=ports,
         detach=True,
     )
+
+    # Give a daemon that rejects its own config a moment to fall over, so the
+    # failure surfaces here with the container's own logs instead of as an
+    # opaque testinfra exec error in every individual test.
+    for _ in range(5):
+        container.reload()
+        if container.status == "exited":
+            logs = container.logs().decode(errors="replace")
+            exit_code = container.attrs["State"]["ExitCode"]
+            container.remove(force=True)
+            pytest.fail(f"Container for {image} exited immediately with code {exit_code}:\n{logs}")
+        time.sleep(0.2)
 
     docker_id = container.id
 
