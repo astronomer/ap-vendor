@@ -30,12 +30,23 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 ENV PGBOUNCER_VERSION=1.24.1
 ENV PGBOUNCER_SHA256_CHECKSUM=da72a3aba13072876d055a3e58dd4aba4a5de4ed6148e73033185245598fd3e0
 
+# c-ares >= 1.34.7 can stall DNS lookups in pgbouncer, which never retries them
+# (https://github.com/pgbouncer/pgbouncer/issues/1583). 1.34.6 is the last version without the problem.
+# Remove the pin once pgbouncer ships a fix (https://github.com/pgbouncer/pgbouncer/pull/1582).
+ENV C_ARES_VERSION=1.34.6
+# openssl-dev now resolves to openssl-4.0-dev, whose opaque ASN1_TIME/ASN1_STRING
+# structs pgbouncer 1.24.1 does not compile against. This pin is temporary: Wolfi
+# won't carry openssl-dev-3.6.x forever, and pgbouncer 1.26.0 fixes the actual
+# incompatibility (https://www.pgbouncer.org/changelog.html#pgbouncer-126x). Remove
+# this pin when the pgbouncer 1.26.0 upgrade (APC-1962) lands.
+ENV OPENSSL_VERSION=3.6
+
 USER root
 
 RUN addgroup -g $GID -S $USER \
   && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
   && apk add --no-cache --virtual .run-deps \
-  c-ares \
+  c-ares=~$C_ARES_VERSION \
   libevent \
   openssl
 
@@ -43,9 +54,9 @@ RUN apk add --no-cache --virtual .build-deps \
   build-base \
   autoconf \
   wget \
-  c-ares-dev \
+  c-ares-dev=~$C_ARES_VERSION \
   libevent-dev \
-  openssl-dev \
+  openssl-dev=~$OPENSSL_VERSION \
   && wget https://www.pgbouncer.org/downloads/files/$PGBOUNCER_VERSION/pgbouncer-$PGBOUNCER_VERSION.tar.gz \
   && echo "$PGBOUNCER_SHA256_CHECKSUM  /pgbouncer-$PGBOUNCER_VERSION.tar.gz" | sha256sum -c - \
   && tar -xzvf pgbouncer-$PGBOUNCER_VERSION.tar.gz \
