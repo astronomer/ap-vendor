@@ -34,7 +34,11 @@ ENV PGBOUNCER_SHA256_CHECKSUM=da72a3aba13072876d055a3e58dd4aba4a5de4ed6148e73033
 # (https://github.com/pgbouncer/pgbouncer/issues/1583). 1.34.6 is the last version without the problem.
 # Remove the pin once pgbouncer ships a fix (https://github.com/pgbouncer/pgbouncer/pull/1582).
 ENV C_ARES_VERSION=1.34.6
-# openssl-dev now resolves to openssl-4.0-dev, which pgbouncer 1.24.1 does not compile against.
+# openssl-dev now resolves to openssl-4.0-dev, whose opaque ASN1_TIME/ASN1_STRING
+# structs pgbouncer 1.24.1 does not compile against. This pin is temporary: Wolfi
+# won't carry openssl-dev-3.6.x forever, and pgbouncer 1.26.0 fixes the actual
+# incompatibility (https://www.pgbouncer.org/changelog.html#pgbouncer-126x). Remove
+# this pin when the pgbouncer 1.26.0 upgrade (APC-1962) lands.
 ENV OPENSSL_VERSION=3.6
 
 USER root
