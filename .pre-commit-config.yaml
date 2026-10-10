@@ -38,7 +38,7 @@ repos:
       - id: codespell
         args: ["-L", "AKS,aks,showIn"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.16.0"
+    rev: "v0.16.10"
     hooks:
       - id: ruff-check
         args:
@@ -53,7 +53,7 @@ repos:
         args: ["--print-width=135"]
         exclude: "^statsd-exporter/test/statsd-test-config.js$"
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.11.0.1
+    rev: v0.11.0.1-1
     hooks:
       - id: shellcheck
   - repo: https://github.com/pre-commit/pre-commit-hooks
