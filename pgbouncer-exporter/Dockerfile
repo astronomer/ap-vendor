@@ -13,10 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/r/jbub/pgbouncer_exporter
+# https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-pgbouncer-exporter/versions
 FROM cgr.dev/astronomer.io/prometheus-pgbouncer-exporter:0.12.1-dev AS upstream
 
-FROM quay.io/astronomer/ap-base:2026.9.28
+FROM quay.io/astronomer/ap-base:2026.10.5
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
