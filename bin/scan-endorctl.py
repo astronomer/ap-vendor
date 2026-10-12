@@ -143,6 +143,16 @@ def get_package_info(finding: dict) -> tuple[str, str, str]:
     return pkg_name, current_ver, fix_ver
 
 
+def get_remediation(finding: dict) -> str:
+    """Endor's remediation text, which names the parent dependency that pulls in the vulnerable package.
+
+    Container findings carry no file path; for Go binaries this chain (e.g. "Update
+    github.com/foo/bar@v1 to use golang.org/x/net version 0.60.0") is the closest thing to a location.
+    """
+    spec = finding.get("spec", {})
+    return spec.get("remediation") or spec.get("relationship") or ""
+
+
 def has_fix_version(finding: dict) -> bool:
     proposed = finding.get("spec", {}).get("proposed_version", "")
     return bool(proposed) and proposed != "?"
@@ -191,6 +201,17 @@ def print_debug(data: dict, findings: list[dict]) -> None:
         print(f"--- {get_vuln_id(f)} {get_severity(f)} {get_package_info(f)[0]} ---")
         print(json.dumps(f, indent=2, sort_keys=True))
     print("===== END DEBUG =====\n")
+
+
+def print_remediation(findings: list[dict]) -> None:
+    """Print each distinct remediation once, since many CVEs share the same package upgrade."""
+    lines = sorted({r for f in findings if (r := get_remediation(f))})
+    if not lines:
+        return
+    print("Where the vulnerable package comes from:")
+    for line in lines:
+        print(f"  - {line}")
+    print()
 
 
 def print_table(findings: list[dict], title: str) -> None:
@@ -280,8 +301,10 @@ def main() -> None:
     print(f"\nGate: fail on severity >= {args.severity} when a fix version is available")
     if actionable:
         print_table(actionable, "Vulnerabilities (action required)")
+        print_remediation(actionable)
     if no_fix:
         print_table(no_fix, "Vulnerabilities without a fix version (informational, does not fail build)")
+        print_remediation(no_fix)
     if ignored:
         print_table(ignored, f"Ignored vulnerabilities (in {args.path}/endorignore)")
     if not actionable:
