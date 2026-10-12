@@ -15,7 +15,7 @@
 
 # https://github.com/CenterForOpenScience/docker-library/blob/master/pgbouncer/Dockerfile
 # https://quay.io/repository/centerforopenscience/pgbouncer
-FROM quay.io/astronomer/ap-base:2026.9.28
+FROM quay.io/astronomer/ap-base:2026.10.12
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 # Make it possible to override the UID/GID/username of the user running
@@ -43,11 +43,14 @@ ENV OPENSSL_VERSION=3.6
 
 USER root
 
+# pgbouncer links libssl.so.3, so the runtime image needs libssl3 explicitly. ap-base only
+# carries it while Chainguard keeps OpenSSL 3 alongside 4 during the transition (until about 2026-10-31).
 RUN addgroup -g $GID -S $USER \
   && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
   && apk add --no-cache --virtual .run-deps \
   c-ares=~$C_ARES_VERSION \
   libevent \
+  libssl3 \
   openssl
 
 RUN apk add --no-cache --virtual .build-deps \
