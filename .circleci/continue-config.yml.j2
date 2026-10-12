@@ -151,7 +151,7 @@ jobs:
       - run:
           name: Endor Labs container scan
           command: >-
-            uv run bin/scan-endorctl.py
+            uv run bin/scan-endorctl.py --debug
             --image=ap-<< parameters.directory >>:${CIRCLE_SHA1}
             --image-tar=/tmp/workspace/ap-<< parameters.directory >>.tar
             --path=<< parameters.directory >>

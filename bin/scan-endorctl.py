@@ -21,8 +21,13 @@ If --image-tar is provided, endorctl scans the tarball directly (no local
 docker daemon required); --image is still passed so findings are tagged with
 the desired image name/tag.
 
+With --debug, the full JSON of every finding at or above the severity threshold
+is printed (plus the top-level keys of the scan output), to find out which fields
+carry file locations. --raw-out additionally saves the unfiltered endorctl JSON.
+
 Usage:
-    uv run scan-endorctl.py --image <name:tag> [--image-tar <path>] [--path <dir>] [--severity {critical,high,medium,low}]
+    uv run scan-endorctl.py --image <name:tag> [--image-tar <path>] [--path <dir>]
+        [--severity {critical,high,medium,low}] [--debug] [--raw-out <file>]
 """
 
 from __future__ import annotations
@@ -161,6 +166,33 @@ def severity_at_or_above(finding: dict, threshold: str) -> bool:
     return finding_rank <= threshold_rank
 
 
+def _leaf_paths(value: object, prefix: str = "") -> list[str]:
+    """Dotted paths of every leaf in a JSON value; list items are collapsed to `[]`."""
+    if isinstance(value, dict):
+        return [p for k, v in value.items() for p in _leaf_paths(v, f"{prefix}.{k}" if prefix else k)]
+    if isinstance(value, list):
+        return [p for item in value for p in _leaf_paths(item, f"{prefix}[]")] or [f"{prefix}[]"]
+    return [prefix]
+
+
+def print_debug(data: dict, findings: list[dict]) -> None:
+    """Dump raw finding JSON so we can see which fields (if any) hold file locations."""
+    other_keys = sorted(k for k in data if k != "all_findings")
+    print("\n===== DEBUG: top-level keys of endorctl output =====")
+    print(f"all_findings: {len(data.get('all_findings', []))} total; other keys: {other_keys}")
+    for key in other_keys:
+        print(f"--- {key} ---")
+        print(json.dumps(data[key], indent=2, sort_keys=True)[:5000])
+    print("\n===== DEBUG: unique leaf key paths across displayed findings =====")
+    for path in sorted({p for f in findings for p in _leaf_paths(f)}):
+        print(path)
+    print("\n===== DEBUG: raw findings =====")
+    for f in findings:
+        print(f"--- {get_vuln_id(f)} {get_severity(f)} {get_package_info(f)[0]} ---")
+        print(json.dumps(f, indent=2, sort_keys=True))
+    print("===== END DEBUG =====\n")
+
+
 def print_table(findings: list[dict], title: str) -> None:
     if not findings:
         return
@@ -200,6 +232,17 @@ def main() -> None:
         default="high",
         help="Minimum severity that fails the build (default: high)",
     )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Print the full JSON of every finding at or above --severity, to discover available fields (e.g. file paths)",
+    )
+    parser.add_argument(
+        "--raw-out",
+        type=Path,
+        default=None,
+        help="Write the unfiltered endorctl JSON output to this file",
+    )
     args = parser.parse_args()
 
     print(f"Scanning image: {args.image}")
@@ -211,9 +254,15 @@ def main() -> None:
 
     if web_url:
         print(f"Full results: {web_url}")
+    if args.raw_out:
+        args.raw_out.write_text(json.dumps(data, indent=2, sort_keys=True))
+        print(f"Raw endorctl JSON written to {args.raw_out}")
 
     findings = [f for f in data.get("all_findings", []) if is_vulnerability(f)]
     at_severity = [f for f in findings if severity_at_or_above(f, args.severity)]
+
+    if args.debug:
+        print_debug(data, at_severity)
 
     ignored_cves = load_ignored_cves(args.path)
 
