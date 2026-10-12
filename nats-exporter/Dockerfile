@@ -13,20 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/_/golang/tags?name=1.23-alpine
-FROM golang:1.26.4-alpine3.22 AS build
-
-RUN set -ex \
-    && apk add --no-cache make git file
-
-WORKDIR $GOPATH/src/github.com/nats-io/prometheus-nats-exporter
-
-# https://github.com/nats-io/prometheus-nats-exporter/releases
-ENV NATS_EXPORTER_VERSION=0.20.1
-
-RUN git clone --branch v${NATS_EXPORTER_VERSION} https://github.com/nats-io/prometheus-nats-exporter.git .
-
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -tags netgo -installsuffix netgo -ldflags "-s -w"
+# https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-nats-exporter/versions
+FROM cgr.dev/astronomer.io/prometheus-nats-exporter:0.20.2 AS upstream
 
 # Final docker image building stage
 # https://quay.io/repository/astronomer/ap-base?tab=tags&tag=latest
@@ -43,7 +31,7 @@ USER 0
 RUN addgroup -g 1000 -S prometheus-nats-exporter \
     && adduser -u 1000 -S prometheus-nats-exporter -G prometheus-nats-exporter
 
-COPY --from=build --chown=1000:1000 /go/src/github.com/nats-io/prometheus-nats-exporter/prometheus-nats-exporter /prometheus-nats-exporter
+COPY --from=upstream --chown=1000:1000 /usr/bin/prometheus-nats-exporter /prometheus-nats-exporter
 
 EXPOSE 7777
 
