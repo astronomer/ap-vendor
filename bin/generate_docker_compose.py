@@ -8,7 +8,7 @@ from pathlib import Path, PosixPath
 import yaml
 from jinja2 import Template
 
-git_root_dir = next(iter([x for x in Path(__file__).resolve().parents if (x / ".git").is_dir()]), None)
+git_root_dir = next(iter([x for x in Path(__file__).resolve().parents if (x / ".git").exists()]), None)
 
 
 dirs_to_skip = ["bin", ".venv"]
