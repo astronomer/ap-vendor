@@ -49,6 +49,7 @@ RUN addgroup -g $GID -S $USER \
   && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER \
   && apk add --no-cache --virtual .run-deps \
   c-ares=~$C_ARES_VERSION \
+  entr \
   libevent \
   libssl3 \
   openssl
