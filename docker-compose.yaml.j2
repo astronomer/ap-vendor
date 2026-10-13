@@ -15,6 +15,9 @@ services:
 {%- if "entrypoint" in docker_config %}
     entrypoint: "{{ docker_config["entrypoint"] }}"
 {%- endif %}
+{%- if "command" in docker_config %}
+    command: "{{ docker_config["command"] }}"
+{%- endif %}
 {%- if "environment" in docker_config %}
     environment:
 {%- for env  in docker_config["environment"] %}
