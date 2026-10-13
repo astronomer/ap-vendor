@@ -204,12 +204,16 @@ def print_debug(data: dict, findings: list[dict]) -> None:
 
 
 def print_remediation(findings: list[dict]) -> None:
-    """Print each distinct remediation once, since many CVEs share the same package upgrade."""
-    rows = sorted({(get_package_info(f)[0], r) for f in findings if (r := get_remediation(f))})
-    if not rows:
+    """Print each distinct remediation once, with the CVEs it resolves, since many CVEs share one package upgrade."""
+    grouped: dict[tuple[str, str], list[str]] = {}
+    for f in findings:
+        if remediation := get_remediation(f):
+            grouped.setdefault((get_package_info(f)[0], remediation), []).append(get_vuln_id(f))
+    if not grouped:
         return
+    rows = [(pkg, ", ".join(sorted(cves)), remediation) for (pkg, remediation), cves in sorted(grouped.items())]
     print(f"Remediation steps ({len(rows)} items)")
-    print(tabulate(rows, headers=["Package", "Remediation"], tablefmt="simple"))
+    print(tabulate(rows, headers=["Package", "CVEs", "Remediation"], tablefmt="simple"))
     print()
 
 
