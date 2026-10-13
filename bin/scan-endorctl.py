@@ -205,12 +205,11 @@ def print_debug(data: dict, findings: list[dict]) -> None:
 
 def print_remediation(findings: list[dict]) -> None:
     """Print each distinct remediation once, since many CVEs share the same package upgrade."""
-    lines = sorted({r for f in findings if (r := get_remediation(f))})
-    if not lines:
+    rows = sorted({(get_package_info(f)[0], r) for f in findings if (r := get_remediation(f))})
+    if not rows:
         return
-    print("Where the vulnerable package comes from:")
-    for line in lines:
-        print(f"  - {line}")
+    print(f"Remediation steps ({len(rows)} items)")
+    print(tabulate(rows, headers=["Package", "Remediation"], tablefmt="simple"))
     print()
 
 
