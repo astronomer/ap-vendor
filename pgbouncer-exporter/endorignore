@@ -1,4 +1,3 @@
-# TEMP: touch to trigger path-filtered scan on endorctl-debug branch; revert before merge
 # Waiting for upstream fix
 CVE-2026-39829
 CVE-2026-39830
