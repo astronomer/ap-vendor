@@ -224,6 +224,21 @@ def _yaml_scalar(value: str) -> str:
     return json.dumps(value) if needs_quotes else value
 
 
+def _yaml_field(key: str, value: str, indent: str) -> list[str]:
+    """Render `key: value`, using a literal block (`|-`) for multi-line text so newlines stay human-readable.
+
+    A block scalar cannot hold control characters or U+2028/U+2029, and would mis-load text that starts with
+    whitespace or has surrounding blank lines, so those fall back to the quoted single-line form.
+    """
+    lines = value.split("\n")
+    block_safe = (
+        len(lines) > 1 and all(line.isprintable() for line in lines) and lines[0] == lines[0].lstrip() and lines[0] and lines[-1]
+    )
+    if not block_safe:
+        return [f"{indent}{key}: {_yaml_scalar(value)}"]
+    return [f"{indent}{key}: |-", *(f"{indent}  {line}" if line else "" for line in lines)]
+
+
 def print_remediation(findings: list[dict]) -> None:
     """Print each distinct remediation once, as a YAML list, with the CVEs it resolves.
 
@@ -250,7 +265,7 @@ def print_remediation(findings: list[dict]) -> None:
         print("  cves:")
         for cve in sorted(entry["cves"]):
             print(f"    - {_yaml_scalar(cve)}")
-        print(f"  remediation: {_yaml_scalar(remediation)}")
+        print("\n".join(_yaml_field("remediation", remediation, "  ")))
     print()
 
 
