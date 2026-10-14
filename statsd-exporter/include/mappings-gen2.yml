@@ -291,6 +291,15 @@ mappings:
       instance: "$1"
       mount_path: "$2"
 
+  # Mapping for the airflow-object-store plugin's operation counter, named with _total so it matches the OTel path.
+  # See: https://github.com/astronomer/astro-airflow-plugins
+  - match: "airflow.astro_object_store.operations.*.*.*"
+    name: "astro_object_store_operations_total"
+    labels:
+      backend: "$1"
+      op: "$2"
+      outcome: "$3"
+
   # Astro Event Scheduler SLA timings — emitted once per DagRun by the owning
   # scheduler via Airflow Stats.timing, which puts the value on the wire in
   # MILLISECONDS (it converts the timedelta via total_seconds() * 1000).
