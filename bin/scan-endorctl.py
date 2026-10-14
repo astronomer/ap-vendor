@@ -39,6 +39,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+import yaml
 from tabulate import tabulate
 
 _GIT_HASH_RE = re.compile(r"[0-9a-f]{40}")
@@ -203,48 +204,41 @@ def print_debug(data: dict, findings: list[dict]) -> None:
     print("===== END DEBUG =====\n")
 
 
-def _yaml_scalar(value: str) -> str:
-    """Render a string as a YAML scalar: plain when that is unambiguous, else double-quoted (JSON strings are valid YAML)."""
-    needs_quotes = (
-        not value
-        or ": " in value
-        or " #" in value
-        or value != value.strip()
-        or not value.isprintable()  # newlines, control chars, U+2028/U+2029: must not split the line
-        or value[0] in "-?:,[]{}#&*!|>'\"%@`"
-        or value.endswith(":")
-    )
-    if not needs_quotes:
-        try:
-            float(value)
-            needs_quotes = True  # e.g. "0.5" would otherwise load as a number
-        except ValueError:
-            pass
-    # Default ensure_ascii=True escapes every non-ASCII and control character, so a quoted value stays on one line.
-    return json.dumps(value) if needs_quotes else value
+class _RemediationDumper(yaml.SafeDumper):
+    """YAML dumper that indents list items under their key, so the output matches the rest of the CI log."""
+
+    def increase_indent(self, flow: bool = False, indentless: bool = False) -> None:  # noqa: ARG002
+        return super().increase_indent(flow, False)
 
 
-def _yaml_field(key: str, value: str, indent: str) -> list[str]:
-    """Render `key: value`, using a literal block (`|-`) for multi-line text so newlines stay human-readable.
+def _represent_str(dumper: yaml.SafeDumper, data: str) -> yaml.ScalarNode:
+    """Show multi-line text as a literal block so newlines read as line breaks.
 
-    A block scalar cannot hold control characters or U+2028/U+2029, and would mis-load text that starts with
-    whitespace or has surrounding blank lines, so those fall back to the quoted single-line form.
+    Text with non-printable characters (control characters, U+2028/U+2029) is left to PyYAML's default,
+    which double-quotes and escapes it, so such characters can never be written raw into the CI log.
     """
-    lines = value.split("\n")
-    block_safe = (
-        len(lines) > 1 and all(line.isprintable() for line in lines) and lines[0] == lines[0].lstrip() and lines[0] and lines[-1]
-    )
-    if not block_safe:
-        return [f"{indent}{key}: {_yaml_scalar(value)}"]
-    return [f"{indent}{key}: |-", *(f"{indent}  {line}" if line else "" for line in lines)]
+    lines = data.split("\n")
+    literal = len(lines) > 1 and all(line.isprintable() for line in lines)
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|" if literal else None)
+
+
+_RemediationDumper.add_representer(str, _represent_str)
+
+
+def format_remediation(item: dict) -> str:
+    """One remediation as a YAML list item.
+
+    `width=inf` keeps `remediation` on one line so it can be copied intact. `allow_unicode=False` makes PyYAML escape
+    every non-ASCII character, including U+2028/U+2029, so none are written raw into the CI log.
+    """
+    return yaml.dump([item], Dumper=_RemediationDumper, sort_keys=False, width=float("inf"), allow_unicode=False)
 
 
 def print_remediation(findings: list[dict]) -> None:
     """Print each distinct remediation once, as a YAML list, with the CVEs it resolves.
 
     Many CVEs share one package upgrade, so findings are grouped by (package, remediation). A YAML list keeps
-    every line short except `remediation`, which stays on one line so it can be copied intact, and survives
-    CI log viewers that truncate wide tables.
+    every line short except `remediation`, and survives CI log viewers that truncate wide tables.
     """
     grouped: dict[tuple[str, str], dict] = {}
     for f in findings:
@@ -256,17 +250,11 @@ def print_remediation(findings: list[dict]) -> None:
     if not grouped:
         return
     print(f"Remediation steps ({len(grouped)} items)")
-    for n, ((pkg, remediation), entry) in enumerate(sorted(grouped.items())):
-        if n:
-            print()
-        print(f"- package: {_yaml_scalar(pkg)}")
-        print(f"  current: {_yaml_scalar(entry['current'])}")
-        print(f"  fix: {_yaml_scalar(entry['fix'])}")
-        print("  cves:")
-        for cve in sorted(entry["cves"]):
-            print(f"    - {_yaml_scalar(cve)}")
-        print("\n".join(_yaml_field("remediation", remediation, "  ")))
-    print()
+    items = [
+        {"package": pkg, "current": e["current"], "fix": e["fix"], "cves": sorted(e["cves"]), "remediation": remediation}
+        for (pkg, remediation), e in sorted(grouped.items())
+    ]
+    print("\n".join(format_remediation(item) for item in items))
 
 
 def print_table(findings: list[dict], title: str) -> None:
