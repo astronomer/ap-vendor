@@ -203,17 +203,52 @@ def print_debug(data: dict, findings: list[dict]) -> None:
     print("===== END DEBUG =====\n")
 
 
+def _yaml_scalar(value: str) -> str:
+    """Render a string as a YAML scalar: plain when that is unambiguous, else double-quoted (JSON strings are valid YAML)."""
+    needs_quotes = (
+        not value
+        or ": " in value
+        or " #" in value
+        or value != value.strip()
+        or value[0] in "-?:,[]{}#&*!|>'\"%@`"
+        or value.endswith(":")
+    )
+    if not needs_quotes:
+        try:
+            float(value)
+            needs_quotes = True  # e.g. "0.5" would otherwise load as a number
+        except ValueError:
+            pass
+    return json.dumps(value) if needs_quotes else value
+
+
 def print_remediation(findings: list[dict]) -> None:
-    """Print each distinct remediation once, with the CVEs it resolves, since many CVEs share one package upgrade."""
-    grouped: dict[tuple[str, str], list[str]] = {}
+    """Print each distinct remediation once, as a YAML list, with the CVEs it resolves.
+
+    Many CVEs share one package upgrade, so findings are grouped by (package, remediation). A YAML list keeps
+    every line short except `remediation`, which stays on one line so it can be copied intact, and survives
+    CI log viewers that truncate wide tables.
+    """
+    grouped: dict[tuple[str, str], dict] = {}
     for f in findings:
-        if remediation := get_remediation(f):
-            grouped.setdefault((get_package_info(f)[0], remediation), []).append(get_vuln_id(f))
+        if not (remediation := get_remediation(f)):
+            continue
+        pkg, current, fix = get_package_info(f)
+        entry = grouped.setdefault((pkg, remediation), {"current": current, "fix": fix, "cves": []})
+        entry["cves"].append(get_vuln_id(f))
     if not grouped:
         return
-    rows = [(pkg, ", ".join(sorted(cves)), remediation) for (pkg, remediation), cves in sorted(grouped.items())]
-    print(f"Remediation steps ({len(rows)} items)")
-    print(tabulate(rows, headers=["Package", "CVEs", "Remediation"], tablefmt="simple"))
+    print(f"Remediation steps ({len(grouped)} items)")
+    for n, ((pkg, remediation), entry) in enumerate(sorted(grouped.items())):
+        if n:
+            print()
+        print(f"- package: {_yaml_scalar(pkg)}")
+        print(f"  current: {_yaml_scalar(entry['current'])}")
+        print(f"  fix: {_yaml_scalar(entry['fix'])}")
+        print("  cves:")
+        for cve in sorted(entry["cves"]):
+            print(f"    - {_yaml_scalar(cve)}")
+        print(f"  remediation: {_yaml_scalar(remediation)}")
     print()
 
 
