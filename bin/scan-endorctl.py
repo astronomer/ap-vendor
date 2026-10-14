@@ -210,6 +210,7 @@ def _yaml_scalar(value: str) -> str:
         or ": " in value
         or " #" in value
         or value != value.strip()
+        or not value.isprintable()  # newlines, control chars, U+2028/U+2029: must not split the line
         or value[0] in "-?:,[]{}#&*!|>'\"%@`"
         or value.endswith(":")
     )
@@ -219,6 +220,7 @@ def _yaml_scalar(value: str) -> str:
             needs_quotes = True  # e.g. "0.5" would otherwise load as a number
         except ValueError:
             pass
+    # Default ensure_ascii=True escapes every non-ASCII and control character, so a quoted value stays on one line.
     return json.dumps(value) if needs_quotes else value
 
 
