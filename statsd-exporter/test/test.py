@@ -70,6 +70,11 @@ def _get_metric_by_name(name):
     raise Exception(f"Did not find metric {name}, only found metrics: {found_metrics}")
 
 
+def _raw_metrics():
+    """The exposition text itself, because prometheus_client's parser adds _total to counter samples."""
+    return requests.get("http://localhost:9102/metrics", timeout=requests_timeout).text
+
+
 class Metric:
     def __str__(self):
         return f"name: {self.name}, labels: {self.labels}, value: {self.value}"
@@ -170,6 +175,22 @@ class TestGen2:
         _increment_metric("operator_successes_PythonOperator")
         metric = _get_metric_by_name("airflow_operator_successes_total")
         assert metric.labels["operator"] == "Value"
+
+    def test_object_store_operations_mapped_with_labels(self):
+        _increment_metric("astro_object_store.operations.xcom.put.failure")
+        _increment_metric("astro_object_store.operations.xcom.put.failure")
+        _increment_metric("astro_object_store.operations.state.delete_prefix.success")
+        # The plugin also sends the bare name, whose tags plain statsd discards; mapping it would double count.
+        _increment_metric("astro_object_store.operations")
+
+        samples = [m for m in _get_metrics() if m.name == "astro_object_store_operations_total"]
+        by_labels = {(m.labels["backend"], m.labels["op"], m.labels["outcome"]): m.value for m in samples}
+        assert by_labels == {("xcom", "put", "failure"): 2, ("state", "delete_prefix", "success"): 1}
+
+        raw = _raw_metrics()
+        series = [line for line in raw.splitlines() if "astro_object_store" in line and not line.startswith("#")]
+        assert series, raw
+        assert all(line.startswith("astro_object_store_operations_total{") for line in series), series
 
     def test_sla_task_lag_exported_as_millisecond_histogram(self):
         # The astro_event_scheduler SLA timings are emitted via Airflow's
