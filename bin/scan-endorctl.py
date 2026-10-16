@@ -21,8 +21,13 @@ If --image-tar is provided, endorctl scans the tarball directly (no local
 docker daemon required); --image is still passed so findings are tagged with
 the desired image name/tag.
 
+With --debug, the full JSON of every finding at or above the severity threshold
+is printed (plus the top-level keys of the scan output), to find out which fields
+carry file locations. --raw-out additionally saves the unfiltered endorctl JSON.
+
 Usage:
-    uv run scan-endorctl.py --image <name:tag> [--image-tar <path>] [--path <dir>] [--severity {critical,high,medium,low}]
+    uv run scan-endorctl.py --image <name:tag> [--image-tar <path>] [--path <dir>]
+        [--severity {critical,high,medium,low}] [--debug] [--raw-out <file>]
 """
 
 from __future__ import annotations
@@ -34,6 +39,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+import yaml
 from tabulate import tabulate
 
 _GIT_HASH_RE = re.compile(r"[0-9a-f]{40}")
@@ -138,6 +144,16 @@ def get_package_info(finding: dict) -> tuple[str, str, str]:
     return pkg_name, current_ver, fix_ver
 
 
+def get_remediation(finding: dict) -> str:
+    """Endor's remediation text, which names the parent dependency that pulls in the vulnerable package.
+
+    Container findings carry no file path; for Go binaries this chain (e.g. "Update
+    github.com/foo/bar@v1 to use golang.org/x/net version 0.60.0") is the closest thing to a location.
+    """
+    spec = finding.get("spec", {})
+    return spec.get("remediation") or spec.get("relationship") or ""
+
+
 def has_fix_version(finding: dict) -> bool:
     proposed = finding.get("spec", {}).get("proposed_version", "")
     return bool(proposed) and proposed != "?"
@@ -159,6 +175,86 @@ def severity_at_or_above(finding: dict, threshold: str) -> bool:
         return False
     threshold_rank = _SEVERITY_ORDER[threshold.capitalize()]
     return finding_rank <= threshold_rank
+
+
+def _leaf_paths(value: object, prefix: str = "") -> list[str]:
+    """Dotted paths of every leaf in a JSON value; list items are collapsed to `[]`."""
+    if isinstance(value, dict):
+        return [p for k, v in value.items() for p in _leaf_paths(v, f"{prefix}.{k}" if prefix else k)]
+    if isinstance(value, list):
+        return [p for item in value for p in _leaf_paths(item, f"{prefix}[]")] or [f"{prefix}[]"]
+    return [prefix]
+
+
+def print_debug(data: dict, findings: list[dict]) -> None:
+    """Dump raw finding JSON so we can see which fields (if any) hold file locations."""
+    other_keys = sorted(k for k in data if k != "all_findings")
+    print("\n===== DEBUG: top-level keys of endorctl output =====")
+    print(f"all_findings: {len(data.get('all_findings', []))} total; other keys: {other_keys}")
+    for key in other_keys:
+        print(f"--- {key} ---")
+        print(json.dumps(data[key], indent=2, sort_keys=True)[:5000])
+    print("\n===== DEBUG: unique leaf key paths across displayed findings =====")
+    for path in sorted({p for f in findings for p in _leaf_paths(f)}):
+        print(path)
+    print("\n===== DEBUG: raw findings =====")
+    for f in findings:
+        print(f"--- {get_vuln_id(f)} {get_severity(f)} {get_package_info(f)[0]} ---")
+        print(json.dumps(f, indent=2, sort_keys=True))
+    print("===== END DEBUG =====\n")
+
+
+class _RemediationDumper(yaml.SafeDumper):
+    """YAML dumper that indents list items under their key, so the output matches the rest of the CI log."""
+
+    def increase_indent(self, flow: bool = False, indentless: bool = False) -> None:  # noqa: ARG002
+        return super().increase_indent(flow, False)
+
+
+def _represent_str(dumper: yaml.SafeDumper, data: str) -> yaml.ScalarNode:
+    """Show multi-line text as a literal block so newlines read as line breaks.
+
+    Text with non-printable characters (control characters, U+2028/U+2029) is left to PyYAML's default,
+    which double-quotes and escapes it, so such characters can never be written raw into the CI log.
+    """
+    lines = data.split("\n")
+    literal = len(lines) > 1 and all(line.isprintable() for line in lines)
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|" if literal else None)
+
+
+_RemediationDumper.add_representer(str, _represent_str)
+
+
+def format_remediation(item: dict) -> str:
+    """One remediation as a YAML list item.
+
+    `width=inf` keeps `remediation` on one line so it can be copied intact. `allow_unicode=False` makes PyYAML escape
+    every non-ASCII character, including U+2028/U+2029, so none are written raw into the CI log.
+    """
+    return yaml.dump([item], Dumper=_RemediationDumper, sort_keys=False, width=float("inf"), allow_unicode=False)
+
+
+def print_remediation(findings: list[dict]) -> None:
+    """Print each distinct remediation once, as a YAML list, with the CVEs it resolves.
+
+    Many CVEs share one package upgrade, so findings are grouped by (package, remediation). A YAML list keeps
+    every line short except `remediation`, and survives CI log viewers that truncate wide tables.
+    """
+    grouped: dict[tuple[str, str], dict] = {}
+    for f in findings:
+        if not (remediation := get_remediation(f)):
+            continue
+        pkg, current, fix = get_package_info(f)
+        entry = grouped.setdefault((pkg, remediation), {"current": current, "fix": fix, "cves": []})
+        entry["cves"].append(get_vuln_id(f))
+    if not grouped:
+        return
+    print(f"Remediation steps ({len(grouped)} items)")
+    items = [
+        {"package": pkg, "current": e["current"], "fix": e["fix"], "cves": sorted(e["cves"]), "remediation": remediation}
+        for (pkg, remediation), e in sorted(grouped.items())
+    ]
+    print("\n".join(format_remediation(item) for item in items))
 
 
 def print_table(findings: list[dict], title: str) -> None:
@@ -200,6 +296,17 @@ def main() -> None:
         default="high",
         help="Minimum severity that fails the build (default: high)",
     )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Print the full JSON of every finding at or above --severity, to discover available fields (e.g. file paths)",
+    )
+    parser.add_argument(
+        "--raw-out",
+        type=Path,
+        default=None,
+        help="Write the unfiltered endorctl JSON output to this file",
+    )
     args = parser.parse_args()
 
     print(f"Scanning image: {args.image}")
@@ -211,9 +318,15 @@ def main() -> None:
 
     if web_url:
         print(f"Full results: {web_url}")
+    if args.raw_out:
+        args.raw_out.write_text(json.dumps(data, indent=2, sort_keys=True))
+        print(f"Raw endorctl JSON written to {args.raw_out}")
 
     findings = [f for f in data.get("all_findings", []) if is_vulnerability(f)]
     at_severity = [f for f in findings if severity_at_or_above(f, args.severity)]
+
+    if args.debug:
+        print_debug(data, at_severity)
 
     ignored_cves = load_ignored_cves(args.path)
 
@@ -231,8 +344,10 @@ def main() -> None:
     print(f"\nGate: fail on severity >= {args.severity} when a fix version is available")
     if actionable:
         print_table(actionable, "Vulnerabilities (action required)")
+        print_remediation(actionable)
     if no_fix:
         print_table(no_fix, "Vulnerabilities without a fix version (informational, does not fail build)")
+        print_remediation(no_fix)
     if ignored:
         print_table(ignored, f"Ignored vulnerabilities (in {args.path}/endorignore)")
     if not actionable:
