@@ -31,14 +31,11 @@ RUN set -ex \
 
 WORKDIR $DISTRIBUTION_DIR
 
-RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR && git checkout v0.28.0
+RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR && git checkout v0.29.0
 
-RUN go get golang.org/x/crypto@v0.57.0 \
-    golang.org/x/oauth2@v0.36.0 \
-    golang.org/x/net@v0.60.0 \
-    github.com/quic-go/qpack@v0.5.1 \
-    google.golang.org/grpc@v1.82.1 \
-    golang.org/x/text@v0.42.0 \
+# v0.29.0 still depends on golang.org/x/net v0.59.0, which is affected by
+# CVE-2026-78663, CVE-2026-78659, CVE-2026-78660 and CVE-2026-78669 (fixed in 0.60.0).
+RUN go get golang.org/x/net@v0.60.0 \
     && go mod tidy \
     && git diff
 
