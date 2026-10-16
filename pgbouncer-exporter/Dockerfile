@@ -16,7 +16,7 @@
 # https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-pgbouncer-exporter/versions
 FROM cgr.dev/astronomer.io/prometheus-pgbouncer-exporter:0.12.1-dev AS upstream
 
-FROM quay.io/astronomer/ap-base:2026.10.5
+FROM quay.io/astronomer/ap-base:2026.10.12
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
