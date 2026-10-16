@@ -38,6 +38,21 @@ def _gauge_metric(statsd_metric, value):
     sleep(0.5)
 
 
+def _timing_metric(statsd_metric, milliseconds):
+    """Send a statsd timer (``|ms``), the way Airflow's Stats.timing does.
+
+    Airflow converts the ``timedelta`` it is given to milliseconds before
+    sending, so the event scheduler's seconds-valued SLA timings reach
+    statsd-exporter in milliseconds. We mimic that here by sending ms.
+    """
+    statsd = StatsClient(host="127.0.0.1", port=8125, prefix="airflow")
+    statsd.timing(statsd_metric, milliseconds)
+    # Avoid race conditions in our testing. After sending the data to
+    # statsd, we should allow time for statsd exporter to collect
+    # and serve new values
+    sleep(0.5)
+
+
 def _get_metrics():
     response = requests.get("http://localhost:9102/metrics", timeout=requests_timeout)
     print(response.text)
@@ -53,6 +68,11 @@ def _get_metric_by_name(name):
             return metric
         found_metrics.append(metric.name)
     raise Exception(f"Did not find metric {name}, only found metrics: {found_metrics}")
+
+
+def _raw_metrics():
+    """The exposition text itself, because prometheus_client's parser adds _total to counter samples."""
+    return requests.get("http://localhost:9102/metrics", timeout=requests_timeout).text
 
 
 class Metric:
@@ -155,6 +175,54 @@ class TestGen2:
         _increment_metric("operator_successes_PythonOperator")
         metric = _get_metric_by_name("airflow_operator_successes_total")
         assert metric.labels["operator"] == "Value"
+
+    def test_object_store_operations_mapped_with_labels(self):
+        _increment_metric("astro_object_store.operations.xcom.put.failure")
+        _increment_metric("astro_object_store.operations.xcom.put.failure")
+        _increment_metric("astro_object_store.operations.state.delete_prefix.success")
+        # The plugin also sends the bare name, whose tags plain statsd discards; mapping it would double count.
+        _increment_metric("astro_object_store.operations")
+
+        samples = [m for m in _get_metrics() if m.name == "astro_object_store_operations_total"]
+        by_labels = {(m.labels["backend"], m.labels["op"], m.labels["outcome"]): m.value for m in samples}
+        assert by_labels == {("xcom", "put", "failure"): 2, ("state", "delete_prefix", "success"): 1}
+
+        raw = _raw_metrics()
+        series = [line for line in raw.splitlines() if "astro_object_store" in line and not line.startswith("#")]
+        assert series, raw
+        assert all(line.startswith("astro_object_store_operations_total{") for line in series), series
+
+    def test_sla_task_lag_exported_as_millisecond_histogram(self):
+        # The astro_event_scheduler SLA timings are emitted via Airflow's
+        # Stats.timing, which converts the seconds-valued timedelta to
+        # MILLISECONDS on the wire. statsd-exporter observes the raw value with
+        # no unit conversion, so the mapping's histogram buckets are in ms.
+        #
+        # A ~650ms observation (a realistic task_lag) must land in a finite ms
+        # bucket (le=1000). This is the guard against someone "simplifying" the
+        # buckets back to seconds: a seconds config tops out at le=60, has no
+        # le=1000 boundary at all, and would dump 650 straight into +Inf.
+        _timing_metric("astro_event_scheduler.sla.task_lag", 650)
+
+        buckets = {}
+        sum_value = count_value = None
+        for metric in _get_metrics():
+            if metric.name == "astro_event_scheduler_sla_task_lag_milliseconds_bucket":
+                buckets[float(metric.labels["le"])] = metric.value
+            elif metric.name == "astro_event_scheduler_sla_task_lag_milliseconds_sum":
+                sum_value = metric.value
+            elif metric.name == "astro_event_scheduler_sla_task_lag_milliseconds_count":
+                count_value = metric.value
+
+        assert buckets, "expected a histogram, but found no _bucket series"
+        # A millisecond bucket layout has an le=1000 boundary; a seconds one does not.
+        assert 1000.0 in buckets, f"buckets are not in milliseconds: {sorted(buckets)}"
+        # Cumulative histogram: 650 is <= 1000 but > 500.
+        assert buckets[1000.0] >= 1
+        assert buckets.get(500.0, 0) == 0
+        # Sanity on units: sum is ~650 (ms), not ~0.65 (s).
+        assert count_value is not None and count_value >= 1
+        assert sum_value is not None and sum_value >= 100
 
 
 @pytest.fixture(scope="class")

@@ -11,11 +11,13 @@ RUN apt update && apt install -y \
     file \
     gh \
     git \
+    gron \
     jq \
     less \
     nodejs \
     npm \
     procps \
+    ripgrep \
     unzip \
     vim \
     wget \
@@ -31,4 +33,4 @@ RUN uv python install 3.14 --default && \
 # - https://code.claude.com/docs/en/devcontainer
 # - https://github.com/anthropics/claude-code/blob/main/.devcontainer
 # - https://www.npmjs.com/package/@anthropic-ai/claude-code
-RUN npm install --ignore-scripts --min-release-age=7 -g @anthropic-ai/claude-code
+RUN npm install --min-release-age=7 -g @anthropic-ai/claude-code

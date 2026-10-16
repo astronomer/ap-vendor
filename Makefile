@@ -10,7 +10,7 @@ help: ## Print Makefile help.
 
 .PHONY: install-hooks
 install-hooks: ## Install git hooks
-	pre-commit install -f --install-hooks
+	prek install -f --install-hooks
 
 .PHONY: show-quay-urls
 show-quay-urls: ## Show Quay.io URLS for all images in repo
@@ -52,3 +52,11 @@ venv: .venv ## Create the needed virtualenv
 .PHONY: clean
 clean: ## Delete build artifacts
 	rm -rf .venv
+
+.PHONY: uv-lock-upgrade
+uv-lock-upgrade: ## Upgrade dependencies in the uv.lock file.
+	uv lock --upgrade
+
+.PHONY: uv-lock-upgrade-and-sync
+uv-lock-upgrade-and-sync: uv-lock-upgrade ## Upgrade uv lockfile dependencies and sync venv
+	uv sync
