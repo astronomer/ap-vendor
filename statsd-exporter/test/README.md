@@ -2,6 +2,8 @@
 
 This test scaffolding will bring up statsd-exporter and statsd with docker compose, hooking them up together. The component testing sends metrics to statsd to act like Airflow.
 
+The statsd-exporter image builds from `cgr.dev/astronomer.io/ap-statsd-exporter`, so you need pull access to that registry first. CI does not run these tests; run them locally when you change the mappings.
+
 ## Play around with it
 
 In this directory, you can run
