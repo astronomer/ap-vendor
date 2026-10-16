@@ -13,10 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/r/jbub/pgbouncer_exporter
-FROM cgr.dev/astronomer.io/prometheus-pgbouncer-exporter:0.12.1-dev AS upstream
-
-FROM quay.io/astronomer/ap-base:2026.9.28
+FROM quay.io/astronomer/ap-base:2026.10.12
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
@@ -30,7 +27,8 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER root
 
-COPY --from=upstream /bin/pgbouncer_exporter /bin
+# https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-pgbouncer-exporter/versions
+COPY --from=cgr.dev/astronomer.io/prometheus-pgbouncer-exporter:0.12.1-dev /bin/pgbouncer_exporter /bin
 
 RUN apk upgrade --no-cache
 
