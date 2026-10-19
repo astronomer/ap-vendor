@@ -1,1 +1,3 @@
 # Waiting for upstream fix in nats-exporter
+CVE-2026-56855
+CVE-2026-78662
