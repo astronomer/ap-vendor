@@ -13,39 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/_/golang/tags?name=1.22-alpine
-
-FROM golang:1.26.9-alpine3.23 AS build
-
-ENV DISTRIBUTION_DIR=/go/src/github.com/prometheus/blackbox_exporter
-ENV BUILDTAGS="include_oss include_gcs"
-
-ARG GOOS=linux
-ARG GOARCH=amd64
-ARG GOARM=6
-ARG VERSION
-ARG REVISION
-
-RUN set -ex \
-    && apk add --no-cache make git curl
-
-WORKDIR $DISTRIBUTION_DIR
-
-RUN git clone https://github.com/prometheus/blackbox_exporter $DISTRIBUTION_DIR && git checkout v0.28.0
-
-RUN go get golang.org/x/crypto@v0.57.0 \
-    golang.org/x/oauth2@v0.36.0 \
-    golang.org/x/net@v0.60.0 \
-    github.com/quic-go/qpack@v0.5.1 \
-    google.golang.org/grpc@v1.82.1 \
-    golang.org/x/text@v0.42.0 \
-    && go mod tidy \
-    && git diff
-
-RUN CGO_ENABLED=0 make build
+# https://console.chainguard.dev/org/astronomer.io/images/organization/image/ap-blackbox-exporter/versions
+FROM cgr.dev/astronomer.io/ap-blackbox-exporter:0.29.0 AS upstream
 
 # https://quay.io/repository/astronomer/ap-base?tab=tags
-FROM quay.io/astronomer/ap-base:2026.10.5
+FROM quay.io/astronomer/ap-base:2026.10.20
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -61,8 +33,8 @@ RUN addgroup -g 1000 -S blackbox-exporter \
 RUN set -ex \
     && apk add --no-cache ca-certificates
 
-COPY --from=build --chown=1000:1000 /go/src/github.com/prometheus/blackbox_exporter/blackbox_exporter /usr/local/bin/
-COPY --from=build --chown=1000:1000 /go/src/github.com/prometheus/blackbox_exporter/blackbox.yml /etc/blackbox_exporter/blackbox.yml
+COPY --from=upstream --chown=1000:1000 /usr/bin/blackbox_exporter /usr/local/bin/blackbox_exporter
+COPY --from=upstream --chown=1000:1000 /etc/blackbox_exporter/config.yml /etc/blackbox_exporter/blackbox.yml
 USER 1000
 
 EXPOSE      9115
