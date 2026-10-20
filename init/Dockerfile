@@ -1,6 +1,6 @@
 # Used only for kubernetes initContainer tasks
 
-FROM quay.io/astronomer/ap-base:2026.10.19
+FROM quay.io/astronomer/ap-base:2026.10.20
 
 USER 0
 
