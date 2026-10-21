@@ -26,6 +26,11 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
+USER root
+
+# ca-certificates-bundle r3 is the fixed bundle for the eMudhra CA compromise (PINF-1304)
+RUN apk upgrade --no-cache && apk add --no-cache 'ca-certificates-bundle>=20260909-r3' && update-ca-certificates
+
 COPY --from=upstream  /bin/postgres_exporter /bin/postgres_exporter
 COPY include/entrypoint /entrypoint
 COPY include/healthcheck /healthcheck
