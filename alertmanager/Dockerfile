@@ -17,7 +17,7 @@
 # https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-alertmanager
 FROM cgr.dev/astronomer.io/prometheus-alertmanager:0.34.1 AS upstream
 
-FROM quay.io/astronomer/ap-base:2026.10.20
+FROM quay.io/astronomer/ap-base:2026.10.21
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
@@ -25,7 +25,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER root
 
-RUN apk add --no-cache python3
+RUN apk upgrade --no-cache && apk add --no-cache python3 'ca-certificates-bundle>=20260909-r3' && update-ca-certificates
 
 RUN mkdir -p /alertmanager /etc/alertmanager && \
     chown -R nobody:nobody /etc/alertmanager /alertmanager

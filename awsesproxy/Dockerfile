@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG GO_VERSION=1.26.9
+ARG GO_VERSION=1.26.10
 FROM golang:${GO_VERSION}-alpine AS builder
 
 ENV AWSESPROXY_DIR=/go/src/github.com/astronomer/aws-es-proxy
@@ -38,7 +38,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER root
 
-RUN apk --no-cache add ca-certificates
+RUN apk --no-cache add ca-certificates 'ca-certificates-bundle>=20260909-r3' && update-ca-certificates
 WORKDIR /home/
 COPY --from=builder /go/src/github.com/astronomer/aws-es-proxy/aws-es-proxy /usr/local/bin/
 
