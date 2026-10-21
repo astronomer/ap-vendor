@@ -1,1 +1,2 @@
+#Endor's container scan fails the gate on **CVE-2026-111943** for `wolfi/ca-certificates-bundle` 20260909-r2 (fix listed: 20260909-r3). This is a false #positive on the actual trust store. This should clear on the first rebuild after Chainguard publishes `ca-certificates-bundle` r3. Until then it needs #an exception
 CVE-2026-111943
