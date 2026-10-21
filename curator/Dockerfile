@@ -55,6 +55,12 @@ RUN set -x ; apk update && apk add --upgrade && \
       py3-pip \
       python3-dev
 
+# ap-base 2026.10.20 still carries ca-certificates-bundle r2 (CVE-2026-111943); installing r3 replaces the bundle file, so regenerate it to keep ap-base's RDS CAs.
+# botocore's own cacert.pem still has the Comodo AAA root and is only a fallback when certifi is missing, so point it at the system bundle.
+RUN apk add --no-cache 'ca-certificates-bundle>=20260909-r3' && \
+    update-ca-certificates && \
+    ln -sf /etc/ssl/certs/ca-certificates.crt "$(python3 -c 'import os, botocore; print(os.path.dirname(botocore.__file__))')/cacert.pem"
+
 USER 65534
 
 ENTRYPOINT ["/usr/bin/curator"]
