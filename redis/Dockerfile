@@ -24,8 +24,9 @@ ARG USER=redis
 
 ## Modify redis uid/gid to match our custom values
 USER root
+# ca-certificates-bundle 20260909-r3 drops the roots behind the compromised eMudhra intermediates (PINF-1304).
 RUN apk update && \
-    apk add shadow && \
+    apk add shadow 'ca-certificates-bundle>=20260909-r3' && \
     usermod -u $UID $USER && \
     groupmod -g $GID $USER && \
     chown -R $USER:$USER /data /home/redis /home/$USER && \
