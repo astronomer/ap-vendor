@@ -30,7 +30,7 @@ USER root
 # https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-pgbouncer-exporter/versions
 COPY --from=cgr.dev/astronomer.io/prometheus-pgbouncer-exporter:0.12.1-dev /bin/pgbouncer_exporter /bin
 
-RUN apk upgrade --no-cache
+RUN apk upgrade --no-cache && apk add --no-cache ca-certificates 'ca-certificates-bundle>=20260909-r3' && update-ca-certificates
 
 RUN addgroup -g $GID -S $USER \
     && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER
