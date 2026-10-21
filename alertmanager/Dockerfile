@@ -25,7 +25,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER root
 
-RUN apk add --no-cache python3
+RUN apk upgrade --no-cache && apk add --no-cache python3 'ca-certificates-bundle>=20260909-r3' && update-ca-certificates
 
 RUN mkdir -p /alertmanager /etc/alertmanager && \
     chown -R nobody:nobody /etc/alertmanager /alertmanager
