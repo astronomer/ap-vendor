@@ -24,7 +24,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 USER root
 
 # Install ca-certificates
-RUN apk add --no-cache ca-certificates
+RUN apk upgrade --no-cache && apk add --no-cache ca-certificates 'ca-certificates-bundle>=20260909-r3' && update-ca-certificates
 
 # Copy entrypoint script
 COPY entrypoint.sh /entrypoint.sh
