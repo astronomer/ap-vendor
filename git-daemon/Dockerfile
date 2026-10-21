@@ -25,7 +25,7 @@ USER root
 
 RUN apk update && apk upgrade binutils
 
-RUN apk add --no-cache git git-daemon
+RUN apk add --no-cache git git-daemon ca-certificates 'ca-certificates-bundle>=20260909-r3' && update-ca-certificates
 COPY entrypoint.sh /
 
 # UID and GID must match git-sync, which are both 65533. There is
