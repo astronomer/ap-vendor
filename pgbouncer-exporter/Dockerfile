@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/astronomer/ap-base:2026.10.20
+FROM quay.io/astronomer/ap-base:2026.10.21
 
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
@@ -30,10 +30,7 @@ USER root
 # https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-pgbouncer-exporter/versions
 COPY --from=cgr.dev/astronomer.io/prometheus-pgbouncer-exporter:0.12.1-dev /bin/pgbouncer_exporter /bin
 
-# ap-base 2026.10.20 still carries ca-certificates-bundle r2 (CVE-2026-111943); installing r3 replaces the bundle file, so regenerate it to keep ap-base's RDS CAs
-RUN apk upgrade --no-cache \
-    && apk add --no-cache 'ca-certificates-bundle>=20260909-r3' \
-    && update-ca-certificates
+RUN apk upgrade --no-cache
 
 RUN addgroup -g $GID -S $USER \
     && adduser -D -S -s /sbin/nologin -G $USER -u $UID $USER
