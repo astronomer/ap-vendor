@@ -38,7 +38,7 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
 USER root
 
-RUN apk --no-cache add ca-certificates
+RUN apk --no-cache add ca-certificates 'ca-certificates-bundle>=20260909-r3' && update-ca-certificates
 WORKDIR /home/
 COPY --from=builder /go/src/github.com/astronomer/aws-es-proxy/aws-es-proxy /usr/local/bin/
 
