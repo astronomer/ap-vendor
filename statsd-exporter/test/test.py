@@ -192,8 +192,9 @@ class TestGen2:
         assert series, raw
         assert all(line.startswith("astro_object_store_operations_total{") for line in series), series
 
-    def test_sla_task_lag_exported_as_millisecond_histogram(self):
-        # The astro_event_scheduler SLA timings are emitted via Airflow's
+    @pytest.mark.parametrize("scheduler_prefix", ["astro_scheduler", "astro_event_scheduler"])
+    def test_sla_task_lag_exported_as_millisecond_histogram(self, scheduler_prefix):
+        # The Astro Scheduler SLA timings are emitted via Airflow's
         # Stats.timing, which converts the seconds-valued timedelta to
         # MILLISECONDS on the wire. statsd-exporter observes the raw value with
         # no unit conversion, so the mapping's histogram buckets are in ms.
@@ -202,16 +203,16 @@ class TestGen2:
         # bucket (le=1000). This is the guard against someone "simplifying" the
         # buckets back to seconds: a seconds config tops out at le=60, has no
         # le=1000 boundary at all, and would dump 650 straight into +Inf.
-        _timing_metric("astro_event_scheduler.sla.task_lag", 650)
+        _timing_metric(f"{scheduler_prefix}.sla.task_lag", 650)
 
         buckets = {}
         sum_value = count_value = None
         for metric in _get_metrics():
-            if metric.name == "astro_event_scheduler_sla_task_lag_milliseconds_bucket":
+            if metric.name == f"{scheduler_prefix}_sla_task_lag_milliseconds_bucket":
                 buckets[float(metric.labels["le"])] = metric.value
-            elif metric.name == "astro_event_scheduler_sla_task_lag_milliseconds_sum":
+            elif metric.name == f"{scheduler_prefix}_sla_task_lag_milliseconds_sum":
                 sum_value = metric.value
-            elif metric.name == "astro_event_scheduler_sla_task_lag_milliseconds_count":
+            elif metric.name == f"{scheduler_prefix}_sla_task_lag_milliseconds_count":
                 count_value = metric.value
 
         assert buckets, "expected a histogram, but found no _bucket series"
@@ -223,6 +224,15 @@ class TestGen2:
         # Sanity on units: sum is ~650 (ms), not ~0.65 (s).
         assert count_value is not None and count_value >= 1
         assert sum_value is not None and sum_value >= 100
+
+    @pytest.mark.parametrize("scheduler_prefix", ["astro_scheduler", "astro_event_scheduler"])
+    def test_scheduler_metrics_keep_their_prefix(self, scheduler_prefix):
+        # The Astro Scheduler emits astro_scheduler.*; releases up to
+        # event-scheduler/2026.10.0 emit astro_event_scheduler.*. Both must come
+        # out under the prefix they were sent with, minus `airflow.`.
+        _increment_metric(f"{scheduler_prefix}.events_received")
+        metric = _get_metric_by_name(f"{scheduler_prefix}_events_received_total")
+        assert metric.value >= 1
 
 
 @pytest.fixture(scope="class")
