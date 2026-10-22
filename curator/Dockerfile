@@ -58,10 +58,6 @@ RUN set -x ; apk update && apk add --upgrade && \
       py3-pip \
       python3-dev
 
-# ap-base 2026.10.20 still carries ca-certificates-bundle r2 (CVE-2026-111943); installing r3 replaces the bundle file, so regenerate it to keep ap-base's RDS CAs.
-RUN apk add --no-cache 'ca-certificates-bundle>=20260909-r3' && \
-    update-ca-certificates
-
 USER 65534
 
 ENTRYPOINT ["/usr/bin/curator"]
