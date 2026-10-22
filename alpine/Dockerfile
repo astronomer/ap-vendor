@@ -20,4 +20,4 @@ ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 
-RUN apk add --no-cache tini
+RUN apk upgrade --no-cache && apk add --no-cache tini 'ca-certificates>=20261020-r0' 'ca-certificates-bundle>=20261020-r0' && update-ca-certificates
