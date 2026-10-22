@@ -52,6 +52,10 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
+USER root
+
+RUN apk --no-cache add 'ca-certificates>=20260909-r3' 'ca-certificates-bundle>=20260909-r3' && update-ca-certificates
+
 COPY --from=build /go/src/github.com/astronomer/external-secrets/external-secrets /bin/external-secrets
 
 USER 65534
