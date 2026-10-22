@@ -37,7 +37,7 @@ RUN set -ex \
 
 WORKDIR $ESO_DIR
 
-RUN git clone https://github.com/astronomer/external-secrets.git $ESO_DIR && git checkout 22aac7c0cc478e729007da1e1d368d007fbd867a
+RUN git clone https://github.com/astronomer/external-secrets.git $ESO_DIR && git checkout 5eabd0a70cba81b1e89a47d536307c312cd840f2
 
 RUN go mod download
 RUN go build -tags all_providers -o external-secrets main.go
