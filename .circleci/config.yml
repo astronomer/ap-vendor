@@ -62,7 +62,6 @@ workflows:
             postgres-operator/.* postgres-operator true
             postgresql/.* postgresql true
             prometheus/.* prometheus true
-            python/.* python true
             redis/.* redis true
             registry/.* registry true
             statsd-exporter/.* statsd-exporter true
