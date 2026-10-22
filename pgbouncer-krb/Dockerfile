@@ -18,6 +18,9 @@
 ##### FIRST STAGE: common - stuff needed at both build and run time
 
 FROM quay.io/astronomer/ap-base:3.21.3-4 as common
+# Fixed CA bundle for the eMudhra CA compromise, here so the build stage's git
+# fetch trusts the same store as the final image.
+RUN apk upgrade --no-cache && apk add --no-cache 'ca-certificates>=20261020-r0' 'ca-certificates-bundle>=20261020-r0' && update-ca-certificates
 RUN apk add --no-cache --virtual .run-deps \
       c-ares \
       entr \
