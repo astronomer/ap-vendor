@@ -97,7 +97,7 @@ COPY docker-entrypoint.sh docker-entrypoint.sh
 RUN rm /usr/local/bin/dockerize
 
 # Pull latest security patches for openssl, expat, zlib
-RUN apk upgrade --no-cache
+RUN apk upgrade --no-cache && apk add --no-cache 'ca-certificates>=20261020-r0' 'ca-certificates-bundle>=20261020-r0' && update-ca-certificates
 
 # setup user, entrypoint, and cmd
 USER $UID
