@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://quay.io/repository/astronomer/ap-base?tab=tags
-FROM quay.io/astronomer/ap-base:2026.10.20
+FROM quay.io/astronomer/ap-base:2026.10.21
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
@@ -51,6 +51,9 @@ RUN set -x ; apk update && apk add --upgrade && \
     # es-client (pulled in by elasticsearch-curator) pins click==8.1.8, which is
     # vulnerable to CVE-2026-7246. Force-upgrade to a patched release.
     pip install --upgrade --no-cache-dir "click==8.3.3" && \
+    # botocore's own cacert.pem still has the Comodo AAA root (eMudhra CA compromise) and is only a
+    # fallback when certifi is missing. Point it at the system bundle in this layer so the old copy never ships.
+    ln -sf /etc/ssl/certs/ca-certificates.crt "$(python3 -c 'import os, botocore; print(os.path.dirname(botocore.__file__))')/cacert.pem" && \
     apk del \
       py3-pip \
       python3-dev

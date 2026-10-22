@@ -44,13 +44,17 @@ RUN go build -tags all_providers -o external-secrets main.go
 
 # Final docker image building stage
 # https://quay.io/repository/astronomer/ap-base?tab=tags&tag=latest
-FROM quay.io/astronomer/ap-base:2026.9.14
+FROM quay.io/astronomer/ap-base:2026.10.21
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 LABEL maintainer="Astronomer <humans@astronomer.io>"
+
+USER root
+
+RUN apk --no-cache add 'ca-certificates>=20260909-r3' 'ca-certificates-bundle>=20260909-r3' && update-ca-certificates
 
 COPY --from=build /go/src/github.com/astronomer/external-secrets/external-secrets /bin/external-secrets
 
