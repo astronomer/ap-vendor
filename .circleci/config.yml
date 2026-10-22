@@ -33,7 +33,6 @@ workflows:
             blackbox-exporter/.* blackbox-exporter true
             configmap-reloader/.* configmap-reloader true
             curator/.* curator true
-            dind-golang/.* dind-golang true
             dogstatsd/.* dogstatsd true
             elasticsearch/.* elasticsearch true
             elasticsearch-exporter/.* elasticsearch-exporter true
