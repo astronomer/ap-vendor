@@ -35,11 +35,6 @@ services:
     build:
       context: curator
     entrypoint: "/bin/sleep 1m"
-  ap-dind-golang:
-    image: ap-dind-golang:${ASTRO_IMAGE_TAG:-latest}
-    build:
-      context: dind-golang
-    entrypoint: "top"
   ap-dogstatsd:
     image: ap-dogstatsd:${ASTRO_IMAGE_TAG:-latest}
     build:
@@ -159,10 +154,6 @@ services:
     image: ap-prometheus:${ASTRO_IMAGE_TAG:-latest}
     build:
       context: prometheus
-  ap-python:
-    image: ap-python:${ASTRO_IMAGE_TAG:-latest}
-    build:
-      context: python
   ap-redis:
     image: ap-redis:${ASTRO_IMAGE_TAG:-latest}
     build:

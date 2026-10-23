@@ -37,10 +37,6 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image curator."
-  dind-golang:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image dind-golang."
   dogstatsd:
     type: boolean
     default: false
@@ -153,10 +149,6 @@ parameters:
     type: boolean
     default: false
     description: "Set True if you want to run build for image prometheus."
-  python:
-    type: boolean
-    default: false
-    description: "Set True if you want to run build for image python."
   redis:
     type: boolean
     default: false
@@ -657,76 +649,6 @@ workflows:
               ignore: main
       - release-branch-tag:
           directory: curator
-          overwrite_tags: true
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-            - apc-chainguard-creds
-          requires:
-            - approve-branch-tag
-            - test
-            - endorlabs-container-scan
-          filters:
-            branches:
-              ignore: main
-  dind-golang-build:
-    when:
-      and:
-        - << pipeline.parameters.dind-golang >>
-    jobs:
-      - build:
-          name: build
-          directory: dind-golang
-          context:
-            - apc-chainguard-creds
-      - test:
-          directory: dind-golang
-          test_script: bin/test.py
-          requires:
-            - build
-      - endorlabs-container-scan:
-          directory: dind-golang
-          context:
-            - apc-endorlabs
-          requires:
-            - build
-      - release:
-          directory: dind-golang
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-            - apc-chainguard-creds
-          requires:
-            - test
-            - endorlabs-container-scan
-          filters:
-            branches:
-              only:
-                - main
-      - validate-tags:
-          directory: dind-golang
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-          requires:
-            - test
-          filters:
-            branches:
-              ignore: main
-      - approve-branch-tag:
-          type: approval
-          filters:
-            branches:
-              ignore: main
-      - release-branch-tag:
-          directory: dind-golang
           overwrite_tags: true
           context:
             - quay.io
@@ -2687,76 +2609,6 @@ workflows:
               ignore: main
       - release-branch-tag:
           directory: prometheus
-          overwrite_tags: true
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-            - apc-chainguard-creds
-          requires:
-            - approve-branch-tag
-            - test
-            - endorlabs-container-scan
-          filters:
-            branches:
-              ignore: main
-  python-build:
-    when:
-      and:
-        - << pipeline.parameters.python >>
-    jobs:
-      - build:
-          name: build
-          directory: python
-          context:
-            - apc-chainguard-creds
-      - test:
-          directory: python
-          test_script: bin/test.py
-          requires:
-            - build
-      - endorlabs-container-scan:
-          directory: python
-          context:
-            - apc-endorlabs
-          requires:
-            - build
-      - release:
-          directory: python
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-            - apc-chainguard-creds
-          requires:
-            - test
-            - endorlabs-container-scan
-          filters:
-            branches:
-              only:
-                - main
-      - validate-tags:
-          directory: python
-          tags: "latest"
-          overwrite_tags: << pipeline.parameters.overwrite_tags >>
-          context:
-            - quay.io
-            - docker.io
-            - azurecr.io
-          requires:
-            - test
-          filters:
-            branches:
-              ignore: main
-      - approve-branch-tag:
-          type: approval
-          filters:
-            branches:
-              ignore: main
-      - release-branch-tag:
-          directory: python
           overwrite_tags: true
           context:
             - quay.io

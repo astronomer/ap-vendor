@@ -33,7 +33,6 @@ workflows:
             blackbox-exporter/.* blackbox-exporter true
             configmap-reloader/.* configmap-reloader true
             curator/.* curator true
-            dind-golang/.* dind-golang true
             dogstatsd/.* dogstatsd true
             elasticsearch/.* elasticsearch true
             elasticsearch-exporter/.* elasticsearch-exporter true
@@ -62,7 +61,6 @@ workflows:
             postgres-operator/.* postgres-operator true
             postgresql/.* postgresql true
             prometheus/.* prometheus true
-            python/.* python true
             redis/.* redis true
             registry/.* registry true
             statsd-exporter/.* statsd-exporter true
