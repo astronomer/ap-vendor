@@ -29,4 +29,21 @@ RUN deluser elasticsearch 2>/dev/null || true && \
     addgroup -g 1000 elasticsearch && \
     adduser -D -u 1000 -G elasticsearch -s /bin/sh elasticsearch
 
+# google-api-client ships a trust store, google.jks, that still lists AAA Certificate Services
+# (CVE-2026-111943). Drop the affected roots from it in every copy of the jar (PINF-1304).
+RUN set -e; \
+    for jar in $(find /usr/share/elasticsearch -name 'google-api-client-*.jar'); do \
+        tmp=$(mktemp -d); \
+        unzip -q "$jar" com/google/api/client/googleapis/google.jks -d "$tmp"; \
+        jks="$tmp/com/google/api/client/googleapis/google.jks"; \
+        for alias in $(keytool -list -v -keystore "$jks" -storepass notasecret | \
+            awk '/^Alias name:/{a=$3} /^Owner:/ && /AAA Certificate Services|emSign|CN=EM (DV|OV|EV|CS)/{print a}'); do \
+            keytool -delete -alias "$alias" -keystore "$jks" -storepass notasecret; \
+        done; \
+        owner=$(stat -c %u:%g "$jar"); mode=$(stat -c %a "$jar"); \
+        jar uf "$jar" -C "$tmp" com/google/api/client/googleapis/google.jks; \
+        chown "$owner" "$jar"; chmod "$mode" "$jar"; \
+        rm -rf "$tmp"; \
+    done
+
 USER 1000
