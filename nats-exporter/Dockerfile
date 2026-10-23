@@ -14,11 +14,11 @@
 # limitations under the License.
 
 # https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-nats-exporter/versions
-FROM cgr.dev/astronomer.io/prometheus-nats-exporter:0.20.2 AS upstream
+FROM cgr.dev/astronomer.io/prometheus-nats-exporter:0.20.3 AS upstream
 
 # Final docker image building stage
 # https://quay.io/repository/astronomer/ap-base?tab=tags&tag=latest
-FROM quay.io/astronomer/ap-base:2026.10.21
+FROM quay.io/astronomer/ap-base:2026.10.23
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
