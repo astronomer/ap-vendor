@@ -351,6 +351,11 @@ mappings:
     match_type: regex
     name: "astro_dist_${1}"
 
+  # Resumable job lifecycle counters, e.g. airflow.resumable_job.fresh_submit
+  - match: 'airflow\.resumable_job\.(.+)'
+    match_type: regex
+    name: "airflow_resumable_job_${1}"
+
   # drop any metric not matched
   - match: "."
     match_type: regex
