@@ -30,9 +30,9 @@ from pathlib import Path
 # The worker serves task logs on this port, over the pod's shared network namespace, for as long as it is alive,
 # and the port closes when the worker has finished its current task.
 WORKER_LOG_SERVER_HOST = "127.0.0.1"
-WORKER_LOG_SERVER_PORT = int(os.environ.get("WORKER_LOG_SERVER_PORT", "8793"))
+WORKER_LOG_SERVER_PORT = 8793
 # Time for vector to read the last lines written before the worker exited, and to flush them to the sink.
-WORKER_DRAIN_SETTLE_SECONDS = float(os.environ.get("SIDECAR_WORKER_DRAIN_SETTLE_SECONDS", "5"))
+WORKER_DRAIN_SETTLE_SECONDS = 5
 
 shutting_down = False
 
@@ -62,7 +62,7 @@ def wait_for_worker_drain():
     while worker_log_server_is_up():
         time.sleep(1)
 
-    print(f"Worker has finished. Letting vector flush for {WORKER_DRAIN_SETTLE_SECONDS:.0f}s.", flush=True)
+    print(f"Worker has finished. Letting vector flush for {WORKER_DRAIN_SETTLE_SECONDS}s.", flush=True)
     time.sleep(WORKER_DRAIN_SETTLE_SECONDS)
 
 
