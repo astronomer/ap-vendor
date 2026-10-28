@@ -351,10 +351,15 @@ mappings:
     match_type: regex
     name: "astro_dist_${1}"
 
-  # Resumable job lifecycle counters, e.g. airflow.resumable_job.fresh_submit
-  - match: 'airflow\.resumable_job\.(.+)'
+  # Resumable job lifecycle counters. Airflow sends each event twice: with and
+  # without dag/task ids. Map only the labelled form; the
+  # final drop rule drops the plain one, so nothing is counted twice.
+  - match: '^airflow\.resumable_job\.([^.]+)\.([^.]+)\.(fresh_submit|already_succeeded|terminal_resubmit|reconnect_attempt|reconnect_success)$'
     match_type: regex
-    name: "airflow_resumable_job_${1}"
+    name: "airflow_resumable_job_${3}"
+    labels:
+      dag_id: "$1"
+      task_id: "$2"
 
   # drop any metric not matched
   - match: "."

@@ -121,8 +121,11 @@ class TestGen2:
 
     def test_resumable_job_counter(self):
         _increment_metric("resumable_job.fresh_submit")
-        metric = _get_metric_by_name("airflow_resumable_job_fresh_submit_total")
-        assert metric.value == 1
+        _increment_metric("resumable_job.my_dag.my_task.fresh_submit")
+        metrics = [m for m in _get_metrics() if m.name == "airflow_resumable_job_fresh_submit_total"]
+        assert len(metrics) == 1
+        assert metrics[0].labels == {"dag_id": "my_dag", "task_id": "my_task"}
+        assert metrics[0].value == 1
 
     def test_increment_metric(self):
         # scheduler.tasks.starvin
