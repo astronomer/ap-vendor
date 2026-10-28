@@ -119,6 +119,11 @@ class TestGen2:
         response = requests.get("http://localhost:9102", timeout=requests_timeout)
         assert response.status_code == 200
 
+    def test_resumable_job_counter(self):
+        _increment_metric("resumable_job.fresh_submit")
+        metric = _get_metric_by_name("airflow_resumable_job_fresh_submit_total")
+        assert metric.value == 1
+
     def test_increment_metric(self):
         # scheduler.tasks.starvin
         _increment_metric("scheduler.tasks.starving")
