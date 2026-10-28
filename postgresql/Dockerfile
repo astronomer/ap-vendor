@@ -13,8 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://hub.docker.com/r/bitnami/postgresql/tags/
-
+# https://console.chainguard.dev/org/astronomer.io/images/organization/image/ap-postgres/versions
 FROM cgr.dev/astronomer.io/ap-postgres:17.11
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
