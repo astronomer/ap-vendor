@@ -31,8 +31,6 @@ from pathlib import Path
 # and the port closes when the worker has finished its current task.
 WORKER_LOG_SERVER_HOST = "127.0.0.1"
 WORKER_LOG_SERVER_PORT = int(os.environ.get("WORKER_LOG_SERVER_PORT", "8793"))
-# Upper bound on the wait. The kubelet SIGKILLs the pod at terminationGracePeriodSeconds regardless.
-WORKER_DRAIN_TIMEOUT = float(os.environ.get("SIDECAR_WORKER_DRAIN_TIMEOUT", "86400"))
 # Time for vector to read the last lines written before the worker exited, and to flush them to the sink.
 WORKER_DRAIN_SETTLE_SECONDS = float(os.environ.get("SIDECAR_WORKER_DRAIN_SETTLE_SECONDS", "5"))
 
@@ -50,6 +48,7 @@ def worker_log_server_is_up():
 def wait_for_worker_drain():
     """Block until the worker container has finished its current task, so vector keeps shipping its logs.
 
+    There is no timeout of our own: the kubelet SIGKILLs the pod at terminationGracePeriodSeconds regardless.
     Only applies to the worker component. Returns immediately if the log server is not listening, so a worker
     that is already gone, or one that never exposed the port, does not delay shutdown.
     """
@@ -60,11 +59,7 @@ def wait_for_worker_drain():
         f"Waiting for the worker log server on port {WORKER_LOG_SERVER_PORT} to close before stopping vector.",
         flush=True,
     )
-    deadline = time.monotonic() + WORKER_DRAIN_TIMEOUT
     while worker_log_server_is_up():
-        if time.monotonic() > deadline:
-            print(f"Worker did not finish within {WORKER_DRAIN_TIMEOUT:.0f}s. Stopping vector.", flush=True)
-            return
         time.sleep(1)
 
     print(f"Worker has finished. Letting vector flush for {WORKER_DRAIN_SETTLE_SECONDS:.0f}s.", flush=True)
