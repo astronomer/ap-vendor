@@ -33,6 +33,8 @@ WORKER_LOG_SERVER_HOST = "127.0.0.1"
 WORKER_LOG_SERVER_PORT = int(os.environ.get("WORKER_LOG_SERVER_PORT", "8793"))
 # Time for vector to read the last lines written before the worker exited, and to flush them to the sink.
 WORKER_DRAIN_SETTLE_SECONDS = 5
+# Name of the Airflow deployment this sidecar belongs to, set by the chart from the pod's release label.
+DEPLOYMENT_NAME = os.environ.get("RELEASE", "unknown")
 
 shutting_down = False
 
@@ -64,13 +66,14 @@ def wait_for_worker_drain():
 
     if worker_log_server_is_up():
         print(
-            f"Waiting for the worker log server on port {WORKER_LOG_SERVER_PORT} to close before stopping vector.",
+            f"[{DEPLOYMENT_NAME}] Waiting for the worker log server on port {WORKER_LOG_SERVER_PORT} to close before "
+            "stopping vector.",
             flush=True,
         )
         while worker_log_server_is_up():
             time.sleep(1)
 
-    print(f"Worker has finished. Letting vector flush for {WORKER_DRAIN_SETTLE_SECONDS}s.", flush=True)
+    print(f"[{DEPLOYMENT_NAME}] Worker has finished. Letting vector flush for {WORKER_DRAIN_SETTLE_SECONDS}s.", flush=True)
     time.sleep(WORKER_DRAIN_SETTLE_SECONDS)
 
 
