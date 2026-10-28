@@ -12,18 +12,72 @@ Other behaviors of this script:
 * If the "heartbeat" file disappears or becomes empty, the last known heartbeat is used.
 * If the "finished" file is seen, the script will ask vector to quit and then exit.
 * If the script is killed, vector is terminated.
+* On SIGTERM/SIGINT in a worker pod, vector is kept running until the worker's task log server port closes. See
+  wait_for_worker_drain.
 
 """
 
+import os
 import signal
+import socket
 import subprocess
 import sys
 import time
 from pathlib import Path
 
+# Kubernetes delivers SIGTERM to every container in a pod at once, but the worker container finishes its running
+# task before exiting. Quitting vector immediately would drop everything the task logs after the signal.
+# The worker serves task logs on this port, over the pod's shared network namespace, for as long as it is alive,
+# and the port closes when the worker has finished its current task.
+WORKER_LOG_SERVER_HOST = "127.0.0.1"
+WORKER_LOG_SERVER_PORT = int(os.environ.get("WORKER_LOG_SERVER_PORT", "8793"))
+# Upper bound on the wait. The kubelet SIGKILLs the pod at terminationGracePeriodSeconds regardless.
+WORKER_DRAIN_TIMEOUT = float(os.environ.get("SIDECAR_WORKER_DRAIN_TIMEOUT", "86400"))
+# Time for vector to read the last lines written before the worker exited, and to flush them to the sink.
+WORKER_DRAIN_SETTLE_SECONDS = float(os.environ.get("SIDECAR_WORKER_DRAIN_SETTLE_SECONDS", "5"))
+
+shutting_down = False
+
+
+def worker_log_server_is_up():
+    try:
+        with socket.create_connection((WORKER_LOG_SERVER_HOST, WORKER_LOG_SERVER_PORT), timeout=2):
+            return True
+    except OSError:
+        return False
+
+
+def wait_for_worker_drain():
+    """Block until the worker container has finished its current task, so vector keeps shipping its logs.
+
+    Only applies to the worker component. Returns immediately if the log server is not listening, so a worker
+    that is already gone, or one that never exposed the port, does not delay shutdown.
+    """
+    if os.environ.get("COMPONENT") != "worker" or not worker_log_server_is_up():
+        return
+
+    print(
+        f"Waiting for the worker log server on port {WORKER_LOG_SERVER_PORT} to close before stopping vector.",
+        flush=True,
+    )
+    deadline = time.monotonic() + WORKER_DRAIN_TIMEOUT
+    while worker_log_server_is_up():
+        if time.monotonic() > deadline:
+            print(f"Worker did not finish within {WORKER_DRAIN_TIMEOUT:.0f}s. Stopping vector.", flush=True)
+            return
+        time.sleep(1)
+
+    print(f"Worker has finished. Letting vector flush for {WORKER_DRAIN_SETTLE_SECONDS:.0f}s.", flush=True)
+    time.sleep(WORKER_DRAIN_SETTLE_SECONDS)
+
 
 def signal_handler(sig, _):
+    global shutting_down
     print(f"Received signal {sig}", flush=True)
+    if shutting_down:
+        return
+    shutting_down = True
+    wait_for_worker_drain()
     if handler:
         handler.quit_proc()
     sys.exit(0)
