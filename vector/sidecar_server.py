@@ -38,29 +38,37 @@ shutting_down = False
 
 
 def worker_log_server_is_up():
+    """Return False only when the connection is refused, which means nothing is listening on the port.
+
+    A timeout or any other socket error proves nothing about the worker, for example a full accept queue on a busy
+    log server, so those count as still up and keep vector running.
+    """
     try:
         with socket.create_connection((WORKER_LOG_SERVER_HOST, WORKER_LOG_SERVER_PORT), timeout=2):
             return True
-    except OSError:
+    except ConnectionRefusedError:
         return False
+    except OSError:
+        return True
 
 
 def wait_for_worker_drain():
     """Block until the worker container has finished its current task, so vector keeps shipping its logs.
 
     There is no timeout of our own: the kubelet SIGKILLs the pod at terminationGracePeriodSeconds regardless.
-    Only applies to the worker component. Returns immediately if the log server is not listening, so a worker
-    that is already gone, or one that never exposed the port, does not delay shutdown.
+    Only applies to the worker component. If the log server is already down, the wait is skipped but the settle time
+    is kept, since the worker may have finished just before the signal and vector may not have read its last lines yet.
     """
-    if os.environ.get("COMPONENT") != "worker" or not worker_log_server_is_up():
+    if os.environ.get("COMPONENT") != "worker":
         return
 
-    print(
-        f"Waiting for the worker log server on port {WORKER_LOG_SERVER_PORT} to close before stopping vector.",
-        flush=True,
-    )
-    while worker_log_server_is_up():
-        time.sleep(1)
+    if worker_log_server_is_up():
+        print(
+            f"Waiting for the worker log server on port {WORKER_LOG_SERVER_PORT} to close before stopping vector.",
+            flush=True,
+        )
+        while worker_log_server_is_up():
+            time.sleep(1)
 
     print(f"Worker has finished. Letting vector flush for {WORKER_DRAIN_SETTLE_SECONDS}s.", flush=True)
     time.sleep(WORKER_DRAIN_SETTLE_SECONDS)
