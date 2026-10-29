@@ -1,0 +1,43 @@
+---
+tests:
+  root_user_test: False
+  default_user: root
+  test_commands:
+    - command: "curl --version"
+      expected_result:
+        startswith: "curl "
+    - command: "dig -v 2>&1"
+      expected_result:
+        startswith: "DiG "
+    - command: "nc -h 2>&1 | head -1"
+      expected_result:
+        startswith: "OpenBSD netcat"
+    - command: "ncat --version 2>&1"
+      expected_result:
+        in: "Ncat: Version"
+    - command: "socat -V | head -2"
+      expected_result:
+        in: "socat version"
+    - command: "openssl version"
+      expected_result:
+        startswith: "OpenSSL"
+    - command: "tcpdump --version 2>&1 | head -1"
+      expected_result:
+        startswith: "tcpdump version"
+    - command: "ip -V"
+      expected_result:
+        startswith: "ip utility"
+    - command: "command -v traceroute"
+      expected_result:
+        equals: "/usr/bin/traceroute"
+    - command: "python3 --version"
+      expected_result:
+        startswith: "Python 3.13"
+    - command: "psql --version"
+      expected_result:
+        startswith: "psql (PostgreSQL) 18"
+    - command: "jq --version"
+      expected_result:
+        startswith: "jq-"
+docker:
+  entrypoint: "/bin/sleep 1m"
