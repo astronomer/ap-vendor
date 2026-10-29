@@ -351,8 +351,19 @@ mappings:
     match_type: regex
     name: "astro_dist_${1}"
 
-  # Resumable job lifecycle counters, e.g. airflow.resumable_job.fresh_submit
-  - match: 'airflow\.resumable_job\.(.+)'
+  # Resumable job lifecycle counters. Airflow builds with the fork patch send each
+  # event twice, plain and per task, so the two get distinct names: summing one
+  # name across both would count every event twice.
+  - match: '^airflow\.resumable_job\.([^.]+)\.([^.]+)\.([^.]+)\.(fresh_submit|already_succeeded|terminal_resubmit|reconnect_attempt|reconnect_success)$'
+    match_type: regex
+    name: "airflow_resumable_job_task_${4}"
+    labels:
+      dag_id: "$1"
+      task_id: "$2"
+      operator: "$3"
+
+  # Plain form from #1768, kept for Runtime versions without the per-task counters.
+  - match: '^airflow\.resumable_job\.(fresh_submit|already_succeeded|terminal_resubmit|reconnect_attempt|reconnect_success)$'
     match_type: regex
     name: "airflow_resumable_job_${1}"
 
