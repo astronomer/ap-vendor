@@ -362,7 +362,7 @@ mappings:
       task_id: "$2"
       operator: "$3"
 
-  # Plain form from #1768, kept for Runtime versions without the per-task counters.
+  # Kept for Runtime versions without the per-task counters.
   - match: '^airflow\.resumable_job\.(fresh_submit|already_succeeded|terminal_resubmit|reconnect_attempt|reconnect_success)$'
     match_type: regex
     name: "airflow_resumable_job_${1}"
