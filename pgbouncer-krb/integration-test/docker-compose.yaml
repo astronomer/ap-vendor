@@ -1,0 +1,93 @@
+---
+# End-to-end Kerberos test for ap-pgbouncer-krb, driven by test.py.
+# pgbouncer must log in to an upstream Postgres that only accepts GSSAPI for the
+# `houston` role. PGBOUNCER_IMAGE is the image under test.
+x-pgbouncer: &pgbouncer
+  image: ${PGBOUNCER_IMAGE:?set PGBOUNCER_IMAGE to the image under test}
+  environment:
+    KRB5_CLIENT_KTNAME: /keytabs/houston.keytab
+  # Locked down the way the platform chart (charts/pgbouncer) runs it: read-only root
+  # filesystem with a writable /tmp, no capabilities, no privilege escalation.
+  read_only: true
+  tmpfs: [/tmp]
+  cap_drop: [ALL]
+  security_opt: ["no-new-privileges:true"]
+  networks: [krb]
+  depends_on:
+    postgres:
+      condition: service_healthy
+  healthcheck:
+    test: ["CMD", "nc", "-z", "127.0.0.1", "6432"]
+    interval: 2s
+    retries: 30
+
+services:
+  kdc:
+    image: alpine:3.23
+    entrypoint: /kdc-entrypoint.sh
+    volumes:
+      - ./kdc-entrypoint.sh:/kdc-entrypoint.sh:ro
+      - ./krb5.conf:/etc/krb5.conf:ro
+      - keytabs:/keytabs
+    networks:
+      krb:
+        aliases: [kdc.krb.test]
+    healthcheck:
+      test: ["CMD", "test", "-f", "/keytabs/ready"]
+      interval: 2s
+      retries: 60
+
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_PASSWORD: not-a-secret
+      # psql in this container is the test client; keep it from trying GSS or TLS itself.
+      PGGSSENCMODE: disable
+      PGSSLMODE: disable
+    command: ["-c", "hba_file=/cfg/pg_hba.conf", "-c", "krb_server_keyfile=FILE:/keytabs/postgres.keytab"]
+    volumes:
+      - ./pg_hba.conf:/cfg/pg_hba.conf:ro
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./krb5.conf:/etc/krb5.conf:ro
+      - keytabs:/keytabs:ro
+    networks:
+      krb:
+        aliases: [postgres.krb.test]
+    depends_on:
+      kdc:
+        condition: service_healthy
+    healthcheck:
+      # TCP, not the socket, so it only passes once the real server (not the initdb one) is up.
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "postgres"]
+      interval: 2s
+      retries: 60
+
+  pgbouncer-gss:
+    <<: *pgbouncer
+    volumes: &pgbouncer-gss-volumes
+      - ./pgbouncer-gss.ini:/etc/pgbouncer/pgbouncer.ini:ro
+      - ./userlist.txt:/etc/pgbouncer/userlist.txt:ro
+      - ./krb5.conf:/etc/krb5.conf:ro
+      - keytabs:/keytabs:ro
+
+  # On OpenShift the chart drops runAsUser and the cluster assigns an arbitrary UID with GID 0.
+  pgbouncer-openshift:
+    <<: *pgbouncer
+    user: "1000680000:0"
+    volumes: *pgbouncer-gss-volumes
+
+  # Negative control: the same setup with GSSAPI negotiation off must be refused,
+  # so a pass from pgbouncer-gss can't come from some other auth path.
+  pgbouncer-nogss:
+    <<: *pgbouncer
+    volumes:
+      - ./pgbouncer-nogss.ini:/etc/pgbouncer/pgbouncer.ini:ro
+      - ./userlist.txt:/etc/pgbouncer/userlist.txt:ro
+      - ./krb5.conf:/etc/krb5.conf:ro
+      - keytabs:/keytabs:ro
+
+volumes:
+  keytabs: {}
+
+networks:
+  krb: {}

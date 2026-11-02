@@ -73,6 +73,10 @@ def main():
     continue_config = continue_template.render(
         directories=dir_names,
         workflow_directories=dir_names,
+        # Images with an integration-test/test.py get an integration-test job that gates their release.
+        integration_test_directories=[
+            name for name in dir_names if (git_root_dir / name / "integration-test" / "test.py").is_file()
+        ],
         ci_runner_version=ci_runner_version,
     )
 
