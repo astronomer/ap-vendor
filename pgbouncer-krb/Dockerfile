@@ -17,7 +17,7 @@
 
 ##### FIRST STAGE: common - stuff needed at both build and run time
 
-FROM quay.io/astronomer/ap-base:3.21.3-4 as common
+FROM quay.io/astronomer/ap-alpine:3.23.2-1 as common
 # Fixed CA bundle for the eMudhra CA compromise, here so the build stage's git
 # fetch trusts the same store as the final image.
 RUN apk upgrade --no-cache && apk add --no-cache 'ca-certificates>=20261020-r0' 'ca-certificates-bundle>=20261020-r0' && update-ca-certificates
@@ -25,7 +25,6 @@ RUN apk add --no-cache --virtual .run-deps \
       c-ares \
       entr \
       krb5 \
-      krb5-dev \
       krb5-pkinit \
       libevent \
       libressl
@@ -39,6 +38,7 @@ RUN apk add --no-cache --virtual .build-deps \
       build-base \
       c-ares-dev \
       git \
+      krb5-dev \
       libevent-dev \
       libtool \
       openssl-dev \
@@ -96,8 +96,6 @@ COPY --from=build /usr/bin/pgbouncer /usr/bin/pgbouncer
 COPY --from=build /usr/share/doc/pgbouncer /usr/share/doc
 COPY --from=build /build/modified-pgbouncer.ini /etc/pgbouncer/pgbouncer.ini
 COPY docker-entrypoint.sh docker-entrypoint.sh
-
-RUN rm /usr/local/bin/dockerize
 
 # Pull latest security patches for openssl, expat, zlib
 RUN apk upgrade --no-cache
