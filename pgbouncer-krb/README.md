@@ -51,3 +51,8 @@ ASTRO_IMAGE_NAME=ap-pgbouncer-krb uv run pytest -v pgbouncer-krb/integration-tes
 
 `ASTRO_IMAGE_TAG` defaults to `$CIRCLE_SHA1`, then `latest`. Set both variables to test a published image, for example
 `ASTRO_IMAGE_NAME=quay.io/astronomer/ap-pgbouncer-krb ASTRO_IMAGE_TAG=1.25.0-6`.
+
+The test logs what it's doing as it runs, locally and in CI. It shows the pgbouncer, OpenSSL, c-ares and Kerberos versions under
+test, each query with its result or error, the lines pgbouncer logged while handling it (including the Kerberos handshake), and the
+ticket times around the expiry wait. If the stack doesn't start, it prints every container's log. Pass `--log-cli-level=WARNING`
+to quiet it.

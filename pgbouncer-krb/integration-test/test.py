@@ -14,6 +14,7 @@ pgbouncer always logs in to Postgres as houston. Build the image first, then run
     ASTRO_IMAGE_NAME=ap-pgbouncer-krb uv run pytest -v pgbouncer-krb/integration-test/test.py
 """
 
+import logging
 import os
 import time
 import uuid
@@ -21,6 +22,8 @@ from pathlib import Path
 
 import pytest
 from python_on_whales import DockerClient, DockerException
+
+log = logging.getLogger("pgbouncer-krb-integration-test")
 
 ASTRO_IMAGE_NAME = os.getenv("ASTRO_IMAGE_NAME", "ap-pgbouncer-krb")
 ASTRO_IMAGE_TAG = os.getenv("ASTRO_IMAGE_TAG", os.getenv("CIRCLE_SHA1", "latest"))
@@ -40,32 +43,70 @@ GSS_AUTHENTICATED = "t|houston@KRB.TEST|f"
 
 @pytest.fixture(scope="module")
 def stack():
+    image = f"{ASTRO_IMAGE_NAME}:{ASTRO_IMAGE_TAG}"
     with pytest.MonkeyPatch.context() as monkeypatch:
-        monkeypatch.setenv("PGBOUNCER_IMAGE", f"{ASTRO_IMAGE_NAME}:{ASTRO_IMAGE_TAG}")
+        monkeypatch.setenv("PGBOUNCER_IMAGE", image)
         docker = DockerClient(
             compose_files=[Path(__file__).parent / "docker-compose.yaml"],
             compose_project_name=f"pgbouncer-krb-it-{uuid.uuid4().hex[:8]}",
         )
         try:
+            log.info("Starting the KDC, Postgres and pgbouncers from %s", image)
+            started = time.monotonic()
             try:
                 docker.compose.up(detach=True, wait=True, quiet=True)
             except DockerException:
                 # CI can't inspect the containers afterwards, so show why the stack didn't come up.
-                print(docker.compose.logs())
+                log.error("The stack did not come up. Container logs:\n%s", docker.compose.logs())
                 raise
+            log.info("Stack is up after %.0fs", time.monotonic() - started)
+            for line in docker.compose.execute("pgbouncer-gss", ["pgbouncer", "--version"], tty=False).splitlines():
+                log.info("  %s", line)
+            log.info("  %s", docker.compose.execute("pgbouncer-gss", ["klist", "-V"], tty=False).strip())
             yield docker
         finally:
+            log.info("Tearing down the stack")
             docker.compose.down(volumes=True, quiet=True)
 
 
+def service_log_lines(stack: DockerClient, service: str) -> list[str]:
+    return stack.compose.logs(service, no_log_prefix=True).splitlines()
+
+
+def log_new_service_lines(stack: DockerClient, service: str, seen: int) -> None:
+    for line in service_log_lines(stack, service)[seen:]:
+        log.info("  %s | %s", service, line)
+
+
 def query_through(stack: DockerClient, pgbouncer: str, user: str = "app_scram", password: str = CLIENT_PASSWORD) -> str:
-    """Run GSS_STATUS_QUERY through the given pgbouncer service, using psql from the Postgres container."""
-    return stack.compose.execute(
-        "postgres",
-        ["psql", f"host={pgbouncer} port=6432 dbname=gssdb user={user} connect_timeout=15", "-At", "-c", GSS_STATUS_QUERY],
-        envs={"PGPASSWORD": password},
-        tty=False,
-    ).strip()
+    """Run GSS_STATUS_QUERY through the given pgbouncer service, using psql from the Postgres container.
+
+    Logs what pgbouncer logged while handling the query, then the outcome.
+    """
+    log.info("Querying through %s as %s", pgbouncer, user)
+    seen = len(service_log_lines(stack, pgbouncer))
+    try:
+        result = stack.compose.execute(
+            "postgres",
+            ["psql", f"host={pgbouncer} port=6432 dbname=gssdb user={user} connect_timeout=15", "-At", "-c", GSS_STATUS_QUERY],
+            envs={"PGPASSWORD": password},
+            tty=False,
+        ).strip()
+    except DockerException as error:
+        log_new_service_lines(stack, pgbouncer, seen)
+        log.info("Query failed: %s", (error.stderr or "").strip())
+        raise
+    log_new_service_lines(stack, pgbouncer, seen)
+    log.info("Postgres reports gss_authenticated|principal|encrypted = %s", result)
+    return result
+
+
+def klist(stack: DockerClient) -> str:
+    """pgbouncer-gss's Kerberos tickets, logged too, since the expiry test is about their times."""
+    tickets = stack.compose.execute("pgbouncer-gss", ["klist"], tty=False).strip()
+    for line in filter(None, tickets.splitlines()):
+        log.info("  klist | %s", line)
+    return tickets
 
 
 @pytest.mark.parametrize("pgbouncer", ["pgbouncer-gss", "pgbouncer-openshift"])
@@ -101,10 +142,12 @@ def test_login_refused_without_gssapi_negotiation(stack):
 def test_gssapi_login_after_tickets_expire(stack):
     """pgbouncer outlives its Kerberos tickets; once they expire it must get new ones from its keytab."""
     assert query_through(stack, "pgbouncer-gss") == GSS_AUTHENTICATED
-    tickets_before = stack.compose.execute("pgbouncer-gss", ["klist"], tty=False)
+    tickets_before = klist(stack)
     # Long before this ends, server_idle_timeout has closed the server connection, so the
     # next query has to authenticate a new one.
-    time.sleep(TICKET_LIFETIME_SECONDS + CLOCK_SKEW_SECONDS + 10)
+    wait_seconds = TICKET_LIFETIME_SECONDS + CLOCK_SKEW_SECONDS + 10
+    log.info("Waiting %ss for those tickets to expire", wait_seconds)
+    time.sleep(wait_seconds)
     assert query_through(stack, "pgbouncer-gss") == GSS_AUTHENTICATED, stack.compose.logs(["pgbouncer-gss", "postgres", "kdc"])
-    tickets_after = stack.compose.execute("pgbouncer-gss", ["klist"], tty=False)
+    tickets_after = klist(stack)
     assert tickets_after != tickets_before, f"pgbouncer kept its first tickets, so expiry was never exercised:\n{tickets_after}"
