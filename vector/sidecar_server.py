@@ -12,18 +12,78 @@ Other behaviors of this script:
 * If the "heartbeat" file disappears or becomes empty, the last known heartbeat is used.
 * If the "finished" file is seen, the script will ask vector to quit and then exit.
 * If the script is killed, vector is terminated.
+* On SIGTERM/SIGINT in a worker pod, vector is kept running until the worker's task log server port closes. See
+  wait_for_worker_drain.
 
 """
 
+import os
 import signal
+import socket
 import subprocess
 import sys
 import time
 from pathlib import Path
 
+# Kubernetes delivers SIGTERM to every container in a pod at once, but the worker container finishes its running
+# task before exiting. Quitting vector immediately would drop everything the task logs after the signal.
+# The worker serves task logs on this port, over the pod's shared network namespace, for as long as it is alive,
+# and the port closes when the worker has finished its current task.
+WORKER_LOG_SERVER_HOST = "127.0.0.1"
+WORKER_LOG_SERVER_PORT = int(os.environ.get("WORKER_LOG_SERVER_PORT", "8793"))
+# Time for vector to read the last lines written before the worker exited, and to flush them to the sink.
+WORKER_DRAIN_SETTLE_SECONDS = 5
+# Name of the Airflow deployment this sidecar belongs to, set by the chart from the pod's release label.
+DEPLOYMENT_NAME = os.environ.get("RELEASE", "unknown")
+
+shutting_down = False
+
+
+def worker_log_server_is_up():
+    """Return False only when the connection is refused, which means nothing is listening on the port.
+
+    A timeout or any other socket error proves nothing about the worker, for example a full accept queue on a busy
+    log server, so those count as still up and keep vector running.
+    """
+    try:
+        with socket.create_connection((WORKER_LOG_SERVER_HOST, WORKER_LOG_SERVER_PORT), timeout=2):
+            return True
+    except ConnectionRefusedError:
+        return False
+    except OSError:
+        return True
+
+
+def wait_for_worker_drain():
+    """Block until the worker container has finished its current task, so vector keeps shipping its logs.
+
+    There is no timeout of our own: the kubelet SIGKILLs the pod at terminationGracePeriodSeconds regardless.
+    Only applies to the worker component. If the log server is already down, the wait is skipped but the settle time
+    is kept, since the worker may have finished just before the signal and vector may not have read its last lines yet.
+    """
+    if os.environ.get("COMPONENT") != "worker":
+        return
+
+    if worker_log_server_is_up():
+        print(
+            f"[{DEPLOYMENT_NAME}] Waiting for the worker log server on port {WORKER_LOG_SERVER_PORT} to close before "
+            "stopping vector.",
+            flush=True,
+        )
+        while worker_log_server_is_up():
+            time.sleep(1)
+
+    print(f"[{DEPLOYMENT_NAME}] Worker has finished. Letting vector flush for {WORKER_DRAIN_SETTLE_SECONDS}s.", flush=True)
+    time.sleep(WORKER_DRAIN_SETTLE_SECONDS)
+
 
 def signal_handler(sig, _):
+    global shutting_down
     print(f"Received signal {sig}", flush=True)
+    if shutting_down:
+        return
+    shutting_down = True
+    wait_for_worker_drain()
     if handler:
         handler.quit_proc()
     sys.exit(0)
