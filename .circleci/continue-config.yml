@@ -2287,6 +2287,12 @@ workflows:
           test_script: bin/test.py
           requires:
             - build
+      - integration-test:
+          directory: pgbouncer-krb
+          context:
+            - docker.io
+          requires:
+            - build
       - endorlabs-container-scan:
           directory: pgbouncer-krb
           context:
@@ -2304,6 +2310,7 @@ workflows:
             - apc-chainguard-creds
           requires:
             - test
+            - integration-test
             - endorlabs-container-scan
           filters:
             branches:
@@ -2338,6 +2345,7 @@ workflows:
           requires:
             - approve-branch-tag
             - test
+            - integration-test
             - endorlabs-container-scan
           filters:
             branches:
@@ -2934,6 +2942,40 @@ jobs:
           image_name: ap-<< parameters.directory >>
           path: << parameters.directory >>
           test_script: << parameters.test_script >>
+  integration-test:
+    # A machine executor, because these tests bind-mount config files into
+    # containers, which remote Docker can't do.
+    machine:
+      image: ubuntu-2404:current
+    description: "Run the image's integration-test/test.py against its dependencies"
+    parameters:
+      directory:
+        description: "The directory of the image to test"
+        type: string
+    steps:
+      - checkout
+      - run:
+          name: Install uv
+          command: |
+            uv self version || curl -fsSL https://astral.sh/uv/install.sh | sh
+            echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load archived Docker image
+          command: docker load -i /tmp/workspace/ap-<< parameters.directory >>.tar
+      - run:
+          name: Login to Docker Hub
+          command: echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+      - run:
+          name: Run integration tests
+          environment:
+            ASTRO_IMAGE_NAME: ap-<< parameters.directory >>
+          command: |
+            mkdir test-results
+            uv run pytest -v --junitxml=test-results/junit.xml << parameters.directory >>/integration-test/test.py
+      - store_test_results:
+          path: test-results
   endorlabs-container-scan:
     executor: docker-executor
     description: "Scan the built image with Endor Labs"

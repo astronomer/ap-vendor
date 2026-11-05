@@ -1,0 +1,2 @@
+"app_md5" "md54b78c4bc488aaa359e7a955039dcda4c"
+"app_scram" "SCRAM-SHA-256$4096:gQ4ctUiA7EbSzqFupiVpyA==$kl/rCUnKbg95rZY5hAoUBX9fcdWDQVP2v7rmqxfxujU=:UMB0U61KrKbLihkaguMI9ZsIDxCVG7FYzH1l6QOsQY8="
