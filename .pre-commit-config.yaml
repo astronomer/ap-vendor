@@ -71,7 +71,7 @@ repos:
         args: ["--fix=lf"]
       - id: trailing-whitespace
   - repo: https://github.com/astronomer/pre-commit-hooks
-    rev: a0c1bb4e011a3f3a1146a4879840e2b600e9c7fb
+    rev: 2026.11.5
     hooks:
       - id: prettier
         args: ["--print-width=135"]
