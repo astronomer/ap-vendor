@@ -17,7 +17,7 @@
 FROM cgr.dev/astronomer.io/ap-blackbox-exporter:0.29.0 AS upstream
 
 # https://quay.io/repository/astronomer/ap-base?tab=tags
-FROM quay.io/astronomer/ap-base:2026.11.5
+FROM quay.io/astronomer/ap-base:2026.11.9
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
