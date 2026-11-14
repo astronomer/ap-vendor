@@ -124,6 +124,13 @@ class TestGen2:
         metric = _get_metric_by_name("airflow_resumable_job_fresh_submit_total")
         assert metric.value == 1
 
+    def test_resumable_job_task_counter(self):
+        _increment_metric("resumable_job.my_dag.my_task.MyOperator.reconnect_success")
+        metric = _get_metric_by_name("airflow_resumable_job_task_reconnect_success_total")
+        assert metric.labels == {"dag_id": "my_dag", "task_id": "my_task", "operator": "MyOperator"}
+        assert metric.value == 1
+        assert "airflow_resumable_job_reconnect_success" not in _raw_metrics()
+
     def test_increment_metric(self):
         # scheduler.tasks.starvin
         _increment_metric("scheduler.tasks.starving")
