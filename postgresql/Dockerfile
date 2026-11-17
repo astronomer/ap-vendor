@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # https://console.chainguard.dev/org/astronomer.io/images/organization/image/ap-postgres/versions
-FROM cgr.dev/astronomer.io/ap-postgres:17.11
+FROM cgr.dev/astronomer.io/ap-postgres:17.12
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
