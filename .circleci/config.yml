@@ -70,7 +70,7 @@ jobs:
   run_prek:
     resource_class: small
     docker:
-      - image: quay.io/astronomer/ci-pre-commit:2026-10
+      - image: quay.io/astronomer/ci-pre-commit:2026-11
     steps:
       - checkout
       - run:
