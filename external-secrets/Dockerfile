@@ -32,6 +32,8 @@ ARG GOARM=6
 ARG VERSION
 ARG REVISION
 
+ARG ESO_VERSION=2.10.0
+
 RUN set -ex \
     && apk add --no-cache make git file
 
@@ -44,7 +46,7 @@ RUN go build -tags all_providers -o external-secrets main.go
 
 # Final docker image building stage
 # https://quay.io/repository/astronomer/ap-base?tab=tags&tag=latest
-FROM quay.io/astronomer/ap-base:2026.11.5
+FROM quay.io/astronomer/ap-base:2026.11.19
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 ARG BUILD_NUMBER=-1
