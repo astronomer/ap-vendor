@@ -38,7 +38,7 @@ repos:
       - id: codespell
         args: ["-L", "AKS,aks,showIn"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.17.4"
+    rev: "v0.17.5"
     hooks:
       - id: ruff-check
         args:
@@ -71,7 +71,7 @@ repos:
         args: ["--fix=lf"]
       - id: trailing-whitespace
   - repo: https://github.com/astronomer/pre-commit-hooks
-    rev: 2026.11.5
+    rev: 2026.11.12
     hooks:
       - id: prettier
         args: ["--print-width=135"]
