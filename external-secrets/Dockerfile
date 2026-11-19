@@ -37,7 +37,7 @@ RUN set -ex \
 
 WORKDIR $ESO_DIR
 
-RUN git clone https://github.com/astronomer/external-secrets.git $ESO_DIR && git checkout ebaff0f0aae2dd608f5f8efa34f1850da8002608
+RUN git clone https://github.com/astronomer/external-secrets.git $ESO_DIR && git checkout 3dd0242420966c8eb5a82aad8915c6a55aef28c3
 
 RUN go mod download
 RUN go build -tags all_providers -o external-secrets main.go
@@ -53,8 +53,6 @@ LABEL io.astronomer.docker.build.number=$BUILD_NUMBER
 LABEL maintainer="Astronomer <humans@astronomer.io>"
 
 USER root
-
-RUN apk --no-cache add 'ca-certificates>=20260909-r3' 'ca-certificates-bundle>=20260909-r3' && update-ca-certificates
 
 COPY --from=build /go/src/github.com/astronomer/external-secrets/external-secrets /bin/external-secrets
 
