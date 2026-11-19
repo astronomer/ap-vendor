@@ -32,6 +32,8 @@ ARG GOARM=6
 ARG VERSION
 ARG REVISION
 
+ARG ESO_VERSION=2.10.0
+
 RUN set -ex \
     && apk add --no-cache make git file
 
