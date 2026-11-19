@@ -142,7 +142,8 @@ jobs:
     # A machine executor, because these tests bind-mount config files into
     # containers, which remote Docker can't do.
     machine:
-      image: ubuntu-2404:current
+      # https://circleci.com/developer/machine/image/ubuntu-2604
+      image: ubuntu-2604:current
     description: "Run the image's integration-test/test.py against its dependencies"
     parameters:
       directory:
