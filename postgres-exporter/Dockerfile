@@ -19,7 +19,7 @@
 # https://console.chainguard.dev/org/astronomer.io/images/organization/image/prometheus-postgres-exporter/versions
 FROM cgr.dev/astronomer.io/prometheus-postgres-exporter:0.21.1 AS upstream
 
-FROM quay.io/astronomer/ap-base:2026.11.20
+FROM quay.io/astronomer/ap-base:2026.11.23
 
 ARG BUILD_NUMBER=-1
 LABEL io.astronomer.docker=true
